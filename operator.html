@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Halcyon">
+<meta name="robots" content="noindex, nofollow">
+<title>HALCYON · Operator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #141414;
+    --bg-elev-2: #1c1c1c;
+    --border: #262626;
+    --border-soft: #1f1f1f;
+    --text: #f5f1e8;
+    --text-dim: #8a8478;
+    --text-faint: #5a5650;
+    --bronze: #c9986a;
+    --bronze-soft: #8a6a4a;
+    --sage: #8ba888;
+    --amber: #d4a574;
+    --red: #c97a6a;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', -apple-system, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at top, rgba(201, 152, 106, 0.06) 0%, transparent 50%),
+      var(--bg);
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 18px 40px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0 24px;
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 28px;
+  }
+  .header-left { display: flex; flex-direction: column; }
+  .wordmark {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .wordmark .dot { color: var(--bronze); }
+  .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .menu-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-btn:active { background: var(--bg-elev); }
+
+  /* HERO - PHASE PROGRESS */
+  .hero {
+    background: linear-gradient(180deg, var(--bg-elev) 0%, var(--bg) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 22px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle at top right, rgba(201, 152, 106, 0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .phase-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--bronze);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .phase-metric {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .phase-current {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .phase-divider {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    color: var(--text-faint);
+    font-weight: 300;
+  }
+  .phase-goal {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+  .phase-caption {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .phase-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 18px;
+  }
+  .phase-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--bronze-soft), var(--bronze));
+    border-radius: 2px;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .phase-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    margin: 28px 4px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .section-title .week-label {
+    color: var(--bronze);
+    font-size: 10px;
+  }
+
+  /* WEEK GRID */
+  .week-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .week-stat {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 16px 14px;
+    position: relative;
+  }
+  .week-stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .week-stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--text);
+  }
+  .week-stat-value.currency::before {
+    content: '$';
+    font-size: 20px;
+    color: var(--text-dim);
+    margin-right: 2px;
+  }
+  .week-stat-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+  .week-stat.hero-stat {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    border-color: var(--bronze-soft);
+  }
+  .week-stat.hero-stat .week-stat-label { color: var(--bronze); }
+  .week-stat.hero-stat .week-stat-value { font-size: 40px; }
+
+  /* QUICK LOG */
+  .log-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .log-btn {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 18px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+    position: relative;
+    min-height: 78px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .log-btn:active {
+    transform: scale(0.97);
+    background: var(--bg-elev-2);
+  }
+  .log-btn.primary {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(201, 152, 106, 0.15), rgba(201, 152, 106, 0.05));
+    border-color: var(--bronze);
+    color: var(--bronze);
+  }
+  .log-btn .icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+  }
+  .log-btn.primary .icon { color: var(--bronze); }
+  .log-btn .label { font-weight: 500; }
+
+  /* STREAK */
+  .streak {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+  }
+  .streak-label { font-size: 13px; color: var(--text-dim); }
+  .streak-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--sage);
+  }
+  .streak-value .unit { font-size: 13px; color: var(--text-dim); margin-left: 4px; }
+
+  /* NEXT ACTION */
+  .next-action {
+    background: linear-gradient(135deg, rgba(139, 168, 136, 0.08), transparent);
+    border: 1px solid rgba(139, 168, 136, 0.25);
+    border-radius: 12px;
+    padding: 18px 18px;
+    margin-top: 18px;
+  }
+  .next-action-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--sage);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .next-action-text {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* CLIENTS LIST */
+  .clients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .client-row {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .client-row:active { background: var(--bg-elev-2); }
+  .client-name { font-size: 15px; font-weight: 500; }
+  .client-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+  .client-rate {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--bronze);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--text-faint);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* ACTIVITY FEED */
+  .activity-feed {
+    display: flex;
+    flex-direction: column;
+  }
+  .activity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 13px;
+  }
+  .activity-row:last-child { border-bottom: none; }
+  .activity-type {
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .activity-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--bronze);
+  }
+  .activity-dot.signed { background: var(--sage); }
+  .activity-dot.completed { background: var(--amber); }
+  .activity-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+  .modal-backdrop.active { display: flex; }
+  .modal {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 440px;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+  .field {
+    margin-bottom: 14px;
+  }
+  .field-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .field input, .field select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    outline: none;
+  }
+  .field input:focus, .field select:focus {
+    border-color: var(--bronze);
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+  }
+  .btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+  }
+  .btn-primary {
+    background: var(--bronze);
+    color: var(--bg);
+    border-color: var(--bronze);
+  }
+  .btn-danger { color: var(--red); border-color: var(--red); background: transparent; }
+  .btn:active { transform: scale(0.98); }
+
+  .menu-section {
+    border-top: 1px solid var(--border-soft);
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+  .menu-row {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    text-align: left;
+    padding: 12px 0;
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .menu-row:active { color: var(--bronze); }
+  .menu-row .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: var(--sage);
+    color: var(--bg);
+    padding: 12px 22px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 200;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+  }
+
+  /* LOADING */
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+  }
+
+  #file-input { display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="wordmark">Halcyon<span class="dot">.</span></div>
+      <div class="role">Operator</div>
+    </div>
+    <button class="menu-btn" onclick="openModal('menu')" aria-label="Menu">⋯</button>
+  </div>
+
+  <div id="app" class="loading">LOADING…</div>
+
+  <div class="footer">PHASE I · ROUTE DENSITY</div>
+</div>
+
+<!-- MODAL: NEW CLIENT -->
+<div class="modal-backdrop" id="modal-client">
+  <div class="modal">
+    <div class="modal-title">Sign New Client</div>
+    <div class="field">
+      <label class="field-label">Name</label>
+      <input id="client-name" type="text" placeholder="e.g., Mrs. Johnson" autocomplete="off">
+    </div>
+    <div class="field">
+      <label class="field-label">Address / Street</label>
+      <input id="client-address" type="text" placeholder="e.g., Hull Drive" autocomplete="off">
+    </div>
+    <div class="field">
+      <label class="field-label">Rate per visit</label>
+      <input id="client-rate" type="number" placeholder="80" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label class="field-label">Frequency</label>
+      <select id="client-frequency">
+        <option value="weekly">Weekly</option>
+        <option value="biweekly" selected>Biweekly</option>
+        <option value="monthly">Monthly</option>
+        <option value="onetime">One-time</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('client')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()">Sign</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: COMPLETED JOB -->
+<div class="modal-backdrop" id="modal-job">
+  <div class="modal">
+    <div class="modal-title">Log Completed Job</div>
+    <div class="field">
+      <label class="field-label">Client</label>
+      <select id="job-client"></select>
+    </div>
+    <div class="field">
+      <label class="field-label">Amount collected</label>
+      <input id="job-amount" type="number" placeholder="80" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label class="field-label">Hours worked</label>
+      <input id="job-hours" type="number" placeholder="1.5" step="0.25" inputmode="decimal">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('job')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveJob()">Log Job</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: QUOTE -->
+<div class="modal-backdrop" id="modal-quote">
+  <div class="modal">
+    <div class="modal-title">Log Quote Given</div>
+    <div class="field">
+      <label class="field-label">Who / where</label>
+      <input id="quote-who" type="text" placeholder="e.g., Smith on Hull Dr" autocomplete="off">
+    </div>
+    <div class="field">
+      <label class="field-label">Quoted amount</label>
+      <input id="quote-amount" type="number" placeholder="95" inputmode="decimal">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('quote')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveQuote()">Log Quote</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: MENU / DATA -->
+<div class="modal-backdrop" id="modal-menu">
+  <div class="modal">
+    <div class="modal-title">Settings · Data</div>
+
+    <div class="field">
+      <label class="field-label">Phase I Client Goal</label>
+      <input id="setting-goal" type="number" min="1" max="100" inputmode="numeric">
+    </div>
+
+    <div class="menu-section">
+      <button class="menu-row" onclick="exportData()">
+        <span>Export data (backup)</span>
+        <span class="meta">→ .JSON</span>
+      </button>
+      <button class="menu-row" onclick="document.getElementById('file-input').click()">
+        <span>Import data (restore)</span>
+        <span class="meta">← .JSON</span>
+      </button>
+      <input type="file" id="file-input" accept=".json,application/json" onchange="importData(event)">
+    </div>
+
+    <div class="menu-section">
+      <button class="menu-row" onclick="resetData()" style="color: var(--red);">
+        <span>Wipe all data</span>
+        <span class="meta">⚠</span>
+      </button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ============ STATE ============
+  const STORAGE_KEY = 'halcyon_operator_v1';
+
+  const STATE = {
+    clients: [],
+    actions: [],
+    goal: 10,
+    initialized: false
+  };
+
+  const ACTION_TYPES = {
+    CONVERSATION: 'conversation',
+    QUOTE: 'quote',
+    SIGNED: 'signed',
+    COMPLETED: 'completed'
+  };
+
+  // ============ STORAGE (localStorage) ============
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const data = JSON.parse(raw);
+        STATE.clients = data.clients || [];
+        STATE.actions = data.actions || [];
+        STATE.goal = data.goal || 10;
+        STATE.initialized = data.initialized || false;
+      }
+    } catch(e) {
+      console.error('Load failed:', e);
+    }
+
+    // Seed initial clients on very first load only
+    if (!STATE.initialized) {
+      STATE.clients = [
+        { id: 'c1', name: 'client property', address: 'Kingsport', rate: 80, frequency: 'biweekly', signedDate: new Date().toISOString() },
+        { id: 'c2', name: 'Brianna', address: '', rate: 80, frequency: 'biweekly', signedDate: new Date().toISOString() }
+      ];
+      STATE.initialized = true;
+      saveState();
+    }
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        clients: STATE.clients,
+        actions: STATE.actions,
+        goal: STATE.goal,
+        initialized: STATE.initialized
+      }));
+    } catch(e) {
+      console.error('Save failed:', e);
+      toast('Save failed — check storage');
+    }
+  }
+
+  // ============ HELPERS ============
+  function startOfWeek() {
+    const d = new Date();
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(d.setDate(diff));
+    monday.setHours(0,0,0,0);
+    return monday;
+  }
+
+  function thisWeekActions() {
+    const start = startOfWeek();
+    return STATE.actions.filter(a => new Date(a.date) >= start);
+  }
+
+  function countThisWeek(type) {
+    return thisWeekActions().filter(a => a.type === type).length;
+  }
+
+  function dollarsThisWeek() {
+    return thisWeekActions()
+      .filter(a => a.type === ACTION_TYPES.COMPLETED)
+      .reduce((sum, a) => sum + (a.payload?.amount || 0), 0);
+  }
+
+  function recurringClientCount() {
+    return STATE.clients.filter(c => c.frequency !== 'onetime').length;
+  }
+
+  function calcStreak() {
+    if (STATE.actions.length === 0) return 0;
+    const days = new Set(STATE.actions.map(a => new Date(a.date).toDateString()));
+    let streak = 0;
+    let d = new Date();
+    d.setHours(0,0,0,0);
+    while (days.has(d.toDateString())) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    }
+    return streak;
+  }
+
+  function relativeTime(iso) {
+    const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+    if (diff < 604800) return Math.floor(diff/86400) + 'd ago';
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  function nextActionPrompt() {
+    const week = thisWeekActions();
+    const convos = countThisWeek(ACTION_TYPES.CONVERSATION);
+    const quotes = countThisWeek(ACTION_TYPES.QUOTE);
+    const signed = countThisWeek(ACTION_TYPES.SIGNED);
+    const totalClients = recurringClientCount();
+
+    if (totalClients >= STATE.goal) {
+      return "Phase I goal hit. Time to raise quality, not quantity — review the plan.";
+    }
+    if (signed > 0) {
+      return "You signed a client this week. Now go ask them for one referral.";
+    }
+    if (quotes > 0 && signed === 0) {
+      return "You gave " + quotes + " quote(s). Follow up with each by Friday.";
+    }
+    if (convos >= 3 && quotes === 0) {
+      return "You're having conversations. Ask the next one: 'Want me to quote your yard?'";
+    }
+    if (convos === 0 && week.length === 0) {
+      const day = new Date().getDay();
+      if (day === 6 || day === 0) return "Weekend. Best time to knock 10 doors near client.";
+      return "No moves yet this week. Smallest possible action: text one neighbor.";
+    }
+    if (convos < 5) {
+      return "Get to 5 conversations this week. " + (5 - convos) + " to go.";
+    }
+    return "Stay on the route. Density compounds.";
+  }
+
+  function actionLabel(type) {
+    return {
+      conversation: 'Conversation',
+      quote: 'Quote given',
+      signed: 'Client signed',
+      completed: 'Job completed'
+    }[type] || type;
+  }
+
+  function weekRangeLabel() {
+    const start = startOfWeek();
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+    const opts = { month: 'short', day: 'numeric' };
+    return start.toLocaleDateString('en-US', opts) + ' – ' + end.toLocaleDateString('en-US', opts);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ============ RENDER ============
+  function render() {
+    const recurring = recurringClientCount();
+    const goalPct = Math.min(100, (recurring / STATE.goal) * 100);
+    const convos = countThisWeek(ACTION_TYPES.CONVERSATION);
+    const quotes = countThisWeek(ACTION_TYPES.QUOTE);
+    const signedWeek = countThisWeek(ACTION_TYPES.SIGNED);
+    const dollars = dollarsThisWeek();
+    const streak = calcStreak();
+    const remaining = Math.max(0, STATE.goal - recurring);
+    const recentActions = STATE.actions.slice(-6).reverse();
+
+    let clientsHtml = '';
+    if (STATE.clients.length === 0) {
+      clientsHtml = '<div class="empty-state">No clients yet. The first one is the hardest.</div>';
+    } else {
+      clientsHtml = '<div class="clients-list">' +
+        STATE.clients.map(c => `
+          <div class="client-row" onclick="removeClient('${c.id}')">
+            <div>
+              <div class="client-name">${escapeHtml(c.name)}</div>
+              <div class="client-meta">${c.frequency.toUpperCase()}${c.address ? ' · ' + escapeHtml(c.address) : ''}</div>
+            </div>
+            <div class="client-rate">$${c.rate}</div>
+          </div>
+        `).join('') + '</div>';
+    }
+
+    let activityHtml = '';
+    if (recentActions.length === 0) {
+      activityHtml = '<div class="empty-state">No activity yet. Tap something above.</div>';
+    } else {
+      activityHtml = '<div class="activity-feed">' +
+        recentActions.map(a => `
+          <div class="activity-row">
+            <div class="activity-type">
+              <div class="activity-dot ${a.type}"></div>
+              ${actionLabel(a.type)}${a.payload?.who ? ' · ' + escapeHtml(a.payload.who) : ''}${a.payload?.amount ? ' · $' + a.payload.amount : ''}
+            </div>
+            <div class="activity-time">${relativeTime(a.date)}</div>
+          </div>
+        `).join('') + '</div>';
+    }
+
+    document.getElementById('app').className = '';
+    document.getElementById('app').innerHTML = `
+
+      <div class="hero">
+        <div class="phase-label">Phase I · Recurring Clients</div>
+        <div class="phase-metric">
+          <div class="phase-current">${recurring}</div>
+          <div class="phase-divider">/</div>
+          <div class="phase-goal">${STATE.goal}</div>
+        </div>
+        <div class="phase-caption">${remaining === 0 ? "Goal hit. Hold the line." : remaining + " more to hit Phase I goal"}</div>
+        <div class="phase-bar"><div class="phase-bar-fill" style="width: ${goalPct}%"></div></div>
+        <div class="phase-meta">
+          <span>STARTED · APR 2026</span>
+          <span>${goalPct.toFixed(0)}%</span>
+        </div>
+      </div>
+
+      <div class="next-action">
+        <div class="next-action-label">Next Move</div>
+        <div class="next-action-text">${nextActionPrompt()}</div>
+      </div>
+
+      <div class="section-title">This Week <span class="week-label">${weekRangeLabel()}</span></div>
+      <div class="week-grid">
+        <div class="week-stat hero-stat">
+          <div class="week-stat-label">Clients signed</div>
+          <div class="week-stat-value">${signedWeek}</div>
+          <div class="week-stat-sub">${signedWeek === 0 ? 'NONE YET — IT ONLY TAKES ONE' : 'KEEP GOING'}</div>
+        </div>
+        <div class="week-stat">
+          <div class="week-stat-label">Conversations</div>
+          <div class="week-stat-value">${convos}</div>
+        </div>
+        <div class="week-stat">
+          <div class="week-stat-label">Quotes given</div>
+          <div class="week-stat-value">${quotes}</div>
+        </div>
+        <div class="week-stat" style="grid-column: 1 / -1;">
+          <div class="week-stat-label">Collected this week</div>
+          <div class="week-stat-value currency">${dollars}</div>
+        </div>
+      </div>
+
+      <div class="streak">
+        <div class="streak-label">Active streak</div>
+        <div class="streak-value">${streak}<span class="unit">day${streak === 1 ? '' : 's'}</span></div>
+      </div>
+
+      <div class="section-title">Log Action</div>
+      <div class="log-grid">
+        <button class="log-btn primary" onclick="openModal('client')">
+          <span class="icon">+ NEW</span>
+          <span class="label">Sign a client</span>
+        </button>
+        <button class="log-btn" onclick="logConversation()">
+          <span class="icon">+ TALK</span>
+          <span class="label">Conversation</span>
+        </button>
+        <button class="log-btn" onclick="openModal('quote')">
+          <span class="icon">+ QUOTE</span>
+          <span class="label">Quote given</span>
+        </button>
+        <button class="log-btn" onclick="openModal('job')" style="grid-column: 1 / -1;">
+          <span class="icon">✓ DONE</span>
+          <span class="label">Completed job + payment</span>
+        </button>
+      </div>
+
+      <div class="section-title">Active Clients · ${STATE.clients.length}</div>
+      ${clientsHtml}
+
+      <div class="section-title">Recent Activity</div>
+      ${activityHtml}
+    `;
+  }
+
+  // ============ ACTIONS ============
+  function logAction(type, payload = {}) {
+    const action = {
+      id: 'a' + Date.now(),
+      type,
+      date: new Date().toISOString(),
+      payload
+    };
+    STATE.actions.push(action);
+    saveState();
+    render();
+    toast(toastMessage(type));
+  }
+
+  function toastMessage(type) {
+    return {
+      conversation: 'Conversation logged',
+      quote: 'Quote logged — follow up Friday',
+      signed: 'Client signed. That\'s the work.',
+      completed: 'Job logged. Money in.'
+    }[type] || 'Logged';
+  }
+
+  function logConversation() {
+    logAction(ACTION_TYPES.CONVERSATION);
+  }
+
+  function openModal(name) {
+    if (name === 'job') {
+      const select = document.getElementById('job-client');
+      select.innerHTML = STATE.clients.length === 0
+        ? '<option value="">No clients yet</option>'
+        : STATE.clients.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+    }
+    if (name === 'menu') {
+      document.getElementById('setting-goal').value = STATE.goal;
+    }
+    document.getElementById('modal-' + name).classList.add('active');
+  }
+
+  function closeModal(name) {
+    document.getElementById('modal-' + name).classList.remove('active');
+    document.querySelectorAll('#modal-' + name + ' input[type="text"], #modal-' + name + ' input[type="number"]').forEach(i => {
+      if (i.id !== 'setting-goal') i.value = '';
+    });
+  }
+
+  function saveClient() {
+    const name = document.getElementById('client-name').value.trim();
+    const address = document.getElementById('client-address').value.trim();
+    const rate = parseFloat(document.getElementById('client-rate').value) || 0;
+    const frequency = document.getElementById('client-frequency').value;
+    if (!name) { toast('Name required'); return; }
+    const client = {
+      id: 'c' + Date.now(),
+      name, address, rate, frequency,
+      signedDate: new Date().toISOString()
+    };
+    STATE.clients.push(client);
+    saveState();
+    logAction(ACTION_TYPES.SIGNED, { who: name, amount: rate });
+    closeModal('client');
+  }
+
+  function saveJob() {
+    const clientId = document.getElementById('job-client').value;
+    const amount = parseFloat(document.getElementById('job-amount').value) || 0;
+    const hours = parseFloat(document.getElementById('job-hours').value) || 0;
+    const client = STATE.clients.find(c => c.id === clientId);
+    logAction(ACTION_TYPES.COMPLETED, {
+      who: client?.name || 'Unknown',
+      amount,
+      hours
+    });
+    closeModal('job');
+  }
+
+  function saveQuote() {
+    const who = document.getElementById('quote-who').value.trim() || 'Quote';
+    const amount = parseFloat(document.getElementById('quote-amount').value) || 0;
+    logAction(ACTION_TYPES.QUOTE, { who, amount });
+    closeModal('quote');
+  }
+
+  function removeClient(id) {
+    if (!confirm('Remove this client? (Logged activity is kept.)')) return;
+    STATE.clients = STATE.clients.filter(c => c.id !== id);
+    saveState();
+    render();
+    toast('Client removed');
+  }
+
+  function saveSettings() {
+    const newGoal = parseInt(document.getElementById('setting-goal').value);
+    if (newGoal && newGoal > 0 && newGoal <= 100) {
+      STATE.goal = newGoal;
+      saveState();
+      render();
+      toast('Settings saved');
+    }
+    closeModal('menu');
+  }
+
+  // ============ EXPORT / IMPORT ============
+  function exportData() {
+    const data = {
+      version: 1,
+      exported: new Date().toISOString(),
+      clients: STATE.clients,
+      actions: STATE.actions,
+      goal: STATE.goal
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const today = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = `halcyon-operator-${today}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('Backup downloaded');
+  }
+
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!data.clients || !data.actions) throw new Error('Invalid file');
+        if (!confirm(`Import ${data.clients.length} clients and ${data.actions.length} actions? This replaces current data.`)) return;
+        STATE.clients = data.clients;
+        STATE.actions = data.actions;
+        STATE.goal = data.goal || 10;
+        STATE.initialized = true;
+        saveState();
+        render();
+        closeModal('menu');
+        toast('Data restored');
+      } catch(err) {
+        toast('Import failed — bad file');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  function resetData() {
+    if (!confirm('Wipe ALL clients, actions, and history? This cannot be undone.')) return;
+    if (!confirm('Are you absolutely sure? Export a backup first if you want to keep anything.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    STATE.clients = [];
+    STATE.actions = [];
+    STATE.goal = 10;
+    STATE.initialized = false;
+    loadState();
+    render();
+    closeModal('menu');
+    toast('Data wiped');
+  }
+
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  // Close modal on backdrop tap
+  document.querySelectorAll('.modal-backdrop').forEach(bd => {
+    bd.addEventListener('click', (e) => {
+      if (e.target === bd) bd.classList.remove('active');
+    });
+  });
+
+  // ============ BOOT ============
+  (function init() {
+    loadState();
+    render();
+    setInterval(render, 60000);
+  })();
+</script>
+</body>
+</html>
