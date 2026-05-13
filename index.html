@@ -3,905 +3,1066 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Get Your Property Estimate — Halcyon</title>
+  <title>Halcyon Standard — Lawn Care · Kingsport &amp; Tri-Cities, TN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --void:#07090c; --deep:#0d1017; --surface:#121820; --panel:#18212e;
-      --edge:#1e2d3f; --muted:#374d66; --mid:#567090; --dim:#88a0b8;
-      --label:#aec0d0; --body:#ccd8e2; --bright:#e6eff5;
-      --gold:#c8a96e; --gold-l:#dfc088; --gold-d:#8a6e3e;
-      --gold-glow:rgba(200,169,110,0.14); --gold-bg:rgba(200,169,110,0.07);
-      --success:#3a8c6a;
-      --r:3px; --mono:'DM Mono',monospace;
-      --serif:'Cormorant Garamond',Georgia,serif;
-      --sans:'DM Sans',system-ui,sans-serif;
-      --ease:cubic-bezier(0.32,0,0.24,1);
-    }
-    html,body { height:100%; }
-    body { background:var(--void); color:var(--body); font-family:var(--sans); font-size:15px;
-      line-height:1.6; overflow-x:hidden; min-height:100vh; }
-    body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-      background-image:linear-gradient(rgba(200,169,110,.02) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(200,169,110,.02) 1px,transparent 1px);
-      background-size:64px 64px; }
-
-    /* NAV */
-    nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; align-items:center;
-      justify-content:space-between; padding:0 40px; height:60px;
-      background:rgba(7,9,12,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--edge); }
-    .nav-logo { font-family:var(--serif); font-size:19px; font-weight:500; letter-spacing:.12em;
-      color:var(--gold); text-decoration:none; text-transform:uppercase; }
-    .nav-back { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
-      color:var(--muted); text-decoration:none; display:flex; align-items:center; gap:7px;
-      transition:color .2s; }
-    .nav-back:hover { color:var(--dim); }
-
-    /* PROGRESS */
-    .progress-bar { position:fixed; top:60px; left:0; right:0; z-index:199; height:2px; background:var(--edge); }
-    .progress-fill { height:100%; background:var(--gold); transition:width .5s var(--ease); }
-
-    /* MAIN */
-    main { position:relative; z-index:1; min-height:100vh;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:80px 24px 60px; }
-
-    /* SCREENS */
-    .screen { width:100%; max-width:720px; position:absolute; opacity:0; pointer-events:none;
-      transform:translateX(40px); transition:opacity .4s var(--ease),transform .4s var(--ease); }
-    .screen.active { opacity:1; pointer-events:all; transform:translateX(0); position:relative; }
-    .screen.gone { opacity:0; transform:translateX(-40px); position:absolute; transition:none; }
-
-    /* INTRO */
-    #screen-intro { text-align:center; padding:0 16px;
-      display:flex; flex-direction:column; align-items:center; }
-    .intro-badge { font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:28px; display:flex; align-items:center; gap:10px; }
-    .intro-badge::before,.intro-badge::after { content:''; display:block; width:24px; height:1px; background:var(--gold-d); }
-    .intro-h1 { font-family:var(--serif); font-size:clamp(36px,6vw,62px); font-weight:300;
-      line-height:1.1; color:var(--bright); letter-spacing:.01em; margin-bottom:20px; }
-    .intro-h1 em { font-style:italic; color:var(--gold-l); }
-    .intro-sub { font-size:16px; color:var(--dim); max-width:440px; line-height:1.75;
-      margin:0 auto 40px; }
-    .btn-start { display:inline-flex; align-items:center; gap:12px; background:var(--gold);
-      color:var(--void); border:none; border-radius:var(--r); padding:16px 36px;
-      font-family:var(--mono); font-size:12px; font-weight:500; letter-spacing:.18em; text-transform:uppercase;
-      cursor:pointer; transition:background .2s,transform .2s,box-shadow .2s;
-      box-shadow:0 4px 20px rgba(200,169,110,.25); }
-    .btn-start:hover { background:var(--gold-l); transform:translateY(-2px); box-shadow:0 8px 28px rgba(200,169,110,.35); }
-    .btn-start svg { transition:transform .2s; }
-    .btn-start:hover svg { transform:translateX(3px); }
-    .intro-note { margin-top:20px; font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--muted); }
-
-    /* QUESTION */
-    .q-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:14px; display:flex; align-items:center; gap:10px; }
-    .q-eyebrow::before { content:''; display:inline-block; width:20px; height:1px; background:var(--gold-d); }
-    .q-title { font-family:var(--serif); font-size:clamp(26px,4vw,40px); font-weight:300;
-      color:var(--bright); line-height:1.2; margin-bottom:8px; letter-spacing:.01em; }
-    .q-subtitle { font-size:14px; color:var(--dim); margin-bottom:32px; line-height:1.6; }
-
-    /* CARDS */
-    .card-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    .opt-card { border:1px solid var(--edge); border-radius:var(--r); background:var(--surface);
-      padding:22px 20px; cursor:pointer; transition:border-color .2s,background .2s,transform .15s;
-      display:flex; flex-direction:column; gap:10px; text-align:left; position:relative;
-      overflow:hidden; -webkit-tap-highlight-color:transparent; }
-    .opt-card::before { content:''; position:absolute; inset:0;
-      background:linear-gradient(135deg,var(--gold-bg),transparent); opacity:0; transition:opacity .2s; }
-    .opt-card:hover { border-color:var(--muted); transform:translateY(-2px); }
-    .opt-card:hover::before { opacity:1; }
-    .opt-card.selected { border-color:var(--gold); background:var(--panel); }
-    .opt-card.selected::before { opacity:1; }
-    .card-icon { width:40px; height:40px; color:var(--gold-d); transition:color .2s; }
-    .opt-card.selected .card-icon, .opt-card:hover .card-icon { color:var(--gold); }
-    .card-label { font-family:var(--serif); font-size:20px; font-weight:400;
-      color:var(--bright); line-height:1.2; }
-    .card-desc { font-size:12px; color:var(--dim); line-height:1.5; }
-    .card-check { position:absolute; top:14px; right:14px; width:20px; height:20px;
-      border-radius:50%; border:1px solid var(--edge);
-      display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:10px;
-      transition:background .2s,border-color .2s; }
-    .opt-card.selected .card-check { background:var(--gold); border-color:var(--gold); color:var(--void); }
-
-    /* CALCULATING */
-    #screen-calc { text-align:center; display:flex; flex-direction:column;
-      align-items:center; gap:24px; padding:40px 16px; }
-    .calc-title { font-family:var(--serif); font-size:28px; font-weight:300; color:var(--bright); }
-    .calc-sub { font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--dim); }
-    .calc-dots { display:flex; gap:8px; }
-    .calc-dot { width:8px; height:8px; border-radius:50%; background:var(--gold-d);
-      animation:pulse-dot 1.2s ease-in-out infinite; }
-    .calc-dot:nth-child(2) { animation-delay:.2s; }
-    .calc-dot:nth-child(3) { animation-delay:.4s; }
-    @keyframes pulse-dot { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
-    .calc-params { display:flex; flex-direction:column; gap:6px; text-align:left;
-      background:var(--surface); border:1px solid var(--edge); border-radius:var(--r);
-      padding:20px 24px; width:100%; max-width:380px; }
-    .calc-param { display:flex; justify-content:space-between; align-items:center;
-      font-family:var(--mono); font-size:11px; letter-spacing:.05em; }
-    .calc-param-key { color:var(--muted); }
-    .calc-param-val { color:var(--gold); }
-
-    /* REVEAL */
-    .reveal-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
-    .reveal-eyebrow::before { content:''; display:block; width:20px; height:1px; background:var(--gold-d); }
-    .reveal-title { font-family:var(--serif); font-size:clamp(26px,4vw,40px); font-weight:300;
-      color:var(--bright); margin-bottom:8px; line-height:1.2; }
-    .reveal-sub { font-size:14px; color:var(--dim); margin-bottom:32px; line-height:1.6; }
-    .reveal-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
-    .reveal-card { background:var(--surface); border:1px solid var(--edge); border-radius:var(--r);
-      padding:22px 20px; opacity:0; transform:translateY(12px);
-      transition:opacity .5s var(--ease),transform .5s var(--ease); }
-    .reveal-card.show { opacity:1; transform:translateY(0); }
-    .reveal-card-label { font-family:var(--mono); font-size:10px; letter-spacing:.15em;
-      text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
-    .reveal-card-amount { font-family:var(--serif); font-size:34px; font-weight:300;
-      color:var(--gold-l); line-height:1; }
-    .reveal-card-unit { font-family:var(--mono); font-size:11px; letter-spacing:.1em;
-      color:var(--muted); margin-top:4px; }
-    .reveal-card-desc { font-size:12px; color:var(--dim); margin-top:10px; line-height:1.5; }
-    .reveal-annual { background:var(--panel); border:1px solid var(--gold-d); border-radius:var(--r);
-      padding:20px 24px; display:flex; justify-content:space-between; align-items:center;
-      margin-bottom:20px; opacity:0; transform:translateY(12px);
-      transition:opacity .5s .3s var(--ease),transform .5s .3s var(--ease); }
-    .reveal-annual.show { opacity:1; transform:translateY(0); }
-    .reveal-annual-label { font-family:var(--mono); font-size:10px; letter-spacing:.15em;
-      text-transform:uppercase; color:var(--gold-d); }
-    .reveal-annual-amount { font-family:var(--serif); font-size:28px; font-weight:300; color:var(--gold); }
-    .reveal-disclaimer { font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--muted);
-      line-height:1.6; text-align:center; margin-bottom:28px; opacity:0; transition:opacity .5s .5s; }
-    .reveal-disclaimer.show { opacity:1; }
-
-    /* CONTACT */
-    .contact-fields { display:flex; flex-direction:column; gap:14px; margin-bottom:20px; }
-    .c-field { display:flex; flex-direction:column; gap:5px; }
-    .c-label { font-family:var(--mono); font-size:10px; letter-spacing:.15em;
-      text-transform:uppercase; color:var(--label); }
-    .c-input { background:var(--deep); border:1px solid var(--edge); border-radius:var(--r);
-      color:var(--bright); font-family:var(--sans); font-size:15px; padding:13px 16px;
-      outline:none; width:100%; transition:border-color .2s,box-shadow .2s; }
-    .c-input:focus { border-color:var(--gold-d); box-shadow:0 0 0 3px var(--gold-glow); }
-    .c-input::placeholder { color:var(--muted); }
-    .pref-row { display:flex; gap:10px; flex-wrap:wrap; }
-    .pref-btn { flex:1; min-width:80px; padding:10px 16px; border:1px solid var(--edge);
-      border-radius:var(--r); background:var(--deep); color:var(--dim);
-      font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
-      cursor:pointer; transition:border-color .2s,color .2s,background .2s; }
-    .pref-btn.active { border-color:var(--gold-d); background:var(--panel); color:var(--gold); }
-
-    /* BUTTONS */
-    .btn-primary { display:flex; align-items:center; justify-content:center; gap:10px;
-      background:var(--gold); color:var(--void); border:none; border-radius:var(--r);
-      padding:15px 28px; width:100%;
-      font-family:var(--mono); font-size:12px; font-weight:500; letter-spacing:.15em; text-transform:uppercase;
-      cursor:pointer; transition:background .2s,transform .15s; box-shadow:0 4px 20px rgba(200,169,110,.2); }
-    .btn-primary:hover { background:var(--gold-l); transform:translateY(-1px); }
-    .btn-primary:disabled { opacity:.6; cursor:not-allowed; transform:none; }
-    .btn-primary svg { transition:transform .2s; }
-    .btn-primary:hover svg { transform:translateX(3px); }
-
-    .contact-note { font-family:var(--mono); font-size:10px; letter-spacing:.08em;
-      color:var(--muted); text-align:center; line-height:1.6; margin-top:12px; }
-
-    /* THANKS */
-    #screen-thanks { text-align:center; display:flex; flex-direction:column;
-      align-items:center; gap:20px; padding:40px 16px; }
-    .thanks-icon { width:60px; height:60px; border-radius:50%; border:1px solid var(--success);
-      display:flex; align-items:center; justify-content:center; color:var(--success); }
-    .thanks-title { font-family:var(--serif); font-size:36px; font-weight:300; color:var(--bright); }
-    .thanks-body { font-size:15px; color:var(--dim); max-width:380px; line-height:1.75; }
-    .thanks-founding { background:var(--gold-bg); border:1px solid rgba(200,169,110,.25);
-      border-radius:var(--r); padding:18px 22px; font-size:13px; color:var(--gold-l);
-      line-height:1.6; max-width:380px; }
-    .thanks-founding strong { display:block; font-family:var(--mono); font-size:9px;
-      letter-spacing:.15em; text-transform:uppercase; margin-bottom:4px; }
-
-    /* STEP COUNTER */
-    .step-counter { position:fixed; bottom:28px; left:50%; transform:translateX(-50%); z-index:100;
-      font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--muted);
-      text-transform:uppercase; pointer-events:none; }
-
-    /* RESPONSIVE */
-    @media (max-width:600px) {
-      nav { padding:0 20px; }
-      main { padding:72px 16px 80px; }
-      .card-grid { grid-template-columns:1fr; }
-      .reveal-cards { grid-template-columns:1fr; }
-      .reveal-annual { flex-direction:column; align-items:flex-start; gap:8px; }
-      .intro-h1 { font-size:34px; }
+      --void:     #07090c;
+      --deep:     #0d1017;
+      --surface:  #121820;
+      --panel:    #18212e;
+      --edge:     #1e2d3f;
+      --muted:    #374d66;
+      --mid:      #567090;
+      --dim:      #88a0b8;
+      --label:    #aec0d0;
+      --body:     #ccd8e2;
+      --bright:   #e6eff5;
+      --gold:     #c8a96e;
+      --gold-l:   #dfc088;
+      --gold-d:   #8a6e3e;
+      --gold-glow: rgba(200,169,110,0.14);
+      --gold-bg:  rgba(200,169,110,0.07);
+      --success:  #3a8c6a;
+      --r:        2px;
+      --mono:     'DM Mono', monospace;
+      --serif:    'Cormorant Garamond', Georgia, serif;
+      --sans:     'DM Sans', system-ui, sans-serif;
     }
 
-    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-    #screen-intro.active { animation:fadeUp .7s var(--ease) both; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--void);
+      color: var(--body);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(200,169,110,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,169,110,.018) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    /* ── Layout ─────────────────────────────── */
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 28px; }
+    .z1   { position: relative; z-index: 1; }
+    section { position: relative; z-index: 1; }
+    .rule { height: 1px; background: var(--edge); position: relative; z-index: 1; }
+
+    /* ── Type ───────────────────────────────── */
+    h1, h2, h3 { font-family: var(--serif); font-weight: 300; line-height: 1.15; color: var(--bright); }
+    h1 { font-size: clamp(36px, 5.5vw, 62px); }
+    h2 { font-size: clamp(26px, 3.8vw, 40px); }
+    h3 { font-size: 20px; font-weight: 400; }
+
+    .eyebrow {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .eyebrow::before { content: ''; display: block; width: 18px; height: 1px; background: var(--gold-d); }
+
+    /* ── Buttons ────────────────────────────── */
+    .btn-sms {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 14px 28px;
+      background: var(--gold); color: var(--void);
+      border: none; border-radius: var(--r);
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: .15em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: background .2s, transform .18s, box-shadow .18s;
+      box-shadow: 0 4px 20px rgba(200,169,110,.28);
+    }
+    .btn-sms:hover { background: var(--gold-l); transform: translateY(-2px); box-shadow: 0 7px 26px rgba(200,169,110,.36); }
+
+    .btn-call {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 14px 24px;
+      background: transparent; color: var(--gold);
+      border: 1px solid var(--gold-d); border-radius: var(--r);
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: .15em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-call:hover { border-color: var(--gold); background: var(--gold-bg); }
+
+    /* ── NAV ────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 36px; height: 60px;
+      background: rgba(7,9,12,.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--edge);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 17px; font-weight: 500;
+      letter-spacing: .1em; color: var(--gold);
+      text-transform: uppercase; text-decoration: none; flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 28px;
+    }
+    .nav-link {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--dim);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-link:hover { color: var(--body); }
+    .nav-cta {
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: .13em; text-transform: uppercase; text-decoration: none;
+      padding: 7px 14px;
+      background: var(--gold); color: var(--void);
+      border-radius: var(--r); transition: background .2s; white-space: nowrap;
+    }
+    .nav-cta:hover { background: var(--gold-l); }
+
+    @media (max-width: 720px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .nav-logo { font-size: 14px; }
+    }
+
+    /* ── HERO ───────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      display: flex; align-items: center;
+      padding: 100px 0 72px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 80% 55% at 50% -5%, rgba(200,169,110,.08) 0%, transparent 68%);
+    }
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold-d);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 22px; height: 1px; background: var(--gold-d); }
+    .hero-h1 { margin-bottom: 20px; max-width: 680px; }
+    .hero-sub {
+      font-size: 17px; color: var(--dim); line-height: 1.78;
+      max-width: 520px; margin-bottom: 36px;
+    }
+    .hero-ctas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+    .hero-trust {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+      color: var(--muted); line-height: 1.8;
+    }
+    .hero-trust span { color: var(--gold-d); margin: 0 6px; }
+
+    @media (max-width: 580px) {
+      .hero-ctas { flex-direction: column; align-items: stretch; }
+      .btn-sms, .btn-call { justify-content: center; }
+    }
+
+    /* ── SECTION SHARED ─────────────────────── */
+    .section { padding: 80px 0; }
+    .section-hd { margin-bottom: 44px; }
+    .section-sub {
+      font-size: 16px; color: var(--dim); line-height: 1.75;
+      max-width: 540px; margin-top: 10px;
+    }
+
+    /* ── TRUST CARDS ────────────────────────── */
+    .trust-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 40px;
+    }
+    .trust-card {
+      background: var(--surface); border: 1px solid var(--edge);
+      padding: 30px 26px;
+    }
+    .trust-icon { color: var(--gold-d); margin-bottom: 16px; }
+    .trust-name {
+      font-family: var(--serif); font-size: 20px; font-weight: 400;
+      color: var(--bright); margin-bottom: 10px;
+    }
+    .trust-body { font-size: 14px; color: var(--dim); line-height: 1.68; }
+
+    @media (max-width: 640px) { .trust-grid { grid-template-columns: 1fr; } }
+
+    /* ── SERVICES ───────────────────────────── */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2px;
+    }
+    .service-card {
+      background: var(--surface); border: 1px solid var(--edge);
+      padding: 28px 24px;
+      transition: border-color .2s, background .2s;
+    }
+    .service-card:hover { border-color: var(--muted); background: var(--panel); }
+    .svc-icon { color: var(--gold-d); margin-bottom: 14px; transition: color .2s; }
+    .service-card:hover .svc-icon { color: var(--gold); }
+    .svc-name {
+      font-family: var(--serif); font-size: 19px; font-weight: 400;
+      color: var(--bright); margin-bottom: 8px;
+    }
+    .svc-desc { font-size: 13px; color: var(--dim); line-height: 1.62; }
+
+    /* ── PRICING ────────────────────────────── */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-bottom: 28px;
+    }
+    .price-card {
+      background: var(--surface); border: 1px solid var(--edge);
+      padding: 30px 26px;
+    }
+    .price-card-label {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold-d); margin-bottom: 10px;
+    }
+    .price-card-name {
+      font-family: var(--serif); font-size: 20px; font-weight: 400;
+      color: var(--bright); margin-bottom: 10px;
+    }
+    .price-amount {
+      font-family: var(--serif); font-size: 28px; color: var(--gold-l);
+      margin-bottom: 12px;
+    }
+    .price-amount.quote { font-size: 22px; color: var(--dim); }
+    .price-desc { font-size: 13px; color: var(--dim); line-height: 1.65; }
+
+    .pricing-note {
+      font-size: 14px; color: var(--dim); line-height: 1.75;
+      padding: 20px 24px;
+      background: var(--surface); border: 1px solid var(--edge);
+      border-radius: var(--r);
+    }
+
+    @media (max-width: 680px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+    /* ── HOW IT WORKS ───────────────────────── */
+    .how-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2px; margin-top: 44px;
+    }
+    .how-step {
+      padding: 30px 24px;
+      background: var(--surface); border: 1px solid var(--edge);
+    }
+    .how-num {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+      color: var(--gold-d); margin-bottom: 14px; display: block;
+    }
+    .how-title {
+      font-family: var(--serif); font-size: 19px; font-weight: 400;
+      color: var(--bright); margin-bottom: 8px;
+    }
+    .how-body { font-size: 13px; color: var(--dim); line-height: 1.65; }
+
+    @media (max-width: 780px) { .how-steps { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .how-steps { grid-template-columns: 1fr; } }
+
+    /* ── ESTIMATOR ──────────────────────────── */
+    .est-wrap { max-width: 760px; }
+
+    .est-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px; cursor: pointer; user-select: none;
+      background: var(--surface); border: 1px solid var(--edge);
+      border-radius: var(--r); transition: border-color .2s;
+    }
+    .est-toggle:hover { border-color: var(--muted); }
+    .est-toggle-label {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 3px;
+    }
+    .est-toggle-title {
+      font-family: var(--serif); font-size: 18px; color: var(--bright);
+    }
+    .est-chevron { color: var(--muted); flex-shrink: 0; margin-left: 14px; transition: transform .3s; }
+    .est-toggle.open .est-chevron { transform: rotate(180deg); }
+
+    .est-body {
+      display: none;
+      border: 1px solid var(--edge); border-top: none;
+      background: var(--deep); padding: 28px 24px;
+    }
+    .est-body.open { display: block; }
+
+    .est-disclaimer {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .05em;
+      color: var(--muted); line-height: 1.75;
+      padding: 12px 15px;
+      background: var(--surface); border: 1px solid var(--edge);
+      border-radius: var(--r); margin-bottom: 24px;
+    }
+
+    /* progress */
+    .est-progress { display: flex; gap: 5px; margin-bottom: 24px; }
+    .est-step { height: 2px; flex: 1; background: var(--edge); border-radius: 1px; transition: background .3s; }
+    .est-step.done   { background: var(--gold); }
+    .est-step.active { background: var(--gold-d); }
+
+    /* screens */
+    .est-screen { display: none; }
+    .est-screen.active { display: block; }
+
+    .est-q-eye {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+    }
+    .est-q-h {
+      font-family: var(--serif); font-size: clamp(20px, 2.8vw, 26px);
+      color: var(--bright); margin-bottom: 5px;
+    }
+    .est-q-sub { font-size: 13px; color: var(--dim); margin-bottom: 20px; }
+
+    /* option cards */
+    .est-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .est-card {
+      border: 1px solid var(--edge); border-radius: var(--r);
+      background: var(--surface); padding: 16px 14px;
+      cursor: pointer; text-align: left;
+      transition: border-color .18s, background .18s, transform .12s;
+    }
+    .est-card:hover { border-color: var(--muted); background: var(--panel); transform: translateY(-1px); }
+    .est-card.sel   { border-color: var(--gold); background: var(--panel); }
+    .est-card-name  { font-family: var(--serif); font-size: 17px; color: var(--bright); margin-bottom: 3px; }
+    .est-card-desc  { font-size: 12px; color: var(--dim); line-height: 1.5; }
+
+    /* result */
+    .est-result { margin-top: 4px; }
+    .est-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 18px; }
+    .est-result-card { background: var(--surface); border: 1px solid var(--edge); padding: 20px 18px; }
+    .est-result-card.solo { grid-column: 1 / -1; }
+    .est-result-label {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .est-result-val { font-family: var(--serif); font-size: 26px; color: var(--gold-l); }
+    .est-result-unit { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 4px; }
+    .est-result-note { font-size: 13px; color: var(--dim); line-height: 1.7; margin-bottom: 16px; }
+    .est-reset {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+      color: var(--muted); text-decoration: underline; padding: 0;
+      margin-top: 10px; display: block; transition: color .2s;
+    }
+    .est-reset:hover { color: var(--dim); }
+
+    @media (max-width: 480px) {
+      .est-grid { grid-template-columns: 1fr; }
+      .est-result-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── FINAL CTA ──────────────────────────── */
+    .final-cta {
+      padding: 80px 0; text-align: center;
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(200,169,110,.06) 0%, transparent 70%);
+    }
+    .final-h2 { margin-bottom: 14px; }
+    .final-sub {
+      font-size: 16px; color: var(--dim); line-height: 1.75;
+      max-width: 460px; margin: 0 auto 36px;
+    }
+    .final-btns { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .final-area {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+      color: var(--muted); line-height: 1.7;
+    }
+
+    /* ── FOOTER ─────────────────────────────── */
+    footer {
+      position: relative; z-index: 1; padding: 28px 0;
+      border-top: 1px solid var(--edge);
+    }
+    .footer-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-brand {
+      font-family: var(--serif); font-size: 15px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px;
+    }
+    .footer-detail {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--muted); line-height: 1.8;
+    }
+    .footer-detail a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-detail a:hover { color: var(--gold); }
+
+    /* ── FLOATING BUTTONS ───────────────────── */
+    #float-sms {
+      position: fixed; bottom: 26px; right: 26px; z-index: 9000;
+      display: flex; align-items: center; gap: 8px; padding: 12px 18px;
+      background: var(--gold); color: var(--void);
+      border: none; border-radius: var(--r);
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+      box-shadow: 0 4px 22px rgba(0,0,0,.5), 0 0 0 1px rgba(200,169,110,.3);
+      transition: background .2s, transform .18s;
+      animation: floatin .5s 1.2s both;
+    }
+    #float-sms:hover { background: var(--gold-l); transform: translateY(-2px); }
+    #float-call-mob {
+      display: none;
+      position: fixed; bottom: 78px; right: 26px; z-index: 9000;
+      align-items: center; gap: 8px; padding: 12px 18px;
+      background: var(--surface); color: var(--gold);
+      border: 1px solid var(--gold-d); border-radius: var(--r);
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,.4);
+      animation: floatin .5s 1.4s both;
+    }
+    @media (max-width: 640px) { #float-call-mob { display: flex; } }
+    @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
   </style>
 </head>
 <body>
 
-  <nav>
-    <a href="#" class="nav-logo">Halcyon</a>
-  </nav>
+<!-- ════════════════════════════════════════════
+     1. NAV
+════════════════════════════════════════════ -->
+<nav>
+  <a href="#" class="nav-logo">Halcyon Standard</a>
+  <div class="nav-links">
+    <a href="#services"    class="nav-link">Services</a>
+    <a href="#pricing"     class="nav-link">Pricing</a>
+    <a href="#how"         class="nav-link">How It Works</a>
+    <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
+  </div>
+</nav>
 
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<!-- ════════════════════════════════════════════
+     2. HERO
+════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap z1">
+    <div class="hero-eyebrow">Kingsport · Tri-Cities, TN</div>
 
-  <main>
+    <h1 class="hero-h1">Lawn care that feels handled.</h1>
 
-    <!-- INTRO -->
-    <div class="screen active" id="screen-intro">
-      <div class="intro-badge">Halcyon Property Intelligence</div>
-      <h1 class="intro-h1">What will your home <em>actually</em> cost to maintain this year?</h1>
-      <p class="intro-sub">
-        Answer four quick questions and we'll give you an honest, no-pressure preliminary estimate —
-        built on real industry benchmarks for the Tri-Cities area.
-      </p>
-      <button class="btn-start" id="btnStart">
-        Find Out in 60 Seconds
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-      <p class="intro-note">No sign-up required to see your estimate.</p>
+    <p class="hero-sub">
+      Reliable mowing, trimming, edging, cleanup, and seasonal property care for homes
+      in Kingsport and the Tri-Cities. Text photos of your yard and get a clear quote fast.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Text Photos for a Quote
+      </a>
+      <a href="tel:4233909954" class="btn-call">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
+        </svg>
+        Call Halcyon
+      </a>
     </div>
 
-    <!-- Q1: PROPERTY TYPE -->
-    <div class="screen" id="screen-q1">
-      <div class="q-eyebrow">Question 1 of 4</div>
-      <h2 class="q-title">What best describes your home?</h2>
-      <p class="q-subtitle">Just tap the one that fits — no details needed yet.</p>
-      <div class="card-grid">
-        <button class="opt-card" data-q="type" data-val="single-family">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 22L24 6l20 16"/><rect x="10" y="22" width="28" height="20" rx="1"/>
-            <rect x="19" y="30" width="10" height="12"/>
+    <p class="hero-trust">
+      Owner-operated<span>·</span>Sullivan County licensed<span>·</span>Serving Kingsport and the Tri-Cities
+    </p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
+     3. TRUST / POSITIONING
+════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">Our standard</div>
+      <h2>A better standard for local property care.</h2>
+    </div>
+    <div class="trust-grid">
+
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
-          <div class="card-label">Single Family Home</div>
-          <div class="card-desc">A standalone house on its own lot</div>
-        </button>
-        <button class="opt-card" data-q="type" data-val="townhome">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 20l10-10 10 10M26 20l10-10 10 10"/>
-            <rect x="2" y="20" width="20" height="22"/><rect x="26" y="20" width="20" height="22"/>
-            <rect x="8" y="30" width="6" height="12"/><rect x="34" y="30" width="6" height="12"/>
-          </svg>
-          <div class="card-label">Townhome or Condo</div>
-          <div class="card-desc">Attached or multi-unit living</div>
-        </button>
-        <button class="opt-card" data-q="type" data-val="multi-family">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="10" width="40" height="32" rx="1"/>
-            <path d="M4 20h40M4 30h40M16 10v32M32 10v32"/>
-          </svg>
-          <div class="card-label">Multi-Family Property</div>
-          <div class="card-desc">Rental units, duplex, or small apartment</div>
-        </button>
-        <button class="opt-card" data-q="type" data-val="vacation">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 24L24 8l18 16"/><rect x="12" y="24" width="24" height="18"/>
-            <path d="M18 32h12v10H18z"/><circle cx="38" cy="12" r="3"/>
-          </svg>
-          <div class="card-label">Second or Vacation Home</div>
-          <div class="card-desc">A property you don't visit every day</div>
-        </button>
+        </div>
+        <div class="trust-name">Direct Communication</div>
+        <div class="trust-body">You text or call one person — the person who does the work. No dispatch, no crew rotation, no call centers.</div>
       </div>
-    </div>
 
-    <!-- Q2: SIZE -->
-    <div class="screen" id="screen-q2">
-      <div class="q-eyebrow">Question 2 of 3</div>
-      <h2 class="q-title">How much property are we talking about?</h2>
-      <p class="q-subtitle">Your best sense is perfect — no measuring required.</p>
-      <div class="card-grid">
-        <button class="opt-card" data-q="size" data-val="compact">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="14" y="10" width="20" height="28" rx="1"/>
-            <path d="M10 42h28M10 6h28"/>
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
           </svg>
-          <div class="card-label">Compact</div>
-          <div class="card-desc">A manageable yard — easy to walk from end to end</div>
-        </button>
-        <button class="opt-card" data-q="size" data-val="midsize">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="8" y="10" width="32" height="28" rx="1"/>
-            <path d="M4 42h40M4 6h40"/>
-          </svg>
-          <div class="card-label">Mid-size</div>
-          <div class="card-desc">A standard neighborhood lot with room to breathe</div>
-        </button>
-        <button class="opt-card" data-q="size" data-val="spacious">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="8" width="40" height="32" rx="1"/>
-            <path d="M0 44h48M0 4h48"/>
-            <path d="M14 20h20M14 28h20" stroke-dasharray="3 3"/>
-          </svg>
-          <div class="card-label">Spacious</div>
-          <div class="card-desc">A generous lot — takes a minute to walk the perimeter</div>
-        </button>
-        <button class="opt-card" data-q="size" data-val="estate">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="6" width="44" height="36" rx="1"/>
-            <path d="M0 46h48M0 2h48"/>
-            <circle cx="24" cy="24" r="6"/>
-            <path d="M24 18v-6M24 30v6M18 24h-6M30 24h6"/>
-          </svg>
-          <div class="card-label">Estate</div>
-          <div class="card-desc">A large property that takes real time to survey properly</div>
-        </button>
+        </div>
+        <div class="trust-name">Clean Consistent Work</div>
+        <div class="trust-body">Mowing lines straight, edges clean, clippings blown off. The same standard on every visit, not just the first one.</div>
       </div>
-    </div>
 
-    <!-- Q3: SERVICE TYPE -->
-    <div class="screen" id="screen-q3">
-      <div class="q-eyebrow">Question 3 of 3</div>
-      <h2 class="q-title">What kind of lawn service are you looking for?</h2>
-      <p class="q-subtitle">Pick the one that fits best — we can always adjust from there.</p>
-      <div class="card-grid">
-        <button class="opt-card" data-q="service" data-val="mowing">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+        </div>
+        <div class="trust-name">Simple Quotes</div>
+        <div class="trust-body">Text a few photos. Get a clear price before any work is scheduled. No vague estimates or surprise add-ons after the fact.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
+     4. SERVICES
+════════════════════════════════════════════ -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">Services</div>
+      <h2>What we take care of.</h2>
+      <p class="section-sub">Residential lawn and property care in Kingsport and the surrounding Tri-Cities. Text us about your yard and we'll tell you what makes sense.</p>
+    </div>
+    <div class="service-grid">
+
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="6" y="28" width="36" height="10" rx="2"/>
             <circle cx="13" cy="38" r="4"/><circle cx="35" cy="38" r="4"/>
             <path d="M14 28V18M34 28V18M14 18h20M24 18v-8M18 10h12"/>
           </svg>
-          <div class="card-label">Mowing &amp; Edging</div>
-          <div class="card-desc">Regular cuts and clean edges on a reliable schedule</div>
-        </button>
-        <button class="opt-card" data-q="service" data-val="maintenance">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M24 42V22M24 22c0-10 12-16 12-16s-2 14-12 16M24 22c0-10-12-16-12-16s2 14 12 16"/>
-            <path d="M8 42h32"/>
-            <path d="M16 36c2-2 4-3 8-3s6 1 8 3" stroke-dasharray="2 2"/>
-          </svg>
-          <div class="card-label">Lawn Care &amp; Health</div>
-          <div class="card-desc">Mowing plus ongoing lawn health — keeping it green and growing well</div>
-        </button>
-        <button class="opt-card" data-q="service" data-val="cleanup">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 36l6-16 8 6 6-12 8 22"/>
-            <path d="M6 42h36"/>
-            <path d="M30 14l4-6M34 14l4-6M26 14l4-6" stroke-opacity=".5"/>
-          </svg>
-          <div class="card-label">Cleanup &amp; Seasonal</div>
-          <div class="card-desc">Leaf removal, seasonal prep, or a one-time refresh of the yard</div>
-        </button>
-        <button class="opt-card" data-q="service" data-val="full">
-          <div class="card-check">✓</div>
-          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="6" y="6" width="36" height="36" rx="2"/>
-            <path d="M6 20h36M20 6v36"/>
-            <path d="M13 30l4 4 8-10"/>
-          </svg>
-          <div class="card-label">Full Grounds Care</div>
-          <div class="card-desc">Mowing, edging, beds, trimming — the whole property on one plan</div>
-        </button>
-      </div>
-    </div>
-
-    <!-- CALCULATING -->
-    <div class="screen" id="screen-calc">
-      <div class="calc-title">Reviewing your property parameters…</div>
-      <div class="calc-dots">
-        <div class="calc-dot"></div>
-        <div class="calc-dot"></div>
-        <div class="calc-dot"></div>
-      </div>
-      <div class="calc-params" id="calcParams"></div>
-      <p class="calc-sub">Applying Tri-Cities area benchmarks</p>
-    </div>
-
-    <!-- REVEAL -->
-    <div class="screen" id="screen-reveal">
-      <div class="reveal-eyebrow">Your Preliminary Estimate</div>
-      <h2 class="reveal-title">Here's what a property like yours typically looks like.</h2>
-      <p class="reveal-sub" id="revealSub">Based on local market benchmarks for your property type and size.</p>
-
-      <div class="reveal-cards">
-        <div class="reveal-card" id="rc1">
-          <div class="reveal-card-label">Per-Visit Rate</div>
-          <div class="reveal-card-amount" id="rcAmount1">—</div>
-          <div class="reveal-card-unit">per scheduled visit</div>
-          <div class="reveal-card-desc">What each service visit typically runs for your property type and lot size.</div>
         </div>
-        <div class="reveal-card" id="rc2">
-          <div class="reveal-card-label">Monthly Stewardship</div>
-          <div class="reveal-card-amount" id="rcAmount2">—</div>
-          <div class="reveal-card-unit">per month · ongoing</div>
-          <div class="reveal-card-desc">Active oversight, reporting, and coordination — so you don't have to think about it.</div>
+        <div class="svc-name">Mowing</div>
+        <div class="svc-desc">Regular cuts on a reliable schedule. We mow at the right height for the season and leave a clean finish every time.</div>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/>
+            <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L4 4"/>
+          </svg>
         </div>
+        <div class="svc-name">Trimming &amp; Edging</div>
+        <div class="svc-desc">String trimming around obstacles and clean edging along driveways, sidewalks, and beds. The detail work that makes a yard look sharp.</div>
       </div>
 
-      <div class="reveal-annual" id="revealAnnual">
-        <div class="reveal-annual-label">Estimated First-Year Investment</div>
-        <div class="reveal-annual-amount" id="rcAnnual">—</div>
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>
+          </svg>
+        </div>
+        <div class="svc-name">Blowing &amp; Cleanup</div>
+        <div class="svc-desc">Clippings blown off driveways, walkways, and patios. Loose debris cleared so the property looks finished, not just mowed.</div>
       </div>
 
-      <p class="reveal-disclaimer" id="revealDisclaimer">
-        This is a general range based on properties like yours in the Tri-Cities area — not a binding quote.<br>
-        Your actual figure is confirmed at the on-site assessment, which is complimentary for founding members.
-      </p>
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22V12M12 12C12 7 17 4 17 4S17 9 12 12M12 12C12 7 7 4 7 4S7 9 12 12"/>
+            <path d="M5 22h14"/>
+          </svg>
+        </div>
+        <div class="svc-name">Brush &amp; Overgrowth Control</div>
+        <div class="svc-desc">Tall grass, heavy growth, fence lines, banks, and areas that have gotten out of hand. We quote these individually based on what's there.</div>
+      </div>
 
-      <button class="btn-primary" id="btnContinue">
-        Claim Your Free On-Site Assessment
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 8C8 10 5.9 16.17 3.82 19.82a1 1 0 0 0 1.38 1.38C7.4 19.28 11 17 12 12c.5 2.5 2 4.9 4 6.5"/>
+            <path d="M17 8l-1.5-1.5M17 8l1.5 1.5"/>
+          </svg>
+        </div>
+        <div class="svc-name">Seasonal Cleanup</div>
+        <div class="svc-desc">Leaf removal, spring cleanup after winter, fall prep before the cold. One-time or scheduled around the seasons.</div>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M16 2v4M8 2v4M3 10h18"/>
+            <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+          </svg>
+        </div>
+        <div class="svc-name">Recurring Maintenance</div>
+        <div class="svc-desc">Weekly, biweekly, or monthly service plans that keep your property consistently maintained throughout the season.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
+     5. PRICING GUIDANCE
+════════════════════════════════════════════ -->
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">Pricing guidance</div>
+      <h2>What lawn care typically runs.</h2>
+      <p class="section-sub">These are general ranges to help you plan. Your quote depends on the actual property — text us a few photos and we'll give you a clear number before scheduling.</p>
     </div>
 
-    <!-- CONTACT -->
-    <div class="screen" id="screen-contact">
-      <div class="q-eyebrow">Almost There</div>
-      <h2 class="q-title">Where should we reach you?</h2>
-      <p class="q-subtitle">That's it — three fields and we'll take it from here.</p>
+    <div class="pricing-grid">
 
-      <form id="contactForm" action="https://formspree.io/f/REPLACE_WITH_YOUR_ID" method="POST">
-        <input type="hidden" id="hf-type"     name="propertyType" />
-        <input type="hidden" id="hf-size"     name="propertySize" />
-        <input type="hidden" id="hf-service" name="serviceType" />
-        <input type="hidden" id="hf-estimate" name="estimateSummary" />
-        <input type="hidden" name="_subject"   value="New Halcyon Estimate Request" />
-        <input type="text" name="_gotcha" style="display:none;visibility:hidden" tabindex="-1" autocomplete="off" />
+      <div class="price-card">
+        <div class="price-card-label">Basic visit</div>
+        <div class="price-card-name">Basic Lawn Visit</div>
+        <div class="price-amount">$49<span style="font-size:18px;color:var(--dim);">+</span></div>
+        <div class="price-desc">Mowing, trimming, and blowing for smaller, regularly maintained yards.</div>
+      </div>
 
-        <div class="contact-fields">
-          <div class="c-field">
-            <label class="c-label" for="c-name">First Name</label>
-            <input class="c-input" type="text" id="c-name" name="firstName" placeholder="Your first name" required autocomplete="given-name" />
+      <div class="price-card">
+        <div class="price-card-label">Standard service</div>
+        <div class="price-card-name">Full Lawn Service</div>
+        <div class="price-amount" style="font-size:22px;">$75–$125<span style="font-size:16px;color:var(--dim);">+</span></div>
+        <div class="price-desc">Mowing, trimming, edging, cleanup, and detail work depending on property size and condition.</div>
+      </div>
+
+      <div class="price-card">
+        <div class="price-card-label">Custom work</div>
+        <div class="price-card-name">Cleanup / Overgrowth / Seasonal</div>
+        <div class="price-amount quote">Quote-based</div>
+        <div class="price-desc">For tall grass, brush, leaves, fence lines, banks, beds, and heavier cleanup. Priced per job after reviewing the property.</div>
+      </div>
+
+    </div>
+
+    <div class="pricing-note">
+      Most lawn care depends on yard size, slope, access, grass height, edging needs, cleanup level, and visit frequency.
+      Send a few photos and Halcyon will give you a clear quote before scheduling.
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
+     6. HOW IT WORKS
+════════════════════════════════════════════ -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">How it works</div>
+      <h2>Simple from start to finish.</h2>
+    </div>
+    <div class="how-steps">
+
+      <div class="how-step">
+        <span class="how-num">01</span>
+        <div class="how-title">Text photos</div>
+        <div class="how-body">Send a few photos of your yard — front, back, any tricky spots. No forms to fill out.</div>
+      </div>
+
+      <div class="how-step">
+        <span class="how-num">02</span>
+        <div class="how-title">Get a quote</div>
+        <div class="how-body">You get a clear, flat price based on your actual property. Usually the same day.</div>
+      </div>
+
+      <div class="how-step">
+        <span class="how-num">03</span>
+        <div class="how-title">Get scheduled</div>
+        <div class="how-body">Pick a time that works. We confirm and show up when we said we would.</div>
+      </div>
+
+      <div class="how-step">
+        <span class="how-num">04</span>
+        <div class="how-title">Yard gets handled</div>
+        <div class="how-body">Clean work, every visit. You don't have to think about it again until the next one.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
+     7. QUICK PRICE PREVIEW (collapsible)
+════════════════════════════════════════════ -->
+<section class="section" id="estimate">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">Quick Price Preview</div>
+      <h2>Want a rough idea before texting?</h2>
+      <p class="section-sub">Try the quick price preview. It's only a ballpark — photos or a quick call will give you a better quote.</p>
+    </div>
+
+    <div class="est-wrap">
+      <div class="est-toggle" id="estToggle" role="button" aria-expanded="false">
+        <div>
+          <div class="est-toggle-label">Optional planning tool</div>
+          <div class="est-toggle-title">Open the price preview</div>
+        </div>
+        <svg class="est-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+
+      <div class="est-body" id="estBody">
+        <div class="est-disclaimer">
+          This is a rough planning estimate only. Final pricing depends on property size, slope, grass height, access, edging, cleanup needs, and scheduling.
+        </div>
+
+        <div class="est-progress">
+          <div class="est-step" id="ep1"></div>
+          <div class="est-step" id="ep2"></div>
+          <div class="est-step" id="ep3"></div>
+          <div class="est-step" id="ep4"></div>
+        </div>
+
+        <!-- Step 1: Property type -->
+        <div class="est-screen active" id="eq1">
+          <div class="est-q-eye">Step 1 of 4</div>
+          <h3 class="est-q-h">What best describes your property?</h3>
+          <p class="est-q-sub">Pick the closest match.</p>
+          <div class="est-grid">
+            <button class="est-card" data-q="type" data-v="single-family">
+              <div class="est-card-name">Single Family Home</div>
+              <div class="est-card-desc">A standalone house on its own lot</div>
+            </button>
+            <button class="est-card" data-q="type" data-v="townhome">
+              <div class="est-card-name">Townhome or Condo</div>
+              <div class="est-card-desc">Attached or multi-unit</div>
+            </button>
+            <button class="est-card" data-q="type" data-v="multi-family">
+              <div class="est-card-name">Multi-Family Property</div>
+              <div class="est-card-desc">Duplex, rental, or small apartment</div>
+            </button>
+            <button class="est-card" data-q="type" data-v="vacation">
+              <div class="est-card-name">Second or Vacation Home</div>
+              <div class="est-card-desc">A property not visited daily</div>
+            </button>
           </div>
-          <div class="c-field">
-            <label class="c-label" for="c-email">Email Address</label>
-            <input class="c-input" type="email" id="c-email" name="email" placeholder="you@example.com" required autocomplete="email" />
+        </div>
+
+        <!-- Step 2: Lot size -->
+        <div class="est-screen" id="eq2">
+          <div class="est-q-eye">Step 2 of 4</div>
+          <h3 class="est-q-h">How would you describe your yard size?</h3>
+          <p class="est-q-sub">Your best sense is fine.</p>
+          <div class="est-grid">
+            <button class="est-card" data-q="size" data-v="compact">
+              <div class="est-card-name">Compact</div>
+              <div class="est-card-desc">Easy to walk end to end quickly</div>
+            </button>
+            <button class="est-card" data-q="size" data-v="midsize">
+              <div class="est-card-name">Mid-size</div>
+              <div class="est-card-desc">Standard neighborhood lot</div>
+            </button>
+            <button class="est-card" data-q="size" data-v="spacious">
+              <div class="est-card-name">Spacious</div>
+              <div class="est-card-desc">Generous lot, takes a few minutes to walk</div>
+            </button>
+            <button class="est-card" data-q="size" data-v="estate">
+              <div class="est-card-name">Large / Estate</div>
+              <div class="est-card-desc">Big property — takes real time to cover</div>
+            </button>
           </div>
-          <div class="c-field">
-            <label class="c-label" for="c-phone">Phone Number</label>
-            <input class="c-input" type="tel" id="c-phone" name="phone" placeholder="(423) 000-0000" autocomplete="tel" />
+        </div>
+
+        <!-- Step 3: Service type -->
+        <div class="est-screen" id="eq3">
+          <div class="est-q-eye">Step 3 of 4</div>
+          <h3 class="est-q-h">What type of service are you looking for?</h3>
+          <p class="est-q-sub">Pick the one that fits best.</p>
+          <div class="est-grid">
+            <button class="est-card" data-q="service" data-v="mowing">
+              <div class="est-card-name">Basic Lawn Visit</div>
+              <div class="est-card-desc">Mowing, trimming, blowing</div>
+            </button>
+            <button class="est-card" data-q="service" data-v="maintenance">
+              <div class="est-card-name">Full Lawn Service</div>
+              <div class="est-card-desc">Mowing, edging, trim, detail cleanup</div>
+            </button>
+            <button class="est-card" data-q="service" data-v="cleanup">
+              <div class="est-card-name">Cleanup / Overgrowth</div>
+              <div class="est-card-desc">Heavy grass, brush, leaves, banks</div>
+            </button>
+            <button class="est-card" data-q="service" data-v="full">
+              <div class="est-card-name">Recurring Maintenance</div>
+              <div class="est-card-desc">Full-service ongoing plan</div>
+            </button>
           </div>
-          <div class="c-field">
-            <label class="c-label">Best way to reach you</label>
-            <div class="pref-row">
-              <button type="button" class="pref-btn active" data-pref="phone">Phone</button>
-              <button type="button" class="pref-btn" data-pref="text">Text</button>
-              <button type="button" class="pref-btn" data-pref="email">Email</button>
+        </div>
+
+        <!-- Step 4: Visit frequency -->
+        <div class="est-screen" id="eq4">
+          <div class="est-q-eye">Step 4 of 4</div>
+          <h3 class="est-q-h">How often would you like service?</h3>
+          <p class="est-q-sub">This affects your monthly estimate.</p>
+          <div class="est-grid">
+            <button class="est-card" data-q="freq" data-v="weekly">
+              <div class="est-card-name">Weekly</div>
+              <div class="est-card-desc">Every week during the season</div>
+            </button>
+            <button class="est-card" data-q="freq" data-v="biweekly">
+              <div class="est-card-name">Biweekly</div>
+              <div class="est-card-desc">Every two weeks</div>
+            </button>
+            <button class="est-card" data-q="freq" data-v="monthly">
+              <div class="est-card-name">Monthly</div>
+              <div class="est-card-desc">Once a month</div>
+            </button>
+            <button class="est-card" data-q="freq" data-v="onetime">
+              <div class="est-card-name">One-time</div>
+              <div class="est-card-desc">Just one visit</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div class="est-screen" id="eq-result">
+          <div class="est-result" id="estResult">
+            <div class="est-result-grid" id="estResultGrid">
+              <!-- filled by JS -->
             </div>
-            <input type="hidden" id="hf-pref" name="contactPreference" value="phone" />
+            <p class="est-result-note">
+              This is a rough planning range — not a quote. Text us a few photos and we'll send you a real price, usually the same day.
+            </p>
+            <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20real%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              Text for a Real Quote
+            </a>
+            <button class="est-reset" id="estReset">Start over</button>
           </div>
         </div>
 
-        <button type="submit" class="btn-primary" id="btnSubmit">
-          Send My Estimate &amp; Schedule a Visit
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-        <p class="contact-note">We'll reach out within one business day. Your information stays between us.</p>
-      </form>
-    </div>
+      </div><!-- /est-body -->
+    </div><!-- /est-wrap -->
+  </div>
+</section>
 
-    <!-- THANKS -->
-    <div class="screen" id="screen-thanks">
-      <div class="thanks-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
+     8. FINAL CTA
+════════════════════════════════════════════ -->
+<section class="section final-cta">
+  <div class="wrap z1">
+    <div class="eyebrow" style="justify-content:center;">Get started</div>
+    <h2 class="final-h2">Ready to get your yard handled?</h2>
+    <p class="final-sub">
+      Text a few photos of your property to Halcyon and get a clear quote before scheduling.
+    </p>
+    <div class="final-btns">
+      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
+        Text 423-390-9954
+      </a>
+      <a href="tel:4233909954" class="btn-call">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
+        </svg>
+        Call 423-390-9954
+      </a>
+    </div>
+    <p class="final-area">Serving Kingsport, Johnson City, Bristol, and nearby Tri-Cities communities.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     9. FOOTER
+════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div>
+        <span class="footer-brand">Halcyon Standard</span>
+        <div class="footer-detail">
+          <a href="tel:4233909954">423-390-9954</a><br>
+          Kingsport, TN · Sullivan County licensed
+        </div>
       </div>
-      <div class="thanks-title">You're on the list.</div>
-      <p class="thanks-body">
-        We'll be in touch within one business day to schedule your on-site assessment.
-        Bring any questions about the property — the first conversation is always on us.
-      </p>
-      <div class="thanks-founding">
-        <strong>Founding Member Status</strong>
-        As one of our first five clients, you'll receive a permanent rate reduction and dedicated onboarding.
-        We'll confirm this when we reach out.
+      <div class="footer-detail" style="text-align:right;">
+        Serving Kingsport, Johnson City,<br>
+        Bristol, and the Tri-Cities area<br>
+        <span style="color:var(--muted);opacity:.5;">© 2026 Halcyon Standard</span>
       </div>
     </div>
+  </div>
+</footer>
 
-  </main>
-
-  <div class="step-counter" id="stepCounter"></div>
-
-  <script>
-  (function(){
-    const state = { type:'', size:'', service:'' };
-    let current = 'intro';
-
-    // ── Estimate engine (lawn care benchmarks, Sullivan County TN 2025) ──
-    const BASE_MIN = 95, BASE_MAX = 165;
-    const M = {
-      type:    {'single-family':1.0, 'townhome':0.65, 'multi-family':1.5, 'vacation':1.2},
-      size:    {'compact':0.72, 'midsize':1.0, 'spacious':1.45, 'estate':2.1},
-      service: {'mowing':0.85, 'maintenance':1.1, 'cleanup':0.9, 'full':1.4}
-    };
-    const LABELS = {
-      type:    {'single-family':'Single Family','townhome':'Townhome/Condo','multi-family':'Multi-Family','vacation':'Vacation Home'},
-      size:    {'compact':'Compact lot','midsize':'Mid-size lot','spacious':'Spacious lot','estate':'Estate'},
-      service: {'mowing':'Mowing & Edging','maintenance':'Lawn Care & Health','cleanup':'Cleanup & Seasonal','full':'Full Grounds Care'}
-    };
-    function r5(n){ return Math.round(n/5)*5; }
-    function calc(){
-      const m = M.type[state.type]*M.size[state.size]*M.service[state.service];
-      const monMin=r5(BASE_MIN*m), monMax=r5(BASE_MAX*m);
-      const annMin=Math.round((monMin*12)/50)*50;
-      const annMax=Math.round((monMax*12)/50)*50;
-      return {monMin,monMax,annMin,annMax};
-    }
-
-    // ── Screen transitions ──
-    const ORDER = ['intro','q1','q2','q3','calc','reveal','contact','thanks'];
-    function goTo(name){
-      const from = document.getElementById('screen-'+current);
-      const to   = document.getElementById('screen-'+name);
-      from.classList.remove('active');
-      from.classList.add('gone');
-      setTimeout(()=>from.classList.remove('gone'), 50);
-      to.style.transform='translateX(40px)';
-      to.style.opacity='0';
-      to.offsetHeight;
-      requestAnimationFrame(()=>{
-        to.classList.add('active');
-        to.style.transform='';
-        to.style.opacity='';
-      });
-      current=name;
-      // progress
-      const idx=ORDER.indexOf(name);
-      const pct=name==='intro'?0:name==='thanks'?100:Math.round(idx/(ORDER.length-1)*100);
-      document.getElementById('progressFill').style.width=pct+'%';
-      // counter
-      const qi=['q1','q2','q3'].indexOf(name);
-      document.getElementById('stepCounter').textContent = qi>=0 ? (qi+1)+' of 3' : '';
-    }
-
-    // ── Card clicks ──
-    document.querySelectorAll('.opt-card').forEach(card=>{
-      card.addEventListener('click',()=>{
-        const q=card.dataset.q, val=card.dataset.val;
-        document.querySelectorAll('[data-q="'+q+'"]').forEach(c=>c.classList.remove('selected'));
-        card.classList.add('selected');
-        state[q]=val;
-        const next={type:'q2',size:'q3',service:'calc'}[q];
-        setTimeout(()=>{ next==='calc'?runCalc():goTo(next); },300);
-      });
-    });
-
-    // ── Calculating screen ──
-    function runCalc(){
-      goTo('calc');
-      const p=document.getElementById('calcParams');
-      p.innerHTML='';
-      [['Property type',LABELS.type[state.type]],['Lot size',LABELS.size[state.size]],
-       ['Service',LABELS.service[state.service]]
-      ].forEach(([k,v])=>{
-        const row=document.createElement('div');
-        row.className='calc-param';
-        row.innerHTML='<span class="calc-param-key">'+k+'</span><span class="calc-param-val">'+v+'</span>';
-        p.appendChild(row);
-      });
-      setTimeout(showReveal, 1800);
-    }
-
-    // ── Reveal ──
-    function showReveal(){
-      const e=calc();
-      goTo('reveal');
-      document.getElementById('revealSub').textContent=
-        'Based on lawn care benchmarks for a '+LABELS.size[state.size].toLowerCase()+
-        ' '+LABELS.type[state.type].toLowerCase()+' in the Tri-Cities area.';
-
-      setTimeout(()=>{
-        document.getElementById('rc1').classList.add('show');
-        document.getElementById('rcAmount1').textContent='$'+e.monMin+'–$'+e.monMax+' / visit';
-      },200);
-      setTimeout(()=>{
-        document.getElementById('rc2').classList.add('show');
-        document.getElementById('rcAmount2').textContent='$'+e.monMin+'–$'+e.monMax;
-      },500);
-      setTimeout(()=>{
-        document.getElementById('revealAnnual').classList.add('show');
-        document.getElementById('rcAnnual').textContent='$'+e.annMin.toLocaleString()+'–$'+e.annMax.toLocaleString();
-      },900);
-      setTimeout(()=>document.getElementById('revealDisclaimer').classList.add('show'),1300);
-      window._est=e;
-    }
-
-    // ── Continue to contact ──
-    document.getElementById('btnContinue').addEventListener('click',()=>{
-      const e=window._est||calc();
-      document.getElementById('hf-type').value=LABELS.type[state.type]||state.type;
-      document.getElementById('hf-size').value=LABELS.size[state.size]||state.size;
-      document.getElementById('hf-service').value=LABELS.service[state.service]||state.service;
-      document.getElementById('hf-estimate').value=
-        'Per visit: $'+e.monMin+'-$'+e.monMax+
-        ' | Monthly: $'+e.monMin+'-$'+e.monMax+
-        ' | Estimated annual: $'+e.annMin+'-$'+e.annMax;
-      goTo('contact');
-    });
-
-    // ── Contact preference ──
-    document.querySelectorAll('.pref-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        document.querySelectorAll('.pref-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('hf-pref').value=btn.dataset.pref;
-      });
-    });
-
-    // ── Submit ──
-    document.getElementById('contactForm').addEventListener('submit',async(e)=>{
-      e.preventDefault();
-      const sb=document.getElementById('btnSubmit');
-      sb.textContent='Sending\u2026';
-      sb.disabled=true;
-      try{
-        const res=await fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}});
-        if(res.ok){ goTo('thanks'); }
-        else{ sb.innerHTML='Something went wrong \u2014 please try again'; sb.disabled=false; }
-      }catch{ sb.innerHTML='Network error \u2014 please try again'; sb.disabled=false; }
-    });
-
-    // ── Start ──
-    document.getElementById('btnStart').addEventListener('click',()=>goTo('q1'));
-  })();
-  </script>
-
-<!-- ============================================================
-     HALCYON FLOATING ESTIMATE WIDGET
-     ============================================================ -->
-<style>
-  #hcn-float-btn {
-    position:fixed; bottom:32px; right:32px; z-index:9000;
-    display:flex; align-items:center; gap:10px; padding:13px 22px;
-    background:#c8a96e; color:#080a0d; border:none; border-radius:2px;
-    font-family:'DM Mono',monospace; font-size:11px; font-weight:500;
-    letter-spacing:.16em; text-transform:uppercase; cursor:pointer;
-    box-shadow:0 4px 24px rgba(0,0,0,.5),0 0 0 1px rgba(200,169,110,.4);
-    transition:background .2s,transform .2s,box-shadow .2s;
-    animation:hcn-float-in .6s 1.2s both;
-  }
-  #hcn-float-btn:hover { background:#e0c48a; transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 0 1px rgba(200,169,110,.5); }
-  #hcn-float-btn svg { flex-shrink:0; }
-  @keyframes hcn-float-in { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-
-  #hcn-overlay { position:fixed; inset:0; z-index:9001; background:rgba(8,10,13,.75);
-    backdrop-filter:blur(4px); opacity:0; pointer-events:none; transition:opacity .3s; }
-  #hcn-overlay.active { opacity:1; pointer-events:all; }
-
-  #hcn-panel { position:fixed; top:0; right:0; bottom:0; z-index:9002; width:480px; max-width:100vw;
-    background:#131820; border-left:1px solid #222e40; display:flex; flex-direction:column;
-    transform:translateX(100%); transition:transform .35s cubic-bezier(.32,0,.24,1); overflow:hidden; }
-  #hcn-panel.active { transform:translateX(0); }
-
-  .hcn-ph { display:flex; align-items:center; justify-content:space-between; padding:20px 28px;
-    background:#1a2130; border-bottom:1px solid #222e40; flex-shrink:0; }
-  .hcn-ph-eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em;
-    text-transform:uppercase; color:#c8a96e; margin-bottom:4px; }
-  .hcn-ph-title { font-family:'Cormorant Garamond',Georgia,serif; font-size:20px; font-weight:400;
-    color:#e8f0f5; letter-spacing:.02em; }
-  .hcn-close { background:none; border:1px solid #222e40; border-radius:2px; color:#5a7090;
-    cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center;
-    transition:border-color .2s,color .2s; flex-shrink:0; }
-  .hcn-close:hover { border-color:#5a7090; color:#b0bfcc; }
-
-  .hcn-body { flex:1; overflow-y:auto; padding:24px 28px; scrollbar-width:thin; scrollbar-color:#222e40 transparent; }
-  .hcn-body::-webkit-scrollbar { width:4px; }
-  .hcn-body::-webkit-scrollbar-thumb { background:#222e40; border-radius:4px; }
-
-  .hcn-founding { display:flex; gap:12px; align-items:flex-start; padding:14px 16px;
-    background:rgba(200,169,110,.06); border:1px solid rgba(200,169,110,.25); border-radius:2px; margin-bottom:24px; }
-  .hcn-founding-icon { color:#c8a96e; font-size:16px; flex-shrink:0; margin-top:1px; }
-  .hcn-founding-text { font-size:12px; color:#c8a96e; line-height:1.6; }
-  .hcn-founding-text strong { display:block; font-family:'DM Mono',monospace; font-size:9px;
-    letter-spacing:.15em; text-transform:uppercase; margin-bottom:2px; }
-  .hcn-spots { display:flex; gap:5px; margin-top:8px; align-items:center; }
-  .hcn-spot { width:7px; height:7px; border-radius:50%; background:#c8a96e; opacity:.25; }
-  .hcn-spot.taken { opacity:1; }
-  .hcn-spot-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.1em; color:#8a6e3e; margin-left:4px; }
-
-  .hcn-field { display:flex; flex-direction:column; gap:5px; margin-bottom:16px; }
-  .hcn-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .hcn-row .hcn-field { margin-bottom:0; }
-  .hcn-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.15em;
-    text-transform:uppercase; color:#b0bfcc; }
-
-  .hcn-body input[type="text"],.hcn-body input[type="email"],.hcn-body input[type="tel"],
-  .hcn-body select,.hcn-body textarea {
-    background:#0d1017; border:1px solid #222e40; border-radius:2px; color:#e8f0f5;
-    font-family:'DM Sans',system-ui,sans-serif; font-size:13px; padding:9px 12px;
-    outline:none; transition:border-color .2s,box-shadow .2s; -webkit-appearance:none; appearance:none; width:100%; }
-  .hcn-body input:focus,.hcn-body select:focus,.hcn-body textarea:focus {
-    border-color:#8a6e3e; box-shadow:0 0 0 3px rgba(200,169,110,.1); }
-  .hcn-body input::placeholder,.hcn-body textarea::placeholder { color:#3a4d66; font-size:12px; }
-  .hcn-body select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a7090' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 10px center; padding-right:30px; cursor:pointer; }
-  .hcn-body select option { background:#131820; color:#e8f0f5; }
-  .hcn-body textarea { resize:vertical; min-height:80px; line-height:1.5; }
-
-  .hcn-footer { flex-shrink:0; padding:16px 28px; border-top:1px solid #222e40;
-    background:#1a2130; display:flex; flex-direction:column; gap:8px; }
-  .hcn-submit { display:flex; align-items:center; justify-content:center; gap:8px;
-    background:#c8a96e; color:#080a0d; border:none; border-radius:2px; padding:13px 24px;
-    font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:.15em;
-    text-transform:uppercase; cursor:pointer; transition:background .2s,transform .15s; width:100%; }
-  .hcn-submit:hover { background:#e0c48a; transform:translateY(-1px); }
-  .hcn-submit:disabled { opacity:.6; cursor:not-allowed; transform:none; }
-  .hcn-submit svg { width:12px; height:12px; transition:transform .2s; }
-  .hcn-submit:hover svg { transform:translateX(3px); }
-  .hcn-privacy { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.08em;
-    color:#3a4d66; text-align:center; line-height:1.5; }
-
-  .hcn-success { display:none; flex-direction:column; align-items:center; justify-content:center;
-    gap:14px; text-align:center; padding:48px 28px; flex:1; }
-  .hcn-success.active { display:flex; }
-  .hcn-success-icon { width:48px; height:48px; border:1px solid #3d8c6e; border-radius:50%;
-    display:flex; align-items:center; justify-content:center; color:#3d8c6e; }
-  .hcn-success-title { font-family:'Cormorant Garamond',Georgia,serif; font-size:22px;
-    font-weight:400; color:#e8f0f5; }
-  .hcn-success-body { font-size:13px; color:#8a9bb0; line-height:1.7; max-width:280px; }
-
-  @media (max-width:520px) {
-    #hcn-panel { width:100vw; }
-    #hcn-float-btn { bottom:20px; right:20px; padding:12px 18px; font-size:10px; }
-    .hcn-row { grid-template-columns:1fr; }
-  }
-</style>
-
-<button id="hcn-float-btn" aria-label="Request an Assessment">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="3" width="20" height="14" rx="2"/>
-    <path d="M8 21h8M12 17v4"/>
+<!-- ── Floating buttons ───────────────────────── -->
+<a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>
-  Request Assessment
-</button>
+  Text for a Quote
+</a>
+<a href="tel:4233909954" id="float-call-mob" aria-label="Call Halcyon">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
+  </svg>
+  Call
+</a>
 
-<div id="hcn-overlay" role="presentation"></div>
-
-<div id="hcn-panel" role="dialog" aria-modal="true" aria-label="Request an Assessment">
-  <div class="hcn-ph">
-    <div class="hcn-ph-left">
-      <div class="hcn-ph-eyebrow">Halcyon</div>
-      <div class="hcn-ph-title">Request an Assessment</div>
-    </div>
-    <button class="hcn-close" id="hcn-close-btn" aria-label="Close">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-  </div>
-
-  <div class="hcn-body" id="hcn-body">
-    <div class="hcn-founding">
-      <div class="hcn-founding-icon">◈</div>
-      <div class="hcn-founding-text">
-        <strong>Founding Member Status</strong>
-        Early clients receive a permanent rate reduction. Two of five positions filled.
-        <div class="hcn-spots">
-          <div class="hcn-spot taken"></div>
-          <div class="hcn-spot taken"></div>
-          <div class="hcn-spot"></div>
-          <div class="hcn-spot"></div>
-          <div class="hcn-spot"></div>
-          <span class="hcn-spot-label">3 remaining</span>
-        </div>
-      </div>
-    </div>
-
-    <form id="hcn-form" action="https://formspree.io/f/REPLACE_WITH_YOUR_ID" method="POST">
-      <input type="hidden" name="_subject" value="New Halcyon Assessment Request" />
-      <input type="text" name="_gotcha" style="display:none;visibility:hidden" tabindex="-1" autocomplete="off" />
-
-      <div class="hcn-row">
-        <div class="hcn-field">
-          <label class="hcn-label" for="hcn-name">Full Name</label>
-          <input type="text" id="hcn-name" name="fullName" placeholder="Your name" required />
-        </div>
-        <div class="hcn-field">
-          <label class="hcn-label" for="hcn-phone">Phone</label>
-          <input type="tel" id="hcn-phone" name="phone" placeholder="(423) 000-0000" />
-        </div>
-      </div>
-      <div class="hcn-field" style="margin-top:12px">
-        <label class="hcn-label" for="hcn-email">Email</label>
-        <input type="email" id="hcn-email" name="email" placeholder="you@example.com" required />
-      </div>
-      <div class="hcn-field">
-        <label class="hcn-label" for="hcn-address">Property Address</label>
-        <input type="text" id="hcn-address" name="propertyAddress" placeholder="Street address, City, State" required />
-      </div>
-      <div class="hcn-field">
-        <label class="hcn-label" for="hcn-type">Property Type</label>
-        <select id="hcn-type" name="propertyType" required>
-          <option value="" disabled selected>Select</option>
-          <option value="single-family">Single Family</option>
-          <option value="multi-family">Multi-Family</option>
-          <option value="condo-townhouse">Condo / Townhouse</option>
-          <option value="vacation-secondary">Vacation / Secondary</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div class="hcn-field">
-        <label class="hcn-label" for="hcn-notes">Notes <span style="color:#3a4d66;font-size:8px;letter-spacing:.1em;text-transform:none;font-family:'DM Sans',sans-serif;margin-left:5px;">optional</span></label>
-        <textarea id="hcn-notes" name="notes" placeholder="Concerns, goals, or anything we should know before the call…"></textarea>
-      </div>
-    </form>
-
-    <div class="hcn-success" id="hcn-success">
-      <div class="hcn-success-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </div>
-      <div class="hcn-success-title">Request Received</div>
-      <div class="hcn-success-body">We'll reach out within one business day to discuss your property and next steps.</div>
-    </div>
-  </div>
-
-  <div class="hcn-footer" id="hcn-footer">
-    <button class="hcn-submit" id="hcn-submit-btn" type="button">
-      Submit Request
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-      </svg>
-    </button>
-    <p class="hcn-privacy">Your information is used only to respond to this request. We do not sell contact details.</p>
-  </div>
-</div>
-
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
 <script>
-  (function(){
-    const btn=document.getElementById('hcn-float-btn');
-    const overlay=document.getElementById('hcn-overlay');
-    const panel=document.getElementById('hcn-panel');
-    const closeBtn=document.getElementById('hcn-close-btn');
-    const form=document.getElementById('hcn-form');
-    const body=document.getElementById('hcn-body');
-    const success=document.getElementById('hcn-success');
-    const footer=document.getElementById('hcn-footer');
-    const submitBtn=document.getElementById('hcn-submit-btn');
+(function () {
 
-    function openPanel(){
-      overlay.classList.add('active');
-      panel.classList.add('active');
-      document.body.style.overflow='hidden';
-      panel.querySelector('input:not([type="hidden"]):not([tabindex="-1"])').focus();
-    }
-    function closePanel(){
-      overlay.classList.remove('active');
-      panel.classList.remove('active');
-      document.body.style.overflow='';
-    }
+  /* ── Accordion toggle ────────────────────── */
+  var toggle = document.getElementById('estToggle');
+  var body   = document.getElementById('estBody');
 
-    btn.addEventListener('click',openPanel);
-    overlay.addEventListener('click',closePanel);
-    closeBtn.addEventListener('click',closePanel);
-    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'&&panel.classList.contains('active')) closePanel(); });
+  toggle.addEventListener('click', function () {
+    var open = toggle.classList.toggle('open');
+    body.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  });
 
-    submitBtn.addEventListener('click',async()=>{
-      if(!form.reportValidity()) return;
-      submitBtn.textContent='Sending…';
-      submitBtn.disabled=true;
-      try{
-        const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-        if(res.ok){
-          body.querySelector('.hcn-founding').style.display='none';
-          form.style.display='none';
-          success.classList.add('active');
-          footer.style.display='none';
-        } else {
-          submitBtn.textContent='Error — please try again';
-          submitBtn.disabled=false;
-        }
-      } catch {
-        submitBtn.textContent='Network error — try again';
-        submitBtn.disabled=false;
-      }
+  /* ── Estimate engine ─────────────────────── */
+  var BASE_MIN = 95, BASE_MAX = 165;
+
+  var M = {
+    type:    { 'single-family': 1.0, 'townhome': 0.65, 'multi-family': 1.5,  'vacation': 1.2 },
+    size:    { 'compact': 0.72,       'midsize': 1.0,   'spacious': 1.45,     'estate': 2.1   },
+    service: { 'mowing': 0.85,        'maintenance': 1.1,'cleanup': 0.9,      'full': 1.4     }
+  };
+
+  /* Frequency: visits-per-month multiplier (null = one-time, no monthly total) */
+  var FREQ = {
+    'weekly':   { label: 'Weekly',         perMonth: 4.33 },
+    'biweekly': { label: 'Every two weeks', perMonth: 2.17 },
+    'monthly':  { label: 'Monthly',         perMonth: 1.0  },
+    'onetime':  { label: 'One-time',        perMonth: null }
+  };
+
+  function r5(n) { return Math.round(n / 5) * 5; }
+
+  var state = {};
+
+  /* ── Progress bar (4 steps) ──────────────── */
+  var stepEls = [
+    document.getElementById('ep1'),
+    document.getElementById('ep2'),
+    document.getElementById('ep3'),
+    document.getElementById('ep4')
+  ];
+  var stateKeys = ['type', 'size', 'service', 'freq'];
+
+  function updateProgress() {
+    var filled = stateKeys.filter(function (k) { return state[k]; }).length;
+    stepEls.forEach(function (el, i) {
+      el.className = 'est-step' +
+        (i < filled          ? ' done'   : '') +
+        (i === filled && filled < 4 ? ' active' : '');
     });
-  })();
+  }
+
+  /* ── Screen switching ────────────────────── */
+  function showScreen(id) {
+    document.querySelectorAll('.est-screen').forEach(function (s) {
+      s.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+  }
+
+  /* ── Card clicks ─────────────────────────── */
+  document.querySelectorAll('.est-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var q = card.dataset.q, v = card.dataset.v;
+      document.querySelectorAll('[data-q="' + q + '"]').forEach(function (c) {
+        c.classList.remove('sel');
+      });
+      card.classList.add('sel');
+      state[q] = v;
+      updateProgress();
+
+      setTimeout(function () {
+        if      (q === 'type')    showScreen('eq2');
+        else if (q === 'size')    showScreen('eq3');
+        else if (q === 'service') showScreen('eq4');
+        else if (q === 'freq')    showResult();
+      }, 260);
+    });
+  });
+
+  /* ── Calculate and display result ────────── */
+  function showResult() {
+    var mult    = M.type[state.type] * M.size[state.size] * M.service[state.service];
+    var pvMin   = r5(BASE_MIN * mult);
+    var pvMax   = r5(BASE_MAX * mult);
+    var freq    = FREQ[state.freq];
+    var grid    = document.getElementById('estResultGrid');
+
+    /* Mark all steps done */
+    stepEls.forEach(function (el) { el.className = 'est-step done'; });
+
+    /* Build result cards */
+    if (freq.perMonth === null) {
+      /* One-time: show only per-visit */
+      grid.innerHTML =
+        '<div class="est-result-card solo">' +
+          '<div class="est-result-label">Estimated one-time visit</div>' +
+          '<div class="est-result-val">$' + pvMin + '–$' + pvMax + '</div>' +
+          '<div class="est-result-unit">rough range · actual price confirmed before scheduling</div>' +
+        '</div>';
+    } else {
+      /* Recurring: show per-visit AND monthly total separately */
+      var moMin = r5(pvMin * freq.perMonth);
+      var moMax = r5(pvMax * freq.perMonth);
+      grid.innerHTML =
+        '<div class="est-result-card">' +
+          '<div class="est-result-label">Estimated per-visit price</div>' +
+          '<div class="est-result-val">$' + pvMin + '–$' + pvMax + '</div>' +
+          '<div class="est-result-unit">per visit · ' + freq.label.toLowerCase() + ' schedule</div>' +
+        '</div>' +
+        '<div class="est-result-card">' +
+          '<div class="est-result-label">Estimated monthly total</div>' +
+          '<div class="est-result-val">$' + moMin + '–$' + moMax + '</div>' +
+          '<div class="est-result-unit">' + freq.label.toLowerCase() + ' · ' +
+            (state.freq === 'weekly' ? '~4.3' : state.freq === 'biweekly' ? '~2.2' : '1') +
+            ' visits/mo</div>' +
+        '</div>';
+    }
+
+    showScreen('eq-result');
+  }
+
+  /* ── Reset ───────────────────────────────── */
+  document.getElementById('estReset').addEventListener('click', function () {
+    stateKeys.forEach(function (k) { delete state[k]; });
+    document.querySelectorAll('.est-card').forEach(function (c) { c.classList.remove('sel'); });
+    stepEls.forEach(function (el) { el.className = 'est-step'; });
+    document.getElementById('estResultGrid').innerHTML = '';
+    showScreen('eq1');
+  });
+
+})();
 </script>
 
 </body>
