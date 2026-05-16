@@ -4,6 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Halcyon Standard — Lawn Care · Kingsport &amp; Tri-Cities, TN</title>
+
+  <!-- SEO meta -->
+  <meta name="description" content="Professional residential lawn care in Kingsport, Johnson City, Bristol, and the Tri-Cities, Tennessee. Mowing, trimming, edging, cleanup, and seasonal property care. Text photos to 423-390-9954 for a same-day quote.">
+  <meta name="keywords" content="lawn care kingsport tn, lawn maintenance tri-cities, lawn service johnson city, mowing kingsport, residential lawn care tennessee">
+  <meta name="author" content="Halcyon Standard">
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:title" content="Halcyon Standard — Lawn care that feels handled.">
+  <meta property="og:description" content="Residential lawn care for Kingsport and the Tri-Cities. Same-day quotes by text.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://halcyonstandard.com">
+
+  <!-- Google Search Console verification (PASTE_TAG_AFTER_GSC_SETUP) -->
+  <!-- <meta name="google-site-verification" content="REPLACE_WITH_GSC_TAG" /> -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -365,6 +380,34 @@
       .est-result-grid { grid-template-columns: 1fr; }
     }
 
+    /* ── LEAD FORM ──────────────────────────── */
+    .lead-form { max-width: 580px; display: grid; gap: 14px; }
+    .lead-form input, .lead-form textarea {
+      padding: 14px 16px;
+      background: var(--surface); border: 1px solid var(--edge);
+      border-radius: var(--r); color: var(--body);
+      font-family: var(--sans); font-size: 15px;
+      transition: border-color .2s, background .2s;
+    }
+    .lead-form input:focus, .lead-form textarea:focus {
+      outline: none; border-color: var(--gold-d); background: var(--panel);
+    }
+    .lead-form input::placeholder, .lead-form textarea::placeholder { color: var(--mid); }
+    .lead-form textarea { resize: vertical; min-height: 100px; }
+    .lead-form button {
+      justify-content: center; cursor: pointer; border: none;
+    }
+    .lead-form .form-fallback {
+      margin-top: 8px; font-size: 13px; color: var(--dim);
+    }
+    .lead-form .form-fallback a { color: var(--gold); text-decoration: none; }
+    .lead-form .form-fallback a:hover { color: var(--gold-l); }
+    .lead-form-success {
+      padding: 24px; background: var(--surface);
+      border: 1px solid var(--success); border-radius: var(--r);
+      color: var(--bright);
+    }
+
     /* ── FINAL CTA ──────────────────────────── */
     .final-cta {
       padding: 80px 0; text-align: center;
@@ -432,121 +475,6 @@
     @media (max-width: 640px) { #float-call-mob { display: flex; } }
     @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
   </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LawnCareService",
-  "name": "Halcyon Standard",
-  "image": "https://seanpr1.github.io/halcyon/og-image.png",
-  "@id": "https://seanpr1.github.io/halcyon/",
-  "url": "https://seanpr1.github.io/halcyon/",
-  "telephone": "+14233909954",
-  "priceRange": "$49-$200",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Kingsport",
-    "addressRegion": "TN",
-    "postalCode": "37664",
-    "addressCountry": "US"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 36.5484,
-    "longitude": -82.5618
-  },
-  "areaServed": [
-    {"@type": "City", "name": "Kingsport"},
-    {"@type": "City", "name": "Johnson City"},
-    {"@type": "City", "name": "Bristol"},
-    {"@type": "City", "name": "Blountville"},
-    {"@type": "City", "name": "Piney Flats"},
-    {"@type": "City", "name": "Mount Carmel"},
-    {"@type": "City", "name": "Colonial Heights"}
-  ],
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-      "opens": "08:00",
-      "closes": "20:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": "Saturday",
-      "opens": "07:00",
-      "closes": "18:00"
-    }
-  ],
-  "description": "Halcyon Standard delivers reliable, owner-operated residential lawn care across Kingsport, Johnson City, Bristol, and the surrounding Tri-Cities. Mowing, trimming, edging, cleanup, brush control, and seasonal property care.",
-  "slogan": "Lawn care that feels handled.",
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Lawn Care Services",
-    "itemListElement": [
-      {
-        "@type": "Offer",
-        "itemOffered": {"@type": "Service", "name": "Residential Lawn Mowing"},
-        "price": "49",
-        "priceCurrency": "USD"
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {"@type": "Service", "name": "Full Lawn Service"},
-        "price": "75-125",
-        "priceCurrency": "USD"
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {"@type": "Service", "name": "Brush and Overgrowth Control"}
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {"@type": "Service", "name": "Seasonal Cleanup"}
-      }
-    ]
-  }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What areas does Halcyon Standard serve?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We serve Kingsport, Johnson City, Bristol, and surrounding Tri-Cities communities including Blountville, Piney Flats, Mount Carmel, and Colonial Heights."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I get a lawn care quote in Kingsport?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Text photos of your yard to 423-390-9954. Halcyon Standard sends a clear, flat price — usually the same day — before any work is scheduled."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does residential lawn care cost in Kingsport?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Basic lawn visits start at $49. Full service (mowing, trimming, edging, cleanup) runs $75 to $125 or more depending on property size and condition."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is Halcyon Standard licensed and insured?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Halcyon Standard is Sullivan County licensed and carries general liability insurance through Thimble."
-      }
-    }
-  ]
-}
-</script>
 </head>
 <body>
 
@@ -559,7 +487,8 @@
     <a href="#services"    class="nav-link">Services</a>
     <a href="#pricing"     class="nav-link">Pricing</a>
     <a href="#how"         class="nav-link">How It Works</a>
-    <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
+    <a href="#request-quote" class="nav-link">Request a Quote</a>
+    <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta" data-cta="nav-sms">Text for a Quote</a>
   </div>
 </nav>
 
@@ -578,13 +507,13 @@
     </p>
 
     <div class="hero-ctas">
-      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" data-cta="hero-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
         Text Photos for a Quote
       </a>
-      <a href="tel:4233909954" class="btn-call">
+      <a href="tel:4233909954" class="btn-call" data-cta="hero-call">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
         </svg>
@@ -962,7 +891,7 @@
             <p class="est-result-note">
               This is a rough planning range — not a quote. Text us a few photos and we'll send you a real price, usually the same day.
             </p>
-            <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20real%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
+            <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20real%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;" data-cta="estimator-sms">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
               </svg>
@@ -980,6 +909,56 @@
 <div class="rule"></div>
 
 <!-- ════════════════════════════════════════════
+     7.5 — REQUEST A QUOTE FORM (Formspree-wired)
+════════════════════════════════════════════ -->
+<section class="section" id="request-quote">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">Request a quote</div>
+      <h2>Prefer to write it out? Send it here.</h2>
+      <p class="section-sub">Texting is fastest, but if you'd rather send the details through and have us follow up, this works too. We'll reply within one business day.</p>
+    </div>
+
+    <form id="leadForm" class="lead-form"
+          action="https://formspree.io/f/mdajnnjw"
+          method="POST">
+
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="tel" name="phone" placeholder="Phone (optional)">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="address" placeholder="Property address (street, city)" required>
+      <textarea name="details" placeholder="What service are you looking for? (optional)"></textarea>
+
+      <!-- Auto-filled tracking fields -->
+      <input type="hidden" name="utm_source"   id="utm_source_field">
+      <input type="hidden" name="utm_medium"   id="utm_medium_field">
+      <input type="hidden" name="utm_campaign" id="utm_campaign_field">
+      <input type="hidden" name="referrer"     id="referrer_field">
+      <input type="hidden" name="landing_page" id="landing_page_field">
+      <input type="hidden" name="submitted_at" id="submitted_at_field">
+
+      <!-- Honeypot spam trap (bots fill this; humans don't see it) -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+      <!-- Custom subject for the email Sean receives -->
+      <input type="hidden" name="_subject" value="Halcyon: New quote request from website">
+
+      <button type="submit" class="btn-sms" data-cta="form-submit">
+        Send Request
+      </button>
+
+      <p class="form-fallback">
+        Or text photos directly to
+        <a href="sms:+14233909954" data-cta="form-fallback-sms">423-390-9954</a>
+        for the fastest reply.
+      </p>
+    </form>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
      8. FINAL CTA
 ════════════════════════════════════════════ -->
 <section class="section final-cta">
@@ -990,13 +969,13 @@
       Text a few photos of your property to Halcyon and get a clear quote before scheduling.
     </p>
     <div class="final-btns">
-      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" data-cta="final-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
         Text 423-390-9954
       </a>
-      <a href="tel:4233909954" class="btn-call">
+      <a href="tel:4233909954" class="btn-call" data-cta="final-call">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
         </svg>
@@ -1030,13 +1009,13 @@
 </footer>
 
 <!-- ── Floating buttons ───────────────────────── -->
-<a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote">
+<a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote" data-cta="float-sms">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>
   Text for a Quote
 </a>
-<a href="tel:4233909954" id="float-call-mob" aria-label="Call Halcyon">
+<a href="tel:4233909954" id="float-call-mob" aria-label="Call Halcyon" data-cta="float-call">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
   </svg>
@@ -1044,10 +1023,30 @@
 </a>
 
 <!-- ════════════════════════════════════════════
-     JAVASCRIPT
+     JAVASCRIPT — original estimator + new tracking
 ════════════════════════════════════════════ -->
 <script>
 (function () {
+
+  /* ── UTM / Referrer tracking (auto-fills form) ─────────────── */
+  var params = new URLSearchParams(window.location.search);
+  var setField = function (id, val) {
+    var f = document.getElementById(id);
+    if (f) f.value = val || '';
+  };
+  setField('utm_source_field',   params.get('utm_source'));
+  setField('utm_medium_field',   params.get('utm_medium'));
+  setField('utm_campaign_field', params.get('utm_campaign'));
+  setField('referrer_field',     document.referrer);
+  setField('landing_page_field', window.location.pathname + window.location.search);
+
+  /* Populate submitted_at right before send */
+  var leadForm = document.getElementById('leadForm');
+  if (leadForm) {
+    leadForm.addEventListener('submit', function () {
+      setField('submitted_at_field', new Date().toISOString());
+    });
+  }
 
   /* ── Accordion toggle ────────────────────── */
   var toggle = document.getElementById('estToggle');
@@ -1139,7 +1138,6 @@
 
     /* Build result cards */
     if (freq.perMonth === null) {
-      /* One-time: show only per-visit */
       grid.innerHTML =
         '<div class="est-result-card solo">' +
           '<div class="est-result-label">Estimated one-time visit</div>' +
@@ -1147,7 +1145,6 @@
           '<div class="est-result-unit">rough range · actual price confirmed before scheduling</div>' +
         '</div>';
     } else {
-      /* Recurring: show per-visit AND monthly total separately */
       var moMin = r5(pvMin * freq.perMonth);
       var moMax = r5(pvMax * freq.perMonth);
       grid.innerHTML =
@@ -1165,6 +1162,19 @@
         '</div>';
     }
 
+    /* Save estimator completion to localStorage so the form can pick it up */
+    try {
+      localStorage.setItem('halcyon_estimator_state', JSON.stringify({
+        property_type:  state.type,
+        property_size:  state.size,
+        service_type:   state.service,
+        frequency:      state.freq,
+        estimated_min:  pvMin,
+        estimated_max:  pvMax,
+        completed_at:   new Date().toISOString()
+      }));
+    } catch (e) { /* localStorage blocked — fail silently */ }
+
     showScreen('eq-result');
   }
 
@@ -1177,8 +1187,33 @@
     showScreen('eq1');
   });
 
+  /* ── Pass estimator state into form submission ─────────── */
+  if (leadForm) {
+    leadForm.addEventListener('submit', function () {
+      try {
+        var est = localStorage.getItem('halcyon_estimator_state');
+        if (est) {
+          /* Inject estimator data as a hidden field at form submit time */
+          var f = document.createElement('input');
+          f.type  = 'hidden';
+          f.name  = 'estimator_state';
+          f.value = est;
+          leadForm.appendChild(f);
+        }
+      } catch (e) { /* ignore */ }
+    });
+  }
+
 })();
 </script>
+
+<!-- ════════════════════════════════════════════
+     Cloudflare Web Analytics
+     Paste the data-cf-beacon token from Cloudflare dashboard.
+     This loads asynchronously and tracks visits without cookies.
+════════════════════════════════════════════ -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "REPLACE_WITH_CLOUDFLARE_TOKEN"}'></script>
 
 </body>
 </html>
