@@ -1,4 +1,4 @@
-# CLAUDE.md — Halcyon Standard | Root Router File
+# CLAUDE.md — Magnolia Gardens Landscaping | Root Router File
 > **ICM Layer 1 — The Global Map**
 > Read this file first at the start of every session. Do not open workspace folders until a task is assigned and routed below.
 > Last updated: 2026-05-16
@@ -12,7 +12,7 @@
 **Communication style:** Direct, no fluff. [REDACTED]. Numbered steps. One priority at a time. Front-load decisions.
 
 **Business:**
-- **Halcyon Standard** — Residential lawn care & property stewardship. EIN: [EIN-REDACTED]. Sole proprietor, Sullivan County TN. Phone: 423-390-9954 | halcyonstandard.com. Phase 1: mowing/maintenance. Phase 2: Property Condition Index (PCI) platform.
+- **Magnolia Gardens Landscaping** — Residential lawn care & property stewardship. EIN: [EIN-REDACTED]. Sole proprietor, Sullivan County TN. Phone: 423-390-9954 | magnoliagardenslandscaping.com. Phase 1: mowing/maintenance. Phase 2: Property Condition Index (PCI) platform.
 
 **Current reality check:**
 - Active paying clients: Brianna (mowing, biweekly, $80). sample-prospect (warm prospect).
