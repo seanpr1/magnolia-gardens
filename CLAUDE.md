@@ -1,7 +1,7 @@
 # CLAUDE.md — Magnolia Gardens Landscaping | Root Router File
 > **ICM Layer 1 — The Global Map**
 > Read this file first at the start of every session. Do not open workspace folders until a task is assigned and routed below.
-> Last updated: 2026-05-16
+> Last updated: 2026-05-19
 
 ---
 
@@ -12,14 +12,19 @@
 **Communication style:** Direct, no fluff. [REDACTED]. Numbered steps. One priority at a time. Front-load decisions.
 
 **Business:**
-- **Magnolia Gardens Landscaping** — Residential lawn care & property stewardship. EIN: [EIN-REDACTED]. Sole proprietor, Sullivan County TN. Phone: 423-390-9954 | magnoliagardenslandscaping.com. Phase 1: mowing/maintenance. Phase 2: Property Condition Index (PCI) platform.
+- **Magnolia Gardens Landscaping, LLC** — Residential lawn care & property stewardship. EIN: [EIN-REDACTED]. Single-member LLC, filed with TN SOS 2026-05-19 (Tracking [REDACTED], Control [REDACTED]). Sullivan County business license obtained under the LLC. Phone: 423-390-9954 | magnoliagardenslandscaping.com (live, HTTPS enforced). Phase 1: mowing/maintenance. Phase 2: Property Condition Index (PCI) platform.
+
+**Brand history (for context only — never reintroduce in customer-facing material):**
+- Cleanstep Solutions (sole prop, EIN [EIN-REDACTED]) — April 2026. Retired.
+- Halcyon Standard (DBA) — April 2026. Retired 2026-05-19.
+- Magnolia Gardens Landscaping, LLC — 2026-05-19 onward.
 
 **Current reality check:**
-- Active paying clients: Brianna (mowing, biweekly, $80). sample-prospect (warm prospect).
-- Sample Customer C: no financial commitment — yard sign opportunity only, not a client.
-- Insurance: Active GL via Thimble (confirmed 5/13/26)
-- GitHub Pages: seanpr1.github.io/halcyon (3 live files: index.html, operator.html, _estimator-wizard.html)
-- Full-time job at [REDACTED] — limited daily bandwidth
+- Active paying clients: Sample Customer A (biweekly, client property in Kingsport). Brianna (engagement status under reconciliation; mulch add-on under discussion).
+- Sample Customer C: former Cleanstep client; did not transfer to Magnolia Gardens.
+- Insurance: Active GL via Thimble (named insured update from sole prop to LLC pending).
+- GitHub Pages: serving at magnoliagardenslandscaping.com from `seanpr1/halcyon` repo (repo name retained from prior brand; custom domain hides it).
+- Full-time job at [REDACTED] — limited daily bandwidth.
 
 ---
 
@@ -28,7 +33,7 @@
 ```
 halcyon/
 ├── CLAUDE.md                ← YOU ARE HERE — read first, always
-├── HALCYON.md               ← Operating constitution (Phase 1 reality + Phase 2 vision)
+├── HALCYON.md               ← (legacy name; renamed to MAGNOLIA.md in ops repo 2026-05-19) Operating constitution (Phase 1 reality + Phase 2 vision)
 ├── clients/
 │   ├── context.md           ← Client system rules and template
 │   ├── _template.md
