@@ -47,6 +47,13 @@
     "telephone": "+1-423-390-9954",
     "email": "seanpr1@gmail.com",
     "priceRange": "$$",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 36.5484,
+      "longitude": -82.5618
+    },
+    "logo": "https://magnoliagardenslandscaping.com/assets/logo-forest.svg",
+    "image": "https://magnoliagardenslandscaping.com/og-image.png",
     "founder": {
       "@type": "Person",
       "name": "Sean Price"
@@ -125,7 +132,7 @@
       --surface:  #FAF6EA;  /* cream-100 · card background */
       --panel:    #EDE5D2;  /* cream-300 · hover / selected fill */
       --edge:     #D6CFC0;  /* stone-300 · hairline border */
-      --muted:    #8A8678;  /* charcoal-300 · muted metadata */
+      --muted:    #5C574E;  /* charcoal-500 · muted metadata (darkened for WCAG AA on cream) */
       --mid:      #5C574E;  /* charcoal-500 */
       --dim:      #5C574E;  /* charcoal-500 · secondary body, captions */
       --label:    #5C574E;  /* charcoal-500 */
@@ -143,6 +150,18 @@
       --serif:    'Cormorant Garamond', 'Hoefler Text', Garamond, serif;
       --sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
+
+    /* ── Keyboard focus ─────────────────────── */
+    :focus { outline: none; }
+    :focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    .nav-link:focus-visible,
+    .est-card:focus-visible,
+    .est-toggle:focus-visible,
+    .est-reset:focus-visible { outline-offset: 3px; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -526,7 +545,13 @@
       font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
       color: var(--muted); line-height: 1.8;
     }
-    .footer-detail a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-detail a {
+      display: inline-block;
+      padding: 6px 0;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
     .footer-detail a:hover { color: var(--gold); }
 
     /* ── FLOATING BUTTONS ───────────────────── */
