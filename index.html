@@ -7,8 +7,9 @@
 
   <!-- ── SEO / description ─────────────────────────────────────── -->
   <meta name="description" content="Lawn care in Kingsport and the Tri-Cities, TN. Mowing, trimming, edging, cleanup, and seasonal property care. Owner-operated, Sullivan County licensed. Text 423-390-9954 for a quote." />
-  <meta name="theme-color" content="#07090c" />
+  <meta name="theme-color" content="#1F3D2E" />
   <link rel="canonical" href="https://magnoliagardenslandscaping.com/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYWdub2xpYSBHYXJkZW5zIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIGZpbGw9IiMxRjNEMkUiPjwvcmVjdD4KICA8ZyBzdHJva2U9IiNGQUY2RUEiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgCiAgICA8cGF0aCBkPSJNIDE2IDUgQyA4IDEwLjUsIDguNyAyMS41LCAxNiAyNyBDIDIzLjMgMjEuNSwgMjQgMTAuNSwgMTYgNSBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNIDE2IDcuNSBDIDE0LjMgMTMsIDE0LjUgMjIsIDE2IDI1LjUiPjwvcGF0aD4KICA8L2c+Cjwvc3ZnPg==" />
 
   <!-- ── Open Graph (Facebook, iMessage, LinkedIn, Slack, most chat apps) -->
   <meta property="og:type" content="website" />
@@ -110,32 +111,37 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --void:     #07090c;
-      --deep:     #0d1017;
-      --surface:  #121820;
-      --panel:    #18212e;
-      --edge:     #1e2d3f;
-      --muted:    #374d66;
-      --mid:      #567090;
-      --dim:      #88a0b8;
-      --label:    #aec0d0;
-      --body:     #ccd8e2;
-      --bright:   #e6eff5;
-      --gold:     #c8a96e;
-      --gold-l:   #dfc088;
-      --gold-d:   #8a6e3e;
-      --gold-glow: rgba(200,169,110,0.14);
-      --gold-bg:  rgba(200,169,110,0.07);
-      --success:  #3a8c6a;
+      /* Magnolia Gardens palette — cream paper, forest ink, blush accent.
+         Variable names retained from the prior dark theme for selector stability;
+         values remapped per the design system (moss-700 primary, cream-200 page,
+         charcoal text, magnolia-700 for the eyebrow hairline accent). */
+      --void:     #F5EFE0;  /* cream-200 · page background · text on primary CTA */
+      --deep:     #FAF6EA;  /* cream-100 · lifted paper for nested surfaces */
+      --surface:  #FAF6EA;  /* cream-100 · card background */
+      --panel:    #EDE5D2;  /* cream-300 · hover / selected fill */
+      --edge:     #D6CFC0;  /* stone-300 · hairline border */
+      --muted:    #8A8678;  /* charcoal-300 · muted metadata */
+      --mid:      #5C574E;  /* charcoal-500 */
+      --dim:      #5C574E;  /* charcoal-500 · secondary body, captions */
+      --label:    #5C574E;  /* charcoal-500 */
+      --body:     #2A2823;  /* charcoal-700 · primary body */
+      --bright:   #1F1D18;  /* charcoal-900 · headings */
+      --gold:     #1F3D2E;  /* moss-700 · primary surface (was gold accent) */
+      --gold-l:   #16291F;  /* moss-800 · primary hover (darker on cream) */
+      --gold-d:   #3F6B55;  /* moss-500 · secondary moss · icons, ghost borders */
+      --gold-glow: rgba(31, 61, 46, 0.18);
+      --gold-bg:  rgba(31, 61, 46, 0.05);
+      --accent:   #C99587;  /* magnolia-700 · used sparingly: eyebrow hairlines */
+      --success:  #3F6B55;
       --r:        2px;
-      --mono:     'DM Mono', monospace;
-      --serif:    'Cormorant Garamond', Georgia, serif;
-      --sans:     'DM Sans', system-ui, sans-serif;
+      --mono:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --serif:    'Cormorant Garamond', 'Hoefler Text', Garamond, serif;
+      --sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -151,8 +157,8 @@
       content: '';
       position: fixed; inset: 0; pointer-events: none; z-index: 0;
       background-image:
-        linear-gradient(rgba(200,169,110,.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200,169,110,.018) 1px, transparent 1px);
+        linear-gradient(rgba(31,61,46,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31,61,46,.018) 1px, transparent 1px);
       background-size: 64px 64px;
     }
 
@@ -163,31 +169,32 @@
     .rule { height: 1px; background: var(--edge); position: relative; z-index: 1; }
 
     /* ── Type ───────────────────────────────── */
-    h1, h2, h3 { font-family: var(--serif); font-weight: 300; line-height: 1.15; color: var(--bright); }
-    h1 { font-size: clamp(36px, 5.5vw, 62px); }
-    h2 { font-size: clamp(26px, 3.8vw, 40px); }
-    h3 { font-size: 20px; font-weight: 400; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.1; letter-spacing: -.005em; color: var(--bright); }
+    h1 { font-size: clamp(38px, 5.8vw, 66px); letter-spacing: -.01em; line-height: 1.04; }
+    h2 { font-size: clamp(28px, 3.9vw, 42px); }
+    h3 { font-size: 22px; font-weight: 500; }
+    h1 em, h2 em, h3 em { font-style: italic; font-weight: 400; color: var(--gold); }
 
     .eyebrow {
       font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
       text-transform: uppercase; color: var(--gold);
       display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
     }
-    .eyebrow::before { content: ''; display: block; width: 18px; height: 1px; background: var(--gold-d); }
+    .eyebrow::before { content: ''; display: block; width: 18px; height: 1px; background: var(--accent); }
 
     /* ── Buttons ────────────────────────────── */
     .btn-sms {
       display: inline-flex; align-items: center; gap: 9px;
       padding: 14px 28px;
       background: var(--gold); color: var(--void);
-      border: none; border-radius: var(--r);
+      border: 1px solid var(--gold); border-radius: var(--r);
       font-family: var(--mono); font-size: 11px; font-weight: 500;
       letter-spacing: .15em; text-transform: uppercase;
       text-decoration: none; cursor: pointer;
-      transition: background .2s, transform .18s, box-shadow .18s;
-      box-shadow: 0 4px 20px rgba(200,169,110,.28);
+      transition: background .2s, border-color .2s, transform .18s, box-shadow .18s;
+      box-shadow: 0 1px 2px rgba(31,29,24,.04), 0 8px 24px -12px rgba(31,29,24,.16);
     }
-    .btn-sms:hover { background: var(--gold-l); transform: translateY(-2px); box-shadow: 0 7px 26px rgba(200,169,110,.36); }
+    .btn-sms:hover { background: var(--gold-l); border-color: var(--gold-l); transform: translateY(-1px); box-shadow: 0 2px 4px rgba(31,29,24,.06), 0 14px 36px -18px rgba(31,29,24,.22); }
 
     .btn-call {
       display: inline-flex; align-items: center; gap: 9px;
@@ -205,15 +212,18 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 36px; height: 60px;
-      background: rgba(7,9,12,.94);
+      padding: 0 36px; height: 64px;
+      background: rgba(245,239,224,.92);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--edge);
     }
     .nav-logo {
-      font-family: var(--serif); font-size: 17px; font-weight: 500;
-      letter-spacing: .1em; color: var(--gold);
-      text-transform: uppercase; text-decoration: none; flex-shrink: 0;
+      display: inline-flex; align-items: center;
+      height: 34px; flex-shrink: 0;
+      color: var(--gold); text-decoration: none;
+    }
+    .nav-logo svg {
+      height: 34px; width: auto; display: block;
     }
     .nav-links {
       display: flex; align-items: center; gap: 28px;
@@ -234,11 +244,11 @@
     .nav-cta:hover { background: var(--gold-l); }
 
     @media (max-width: 720px) {
-      nav { padding: 0 20px; }
+      nav { padding: 0 20px; height: 58px; }
       .nav-links { display: none; }
     }
     @media (max-width: 480px) {
-      .nav-logo { font-size: 14px; }
+      .nav-logo, .nav-logo svg { height: 26px; }
     }
 
     /* ── HERO ───────────────────────────────── */
@@ -246,18 +256,25 @@
       min-height: 100svh;
       display: flex; align-items: center;
       padding: 100px 0 72px;
+      isolation: isolate;
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTYwMCAxMDAwIiB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CiAgPGRlZnM+CiAgICA8cGF0dGVybiBpZD0iYmxvb21zIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDgpIj4KICAgICAgPGcgY29sb3I9IiMxRjNEMkUiIHN0cm9rZT0iIzFGM0QyRSIgc3Ryb2tlLXdpZHRoPSIwLjciIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgb3BhY2l0eT0iMC4wODUiPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwMCwgMjAwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLjQpIj48ZyB0cmFuc2Zvcm09InJvdGF0ZSgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSg2MCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTIwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgxODApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDI0MCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMzAwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48Y2lyY2xlIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciIgc3Ryb2tlPSJub25lIj48L2NpcmNsZT48L2c+PC9nPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYyMCwgNDYwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLjA1KSI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoNjApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDEyMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgyNDApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDMwMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGNpcmNsZSByPSIzIiBmaWxsPSJjdXJyZW50Q29sb3IiIHN0cm9rZT0ibm9uZSI+PC9jaXJjbGU+PC9nPjwvZz4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzODAsIDU0MCkiPjxnIHRyYW5zZm9ybT0ic2NhbGUoMC43KSI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoNjApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDEyMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgyNDApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDMwMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGNpcmNsZSByPSIzIiBmaWxsPSJjdXJyZW50Q29sb3IiIHN0cm9rZT0ibm9uZSI+PC9jaXJjbGU+PC9nPjwvZz4KICAgICAgPC9nPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRjVFRkUwIj48L3JlY3Q+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNibG9vbXMpIj48L3JlY3Q+Cjwvc3ZnPg==');
+      background-size: 1100px auto;
+      background-repeat: repeat;
+      background-position: center;
     }
     .hero::before {
       content: '';
       position: absolute; inset: 0; pointer-events: none; z-index: 0;
-      background: radial-gradient(ellipse 80% 55% at 50% -5%, rgba(200,169,110,.08) 0%, transparent 68%);
+      background:
+        radial-gradient(ellipse 70% 50% at 50% -8%, rgba(232,210,200,.35) 0%, transparent 65%),
+        linear-gradient(to bottom, rgba(245,239,224,0) 70%, var(--void) 100%);
     }
     .hero-eyebrow {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+      font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .22em;
       text-transform: uppercase; color: var(--gold-d);
-      display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
     }
-    .hero-eyebrow::before { content: ''; display: block; width: 22px; height: 1px; background: var(--gold-d); }
+    .hero-eyebrow::before { content: ''; display: block; width: 22px; height: 1px; background: var(--accent); }
     .hero-h1 { margin-bottom: 20px; max-width: 680px; }
     .hero-sub {
       font-size: 17px; color: var(--dim); line-height: 1.78;
@@ -268,7 +285,7 @@
       font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
       color: var(--muted); line-height: 1.8;
     }
-    .hero-trust span { color: var(--gold-d); margin: 0 6px; }
+    .hero-trust span { color: var(--accent); margin: 0 6px; }
 
     @media (max-width: 580px) {
       .hero-ctas { flex-direction: column; align-items: stretch; }
@@ -476,7 +493,7 @@
     .final-cta::before {
       content: '';
       position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(200,169,110,.06) 0%, transparent 70%);
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(232,210,200,.22) 0%, transparent 70%);
     }
     .final-h2 { margin-bottom: 14px; }
     .final-sub {
@@ -499,8 +516,11 @@
       flex-wrap: wrap; gap: 16px;
     }
     .footer-brand {
-      font-family: var(--serif); font-size: 15px; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px;
+      display: block; margin-bottom: 10px;
+      color: var(--gold);
+    }
+    .footer-brand svg {
+      display: block; height: 30px; width: auto;
     }
     .footer-detail {
       font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
@@ -514,14 +534,14 @@
       position: fixed; bottom: 26px; right: 26px; z-index: 9000;
       display: flex; align-items: center; gap: 8px; padding: 12px 18px;
       background: var(--gold); color: var(--void);
-      border: none; border-radius: var(--r);
+      border: 1px solid var(--gold); border-radius: var(--r);
       font-family: var(--mono); font-size: 10px; font-weight: 500;
       letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
-      box-shadow: 0 4px 22px rgba(0,0,0,.5), 0 0 0 1px rgba(200,169,110,.3);
-      transition: background .2s, transform .18s;
+      box-shadow: 0 2px 6px rgba(31,29,24,.08), 0 16px 36px -16px rgba(31,29,24,.28);
+      transition: background .2s, border-color .2s, transform .18s, box-shadow .2s;
       animation: floatin .5s 1.2s both;
     }
-    #float-sms:hover { background: var(--gold-l); transform: translateY(-2px); }
+    #float-sms:hover { background: var(--gold-l); border-color: var(--gold-l); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(31,29,24,.10), 0 22px 44px -18px rgba(31,29,24,.32); }
     #float-call-mob {
       display: none;
       position: fixed; bottom: 78px; right: 26px; z-index: 9000;
@@ -530,7 +550,7 @@
       border: 1px solid var(--gold-d); border-radius: var(--r);
       font-family: var(--mono); font-size: 10px; font-weight: 500;
       letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
-      box-shadow: 0 4px 14px rgba(0,0,0,.4);
+      box-shadow: 0 2px 4px rgba(31,29,24,.06), 0 10px 24px -10px rgba(31,29,24,.18);
       animation: floatin .5s 1.4s both;
     }
     @media (max-width: 640px) { #float-call-mob { display: flex; } }
@@ -543,7 +563,9 @@
      1. NAV
 ════════════════════════════════════════════ -->
 <nav>
-  <a href="#" class="nav-logo">Magnolia Gardens Landscaping</a>
+  <a href="#" class="nav-logo" aria-label="Magnolia Gardens Landscaping — home">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" role="img" aria-label="Magnolia Gardens Landscaping"><title>Magnolia Gardens Landscaping</title><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(20, 0)"><path d="M 70 18 C 22 56, 34 138, 70 180 C 106 138, 118 56, 70 18 Z"/><path d="M 70 30 C 60 80, 62 138, 70 168"/></g><g font-family="'Cormorant Garamond', 'Hoefler Text', Garamond, serif" font-weight="500" font-size="56" letter-spacing="3.4" fill="currentColor"><text x="170" y="100">MAGNOLIA GARDENS</text></g><line x1="170" y1="116" x2="790" y2="116" stroke="currentColor" stroke-width="0.6" opacity="0.55"/><g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="500" font-size="14" letter-spacing="5.9" fill="currentColor"><text x="172" y="138">LANDSCAPING</text></g></svg>
+  </a>
   <div class="nav-links">
     <a href="#services"    class="nav-link">Services</a>
     <a href="#pricing"     class="nav-link">Pricing</a>
@@ -1003,7 +1025,9 @@
   <div class="wrap">
     <div class="footer-row">
       <div>
-        <span class="footer-brand">Magnolia Gardens Landscaping</span>
+        <div class="footer-brand" aria-label="Magnolia Gardens Landscaping">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" role="img" aria-label="Magnolia Gardens Landscaping"><title>Magnolia Gardens Landscaping</title><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(20, 0)"><path d="M 70 18 C 22 56, 34 138, 70 180 C 106 138, 118 56, 70 18 Z"/><path d="M 70 30 C 60 80, 62 138, 70 168"/></g><g font-family="'Cormorant Garamond', 'Hoefler Text', Garamond, serif" font-weight="500" font-size="56" letter-spacing="3.4" fill="currentColor"><text x="170" y="100">MAGNOLIA GARDENS</text></g><line x1="170" y1="116" x2="790" y2="116" stroke="currentColor" stroke-width="0.6" opacity="0.55"/><g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="500" font-size="14" letter-spacing="5.9" fill="currentColor"><text x="172" y="138">LANDSCAPING</text></g></svg>
+        </div>
         <div class="footer-detail">
           <a href="tel:4233909954">423-390-9954</a><br>
           Kingsport, TN · Sullivan County licensed

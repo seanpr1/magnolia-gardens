@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" width="820" height="200" role="img" aria-label="Magnolia Gardens Landscaping">
+  <title>Magnolia Gardens Landscaping</title>
+  <defs>
+    
+  </defs>
+  <rect width="820" height="200" fill="#1F3D2E"></rect>
+  <g stroke="#FAF6EA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(20, 0)">
+    
+  <path d="M 70 18&#xA;           C 22 56, 34 138, 70 180&#xA;           C 106 138, 118 56, 70 18 Z"></path>
+  <path d="M 70 30&#xA;           C 60 80, 62 138, 70 168"></path>
+
+  </g>
+  <g font-family="&#39;Cormorant Garamond&#39;, &#39;Hoefler Text&#39;, Garamond, serif" font-weight="500" font-size="56" letter-spacing="3.4" fill="#FAF6EA">
+    <text x="170" y="100">MAGNOLIA GARDENS</text>
+  </g>
+  <line x1="170" y1="116" x2="790" y2="116" stroke="#FAF6EA" stroke-width="0.6" opacity="0.55"></line>
+  <g font-family="&#39;Inter&#39;, &#39;Helvetica Neue&#39;, Arial, sans-serif" font-weight="500" font-size="14" letter-spacing="5.9" fill="#FAF6EA">
+    <text x="172" y="138">LANDSCAPING</text>
+  </g>
+</svg>
