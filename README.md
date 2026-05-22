@@ -1,7 +1,7 @@
-# halcyon
+# magnolia-gardens
 
 Website source for **Magnolia Gardens Landscaping, LLC** — residential lawn care in Kingsport and the Tri-Cities, TN.
 
 - Live site: https://magnoliagardenslandscaping.com
-- Owner: Sean Price | 423-390-9954
-- Repo name remains `halcyon` (legacy). Do not rename — it would break the GitHub Pages URL and any local clones.
+- Owner: Sean Price (Member-Manager) | 423-390-9954
+- Repo renamed from `halcyon` → `magnolia-gardens` on 2026-05-21. GitHub auto-redirects the prior `seanpr1.github.io/halcyon/` path; the custom domain (CNAME) is unaffected.

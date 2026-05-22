@@ -1,7 +1,7 @@
 # CLAUDE.md — Magnolia Gardens Landscaping | Root Router File
 > **ICM Layer 1 — The Global Map**
 > Read this file first at the start of every session. Do not open workspace folders until a task is assigned and routed below.
-> Last updated: 2026-05-19
+> Last updated: 2026-05-21
 
 ---
 
@@ -22,8 +22,8 @@
 **Current reality check:**
 - Active paying clients: Sample Customer A (biweekly, client property in Kingsport). Brianna (engagement status under reconciliation; mulch add-on under discussion).
 - Sample Customer C: former Cleanstep client; did not transfer to Magnolia Gardens.
-- Insurance: Active GL via Thimble (named insured update from sole prop to LLC pending).
-- GitHub Pages: serving at magnoliagardenslandscaping.com from `seanpr1/halcyon` repo (repo name retained from prior brand; custom domain hides it).
+- Insurance: Active GL via Acuity, policy in the name of Magnolia Gardens Landscaping, LLC.
+- GitHub Pages: serving at magnoliagardenslandscaping.com from `seanpr1/magnolia-gardens` repo (custom domain hides the repo path).
 - Full-time job at [REDACTED] — limited daily bandwidth.
 
 ---
@@ -31,9 +31,9 @@
 ## WORKSPACE ARCHITECTURE
 
 ```
-halcyon/
+magnolia-gardens/
 ├── CLAUDE.md                ← YOU ARE HERE — read first, always
-├── HALCYON.md               ← (legacy name; renamed to MAGNOLIA.md in ops repo 2026-05-19) Operating constitution (Phase 1 reality + Phase 2 vision)
+├── MAGNOLIA.md              ← (lives in the ops repo; reference link only — site repo does not duplicate the spine) Operating constitution (Phase 1 reality + Phase 2 vision)
 ├── clients/
 │   ├── context.md           ← Client system rules and template
 │   ├── _template.md
@@ -114,7 +114,7 @@ Every task must move through these stages. Do not combine stages in one pass.
 ## ARTIFACT NAMING CONVENTIONS
 
 - **Drafts / WIP:** `[project]_[descriptor]_[version].md`
-  - Example: `halcyon_pricingmodel_v2_draft.md`
+  - Example: `magnolia_pricingmodel_v2_draft.md`
 - **Session logs / dated items:** `YYYY-MM-DD_[topic].md`
   - Example: `2026-05-16_client-quote.md`
 - **Client files:** `[firstname-lastname].md`
