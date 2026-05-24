@@ -413,6 +413,63 @@
     @media (max-width: 780px) { .how-steps { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 480px) { .how-steps { grid-template-columns: 1fr; } }
 
+    /* ── ABOUT ──────────────────────────────── */
+    .about-grid {
+      display: grid; grid-template-columns: 1.4fr 1fr;
+      gap: 48px; margin-top: 40px; align-items: start;
+    }
+    .about-body p {
+      font-size: 16px; color: var(--body); line-height: 1.78;
+      margin-bottom: 18px;
+    }
+    .about-body p:last-child { margin-bottom: 0; }
+    .about-body em {
+      font-family: var(--serif); font-style: italic; color: var(--accent);
+    }
+    .about-creds {
+      background: var(--surface); border: 1px solid var(--edge);
+      border-radius: var(--r); padding: 26px;
+    }
+    .about-creds-h {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .about-creds-h::before {
+      content: ''; display: block; width: 18px; height: 1px; background: var(--accent);
+    }
+    .about-cred {
+      padding: 10px 0; border-top: 1px solid var(--edge);
+    }
+    .about-cred:first-of-type { border-top: none; padding-top: 0; }
+    .about-cred-label {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gold-d); margin-bottom: 4px;
+    }
+    .about-cred-text { font-size: 13px; color: var(--body); line-height: 1.55; }
+    @media (max-width: 780px) {
+      .about-grid { grid-template-columns: 1fr; gap: 28px; }
+    }
+
+    /* ── FAQ ────────────────────────────────── */
+    .faq-list { max-width: 820px; margin: 40px auto 0; }
+    .faq-item {
+      border-top: 1px solid var(--edge);
+      padding: 24px 0;
+    }
+    .faq-list .faq-item:last-child { border-bottom: 1px solid var(--edge); }
+    .faq-q {
+      font-family: var(--serif); font-size: 20px; font-weight: 500;
+      color: var(--bright); margin-bottom: 10px; line-height: 1.3;
+    }
+    .faq-a {
+      font-size: 15px; color: var(--body); line-height: 1.72;
+    }
+    .faq-a p { margin-bottom: 10px; }
+    .faq-a p:last-child { margin-bottom: 0; }
+    .faq-a strong { color: var(--bright); font-weight: 500; }
+
     /* ── ESTIMATOR ──────────────────────────── */
     .est-wrap { max-width: 760px; }
 
@@ -761,6 +818,8 @@
     <a href="#services"    class="nav-link">Services</a>
     <a href="#pricing"     class="nav-link">Pricing</a>
     <a href="#how"         class="nav-link">How It Works</a>
+    <a href="#about"       class="nav-link">About</a>
+    <a href="#faq"         class="nav-link">FAQ</a>
     <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
   </div>
 </nav>
@@ -844,6 +903,48 @@
         <div class="trust-body">Text a few photos. Get a clear price before any work is scheduled. No vague estimates or surprise add-ons after the fact.</div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
+     3b. ABOUT / FOUNDER
+════════════════════════════════════════════ -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">About</div>
+      <h2>One operator. One <em>standard</em>.</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-body">
+        <p>I'm Sean Price. I started Magnolia Gardens Landscaping because the same instincts that make a corporate process run cleanly make a small lawn-care operation run cleanly &mdash; predictable schedules, clear communication, and work that holds up to a close look.</p>
+        <p>Before this, I cooked in kitchens, sold jewelry, played professional music with the Johnson City Symphony Orchestra, and spent the last ten years at [REDACTED] in quality control, risk management, and process design. Different jobs, same instinct: find where the system breaks, then fix it.</p>
+        <p>I'm still at [REDACTED] during the day. Magnolia Gardens is what I'm building on the side &mdash; deliberately &mdash; to put my time toward something I own and stand behind. That shows up in how we work: every visit gets documented, every quote is in writing, every customer hears from us by text. That's the bar. If we ever fall short of it, tell me.</p>
+      </div>
+
+      <aside class="about-creds" aria-label="Background">
+        <div class="about-creds-h">Background</div>
+        <div class="about-cred">
+          <div class="about-cred-label">Day Role</div>
+          <div class="about-cred-text">10 years at [REDACTED] &mdash; quality control, risk management, and process design across multiple divisions.</div>
+        </div>
+        <div class="about-cred">
+          <div class="about-cred-label">Local Roots</div>
+          <div class="about-cred-text">Tri-Cities, TN. Former professional musician with the Johnson City Symphony Orchestra.</div>
+        </div>
+        <div class="about-cred">
+          <div class="about-cred-label">Business</div>
+          <div class="about-cred-text">Magnolia Gardens Landscaping, LLC. Sullivan County licensed. General liability insured through Acuity.</div>
+        </div>
+        <div class="about-cred">
+          <div class="about-cred-label">Approach</div>
+          <div class="about-cred-text">Every visit documented. Every quote in writing. Every customer reached by text.</div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
@@ -1290,6 +1391,86 @@
 <div class="rule"></div>
 
 <!-- ════════════════════════════════════════════
+     7b. FAQ
+════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">Frequently asked</div>
+      <h2>The questions we get <em>before</em> the first visit.</h2>
+      <p class="section-sub">Straight answers. If yours isn't here, text us at 423-390-9954 &mdash; we'll add it.</p>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <h3 class="faq-q">What areas do you serve?</h3>
+        <div class="faq-a"><p>Primary service area is Kingsport &mdash; zip codes 37660, 37663, 37664, and 37665. We consider Johnson City, Bristol, and the broader Sullivan County area case-by-case. Geographic discipline is part of how we keep schedules predictable.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">Are you licensed and insured?</h3>
+        <div class="faq-a"><p>Yes. <strong>Magnolia Gardens Landscaping, LLC</strong> is a registered Tennessee LLC with an active Sullivan County business license. General liability insurance is in place through Acuity in the LLC's name.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">What's included in a standard mowing visit?</h3>
+        <div class="faq-a">
+          <p><strong>Basic Lawn Visit:</strong> mowing, string trimming around obstacles, and blowing clippings off all hard surfaces (driveway, walkways, patio).</p>
+          <p><strong>Full Lawn Service:</strong> everything in Basic, plus hard edges along driveway and sidewalks, bed edges, and a post-service walkthrough.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">How is pricing set?</h3>
+        <div class="faq-a">
+          <p>Standard residential mowing typically runs $49&ndash;$125 per visit depending on lot size and service level. Brush clearing, overgrowth, seasonal cleanups, and properties over an acre are quoted individually after a quick look at photos or a walk-through.</p>
+          <p>Recurring schedules earn a per-visit discount: <strong>15% off weekly</strong>, <strong>10% off biweekly</strong>. One-time visits run a 20% premium &mdash; a one-off job has the same setup and drive time as a recurring visit with no future revenue.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">What payment methods do you accept?</h3>
+        <div class="faq-a"><p>Zelle, Venmo, cash, and check. Card payment via Stripe is coming. No card surcharges &mdash; you don't pay extra for the convenience of paying.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">What happens if it rains?</h3>
+        <div class="faq-a"><p>If conditions make the work unsafe or harmful to the lawn &mdash; sustained heavy rain, lightning, or frozen ground &mdash; we reschedule. You'll get the text the moment we know, not the morning of.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">Do I have to be home?</h3>
+        <div class="faq-a"><p>No. As long as we can access the yard (gate code or unlocked, dogs sorted), we work whether you're home or not. You'll get a text with photos and a summary when the visit's done.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">What's the cancellation policy?</h3>
+        <div class="faq-a"><p>Recurring service: 14 days' written notice (a text counts). One-time visits: 24 hours.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">What if something gets damaged during a visit?</h3>
+        <div class="faq-a"><p>We photograph it immediately, text you before we leave the property, and document it on our end. Damage caused during service is covered by our general liability policy per the policy's terms.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">What do you not do?</h3>
+        <div class="faq-a"><p>We don't apply chemicals, fertilizer, or pesticides. We don't fell trees, grind stumps, repair irrigation, repair hardscape (pavers, walls, concrete), clean gutters, or remove snow. If you ask for any of those, we'll point you to someone local who does that work well.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">How do I get started?</h3>
+        <div class="faq-a"><p>Text a few photos of your yard to <strong>423-390-9954</strong>, or fill out the intake form above. We come back with a real quote &mdash; usually the same day &mdash; and schedule when you're ready.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
      8. FINAL CTA
 ════════════════════════════════════════════ -->
 <section class="section final-cta">
@@ -1329,7 +1510,8 @@
         </div>
         <div class="footer-detail">
           <a href="tel:4233909954">423-390-9954</a><br>
-          Kingsport, TN · Sullivan County licensed
+          Magnolia Gardens Landscaping, LLC<br>
+          Kingsport, TN · Sullivan County licensed · Insured
         </div>
       </div>
       <div class="footer-detail" style="text-align:right;">
