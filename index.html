@@ -626,21 +626,12 @@
     }
 
     .intake-thanks, .intake-error {
-      text-align: center; padding: 36px 24px;
+      text-align: center; padding: 28px 24px;
       background: var(--surface); border: 1px solid var(--edge);
       border-radius: var(--r);
     }
     .intake-thanks {
-      background:
-        radial-gradient(ellipse 80% 70% at 50% 0%, rgba(201,149,135,.10) 0%, transparent 70%),
-        var(--surface);
       border-color: var(--gold-d);
-    }
-    .intake-thanks-icon {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 56px; height: 56px; margin: 0 auto 18px;
-      background: var(--gold); color: var(--void);
-      border-radius: 999px;
     }
     .intake-thanks-eye {
       font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
@@ -658,7 +649,7 @@
     }
     .intake-thanks-body {
       font-size: 14px; color: var(--dim); line-height: 1.72;
-      max-width: 440px; margin: 0 auto 22px;
+      max-width: 440px; margin: 0 auto;
     }
     .intake-error {
       background:
@@ -1138,14 +1129,35 @@
                 <div class="est-card-name">Brush &amp; Overgrowth</div>
                 <div class="est-card-desc">Heavy growth, fence lines, banks</div>
               </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Seasonal Cleanup">
-                <div class="est-card-name">Seasonal Cleanup</div>
-                <div class="est-card-desc">Leaves, spring cleanup, fall prep</div>
+              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Yard Cleanup (Spring/Fall)">
+                <div class="est-card-name">Yard Cleanup (Spring/Fall)</div>
+                <div class="est-card-desc">Leaves, debris, a full seasonal reset</div>
+              </button>
+              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Mulching &amp; Pine Straw Installation">
+                <div class="est-card-name">Mulching &amp; Pine Straw</div>
+                <div class="est-card-desc">Fresh beds and refreshed coverage</div>
+              </button>
+              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Weed Control">
+                <div class="est-card-name">Weed Control</div>
+                <div class="est-card-desc">Beds, edges, and walkways kept clear</div>
+              </button>
+              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Pruning &amp; Shrub Trimming">
+                <div class="est-card-name">Pruning &amp; Shrub Trimming</div>
+                <div class="est-card-desc">Hedges, shrubs, and ornamental shaping</div>
               </button>
               <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Recurring Maintenance">
                 <div class="est-card-name">Recurring Maintenance</div>
                 <div class="est-card-desc">Weekly, biweekly, or monthly plans</div>
               </button>
+              <button type="button" class="est-card intake-multi-card intake-card-full" data-multi="services" data-v="Other" id="svcOther">
+                <div class="est-card-name">Something else</div>
+                <div class="est-card-desc">Tell us what you have in mind &mdash; we probably do it</div>
+              </button>
+            </div>
+
+            <div class="intake-field" id="svcOtherField" hidden style="margin-top:16px;">
+              <label for="if-services-other">What do you have in mind?</label>
+              <input type="text" id="if-services-other" name="services_other" placeholder="A few words is enough" autocomplete="off">
             </div>
 
             <div class="intake-sub-q">How often?</div>
@@ -1251,20 +1263,9 @@
 
         <!-- Success state (revealed by JS after a clean Formspree POST) -->
         <div class="intake-thanks" id="intakeThanks" hidden>
-          <div class="intake-thanks-icon" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6L9 17l-5-5"/>
-            </svg>
-          </div>
           <div class="intake-thanks-eye">Got it</div>
-          <h3 class="intake-thanks-h">We'll be in touch within one business day.</h3>
-          <p class="intake-thanks-body">If you'd rather not wait, text a few photos of your yard to 423-390-9954 and we'll send back a real quote — usually the same day.</p>
-          <a href="sms:+14233909954?body=Hi%2C%20I%20just%20sent%20the%20intake%20form%20and%20wanted%20to%20add%20photos." class="btn-sms" style="display:inline-flex;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            Text 423-390-9954
-          </a>
+          <h3 class="intake-thanks-h">Thanks &mdash; we&rsquo;ve got your request.</h3>
+          <p class="intake-thanks-body">We&rsquo;ll text you back shortly with your quote. No need to call.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
@@ -1468,6 +1469,19 @@
       updateProgress();
     });
   });
+
+  /* "Other" / "Something else" — reveal a text input when selected, clear it when unselected. */
+  var svcOther      = document.getElementById('svcOther');
+  var svcOtherField = document.getElementById('svcOtherField');
+  var svcOtherInput = document.getElementById('if-services-other');
+  if (svcOther && svcOtherField) {
+    svcOther.addEventListener('click', function () {
+      var on = svcOther.classList.contains('sel');
+      svcOtherField.hidden = !on;
+      if (on && svcOtherInput) setTimeout(function () { svcOtherInput.focus(); }, 60);
+      if (!on && svcOtherInput) svcOtherInput.value = '';
+    });
+  }
 
   /* Back / Continue navigation. */
   document.querySelectorAll('[data-go]').forEach(function (btn) {
