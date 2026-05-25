@@ -947,6 +947,19 @@
   <!-- Cloudflare Web Analytics — privacy-respecting, cookieless pageview tracking. -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "5168b9dfab9f4dd390f2447100a6e3db"}'></script>
+
+  <!-- Microsoft Clarity — free heatmaps, session recordings, scroll & rage-click maps.
+       ACTIVATE: sign up at clarity.microsoft.com, create a project, copy the
+       project ID, uncomment this block, and replace YOUR_PROJECT_ID below. -->
+  <!--
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "YOUR_PROJECT_ID");
+  </script>
+  -->
 </head>
 <body>
 
@@ -1770,10 +1783,10 @@
 (function () {
 
   /* ── Analytics helper ────────────────────────────────────────────
-     Calls window.plausible (Plausible Analytics) and/or pushes to
-     window.dataLayer (GA4 / GTM) if either is present. Safe no-op
-     otherwise. Never throws. Add any beacon script to <head> and
-     events start flowing automatically. */
+     Forwards events to GA4 (window.gtag, primary) and Plausible
+     (window.plausible, fallback if ever wired). Safe no-op if neither
+     is loaded. Never throws. All event and parameter names use
+     GA4-valid snake_case. */
   function track(name, props) {
     try {
       if (typeof window.gtag === 'function') window.gtag('event', name, props || {});
@@ -1781,26 +1794,42 @@
     } catch (e) {}
   }
 
-  /* ── Desktop detection ───────────────────── */
+  /* ── Helpers ─────────────────────────────── */
   var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* Page-relative CTA location for text_click / call_click events.
+     Lets GA4 slice CTA performance by where the click came from. */
+  function getCtaLocation(el) {
+    if (el.id === 'float-sms' || el.id === 'float-call-mob') return 'floating';
+    if (el.closest('nav')) return 'nav';
+    if (el.closest('.hero')) return 'hero';
+    if (el.closest('.intake-error')) return 'error_panel';
+    if (el.closest('.final-cta')) return 'final_cta';
+    if (el.closest('footer')) return 'footer';
+    return 'other';
+  }
 
   /* ── Accordion toggle ────────────────────── */
   var toggle = document.getElementById('estToggle');
   var body   = document.getElementById('estBody');
 
-  function setToggleOpen(open) {
+  function setToggleOpen(open, source) {
+    var wasOpen = toggle.classList.contains('open');
     toggle.classList.toggle('open', open);
     body.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    if (open) track('form_open');
+    // Only fire form_open on a real closed→open transition. The form is
+    // defaulted open in markup, so most page loads never fire this — when
+    // it does fire it's a meaningful "re-engagement" signal.
+    if (open && !wasOpen) track('form_open', { source: source || 'toggle' });
   }
   toggle.addEventListener('click', function () {
-    setToggleOpen(!toggle.classList.contains('open'));
+    setToggleOpen(!toggle.classList.contains('open'), 'toggle');
   });
   toggle.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      setToggleOpen(!toggle.classList.contains('open'));
+      setToggleOpen(!toggle.classList.contains('open'), 'toggle');
     }
   });
 
@@ -1816,6 +1845,40 @@
   var screens = ['eq1','eq2','eq3','eq4'];
 
   var state = { property_type: '', yard_size: '', services: [], frequency: '' };
+
+  /* Funnel — form_view fires once when the form section enters the
+     viewport. Use form_view → form_start → form_step → lead_submit to
+     compute the conversion funnel in GA4 Explorations. */
+  var formSection = document.getElementById('estimate');
+  if (formSection && 'IntersectionObserver' in window) {
+    var formViewed = false;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !formViewed) {
+          formViewed = true;
+          track('form_view');
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(formSection);
+  }
+
+  /* Funnel — form_start fires once when the visitor first interacts with
+     anything inside the form (a card, an input, or focus). The gap
+     between form_view and form_start tells you whether visitors are
+     bouncing without engaging. */
+  var formStarted = false;
+  function onFormFirstTouch() {
+    if (formStarted) return;
+    formStarted = true;
+    track('form_start');
+  }
+  if (form) {
+    form.addEventListener('click', onFormFirstTouch);
+    form.addEventListener('input', onFormFirstTouch);
+    form.addEventListener('focusin', onFormFirstTouch);
+  }
 
   function currentScreenIndex() {
     for (var i = 0; i < screens.length; i++) {
@@ -1954,6 +2017,7 @@
     for (var i = 0; i < required.length; i++) {
       var el = form.elements[required[i]];
       if (!el || !el.value.trim()) {
+        track('lead_submit_invalid', { missing: required[i] });
         showScreen('eq4');
         if (el) el.focus();
         return;
@@ -1977,11 +2041,22 @@
         form.style.display = 'none';
         thanksPanel.hidden = false;
         stepEls.forEach(function (el) { el.className = 'est-step done'; });
-        track('lead_submit');
+        // Enriched lead_submit — lets you slice conversions by quote shape
+        // in GA4 (services_count, recurring vs one-time, yard size, etc.).
+        var nEl = form.elements.notes;
+        track('lead_submit', {
+          services_count: state.services.length,
+          property_type: state.property_type || 'unset',
+          yard_size: state.yard_size || 'unset',
+          frequency: state.frequency || 'unset',
+          contact_method: (form.elements.contact_method && form.elements.contact_method.value) || 'Text',
+          has_notes: !!(nEl && nEl.value && nEl.value.trim())
+        });
       })
-      .catch(function () {
+      .catch(function (err) {
         form.style.display = 'none';
         errorPanel.hidden = false;
+        track('form_submit_error', { reason: (err && err.message) || 'unknown' });
       })
       .finally(function () {
         submitBtn.disabled = false;
@@ -2003,8 +2078,8 @@
      On desktop sms: typically does nothing, so we intercept and open
      the intake form instead. target="_blank" prevents a failed sms:
      from blanking the current tab on any device. */
-  function openForm() {
-    setToggleOpen(true);
+  function openForm(source) {
+    setToggleOpen(true, source);
     var estimateEl = document.getElementById('estimate');
     if (estimateEl) estimateEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setTimeout(function () {
@@ -2016,10 +2091,10 @@
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
     a.setAttribute('target', '_blank');
     a.addEventListener('click', function (e) {
-      track('text_click');
+      track('text_click', { location: getCtaLocation(a) });
       if (isDesktop) {
         e.preventDefault();
-        openForm();
+        openForm('sms_desktop');
       }
     });
   });
@@ -2027,18 +2102,20 @@
   /* ── tel: links: track calls ─────────────── */
   document.querySelectorAll('[href^="tel:"]').forEach(function (a) {
     a.addEventListener('click', function () {
-      track('call_click');
+      track('call_click', { location: getCtaLocation(a) });
     });
   });
 
   /* ── Hero form button and legacy form link ── */
   var heroFormBtn  = document.getElementById('heroFormBtn');
   var heroFormLink = document.getElementById('heroFormLink');
-  [heroFormBtn, heroFormLink].forEach(function (el) {
-    if (el) el.addEventListener('click', function (e) {
-      e.preventDefault();
-      openForm();
-    });
+  if (heroFormBtn) heroFormBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    openForm('hero_button');
+  });
+  if (heroFormLink) heroFormLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    openForm('hero_link');
   });
 
   /* Initial progress paint. */

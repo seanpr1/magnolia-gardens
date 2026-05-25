@@ -710,6 +710,32 @@
     @media (max-width: 640px) { #float-call-mob { display: flex; } }
     @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
   </style>
+
+  <!-- Google tag (gtag.js) — GA4 property G-V93YBHW1PJ -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V93YBHW1PJ');
+  </script>
+
+  <!-- Cloudflare Web Analytics — privacy-respecting, cookieless pageview tracking. -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "5168b9dfab9f4dd390f2447100a6e3db"}'></script>
+
+  <!-- Microsoft Clarity — free heatmaps, session recordings, scroll & rage-click maps.
+       ACTIVATE: sign up at clarity.microsoft.com, create a project, copy the
+       project ID, uncomment this block, and replace YOUR_PROJECT_ID below. -->
+  <!--
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "YOUR_PROJECT_ID");
+  </script>
+  -->
 </head>
 <body>
 
@@ -873,6 +899,51 @@
   "areaServed": { "@type": "City", "name": "Bristol, Tennessee" },
   "parentOrganization": { "@id": "https://magnoliagardenslandscaping.com/#business" }
 }
+</script>
+
+<!-- ════════════════════════════════════════════
+     ANALYTICS — CTA click tracking
+════════════════════════════════════════════ -->
+<script>
+(function () {
+  function track(name, props) {
+    try {
+      if (typeof window.gtag === 'function') window.gtag('event', name, props || {});
+      if (typeof window.plausible === 'function') window.plausible(name, { props: props || {} });
+    } catch (e) {}
+  }
+
+  var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  function getCtaLocation(el) {
+    if (el.id === 'float-sms' || el.id === 'float-call-mob') return 'floating';
+    if (el.closest('nav')) return 'nav';
+    if (el.closest('.hero')) return 'hero';
+    if (el.closest('.final-cta')) return 'final_cta';
+    if (el.closest('footer')) return 'footer';
+    return 'other';
+  }
+
+  /* SMS links: track + (desktop) route to the home page intake form so
+     desktop visitors never hit a dead end. Touch devices fire native sms:. */
+  document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
+    a.setAttribute('target', '_blank');
+    a.addEventListener('click', function (e) {
+      track('text_click', { location: getCtaLocation(a) });
+      if (isDesktop) {
+        e.preventDefault();
+        window.location.href = '/#estimate';
+      }
+    });
+  });
+
+  /* tel: links: track calls. */
+  document.querySelectorAll('[href^="tel:"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      track('call_click', { location: getCtaLocation(a) });
+    });
+  });
+})();
 </script>
 
 </body>
