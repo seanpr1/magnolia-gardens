@@ -1330,13 +1330,13 @@
     <div class="section-hd">
       <div class="eyebrow">Get a quote</div>
       <h2>Fill this in once. We come back with <em>a real quote</em>.</h2>
-      <p class="section-sub">Four questions and we have everything we need to quote your property accurately. No back-and-forth, no follow-up calls.</p>
+      <p class="section-sub">Tell us what you need and how to reach you. We come back with a quote — usually the same day.</p>
     </div>
 
     <div class="est-wrap">
       <div class="est-toggle open" id="estToggle" role="button" aria-expanded="true" tabindex="0">
         <div>
-          <div class="est-toggle-label">4 quick questions · about 60 seconds</div>
+          <div class="est-toggle-label">About 60 seconds</div>
           <div class="est-toggle-title">Request a quote</div>
         </div>
         <svg class="est-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1348,216 +1348,160 @@
 
         <form id="intakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
 
-          <div class="est-progress">
-            <div class="est-step active" id="ep1"></div>
-            <div class="est-step" id="ep2"></div>
-            <div class="est-step" id="ep3"></div>
-            <div class="est-step" id="ep4"></div>
+          <!-- Services -->
+          <div class="intake-sub-q" style="margin-top:0;">What do you need?</div>
+          <p class="est-q-sub">Pick anything that applies.</p>
+          <div class="est-grid">
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Mowing">
+              <div class="est-card-name">Mowing</div>
+              <div class="est-card-desc">Regular cuts on a reliable schedule</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Trimming &amp; Edging">
+              <div class="est-card-name">Trimming &amp; Edging</div>
+              <div class="est-card-desc">String trimming and clean edges</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Blowing &amp; Cleanup">
+              <div class="est-card-name">Blowing &amp; Cleanup</div>
+              <div class="est-card-desc">Clippings and debris cleared off</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Brush &amp; Overgrowth Control">
+              <div class="est-card-name">Brush &amp; Overgrowth</div>
+              <div class="est-card-desc">Heavy growth, fence lines, banks</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Yard Cleanup (Spring/Fall)">
+              <div class="est-card-name">Yard Cleanup (Spring/Fall)</div>
+              <div class="est-card-desc">Leaves, debris, a full seasonal reset</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Mulching &amp; Pine Straw Installation">
+              <div class="est-card-name">Mulching &amp; Pine Straw</div>
+              <div class="est-card-desc">Fresh beds and refreshed coverage</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Weed Control">
+              <div class="est-card-name">Weed Control</div>
+              <div class="est-card-desc">Beds, edges, and walkways kept clear</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Pruning &amp; Shrub Trimming">
+              <div class="est-card-name">Pruning &amp; Shrub Trimming</div>
+              <div class="est-card-desc">Hedges, shrubs, and ornamental shaping</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Recurring Maintenance">
+              <div class="est-card-name">Recurring Maintenance</div>
+              <div class="est-card-desc">Weekly, biweekly, or monthly plans</div>
+            </button>
+            <button type="button" class="est-card intake-multi-card intake-card-full" data-multi="services" data-v="Other" id="svcOther">
+              <div class="est-card-name">Something else</div>
+              <div class="est-card-desc">Tell us what you have in mind &mdash; we probably do it</div>
+            </button>
           </div>
 
-          <!-- Step 1: Property type -->
-          <div class="est-screen active" id="eq1">
-            <div class="est-q-eye">Step 1 of 4</div>
-            <h3 class="est-q-h">What best describes your property?</h3>
-            <p class="est-q-sub">Pick the closest match.</p>
-            <div class="est-grid">
-              <button type="button" class="est-card" data-q="property_type" data-v="Single Family Home">
-                <div class="est-card-name">Single Family Home</div>
-                <div class="est-card-desc">A standalone house on its own lot</div>
-              </button>
-              <button type="button" class="est-card" data-q="property_type" data-v="Townhome or Condo">
-                <div class="est-card-name">Townhome or Condo</div>
-                <div class="est-card-desc">Attached or multi-unit</div>
-              </button>
-              <button type="button" class="est-card" data-q="property_type" data-v="Multi-Family Property">
-                <div class="est-card-name">Multi-Family Property</div>
-                <div class="est-card-desc">Duplex, rental, or small apartment</div>
-              </button>
-              <button type="button" class="est-card" data-q="property_type" data-v="Second or Vacation Home">
-                <div class="est-card-name">Second or Vacation Home</div>
-                <div class="est-card-desc">A property not visited daily</div>
-              </button>
-            </div>
+          <div class="intake-field" id="svcOtherField" hidden style="margin-top:14px;">
+            <label for="if-services-other">What do you have in mind?</label>
+            <input type="text" id="if-services-other" name="services_other" placeholder="A few words is enough" autocomplete="off">
           </div>
 
-          <!-- Step 2: Yard size -->
-          <div class="est-screen" id="eq2">
-            <div class="est-q-eye">Step 2 of 4</div>
-            <h3 class="est-q-h">How would you describe your yard size?</h3>
-            <p class="est-q-sub">Your best sense is fine.</p>
-            <div class="est-grid">
-              <button type="button" class="est-card" data-q="yard_size" data-v="Compact">
-                <div class="est-card-name">Compact</div>
-                <div class="est-card-desc">Easy to walk end to end quickly</div>
-              </button>
-              <button type="button" class="est-card" data-q="yard_size" data-v="Mid-size">
-                <div class="est-card-name">Mid-size</div>
-                <div class="est-card-desc">Standard neighborhood lot</div>
-              </button>
-              <button type="button" class="est-card" data-q="yard_size" data-v="Spacious">
-                <div class="est-card-name">Spacious</div>
-                <div class="est-card-desc">Generous lot, takes a few minutes to walk</div>
-              </button>
-              <button type="button" class="est-card" data-q="yard_size" data-v="Large or Estate">
-                <div class="est-card-name">Large or Estate</div>
-                <div class="est-card-desc">Big property — takes real time to cover</div>
-              </button>
-            </div>
-            <div class="intake-step-actions">
-              <button type="button" class="intake-back" data-go="eq1">← Back</button>
-            </div>
-          </div>
-
-          <!-- Step 3: Services + Frequency -->
-          <div class="est-screen" id="eq3">
-            <div class="est-q-eye">Step 3 of 4</div>
-            <h3 class="est-q-h">What are you looking to get done?</h3>
-            <p class="est-q-sub">Pick anything that applies.</p>
-            <div class="est-grid">
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Mowing">
-                <div class="est-card-name">Mowing</div>
-                <div class="est-card-desc">Regular cuts on a reliable schedule</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Trimming &amp; Edging">
-                <div class="est-card-name">Trimming &amp; Edging</div>
-                <div class="est-card-desc">String trimming and clean edges</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Blowing &amp; Cleanup">
-                <div class="est-card-name">Blowing &amp; Cleanup</div>
-                <div class="est-card-desc">Clippings and debris cleared off</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Brush &amp; Overgrowth Control">
-                <div class="est-card-name">Brush &amp; Overgrowth</div>
-                <div class="est-card-desc">Heavy growth, fence lines, banks</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Yard Cleanup (Spring/Fall)">
-                <div class="est-card-name">Yard Cleanup (Spring/Fall)</div>
-                <div class="est-card-desc">Leaves, debris, a full seasonal reset</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Mulching &amp; Pine Straw Installation">
-                <div class="est-card-name">Mulching &amp; Pine Straw</div>
-                <div class="est-card-desc">Fresh beds and refreshed coverage</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Weed Control">
-                <div class="est-card-name">Weed Control</div>
-                <div class="est-card-desc">Beds, edges, and walkways kept clear</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Pruning &amp; Shrub Trimming">
-                <div class="est-card-name">Pruning &amp; Shrub Trimming</div>
-                <div class="est-card-desc">Hedges, shrubs, and ornamental shaping</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Recurring Maintenance">
-                <div class="est-card-name">Recurring Maintenance</div>
-                <div class="est-card-desc">Weekly, biweekly, or monthly plans</div>
-              </button>
-              <button type="button" class="est-card intake-multi-card intake-card-full" data-multi="services" data-v="Other" id="svcOther">
-                <div class="est-card-name">Something else</div>
-                <div class="est-card-desc">Tell us what you have in mind &mdash; we probably do it</div>
-              </button>
-            </div>
-
-            <div class="intake-field" id="svcOtherField" hidden style="margin-top:16px;">
-              <label for="if-services-other">What do you have in mind?</label>
-              <input type="text" id="if-services-other" name="services_other" placeholder="A few words is enough" autocomplete="off">
-            </div>
-
-            <div class="intake-sub-q">How often?</div>
-            <div class="est-grid">
-              <button type="button" class="est-card" data-q="frequency" data-v="Weekly">
-                <div class="est-card-name">Weekly</div>
-                <div class="est-card-desc">Every week during the season</div>
-              </button>
-              <button type="button" class="est-card" data-q="frequency" data-v="Biweekly">
-                <div class="est-card-name">Biweekly</div>
-                <div class="est-card-desc">Every two weeks</div>
-              </button>
-              <button type="button" class="est-card" data-q="frequency" data-v="Monthly">
-                <div class="est-card-name">Monthly</div>
-                <div class="est-card-desc">Once a month</div>
-              </button>
-              <button type="button" class="est-card" data-q="frequency" data-v="One-time">
-                <div class="est-card-name">One-time</div>
-                <div class="est-card-desc">Just one visit</div>
-              </button>
-              <button type="button" class="est-card intake-card-full" data-q="frequency" data-v="Not sure yet">
-                <div class="est-card-name">Not sure yet</div>
-                <div class="est-card-desc">We'll figure it out together when we follow up</div>
-              </button>
-            </div>
-
-            <div class="intake-step-actions">
-              <button type="button" class="intake-back" data-go="eq2">← Back</button>
-              <button type="button" class="intake-next" id="step3Next" data-go="eq4" disabled>Continue →</button>
-            </div>
-          </div>
-
-          <!-- Step 4: Contact -->
-          <div class="est-screen" id="eq4">
-            <div class="est-q-eye">Step 4 of 4</div>
-            <h3 class="est-q-h">How should we reach you?</h3>
-            <p class="est-q-sub">We text or call within one business day.</p>
-
-            <div class="intake-fields">
-              <div class="intake-field">
-                <label for="if-name">Name</label>
-                <input type="text" id="if-name" name="name" required autocomplete="name">
-              </div>
-              <div class="intake-field">
-                <label for="if-phone">Phone</label>
-                <input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="423-555-0100">
-              </div>
-              <div class="intake-field">
-                <label for="if-address">Address or ZIP code</label>
-                <input type="text" id="if-address" name="address" required autocomplete="street-address" placeholder="Street address or just the ZIP">
-              </div>
-
-              <fieldset class="intake-radio-row">
-                <legend>Best way to reach you</legend>
-                <label class="intake-radio">
-                  <input type="radio" name="contact_method" value="Text" checked>
-                  <span>Text</span>
-                </label>
-                <label class="intake-radio">
-                  <input type="radio" name="contact_method" value="Call">
-                  <span>Call</span>
-                </label>
-                <label class="intake-radio">
-                  <input type="radio" name="contact_method" value="Either">
-                  <span>Either</span>
-                </label>
-              </fieldset>
-
-              <div class="intake-field">
-                <label for="if-notes">Anything else? <span class="intake-field-opt">Gates, dogs, tricky spots, how soon you're hoping for service.</span></label>
-                <textarea id="if-notes" name="notes" rows="3"></textarea>
-              </div>
-            </div>
-
-            <!-- Hidden mirrors of step 1–3 selections + UTM + meta + Formspree config -->
-            <input type="hidden" name="property_type" id="hf-property_type" value="">
-            <input type="hidden" name="yard_size" id="hf-yard_size" value="">
-            <input type="hidden" name="services" id="hf-services" value="">
-            <input type="hidden" name="frequency" id="hf-frequency" value="">
-            <input type="hidden" name="utm_source" id="utm_source" value="">
-            <input type="hidden" name="utm_medium" id="utm_medium" value="">
-            <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
-            <input type="hidden" name="utm_content" id="utm_content" value="">
-            <input type="hidden" name="utm_term" id="utm_term" value="">
-            <input type="hidden" name="page_url" id="page_url" value="">
-            <input type="hidden" name="referrer" id="referrer" value="">
-            <input type="hidden" name="submitted_at" id="submitted_at" value="">
-            <input type="hidden" name="_subject" value="Lawn quote request — magnoliagardenslandscaping.com">
-
-            <!-- Honeypot for spambots: invisible to humans, irresistible to bots. -->
-            <label class="intake-honeypot" aria-hidden="true">
-              Leave this field empty
-              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          <!-- Frequency -->
+          <fieldset class="intake-radio-row" style="margin-top:24px;">
+            <legend>How often?</legend>
+            <label class="intake-radio">
+              <input type="radio" name="frequency" value="Weekly">
+              <span>Weekly</span>
             </label>
+            <label class="intake-radio">
+              <input type="radio" name="frequency" value="Biweekly">
+              <span>Biweekly</span>
+            </label>
+            <label class="intake-radio">
+              <input type="radio" name="frequency" value="Monthly">
+              <span>Monthly</span>
+            </label>
+            <label class="intake-radio">
+              <input type="radio" name="frequency" value="One-time">
+              <span>One-time</span>
+            </label>
+            <label class="intake-radio">
+              <input type="radio" name="frequency" value="Not sure yet">
+              <span>Not sure yet</span>
+            </label>
+          </fieldset>
 
-            <div class="intake-step-actions">
-              <button type="button" class="intake-back" data-go="eq3">← Back</button>
-              <button type="submit" class="intake-submit" id="intakeSubmit">Send to Magnolia Gardens</button>
+          <!-- Yard size -->
+          <fieldset class="intake-radio-row" style="margin-top:22px;">
+            <legend>Yard size <span class="intake-field-opt">Best guess is fine.</span></legend>
+            <label class="intake-radio">
+              <input type="radio" name="yard_size" value="Small (under 1/4 acre)">
+              <span>Small</span>
+            </label>
+            <label class="intake-radio">
+              <input type="radio" name="yard_size" value="Medium (1/4 to 1/2 acre)">
+              <span>Medium</span>
+            </label>
+            <label class="intake-radio">
+              <input type="radio" name="yard_size" value="Large (1/2 to 1 acre)">
+              <span>Large</span>
+            </label>
+            <label class="intake-radio">
+              <input type="radio" name="yard_size" value="Over 1 acre">
+              <span>Over 1 acre</span>
+            </label>
+          </fieldset>
+
+          <!-- Contact -->
+          <div class="intake-fields" style="margin-top:26px;">
+            <div class="intake-field">
+              <label for="if-name">Name</label>
+              <input type="text" id="if-name" name="name" required autocomplete="name">
             </div>
+            <div class="intake-field">
+              <label for="if-phone">Phone</label>
+              <input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="423-555-0100">
+            </div>
+            <div class="intake-field">
+              <label for="if-address">Address or ZIP code</label>
+              <input type="text" id="if-address" name="address" required autocomplete="street-address" placeholder="Street address or just the ZIP">
+            </div>
+
+            <fieldset class="intake-radio-row">
+              <legend>Best way to reach you</legend>
+              <label class="intake-radio">
+                <input type="radio" name="contact_method" value="Text" checked>
+                <span>Text</span>
+              </label>
+              <label class="intake-radio">
+                <input type="radio" name="contact_method" value="Call">
+                <span>Call</span>
+              </label>
+              <label class="intake-radio">
+                <input type="radio" name="contact_method" value="Either">
+                <span>Either</span>
+              </label>
+            </fieldset>
+
+            <div class="intake-field">
+              <label for="if-notes">Anything else? <span class="intake-field-opt">Gates, dogs, tricky spots, how soon you're hoping for service.</span></label>
+              <textarea id="if-notes" name="notes" rows="3"></textarea>
+            </div>
+          </div>
+
+          <!-- Hidden mirror for multi-select services + UTM + meta + Formspree config -->
+          <input type="hidden" name="services" id="hf-services" value="">
+          <input type="hidden" name="utm_source" id="utm_source" value="">
+          <input type="hidden" name="utm_medium" id="utm_medium" value="">
+          <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
+          <input type="hidden" name="utm_content" id="utm_content" value="">
+          <input type="hidden" name="utm_term" id="utm_term" value="">
+          <input type="hidden" name="page_url" id="page_url" value="">
+          <input type="hidden" name="referrer" id="referrer" value="">
+          <input type="hidden" name="submitted_at" id="submitted_at" value="">
+          <input type="hidden" name="_subject" value="Lawn quote request — magnoliagardenslandscaping.com">
+
+          <!-- Honeypot for spambots: invisible to humans, irresistible to bots. -->
+          <label class="intake-honeypot" aria-hidden="true">
+            Leave this field empty
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          </label>
+
+          <div class="intake-step-actions" style="justify-content:flex-end; margin-top:28px;">
+            <button type="submit" class="intake-submit" id="intakeSubmit">Send to Magnolia Gardens</button>
           </div>
 
         </form>
@@ -1839,16 +1783,10 @@
   var errorPanel  = document.getElementById('intakeError');
   var errorRetry  = document.getElementById('errorRetry');
   var submitBtn   = document.getElementById('intakeSubmit');
-  var step3Next   = document.getElementById('step3Next');
-
-  var stepEls = ['ep1','ep2','ep3','ep4'].map(function (id) { return document.getElementById(id); });
-  var screens = ['eq1','eq2','eq3','eq4'];
-
-  var state = { property_type: '', yard_size: '', services: [], frequency: '' };
 
   /* Funnel — form_view fires once when the form section enters the
-     viewport. Use form_view → form_start → form_step → lead_submit to
-     compute the conversion funnel in GA4 Explorations. */
+     viewport. Use form_view → form_start → lead_submit to compute the
+     conversion funnel in GA4 Explorations. */
   var formSection = document.getElementById('estimate');
   if (formSection && 'IntersectionObserver' in window) {
     var formViewed = false;
@@ -1880,86 +1818,22 @@
     form.addEventListener('focusin', onFormFirstTouch);
   }
 
-  function currentScreenIndex() {
-    for (var i = 0; i < screens.length; i++) {
-      if (document.getElementById(screens[i]).classList.contains('active')) return i;
-    }
-    return 0;
-  }
-
-  function contactComplete() {
-    var n = (form.elements.name && form.elements.name.value || '').trim();
-    var p = (form.elements.phone && form.elements.phone.value || '').trim();
-    var a = (form.elements.address && form.elements.address.value || '').trim();
-    return !!(n && p && a);
-  }
-
-  function stepDone(i) {
-    if (i === 0) return !!state.property_type;
-    if (i === 1) return !!state.yard_size;
-    if (i === 2) return state.services.length > 0 && !!state.frequency;
-    if (i === 3) return contactComplete();
-    return false;
-  }
-
-  function updateProgress() {
-    var idx = currentScreenIndex();
-    stepEls.forEach(function (el, i) {
-      el.className = 'est-step' +
-        (stepDone(i)                 ? ' done'   : '') +
-        (i === idx && !stepDone(i)   ? ' active' : '');
-    });
-    if (step3Next) step3Next.disabled = !stepDone(2);
-  }
-
-  function showScreen(id) {
-    document.querySelectorAll('.est-screen').forEach(function (s) { s.classList.remove('active'); });
-    var el = document.getElementById(id);
-    if (el) el.classList.add('active');
-    updateProgress();
-    var stepNum = screens.indexOf(id) + 1;
-    if (stepNum > 0) track('form_step', { step: stepNum });
-    // Keep the toggle header in view as the user advances on long mobile screens.
-    if (id !== 'eq1' && toggle && toggle.getBoundingClientRect().top < 0) {
-      toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  /* Single-select cards: property_type, yard_size, frequency. */
-  document.querySelectorAll('.est-card[data-q]').forEach(function (card) {
+  /* Multi-select cards: services. Updates the #hf-services hidden field
+     so Formspree receives a comma-joined value. */
+  var selectedServices = [];
+  document.querySelectorAll('.est-card[data-multi="services"]').forEach(function (card) {
     card.addEventListener('click', function () {
-      var q = card.dataset.q, v = card.dataset.v;
-      document.querySelectorAll('.est-card[data-q="' + q + '"]').forEach(function (c) {
-        c.classList.remove('sel');
-      });
-      card.classList.add('sel');
-      state[q] = v;
-      var hidden = document.getElementById('hf-' + q);
-      if (hidden) hidden.value = v;
-      updateProgress();
-      // Auto-advance on steps 1 and 2 (single-question screens). Step 3's
-      // frequency picker does not auto-advance because services is multi-select
-      // and the user may still be adjusting it.
-      if (q === 'property_type') setTimeout(function () { showScreen('eq2'); }, 220);
-      else if (q === 'yard_size') setTimeout(function () { showScreen('eq3'); }, 220);
-    });
-  });
-
-  /* Multi-select cards: services. */
-  document.querySelectorAll('.est-card[data-multi]').forEach(function (card) {
-    card.addEventListener('click', function () {
-      var key = card.dataset.multi, val = card.dataset.v;
+      var val = card.dataset.v;
       var on = card.classList.toggle('sel');
-      var i = state[key].indexOf(val);
-      if (on && i < 0) state[key].push(val);
-      if (!on && i >= 0) state[key].splice(i, 1);
-      var hidden = document.getElementById('hf-' + key);
-      if (hidden) hidden.value = state[key].join(', ');
-      updateProgress();
+      var i = selectedServices.indexOf(val);
+      if (on && i < 0) selectedServices.push(val);
+      if (!on && i >= 0) selectedServices.splice(i, 1);
+      var hidden = document.getElementById('hf-services');
+      if (hidden) hidden.value = selectedServices.join(', ');
     });
   });
 
-  /* "Other" / "Something else" — reveal a text input when selected, clear it when unselected. */
+  /* "Other" / "Something else" — reveal a text input when selected. */
   var svcOther      = document.getElementById('svcOther');
   var svcOtherField = document.getElementById('svcOtherField');
   var svcOtherInput = document.getElementById('if-services-other');
@@ -1971,20 +1845,6 @@
       if (!on && svcOtherInput) svcOtherInput.value = '';
     });
   }
-
-  /* Back / Continue navigation. */
-  document.querySelectorAll('[data-go]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      if (btn.disabled) return;
-      showScreen(btn.dataset.go);
-    });
-  });
-
-  /* Live progress updates as the contact fields fill in. */
-  ['name','phone','address'].forEach(function (n) {
-    var el = form.elements[n];
-    if (el) el.addEventListener('input', updateProgress);
-  });
 
   /* ── UTM + referrer capture (silent, hidden fields) ─ */
   try {
@@ -2011,15 +1871,17 @@
       return;
     }
 
-    // Required fields — name, phone, address. Native required attrs are also set,
-    // but novalidate is on so we can deliver a friendlier focus-and-stay behavior.
+    // Required: name, phone, address. Scroll the first empty field into
+    // view and focus it. novalidate is on so we control the UX here.
     var required = ['name','phone','address'];
     for (var i = 0; i < required.length; i++) {
       var el = form.elements[required[i]];
       if (!el || !el.value.trim()) {
         track('lead_submit_invalid', { missing: required[i] });
-        showScreen('eq4');
-        if (el) el.focus();
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(function () { el.focus(); }, 320);
+        }
         return;
       }
     }
@@ -2040,16 +1902,19 @@
         if (!res.ok) throw new Error('Formspree returned ' + res.status);
         form.style.display = 'none';
         thanksPanel.hidden = false;
-        stepEls.forEach(function (el) { el.className = 'est-step done'; });
         // Enriched lead_submit — lets you slice conversions by quote shape
         // in GA4 (services_count, recurring vs one-time, yard size, etc.).
+        // Values come from real radio inputs in the simplified form; no state
+        // object, and property_type was dropped from the form entirely.
+        var fEl = form.elements.frequency;
+        var yEl = form.elements.yard_size;
+        var cEl = form.elements.contact_method;
         var nEl = form.elements.notes;
         track('lead_submit', {
-          services_count: state.services.length,
-          property_type: state.property_type || 'unset',
-          yard_size: state.yard_size || 'unset',
-          frequency: state.frequency || 'unset',
-          contact_method: (form.elements.contact_method && form.elements.contact_method.value) || 'Text',
+          services_count: selectedServices.length,
+          frequency: (fEl && fEl.value) || 'unset',
+          yard_size: (yEl && yEl.value) || 'unset',
+          contact_method: (cEl && cEl.value) || 'Text',
           has_notes: !!(nEl && nEl.value && nEl.value.trim())
         });
       })
@@ -2064,12 +1929,11 @@
       });
   });
 
-  /* ── Error retry — return to step 4 with everything still filled in. */
+  /* ── Error retry — show the form again with everything still filled in. */
   if (errorRetry) {
     errorRetry.addEventListener('click', function () {
       errorPanel.hidden = true;
       form.style.display = '';
-      showScreen('eq4');
     });
   }
 
@@ -2082,10 +1946,6 @@
     setToggleOpen(true, source);
     var estimateEl = document.getElementById('estimate');
     if (estimateEl) estimateEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(function () {
-      var first = document.querySelector('#eq1 .est-card');
-      if (first) first.focus();
-    }, 400);
   }
 
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
@@ -2117,9 +1977,6 @@
     e.preventDefault();
     openForm('hero_link');
   });
-
-  /* Initial progress paint. */
-  updateProgress();
 
 })();
 </script>
