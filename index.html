@@ -404,6 +404,8 @@
       color: var(--muted); line-height: 1.8;
     }
     .hero-trust span { color: var(--accent); margin: 0 6px; }
+    .hero-trust-call { color: inherit; text-decoration: none; transition: color .2s; }
+    .hero-trust-call:hover { color: var(--body); }
 
     @media (max-width: 580px) {
       .hero-ctas { flex-direction: column; align-items: stretch; }
@@ -933,6 +935,15 @@
     @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
   </style>
 
+  <!-- Google tag (gtag.js) — GA4 property G-V93YBHW1PJ -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V93YBHW1PJ');
+  </script>
+
   <!-- Cloudflare Web Analytics — privacy-respecting, cookieless pageview tracking. -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "5168b9dfab9f4dd390f2447100a6e3db"}'></script>
@@ -978,18 +989,19 @@
         </svg>
         Text Photos for a Quote
       </a>
-      <a href="tel:4233909954" class="btn-call">
+      <a href="#estimate" class="btn-call" id="heroFormBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <line x1="9" y1="12" x2="15" y2="12"/>
+          <line x1="9" y1="16" x2="12" y2="16"/>
         </svg>
-        Call Magnolia Gardens
+        Fill Out the Form
       </a>
     </div>
 
-    <a href="#estimate" class="hero-formlink" id="heroFormLink">Or answer 4 quick questions instead &darr;</a>
-
     <p class="hero-trust">
-      Owner-operated<span>·</span>Sullivan County licensed<span>·</span>Serving Kingsport and the Tri-Cities
+      Owner-operated<span>·</span>Sullivan County licensed<span>·</span>Serving Kingsport and the Tri-Cities<span>·</span><a href="tel:4233909954" class="hero-trust-call">Call 423-390-9954</a>
     </p>
   </div>
 </section>
@@ -1270,7 +1282,7 @@
       <div class="how-step">
         <span class="how-num">01</span>
         <div class="how-title">Text photos</div>
-        <div class="how-body">Send a few photos of your yard — front, back, any tricky spots. No forms to fill out.</div>
+        <div class="how-body">Text a few photos of your yard — front, back, any tricky spots — or use the quick form below. Either way works.</div>
       </div>
 
       <div class="how-step">
@@ -1303,9 +1315,9 @@
 <section class="section" id="estimate">
   <div class="wrap">
     <div class="section-hd">
-      <div class="eyebrow">Tell us about your yard</div>
-      <h2>Send us the details. We'll come back with <em>a real quote</em>.</h2>
-      <p class="section-sub">A few quick questions and we'll come back with a real quote. Prefer to text? 423-390-9954 still works — this is just another way in.</p>
+      <div class="eyebrow">Get a quote</div>
+      <h2>Fill this in once. We come back with <em>a real quote</em>.</h2>
+      <p class="section-sub">Four questions and we have everything we need to quote your property accurately. No back-and-forth, no follow-up calls.</p>
     </div>
 
     <div class="est-wrap">
@@ -1764,8 +1776,8 @@
      events start flowing automatically. */
   function track(name, props) {
     try {
+      if (typeof window.gtag === 'function') window.gtag('event', name, props || {});
       if (typeof window.plausible === 'function') window.plausible(name, { props: props || {} });
-      if (Array.isArray(window.dataLayer)) window.dataLayer.push(Object.assign({ event: name }, props || {}));
     } catch (e) {}
   }
 
@@ -1780,7 +1792,7 @@
     toggle.classList.toggle('open', open);
     body.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    if (open) track('Form Open');
+    if (open) track('form_open');
   }
   toggle.addEventListener('click', function () {
     setToggleOpen(!toggle.classList.contains('open'));
@@ -1843,7 +1855,7 @@
     if (el) el.classList.add('active');
     updateProgress();
     var stepNum = screens.indexOf(id) + 1;
-    if (stepNum > 0) track('Form Step', { step: stepNum });
+    if (stepNum > 0) track('form_step', { step: stepNum });
     // Keep the toggle header in view as the user advances on long mobile screens.
     if (id !== 'eq1' && toggle && toggle.getBoundingClientRect().top < 0) {
       toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1965,7 +1977,7 @@
         form.style.display = 'none';
         thanksPanel.hidden = false;
         stepEls.forEach(function (el) { el.className = 'est-step done'; });
-        track('Lead Submit');
+        track('lead_submit');
       })
       .catch(function () {
         form.style.display = 'none';
@@ -2004,7 +2016,7 @@
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
     a.setAttribute('target', '_blank');
     a.addEventListener('click', function (e) {
-      track('Text Click');
+      track('text_click');
       if (isDesktop) {
         e.preventDefault();
         openForm();
@@ -2015,18 +2027,19 @@
   /* ── tel: links: track calls ─────────────── */
   document.querySelectorAll('[href^="tel:"]').forEach(function (a) {
     a.addEventListener('click', function () {
-      track('Call Click');
+      track('call_click');
     });
   });
 
-  /* ── Hero form link ──────────────────────── */
+  /* ── Hero form button and legacy form link ── */
+  var heroFormBtn  = document.getElementById('heroFormBtn');
   var heroFormLink = document.getElementById('heroFormLink');
-  if (heroFormLink) {
-    heroFormLink.addEventListener('click', function (e) {
+  [heroFormBtn, heroFormLink].forEach(function (el) {
+    if (el) el.addEventListener('click', function (e) {
       e.preventDefault();
       openForm();
     });
-  }
+  });
 
   /* Initial progress paint. */
   updateProgress();
