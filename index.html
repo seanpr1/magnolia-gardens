@@ -45,7 +45,7 @@
     "slogan": "Put your lawn on our to-do list.",
     "url": "https://magnoliagardenslandscaping.com/",
     "telephone": "+1-423-390-9954",
-    "email": "seanpr1@gmail.com",
+    "email": "sean@magnoliagardenslandscaping.com",
     "priceRange": "$$",
     "paymentAccepted": "Cash, Credit Card, PayPal, Venmo, Bank Transfer, Invoice",
     "geo": {
@@ -114,6 +114,104 @@
       "contactOption": "TollFree"
     },
     "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt"]
+  }
+  </script>
+
+  <!-- FAQPage structured data — generated from the FAQ section HTML so Q&As match verbatim. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What areas do you serve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Primary service area is Kingsport — zip codes 37660, 37663, 37664, and 37665. We consider Johnson City, Bristol, and the broader Sullivan County area case-by-case. Geographic discipline is part of how we keep schedules predictable."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are you licensed and insured?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Magnolia Gardens Landscaping, LLC is a registered Tennessee LLC with an active Sullivan County business license. General liability insurance is in place through Acuity in the LLC’s name."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What’s included in a standard mowing visit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Basic Lawn Visit: mowing, string trimming around obstacles, and blowing clippings off all hard surfaces (driveway, walkways, patio). Full Lawn Service: everything in Basic, plus hard edges along driveway and sidewalks, bed edges, and a post-service walkthrough."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is pricing set?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard residential mowing typically runs $49–$125 per visit depending on lot size and service level. Brush clearing, overgrowth, seasonal cleanups, and properties over an acre are quoted individually after a quick look at photos or a walk-through. Recurring schedules earn a per-visit discount: 15% off weekly, 10% off biweekly. One-time visits run a 20% premium — a one-off job has the same setup and drive time as a recurring visit with no future revenue."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What payment methods do you accept?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Zelle, Venmo, cash, and check. Card payment via Stripe is coming. No card surcharges — you don’t pay extra for the convenience of paying."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if it rains?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If conditions make the work unsafe or harmful to the lawn — sustained heavy rain, lightning, or frozen ground — we reschedule. You’ll get the text the moment we know, not the morning of."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I have to be home?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. As long as we can access the yard (gate code or unlocked, dogs sorted), we work whether you’re home or not. You’ll get a text with photos and a summary when the visit’s done."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What’s the cancellation policy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Recurring service: 14 days’ written notice (a text counts). One-time visits: 24 hours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if something gets damaged during a visit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We photograph it immediately, text you before we leave the property, and document it on our end. Damage caused during service is covered by our general liability policy per the policy’s terms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do you not do?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We don’t apply chemicals, fertilizer, or pesticides. We don’t fell trees, grind stumps, repair irrigation, repair hardscape (pavers, walls, concrete), clean gutters, or remove snow. If you ask for any of those, we’ll point you to someone local who does that work well."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get started?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Text a few photos of your yard to 423-390-9954, or fill out the intake form above. We come back with a real quote — usually the same day — and schedule when you’re ready."
+        }
+      }
+    ]
   }
   </script>
 
@@ -729,6 +827,35 @@
       .intake-radio { flex: 1 1 calc(50% - 4px); justify-content: center; }
     }
 
+    /* ── HERO SECONDARY ELEMENTS ────────────── */
+    .hero-booking {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+      color: var(--muted); margin-top: -8px; margin-bottom: 20px;
+    }
+    .hero-formlink {
+      display: inline-block;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--muted); text-decoration: underline; text-underline-offset: 2px;
+      margin-bottom: 20px;
+      transition: color .2s;
+    }
+    .hero-formlink:hover { color: var(--body); }
+
+    /* ── WORK GALLERY ───────────────────────── */
+    .work-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 40px;
+    }
+    .work-tile {
+      background: var(--surface); border: 1px solid var(--edge);
+      overflow: hidden; aspect-ratio: 4 / 3;
+    }
+    .work-tile img {
+      display: block; width: 100%; height: 100%; object-fit: cover;
+    }
+    @media (max-width: 720px) { .work-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .work-grid { grid-template-columns: 1fr; } }
+
     /* ── FINAL CTA ──────────────────────────── */
     .final-cta {
       padding: 80px 0; text-align: center;
@@ -821,6 +948,7 @@
   </a>
   <div class="nav-links">
     <a href="#services"    class="nav-link">Services</a>
+    <a href="#work"        class="nav-link">Work</a>
     <a href="#pricing"     class="nav-link">Pricing</a>
     <a href="#how"         class="nav-link">How It Works</a>
     <a href="#about"       class="nav-link">About</a>
@@ -835,6 +963,7 @@
 <section class="hero">
   <div class="wrap z1">
     <div class="hero-eyebrow">Kingsport · Tri-Cities, TN</div>
+    <p class="hero-booking">Now booking recurring mowing and seasonal cleanups for 2026.</p>
 
     <h1 class="hero-h1">Put your lawn on <em>our</em> to-do list.</h1>
 
@@ -857,6 +986,8 @@
         Call Magnolia Gardens
       </a>
     </div>
+
+    <a href="#estimate" class="hero-formlink" id="heroFormLink">Or answer 4 quick questions instead &darr;</a>
 
     <p class="hero-trust">
       Owner-operated<span>·</span>Sullivan County licensed<span>·</span>Serving Kingsport and the Tri-Cities
@@ -1043,6 +1174,43 @@
 <div class="rule"></div>
 
 <!-- ════════════════════════════════════════════
+     4b. WORK GALLERY
+════════════════════════════════════════════ -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">Recent work</div>
+      <h2>The work, <em>up close</em>.</h2>
+      <p class="section-sub">Before and after — every visit documented.</p>
+    </div>
+
+    <!-- REPLACE: drop real before/after photos in /assets/work/ and update src + alt. No stock photos. -->
+    <div class="work-grid">
+      <div class="work-tile">
+        <img src="/assets/work/placeholder-1.jpg" alt="Before and after — front lawn mow and edge, Kingsport" loading="lazy" width="800" height="600">
+      </div>
+      <div class="work-tile">
+        <img src="/assets/work/placeholder-2.jpg" alt="Before and after — overgrowth cleared, fence line, Kingsport" loading="lazy" width="800" height="600">
+      </div>
+      <div class="work-tile">
+        <img src="/assets/work/placeholder-3.jpg" alt="Before and after — seasonal cleanup, backyard, Kingsport" loading="lazy" width="800" height="600">
+      </div>
+      <div class="work-tile">
+        <img src="/assets/work/placeholder-4.jpg" alt="Before and after — full lawn service, Johnson City" loading="lazy" width="800" height="600">
+      </div>
+      <div class="work-tile">
+        <img src="/assets/work/placeholder-5.jpg" alt="Before and after — edging along driveway and sidewalk, Kingsport" loading="lazy" width="800" height="600">
+      </div>
+      <div class="work-tile">
+        <img src="/assets/work/placeholder-6.jpg" alt="Before and after — brush and bank cleared, Bristol" loading="lazy" width="800" height="600">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ════════════════════════════════════════════
      5. PRICING GUIDANCE
 ════════════════════════════════════════════ -->
 <section class="section" id="pricing">
@@ -1140,17 +1308,17 @@
     </div>
 
     <div class="est-wrap">
-      <div class="est-toggle" id="estToggle" role="button" aria-expanded="false" tabindex="0">
+      <div class="est-toggle open" id="estToggle" role="button" aria-expanded="true" tabindex="0">
         <div>
-          <div class="est-toggle-label">Optional · 4 steps · about a minute</div>
-          <div class="est-toggle-title">Open the intake form</div>
+          <div class="est-toggle-label">4 quick questions · about 60 seconds</div>
+          <div class="est-toggle-title">Request a quote</div>
         </div>
         <svg class="est-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="6 9 12 15 18 9"/>
         </svg>
       </div>
 
-      <div class="est-body" id="estBody">
+      <div class="est-body open" id="estBody">
 
         <form id="intakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
 
@@ -1476,6 +1644,39 @@
 
 <div class="rule"></div>
 
+<!--
+  TESTIMONIALS — ACTIVATE when real quotes are in hand.
+  Real quotes only — no invented social proof.
+  Attribution: first name + city, nothing else.
+  To activate: remove these outer comment delimiters.
+-->
+<!--
+<section class="section" id="testimonials">
+  <div class="wrap">
+    <div class="section-hd">
+      <div class="eyebrow">What customers say</div>
+      <h2>Straight from the <em>people we work for</em>.</h2>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <p style="font-family:var(--serif);font-style:italic;color:var(--bright);font-size:17px;line-height:1.6;margin-bottom:14px;">[Customer quote here]</p>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);">[First name] &mdash; [City], TN</div>
+      </div>
+      <div class="trust-card">
+        <p style="font-family:var(--serif);font-style:italic;color:var(--bright);font-size:17px;line-height:1.6;margin-bottom:14px;">[Customer quote here]</p>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);">[First name] &mdash; [City], TN</div>
+      </div>
+      <div class="trust-card">
+        <p style="font-family:var(--serif);font-style:italic;color:var(--bright);font-size:17px;line-height:1.6;margin-bottom:14px;">[Customer quote here]</p>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);">[First name] &mdash; [City], TN</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+-->
+
 <!-- ════════════════════════════════════════════
      8. FINAL CTA
 ════════════════════════════════════════════ -->
@@ -1555,6 +1756,21 @@
 <script>
 (function () {
 
+  /* ── Analytics helper ────────────────────────────────────────────
+     Calls window.plausible (Plausible Analytics) and/or pushes to
+     window.dataLayer (GA4 / GTM) if either is present. Safe no-op
+     otherwise. Never throws. Add any beacon script to <head> and
+     events start flowing automatically. */
+  function track(name, props) {
+    try {
+      if (typeof window.plausible === 'function') window.plausible(name, { props: props || {} });
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push(Object.assign({ event: name }, props || {}));
+    } catch (e) {}
+  }
+
+  /* ── Desktop detection ───────────────────── */
+  var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
   /* ── Accordion toggle ────────────────────── */
   var toggle = document.getElementById('estToggle');
   var body   = document.getElementById('estBody');
@@ -1563,6 +1779,7 @@
     toggle.classList.toggle('open', open);
     body.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    if (open) track('Form Open');
   }
   toggle.addEventListener('click', function () {
     setToggleOpen(!toggle.classList.contains('open'));
@@ -1624,6 +1841,8 @@
     var el = document.getElementById(id);
     if (el) el.classList.add('active');
     updateProgress();
+    var stepNum = screens.indexOf(id) + 1;
+    if (stepNum > 0) track('Form Step', { step: stepNum });
     // Keep the toggle header in view as the user advances on long mobile screens.
     if (id !== 'eq1' && toggle && toggle.getBoundingClientRect().top < 0) {
       toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1745,10 +1964,7 @@
         form.style.display = 'none';
         thanksPanel.hidden = false;
         stepEls.forEach(function (el) { el.className = 'est-step done'; });
-        // Conversion-event hook. CF Web Analytics free tier is pageview-only,
-        // so this no-ops today; if a custom-event beacon (Plausible, GA4, etc.)
-        // is added later, it will start firing automatically.
-        if (typeof window.plausible === 'function') window.plausible('Lead Submit');
+        track('Lead Submit');
       })
       .catch(function () {
         form.style.display = 'none';
@@ -1766,6 +1982,48 @@
       errorPanel.hidden = true;
       form.style.display = '';
       showScreen('eq4');
+    });
+  }
+
+  /* ── SMS links: target="_blank" + desktop intercept ─────────────
+     On touch devices the sms: URI fires the native messaging app.
+     On desktop sms: typically does nothing, so we intercept and open
+     the intake form instead. target="_blank" prevents a failed sms:
+     from blanking the current tab on any device. */
+  function openForm() {
+    setToggleOpen(true);
+    var estimateEl = document.getElementById('estimate');
+    if (estimateEl) estimateEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () {
+      var first = document.querySelector('#eq1 .est-card');
+      if (first) first.focus();
+    }, 400);
+  }
+
+  document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
+    a.setAttribute('target', '_blank');
+    a.addEventListener('click', function (e) {
+      track('Text Click');
+      if (isDesktop) {
+        e.preventDefault();
+        openForm();
+      }
+    });
+  });
+
+  /* ── tel: links: track calls ─────────────── */
+  document.querySelectorAll('[href^="tel:"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      track('Call Click');
+    });
+  });
+
+  /* ── Hero form link ──────────────────────── */
+  var heroFormLink = document.getElementById('heroFormLink');
+  if (heroFormLink) {
+    heroFormLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      openForm();
     });
   }
 
