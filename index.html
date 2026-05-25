@@ -933,6 +933,15 @@
     @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
   </style>
 
+  <!-- Google tag (gtag.js) — GA4 property G-V93YBHW1PJ -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V93YBHW1PJ');
+  </script>
+
   <!-- Cloudflare Web Analytics — privacy-respecting, cookieless pageview tracking. -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "5168b9dfab9f4dd390f2447100a6e3db"}'></script>
@@ -1764,8 +1773,8 @@
      events start flowing automatically. */
   function track(name, props) {
     try {
+      if (typeof window.gtag === 'function') window.gtag('event', name, props || {});
       if (typeof window.plausible === 'function') window.plausible(name, { props: props || {} });
-      if (Array.isArray(window.dataLayer)) window.dataLayer.push(Object.assign({ event: name }, props || {}));
     } catch (e) {}
   }
 
@@ -1780,7 +1789,7 @@
     toggle.classList.toggle('open', open);
     body.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    if (open) track('Form Open');
+    if (open) track('form_open');
   }
   toggle.addEventListener('click', function () {
     setToggleOpen(!toggle.classList.contains('open'));
@@ -1843,7 +1852,7 @@
     if (el) el.classList.add('active');
     updateProgress();
     var stepNum = screens.indexOf(id) + 1;
-    if (stepNum > 0) track('Form Step', { step: stepNum });
+    if (stepNum > 0) track('form_step', { step: stepNum });
     // Keep the toggle header in view as the user advances on long mobile screens.
     if (id !== 'eq1' && toggle && toggle.getBoundingClientRect().top < 0) {
       toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1965,7 +1974,7 @@
         form.style.display = 'none';
         thanksPanel.hidden = false;
         stepEls.forEach(function (el) { el.className = 'est-step done'; });
-        track('Lead Submit');
+        track('lead_submit');
       })
       .catch(function () {
         form.style.display = 'none';
@@ -2004,7 +2013,7 @@
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
     a.setAttribute('target', '_blank');
     a.addEventListener('click', function (e) {
-      track('Text Click');
+      track('text_click');
       if (isDesktop) {
         e.preventDefault();
         openForm();
@@ -2015,7 +2024,7 @@
   /* ── tel: links: track calls ─────────────── */
   document.querySelectorAll('[href^="tel:"]').forEach(function (a) {
     a.addEventListener('click', function () {
-      track('Call Click');
+      track('call_click');
     });
   });
 
