@@ -326,6 +326,18 @@
     }
     .btn-call:hover { border-color: var(--gold); background: var(--gold-bg); }
 
+    /* Animated "to-do" CTA: rotating service icon + brand emphasis on "to-do" */
+    .btn-todo-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 14px; height: 14px;
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .btn-todo-icon.swap { opacity: 0; transform: translateY(-5px); }
+    .btn-td { color: var(--accent); font-weight: 600; font-style: normal; }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-todo-icon { transition: none; }
+    }
+
     /* ── NAV ────────────────────────────────── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -1002,14 +1014,9 @@
         </svg>
         Text Photos for a Quote
       </a>
-      <a href="#estimate" class="btn-call" id="heroFormBtn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
-          <rect x="9" y="3" width="6" height="4" rx="1"/>
-          <line x1="9" y1="12" x2="15" y2="12"/>
-          <line x1="9" y1="16" x2="12" y2="16"/>
-        </svg>
-        Fill Out the Form
+      <a href="#estimate" class="btn-call btn-todo" id="heroFormBtn" aria-label="Fill out the form to get a quote">
+        <span class="btn-todo-icon" id="todoIcon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
+        <span>Take it off my <em class="btn-td">to-do</em> list</span>
       </a>
     </div>
 
@@ -1978,6 +1985,32 @@
     openForm('hero_link');
   });
 
+})();
+</script>
+
+<script>
+/* Rotating service icon on the "to-do" CTA. Subtle crossfade, slow cadence,
+   line-art glyphs in the site's icon style. Static under reduced-motion. */
+(function () {
+  var icon = document.getElementById('todoIcon');
+  if (!icon) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var A = 'width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  var ICONS = [
+    '<svg ' + A + '><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>',
+    '<svg ' + A + '><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>',
+    '<svg ' + A + '><path d="M9.59 4.59A2 2 0 1 1 11 8H2"/><path d="M12.59 19.41A2 2 0 1 0 14 16H2"/><path d="M17.73 7.73A2.5 2.5 0 1 1 19.5 12H2"/></svg>',
+    '<svg ' + A + '><path d="M12 2 6 11h12L12 2Z"/><path d="M12 8 6.5 16h11L12 8Z"/><path d="M12 16v6"/></svg>'
+  ];
+  var k = 0;
+  setInterval(function () {
+    icon.classList.add('swap');
+    setTimeout(function () {
+      k = (k + 1) % ICONS.length;
+      icon.innerHTML = ICONS[k];
+      icon.classList.remove('swap');
+    }, 300);
+  }, 3600);
 })();
 </script>
 
