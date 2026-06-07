@@ -463,6 +463,61 @@
       .btn-sms, .btn-call { justify-content: center; }
     }
 
+    /* ── HERO QUOTE FORM (above-the-fold lead capture) ───────────
+       Two columns: brand copy + SMS path on the left, a compact
+       "Get a Free Estimate" form on the right. Collapses to one
+       stacked column on phones — copy first, then the form card. */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: var(--space-8);
+      align-items: center;
+      width: 100%;
+    }
+    @media (max-width: 880px) {
+      .hero-grid { grid-template-columns: 1fr; gap: var(--space-6); }
+    }
+
+    .hero-quote {
+      background: var(--surface);
+      border: 1px solid var(--edge);
+      border-radius: var(--r);
+      padding: var(--space-6) var(--space-5);
+      box-shadow: 0 1px 2px rgba(31,29,24,.04), 0 18px 44px -26px rgba(31,29,24,.22);
+    }
+    .hero-quote-eye {
+      font-family: var(--mono); font-size: var(--fs-label); letter-spacing: .16em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-2);
+    }
+    .hero-quote-eye::before { content: ''; display: block; width: 18px; height: 1px; background: var(--accent); }
+    .hero-quote-h {
+      font-family: var(--serif); font-size: var(--fs-title); font-weight: 500;
+      color: var(--bright); line-height: 1.15; margin-bottom: 5px;
+    }
+    .hero-quote-sub { font-size: var(--fs-body); color: var(--dim); line-height: 1.6; margin-bottom: var(--space-5); }
+
+    /* Offer microcopy — quiet guarantee + honest scarcity under the CTA. */
+    .hero-offer { margin-top: var(--space-4); display: grid; gap: 7px; }
+    .hero-offer-line {
+      font-family: var(--mono); font-size: var(--fs-label); letter-spacing: .03em;
+      color: var(--muted); line-height: 1.5;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .hero-offer-line svg { color: var(--gold-d); flex-shrink: 0; margin-top: 2px; }
+
+    /* Repeated estimate CTA — after Services, Pricing, Process.
+       Scrolls to and focuses the hero quote form. */
+    .cta-repeat {
+      margin-top: var(--space-7);
+      display: flex; flex-direction: column; align-items: center;
+      gap: var(--space-3); text-align: center;
+    }
+    .cta-repeat-note {
+      font-family: var(--mono); font-size: var(--fs-label); letter-spacing: .08em;
+      color: var(--muted);
+    }
+
     /* ── SECTION SHARED ─────────────────────── */
     .section { padding: var(--space-9) 0; }
     .section-hd { margin-bottom: var(--space-7); }
@@ -781,6 +836,20 @@
     .intake-field input::placeholder,
     .intake-field textarea::placeholder { color: var(--muted); opacity: .65; }
 
+    /* Select — matches .intake-field inputs; used by the hero quote form. */
+    .intake-field select {
+      display: block; width: 100%;
+      padding: 12px 38px 12px 14px; min-height: 44px;
+      background-color: var(--surface); color: var(--body);
+      border: 1px solid var(--edge); border-radius: var(--r);
+      font-family: var(--sans); font-size: var(--fs-body); line-height: 1.5;
+      -webkit-appearance: none; -moz-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235C574E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+      transition: border-color .18s, background-color .18s; cursor: pointer;
+    }
+    .intake-field select:focus { outline: none; border-color: var(--gold); background-color: var(--deep); }
+
     .intake-radio-row {
       border: none; padding: 0; margin: 0;
       display: flex; flex-wrap: wrap; gap: 8px;
@@ -1049,32 +1118,140 @@
 ════════════════════════════════════════════ -->
 <section class="hero">
   <div class="wrap z1">
-    <div class="hero-eyebrow">Kingsport · Tri-Cities, TN</div>
-    <p class="hero-booking">Now booking recurring mowing and full-service lawn care.</p>
+    <div class="hero-grid">
 
-    <h1 class="hero-h1">Put your lawn on <em>our</em> <span class="nowrap">to-do list.</span></h1>
+      <div class="hero-copy">
+        <div class="hero-eyebrow">Kingsport · Tri-Cities, TN</div>
+        <p class="hero-booking">Now booking recurring mowing and full-service lawn care.</p>
 
-    <p class="hero-sub">
-      Reliable mowing, trimming, edging, cleanup, and seasonal property care for homes
-      in Kingsport and the Tri-Cities. Text photos of your yard and get a clear quote fast.
-    </p>
+        <h1 class="hero-h1">Put your lawn on <em>our</em> <span class="nowrap">to-do list.</span></h1>
 
-    <div class="hero-ctas">
-      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-        Text Photos for a Quote
-      </a>
-      <a href="#estimate" class="btn-call btn-todo" id="heroFormBtn" aria-label="Fill out the form to get a quote">
-        <span class="btn-todo-icon" id="todoIcon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
-        <span>Take it off <em class="btn-td">my</em> to-do list</span>
-      </a>
-    </div>
+        <p class="hero-sub">
+          Reliable mowing, trimming, edging, cleanup, and seasonal property care for homes
+          in Kingsport and the Tri-Cities. Text photos of your yard, or fill out the quick
+          form — either way you get a clear quote fast.
+        </p>
 
-    <p class="hero-trust">
-      Owner-operated<span>·</span>Sullivan County licensed<span>·</span>Serving Kingsport and the Tri-Cities<span>·</span><a href="tel:4233909954" class="hero-trust-call">Call 423-390-9954</a>
-    </p>
+        <div class="hero-ctas">
+          <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Text Photos for a Quote
+          </a>
+          <a href="#estimate" class="btn-call btn-todo" id="heroFormBtn" aria-label="Open the detailed quote form">
+            <span class="btn-todo-icon" id="todoIcon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
+            <span>Take it off <em class="btn-td">my</em> to-do list</span>
+          </a>
+        </div>
+
+        <p class="hero-trust">
+          Owner-operated<span>·</span>Sullivan County licensed<span>·</span>Serving Kingsport and the Tri-Cities<span>·</span><a href="tel:4233909954" class="hero-trust-call">Call 423-390-9954</a>
+        </p>
+      </div><!-- /hero-copy -->
+
+      <div class="hero-quote">
+        <form id="heroIntakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
+          <div class="hero-quote-eye">About 30 seconds</div>
+          <div class="hero-quote-h">Get a Free Estimate</div>
+          <p class="hero-quote-sub">A few quick details and we&rsquo;ll text your quote &mdash; usually the same day.</p>
+
+          <div class="intake-fields">
+            <div class="intake-field">
+              <label for="hf2-name">Name</label>
+              <input type="text" id="hf2-name" name="name" required autocomplete="name">
+            </div>
+            <div class="intake-field">
+              <label for="hf2-phone">Phone</label>
+              <input type="tel" id="hf2-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="423-555-0100">
+            </div>
+            <div class="intake-field">
+              <label for="hf2-address">Address or ZIP code</label>
+              <input type="text" id="hf2-address" name="address" required autocomplete="street-address" placeholder="Street address or just the ZIP">
+            </div>
+            <div class="intake-field">
+              <label for="hf2-services">Service</label>
+              <select id="hf2-services" name="services">
+                <option value="">What do you need?</option>
+                <option value="Mowing">Mowing</option>
+                <option value="Trimming &amp; Edging">Trimming &amp; Edging</option>
+                <option value="Blowing &amp; Cleanup">Blowing &amp; Cleanup</option>
+                <option value="Brush/Overgrowth">Brush/Overgrowth</option>
+                <option value="Seasonal Cleanup">Seasonal Cleanup</option>
+                <option value="Recurring Maintenance">Recurring Maintenance</option>
+                <option value="Something else">Something else</option>
+              </select>
+            </div>
+
+            <fieldset class="intake-radio-row">
+              <legend>Best way to reach you</legend>
+              <label class="intake-radio">
+                <input type="radio" name="contact_method" value="Text" checked>
+                <span>Text</span>
+              </label>
+              <label class="intake-radio">
+                <input type="radio" name="contact_method" value="Call">
+                <span>Call</span>
+              </label>
+            </fieldset>
+          </div>
+
+          <!-- UTM + meta + Formspree config. No id attributes here on purpose:
+               the shared JS populates these by name, scoped to this form, so
+               they never collide with the detailed #intakeForm's hidden ids. -->
+          <input type="hidden" name="utm_source" value="">
+          <input type="hidden" name="utm_medium" value="">
+          <input type="hidden" name="utm_campaign" value="">
+          <input type="hidden" name="utm_content" value="">
+          <input type="hidden" name="utm_term" value="">
+          <input type="hidden" name="page_url" value="">
+          <input type="hidden" name="referrer" value="">
+          <input type="hidden" name="submitted_at" value="">
+          <input type="hidden" name="_subject" value="Lawn quote request (quick form) — magnoliagardenslandscaping.com">
+
+          <!-- Honeypot for spambots: invisible to humans, irresistible to bots. -->
+          <label class="intake-honeypot" aria-hidden="true">
+            Leave this field empty
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          </label>
+
+          <button type="submit" class="intake-submit" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Get My Free Estimate</button>
+
+          <div class="hero-offer">
+            <p class="hero-offer-line">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Satisfaction guaranteed &mdash; if the first visit isn&rsquo;t right, we make it right at no charge.
+            </p>
+            <p class="hero-offer-line">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Now booking summer route spots in Kingsport.
+            </p>
+          </div>
+        </form>
+
+        <!-- Success state (revealed by JS after a clean Formspree POST) -->
+        <div class="intake-thanks" id="heroThanks" hidden>
+          <div class="intake-thanks-eye">Got it</div>
+          <h3 class="intake-thanks-h">Thanks &mdash; we&rsquo;ve got your request.</h3>
+          <p class="intake-thanks-body">We&rsquo;ll text you back shortly with your quote. No need to call.</p>
+        </div>
+
+        <!-- Failure state (network error, Formspree non-200, etc.) -->
+        <div class="intake-error" id="heroError" hidden>
+          <div class="intake-thanks-eye">Something blocked the form</div>
+          <h3 class="intake-thanks-h">Texting still works — and it's faster anyway.</h3>
+          <p class="intake-thanks-body">Send a few photos to 423-390-9954 and we'll get you a quote the same day. Or give the form another try.</p>
+          <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Text 423-390-9954
+          </a>
+          <button type="button" class="est-reset" id="heroErrorRetry">Try again</button>
+        </div>
+      </div><!-- /hero-quote -->
+
+    </div><!-- /hero-grid -->
   </div>
 </section>
 
@@ -1251,6 +1428,16 @@
       </div>
 
     </div>
+
+    <div class="cta-repeat">
+      <button type="button" class="btn-sms cta-jump">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+        </svg>
+        Get a Free Estimate
+      </button>
+      <span class="cta-repeat-note">Free, no obligation &mdash; most quotes the same day.</span>
+    </div>
   </div>
 </section>
 
@@ -1335,6 +1522,16 @@
       Most lawn care depends on yard size, slope, access, grass height, edging needs, cleanup level, and visit frequency.
       Send a few photos and Magnolia Gardens will give you a clear quote before scheduling.
     </div>
+
+    <div class="cta-repeat">
+      <button type="button" class="btn-sms cta-jump">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+        </svg>
+        Get a Free Estimate
+      </button>
+      <span class="cta-repeat-note">Get your exact price &mdash; free, no obligation.</span>
+    </div>
   </div>
 </section>
 
@@ -1375,6 +1572,16 @@
         <div class="how-body">Clean work, every visit. You don't have to think about it again until the next one.</div>
       </div>
 
+    </div>
+
+    <div class="cta-repeat">
+      <button type="button" class="btn-sms cta-jump">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+        </svg>
+        Get a Free Estimate
+      </button>
+      <span class="cta-repeat-note">Free quote &mdash; usually the same day.</span>
     </div>
   </div>
 </section>
@@ -1821,6 +2028,114 @@
     return 'other';
   }
 
+  /* ── Shared: populate hidden meta fields (UTM, page_url, referrer) on a
+     given form. Scoped per-form by name attribute so the hero quick form
+     and the detailed #intakeForm never collide on element ids. Never
+     throws — hidden fields are nice-to-have, they must not block a submit. */
+  function fillMeta(form) {
+    if (!form) return;
+    try {
+      var params = new URLSearchParams(window.location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function (k) {
+        var el = form.querySelector('[name="' + k + '"]');
+        if (el) el.value = params.get(k) || '';
+      });
+      var pageUrl = form.querySelector('[name="page_url"]');
+      if (pageUrl) pageUrl.value = window.location.href;
+      var ref = form.querySelector('[name="referrer"]');
+      if (ref) ref.value = document.referrer || '';
+    } catch (e) { /* never block the form */ }
+  }
+
+  /* ── Shared: wire a quote form's submit pipeline. Both forms post to the
+     same Formspree endpoint with the same hidden fields, the same honeypot,
+     and the same success / error panels. cfg.leadProps() returns the
+     per-form GA4 props; cfg.formLocation ('hero' | 'detailed') tags every
+     event so the two forms can be told apart in GA4. */
+  function wireQuoteForm(cfg) {
+    var form = cfg.form;
+    if (!form) return;
+    fillMeta(form);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Honeypot — if a bot filled it, drop the submission silently and pretend it worked.
+      var gotcha = form.elements._gotcha;
+      if (gotcha && gotcha.value) {
+        form.style.display = 'none';
+        cfg.thanksPanel.hidden = false;
+        return;
+      }
+
+      // Required: name, phone, address. Scroll the first empty field into
+      // view and focus it. novalidate is on so we control the UX here.
+      var required = ['name', 'phone', 'address'];
+      for (var i = 0; i < required.length; i++) {
+        var el = form.elements[required[i]];
+        if (!el || !el.value.trim()) {
+          track('lead_submit_invalid', { missing: required[i], form_location: cfg.formLocation });
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(function () { el.focus(); }, 320);
+          }
+          return;
+        }
+      }
+
+      var ts = form.querySelector('[name="submitted_at"]');
+      if (ts) ts.value = new Date().toISOString();
+
+      var btn = cfg.submitBtn;
+      var origLabel = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Formspree returned ' + res.status);
+          form.style.display = 'none';
+          cfg.thanksPanel.hidden = false;
+          // Same lead_submit event for both forms; form_location distinguishes them.
+          var props = (cfg.leadProps && cfg.leadProps()) || {};
+          props.form_location = cfg.formLocation;
+          track('lead_submit', props);
+        })
+        .catch(function (err) {
+          form.style.display = 'none';
+          cfg.errorPanel.hidden = false;
+          track('form_submit_error', { reason: (err && err.message) || 'unknown', form_location: cfg.formLocation });
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = origLabel;
+        });
+    });
+
+    if (cfg.errorRetry) {
+      cfg.errorRetry.addEventListener('click', function () {
+        cfg.errorPanel.hidden = true;
+        form.style.display = '';
+      });
+    }
+  }
+
+  /* ── Scroll to and focus the hero quote form (repeated CTAs). */
+  function focusHeroForm(source) {
+    var hero = document.getElementById('heroIntakeForm');
+    if (!hero) return;
+    track('cta_jump', { source: source || 'cta_repeat' });
+    hero.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var first = hero.querySelector('input[name="name"]');
+    if (first) setTimeout(function () {
+      try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); }
+    }, 420);
+  }
+
   /* ── Accordion toggle ────────────────────── */
   var toggle = document.getElementById('estToggle');
   var body   = document.getElementById('estBody');
@@ -1914,96 +2229,53 @@
     });
   }
 
-  /* ── UTM + referrer capture (silent, hidden fields) ─ */
-  try {
-    var params = new URLSearchParams(window.location.search);
-    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function (k) {
-      var el = document.getElementById(k);
-      if (el) el.value = params.get(k) || '';
-    });
-    var pageUrl = document.getElementById('page_url');
-    if (pageUrl) pageUrl.value = window.location.href;
-    var referrer = document.getElementById('referrer');
-    if (referrer) referrer.value = document.referrer || '';
-  } catch (e) { /* hidden fields are nice-to-have, never block the form */ }
-
-  /* ── Submit ──────────────────────────────── */
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Honeypot — if a bot filled it, drop the submission silently and pretend it worked.
-    var gotcha = form.elements._gotcha;
-    if (gotcha && gotcha.value) {
-      form.style.display = 'none';
-      thanksPanel.hidden = false;
-      return;
+  /* ── Wire both quote forms ───────────────────────────────────────
+     Detailed #intakeForm and the hero quick form share one submit
+     pipeline (wireQuoteForm above). Each posts to the same Formspree
+     endpoint and carries the same UTM / honeypot hidden fields; the
+     only difference GA4 sees is form_location and the lead props. */
+  wireQuoteForm({
+    form: form,
+    thanksPanel: thanksPanel,
+    errorPanel: errorPanel,
+    errorRetry: errorRetry,
+    submitBtn: submitBtn,
+    formLocation: 'detailed',
+    leadProps: function () {
+      // Enriched detail from the detailed form's real radio inputs.
+      var fEl = form.elements.frequency;
+      var yEl = form.elements.yard_size;
+      var cEl = form.elements.contact_method;
+      var nEl = form.elements.notes;
+      return {
+        services_count: selectedServices.length,
+        frequency: (fEl && fEl.value) || 'unset',
+        yard_size: (yEl && yEl.value) || 'unset',
+        contact_method: (cEl && cEl.value) || 'Text',
+        has_notes: !!(nEl && nEl.value && nEl.value.trim())
+      };
     }
-
-    // Required: name, phone, address. Scroll the first empty field into
-    // view and focus it. novalidate is on so we control the UX here.
-    var required = ['name','phone','address'];
-    for (var i = 0; i < required.length; i++) {
-      var el = form.elements[required[i]];
-      if (!el || !el.value.trim()) {
-        track('lead_submit_invalid', { missing: required[i] });
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(function () { el.focus(); }, 320);
-        }
-        return;
-      }
-    }
-
-    var ts = document.getElementById('submitted_at');
-    if (ts) ts.value = new Date().toISOString();
-
-    var origLabel = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(function (res) {
-        if (!res.ok) throw new Error('Formspree returned ' + res.status);
-        form.style.display = 'none';
-        thanksPanel.hidden = false;
-        // Enriched lead_submit — lets you slice conversions by quote shape
-        // in GA4 (services_count, recurring vs one-time, yard size, etc.).
-        // Values come from real radio inputs in the simplified form; no state
-        // object, and property_type was dropped from the form entirely.
-        var fEl = form.elements.frequency;
-        var yEl = form.elements.yard_size;
-        var cEl = form.elements.contact_method;
-        var nEl = form.elements.notes;
-        track('lead_submit', {
-          services_count: selectedServices.length,
-          frequency: (fEl && fEl.value) || 'unset',
-          yard_size: (yEl && yEl.value) || 'unset',
-          contact_method: (cEl && cEl.value) || 'Text',
-          has_notes: !!(nEl && nEl.value && nEl.value.trim())
-        });
-      })
-      .catch(function (err) {
-        form.style.display = 'none';
-        errorPanel.hidden = false;
-        track('form_submit_error', { reason: (err && err.message) || 'unknown' });
-      })
-      .finally(function () {
-        submitBtn.disabled = false;
-        submitBtn.textContent = origLabel;
-      });
   });
 
-  /* ── Error retry — show the form again with everything still filled in. */
-  if (errorRetry) {
-    errorRetry.addEventListener('click', function () {
-      errorPanel.hidden = true;
-      form.style.display = '';
-    });
-  }
+  var heroForm = document.getElementById('heroIntakeForm');
+  wireQuoteForm({
+    form: heroForm,
+    thanksPanel: document.getElementById('heroThanks'),
+    errorPanel: document.getElementById('heroError'),
+    errorRetry: document.getElementById('heroErrorRetry'),
+    submitBtn: document.getElementById('heroSubmit'),
+    formLocation: 'hero',
+    leadProps: function () {
+      var sEl = heroForm.elements.services;
+      var cEl = heroForm.elements.contact_method;
+      var svc = (sEl && sEl.value) || '';
+      return {
+        services_count: svc ? 1 : 0,
+        service: svc || 'unset',
+        contact_method: (cEl && cEl.value) || 'Text'
+      };
+    }
+  });
 
   /* ── SMS links: target="_blank" + desktop intercept ─────────────
      On touch devices the sms: URI fires the native messaging app.
@@ -2044,6 +2316,11 @@
   if (heroFormLink) heroFormLink.addEventListener('click', function (e) {
     e.preventDefault();
     openForm('hero_link');
+  });
+
+  /* ── Repeated "Get a Free Estimate" CTAs → hero quick form ── */
+  document.querySelectorAll('.cta-jump').forEach(function (b) {
+    b.addEventListener('click', function () { focusHeroForm('cta_repeat'); });
   });
 
 })();
