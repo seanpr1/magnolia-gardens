@@ -372,18 +372,18 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 36px; height: 64px;
+      padding: 0 36px; height: 78px;
       background: rgba(244,236,216,.92);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--edge);
     }
     .nav-logo {
       display: inline-flex; align-items: center;
-      height: 44px; flex-shrink: 0;
+      height: 58px; flex-shrink: 0;
       color: var(--gold); text-decoration: none;
     }
     .nav-logo img {
-      height: 44px; width: auto; display: block;
+      height: 58px; width: auto; display: block;
     }
     .nav-links {
       display: flex; align-items: center; gap: 28px;
@@ -403,16 +403,17 @@
     }
     .nav-cta:hover { background: var(--gold-l); }
 
-    @media (max-width: 860px) {
+    @media (max-width: 960px) {
       nav { padding: 0 24px; }
       .nav-links { gap: var(--space-4); }
     }
-    @media (max-width: 720px) {
-      nav { padding: 0 20px; height: 58px; }
+    @media (max-width: 840px) {
+      nav { padding: 0 20px; height: 68px; }
       .nav-links { display: none; }
     }
     @media (max-width: 480px) {
-      .nav-logo, .nav-logo img { height: 34px; }
+      nav { height: 62px; }
+      .nav-logo, .nav-logo img { height: 46px; }
     }
 
     /* ── HERO ───────────────────────────────── */
