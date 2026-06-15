@@ -1044,7 +1044,7 @@
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
     a.setAttribute('target', '_blank');
     a.addEventListener('click', function (e) {
-      track('text_click', { location: getCtaLocation(a) });
+      track('click_to_text', { location: getCtaLocation(a) });
       if (isDesktop) {
         e.preventDefault();
         window.location.href = '/#estimate';
@@ -1055,20 +1055,8 @@
   /* tel: links: track calls. */
   document.querySelectorAll('[href^="tel:"]').forEach(function (a) {
     a.addEventListener('click', function () {
-      track('call_click', { location: getCtaLocation(a) });
+      track('click_to_call', { location: getCtaLocation(a) });
     });
-  });
-
-  /* ── Delegated conversion events ───────────────
-     Fire click_to_text on any sms: click and click_to_call on any tel: click,
-     anywhere on the page (including links rendered after load). Uses track(),
-     so it forwards to GA4 (and Plausible if present). Runs alongside the
-     text_click / call_click CTA tracking above. */
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a[href^="tel:"], a[href^="sms:"]') : null;
-    if (!a) return;
-    if (a.getAttribute('href').indexOf('sms:') === 0) track('click_to_text');
-    else track('click_to_call');
   });
 })();
 </script>
