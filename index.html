@@ -54,7 +54,7 @@
     "slogan": "Put your lawn on our to-do list.",
     "url": "https://magnoliagardenslandscaping.com/",
     "telephone": "+1-423-390-9954",
-    "email": "sean@magnoliagardenslandscaping.com",
+    "email": "contact@magnoliagardenslandscaping.com",
     "priceRange": "$$",
     "paymentAccepted": "Cash, Check, Credit Card, Debit Card, Invoice",
     "geo": {
@@ -119,10 +119,9 @@
       "telephone": "+1-423-390-9954",
       "contactType": "customer service",
       "areaServed": "US-TN",
-      "availableLanguage": "English",
-      "contactOption": "TollFree"
+      "availableLanguage": "English"
     },
-    "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt"]
+    "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt", "https://www.facebook.com/MagnoliaGardensLandscaping"]
   }
   </script>
 
@@ -1223,6 +1222,7 @@
           <input type="hidden" name="page_url" value="">
           <input type="hidden" name="referrer" value="">
           <input type="hidden" name="submitted_at" value="">
+          <input type="hidden" name="source" value="hero">
           <input type="hidden" name="_subject" value="Lawn quote request (quick form) — magnoliagardenslandscaping.com">
 
           <!-- Honeypot for spambots: invisible to humans, irresistible to bots. -->
@@ -1812,6 +1812,7 @@
           <input type="hidden" name="page_url" id="page_url" value="">
           <input type="hidden" name="referrer" id="referrer" value="">
           <input type="hidden" name="submitted_at" id="submitted_at" value="">
+          <input type="hidden" name="source" value="full-intake">
           <input type="hidden" name="_subject" value="Lawn quote request — magnoliagardenslandscaping.com">
 
           <!-- Honeypot for spambots: invisible to humans, irresistible to bots. -->
@@ -2158,6 +2159,8 @@
           var props = (cfg.leadProps && cfg.leadProps()) || {};
           props.form_location = cfg.formLocation;
           track('lead_submit', props);
+          // GA4 conversion — form_id distinguishes hero vs full-intake submissions.
+          track('generate_lead', { form_id: form.id });
         })
         .catch(function (err) {
           form.style.display = 'none';
@@ -2358,6 +2361,18 @@
     a.addEventListener('click', function () {
       track('call_click', { location: getCtaLocation(a) });
     });
+  });
+
+  /* ── Delegated conversion events ───────────────
+     Fire click_to_text on any sms: click and click_to_call on any tel: click,
+     anywhere on the page (including links rendered after load). Uses track(),
+     so it forwards to GA4 (and Plausible if present). Runs alongside the
+     text_click / call_click CTA tracking above. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="tel:"], a[href^="sms:"]') : null;
+    if (!a) return;
+    if (a.getAttribute('href').indexOf('sms:') === 0) track('click_to_text');
+    else track('click_to_call');
   });
 
   /* ── Hero form button and legacy form link ── */

@@ -1002,7 +1002,7 @@
   "legalName": "Magnolia Gardens Landscaping, LLC",
   "url": "https://magnoliagardenslandscaping.com/areas/johnson-city/",
   "telephone": "+1-423-390-9954",
-  "email": "sean@magnoliagardenslandscaping.com",
+  "email": "contact@magnoliagardenslandscaping.com",
   "priceRange": "$$",
   "founder": { "@type": "Person", "name": "Sean Price" },
   "address": {
@@ -1014,7 +1014,7 @@
   },
   "areaServed": { "@type": "City", "name": "Johnson City, Tennessee" },
   "image": "https://magnoliagardenslandscaping.com/og-image.png",
-  "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt"],
+  "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt", "https://www.facebook.com/MagnoliaGardensLandscaping"],
   "openingHoursSpecification": [
     { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "07:00", "closes": "20:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "18:00" }
@@ -1064,6 +1064,18 @@
     a.addEventListener('click', function () {
       track('call_click', { location: getCtaLocation(a) });
     });
+  });
+
+  /* ── Delegated conversion events ───────────────
+     Fire click_to_text on any sms: click and click_to_call on any tel: click,
+     anywhere on the page (including links rendered after load). Uses track(),
+     so it forwards to GA4 (and Plausible if present). Runs alongside the
+     text_click / call_click CTA tracking above. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="tel:"], a[href^="sms:"]') : null;
+    if (!a) return;
+    if (a.getAttribute('href').indexOf('sms:') === 0) track('click_to_text');
+    else track('click_to_call');
   });
 })();
 </script>
