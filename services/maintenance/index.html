@@ -761,6 +761,15 @@
     }
     @media (max-width: 640px) { #float-call-mob { display: flex; } }
     @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── JOB PHOTOS (real work imagery) ─────── */
+    .media-band { padding: var(--space-8) 0; }
+    .photo-frame {
+      margin: 0; border: 1px solid var(--edge); background: var(--surface);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .photo-frame img { display: block; width: 100%; height: auto; }
+    .photo-inline { margin-top: var(--space-6); }
   </style>
 
   <!-- Google tag (gtag.js) — GA4 property G-V93YBHW1PJ -->
@@ -833,6 +842,22 @@
   </div>
 </section>
 
+<!-- ── Hero photo · real job (eager / fetchpriority — primary hero image) ── -->
+<section class="media-band" aria-label="Maintained mulched flower bed in Kingsport, TN">
+  <div class="wrap">
+    <figure class="photo-frame">
+      <picture>
+        <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.webp 1600w" sizes="(max-width: 1040px) 100vw, 1040px">
+        <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg"
+             srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg 1600w"
+             sizes="(max-width: 1040px) 100vw, 1040px"
+             alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN"
+             width="1600" height="1200" loading="eager" fetchpriority="high">
+      </picture>
+    </figure>
+  </div>
+</section>
+
 <!-- ════════════════════════════════════════════
      BODY
 ════════════════════════════════════════════ -->
@@ -855,6 +880,14 @@
   <div class="wrap">
     <h2>Approve once, then forget it</h2>
     <p>Pick a frequency — weekly, biweekly, or monthly — and we handle the rest, billed simply. We adjust through the season as growth speeds up and slows down, and roll seasonal cleanups in when you want them. It's the take-it-off-your-list option: you stop scheduling lawn care and just come home to a finished yard.</p>
+    <figure class="photo-frame photo-inline">
+      <picture>
+        <source type="image/webp" srcset="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.webp">
+        <img src="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.jpg"
+             alt="Foundation planting bed with boxwoods, liriope and roses freshly mulched against brick"
+             width="1000" height="750" loading="lazy">
+      </picture>
+    </figure>
   </div>
 </section>
 

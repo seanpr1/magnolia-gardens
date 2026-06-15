@@ -1066,6 +1066,15 @@
     }
     @media (max-width: 640px) { #float-call-mob { display: flex; } }
     @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── JOB PHOTOS (real work imagery) ─────── */
+    .media-band { padding: var(--space-8) 0; }
+    .photo-frame {
+      margin: 0; border: 1px solid var(--edge); background: var(--surface);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .photo-frame img { display: block; width: 100%; height: auto; }
+    .photo-inline { margin-top: var(--space-6); }
   </style>
 
   <!-- Google tag (gtag.js) — GA4 property G-V93YBHW1PJ -->
@@ -1105,6 +1114,7 @@
   </a>
   <div class="nav-links">
     <a href="#services"    class="nav-link">Services</a>
+    <a href="#work"        class="nav-link">Work</a>
     <a href="#pricing"     class="nav-link">Pricing</a>
     <a href="#how"         class="nav-link">Our process</a>
     <a href="#about"       class="nav-link">About</a>
@@ -1255,6 +1265,22 @@
   </div>
 </section>
 
+<!-- ── Hero photo · real job (eager / fetchpriority — primary hero image) ── -->
+<section class="media-band" aria-label="Recent landscaping work in Kingsport, TN">
+  <div class="wrap">
+    <figure class="photo-frame">
+      <picture>
+        <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.webp 1600w" sizes="(max-width: 1040px) 100vw, 1040px">
+        <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg"
+             srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg 1600w"
+             sizes="(max-width: 1040px) 100vw, 1040px"
+             alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN"
+             width="1600" height="1200" loading="eager" fetchpriority="high">
+      </picture>
+    </figure>
+  </div>
+</section>
+
 <div class="rule"></div>
 
 <!-- ════════════════════════════════════════════
@@ -1321,6 +1347,14 @@
         <p>I'm Sean Price. I started Magnolia Gardens Landscaping because the same instincts that make a corporate process run cleanly make a small lawn-care operation run cleanly &mdash; predictable schedules, clear communication, and work that holds up to a close look.</p>
         <p>Before this, I cooked in kitchens, worked in high-end sales, played professional music with the Johnson City Symphony Orchestra, and spent the last ten years in banking in quality control, risk management, and process design. Different jobs, same instinct: find where the system breaks, then fix it.</p>
         <p>Magnolia Gardens is my focus now. I still work in banking during the day &mdash; for the moment &mdash; but this is the business I'm building to stand behind for the long haul. That shows up in how we work: every visit gets documented, every quote is in writing, every customer hears from us by text. That's the bar. If we ever fall short of it, tell me.</p>
+        <figure class="photo-frame photo-inline">
+          <picture>
+            <source type="image/webp" srcset="/assets/work/flower-bed-cleanup-before-kingsport-tn-1000w.webp">
+            <img src="/assets/work/flower-bed-cleanup-before-kingsport-tn-1000w.jpg"
+                 alt="Magnolia Gardens owner clearing an overgrown bed with a string trimmer before mulching"
+                 width="1000" height="750" loading="lazy">
+          </picture>
+        </figure>
       </div>
 
       <aside class="about-creds" aria-label="Background">
@@ -1443,44 +1477,58 @@
 
 <div class="rule"></div>
 
-<!-- WORK GALLERY — held off live site until real photos are provided.
-     Section scaffold and CSS are in place. To activate:
-     1. Drop real before/after photos in assets/work/
-     2. Restore the section below (remove these comment delimiters)
-     3. Restore the Work nav link in <nav>
-
+<!-- ════════════════════════════════════════════
+     4b. WORK GALLERY — real job photos (assets/work/)
+════════════════════════════════════════════ -->
 <section class="section" id="work">
   <div class="wrap">
     <div class="section-hd">
       <div class="eyebrow">Recent work</div>
       <h2>The work, <em>up close</em>.</h2>
-      <p class="section-sub">Before and after — every visit documented.</p>
+      <p class="section-sub">Recent beds, mulch, and lawns around Kingsport and the Tri-Cities &mdash; every visit documented.</p>
     </div>
     <div class="work-grid">
       <div class="work-tile">
-        <img src="/assets/work/placeholder-1.jpg" alt="Before and after — front lawn mow and edge, Kingsport" loading="lazy" width="800" height="600">
+        <picture>
+          <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp">
+          <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg" alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN" loading="lazy" width="1000" height="750">
+        </picture>
       </div>
       <div class="work-tile">
-        <img src="/assets/work/placeholder-2.jpg" alt="Before and after — overgrowth cleared, fence line, Kingsport" loading="lazy" width="800" height="600">
+        <picture>
+          <source type="image/webp" srcset="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.webp">
+          <img src="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.jpg" alt="Freshly mulched landscaping beds with mixed shrubs at a Tri-Cities TN home" loading="lazy" width="1000" height="750">
+        </picture>
       </div>
       <div class="work-tile">
-        <img src="/assets/work/placeholder-3.jpg" alt="Before and after — seasonal cleanup, backyard, Kingsport" loading="lazy" width="800" height="600">
+        <picture>
+          <source type="image/webp" srcset="/assets/work/lawn-mowing-hillside-kingsport-tn-1000w.webp">
+          <img src="/assets/work/lawn-mowing-hillside-kingsport-tn-1000w.jpg" alt="Freshly mowed hillside lawn under a blue sky — Magnolia Gardens Landscaping, Kingsport TN" loading="lazy" width="1000" height="750">
+        </picture>
       </div>
       <div class="work-tile">
-        <img src="/assets/work/placeholder-4.jpg" alt="Before and after — full lawn service, Johnson City" loading="lazy" width="800" height="600">
+        <picture>
+          <source type="image/webp" srcset="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.webp">
+          <img src="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.jpg" alt="Foundation planting bed with boxwoods, liriope and roses freshly mulched against brick" loading="lazy" width="1000" height="750">
+        </picture>
       </div>
       <div class="work-tile">
-        <img src="/assets/work/placeholder-5.jpg" alt="Before and after — edging along driveway and sidewalk, Kingsport" loading="lazy" width="800" height="600">
+        <picture>
+          <source type="image/webp" srcset="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.webp">
+          <img src="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.jpg" alt="The same garden bed after cleanup and fresh mulch installation by Magnolia Gardens Landscaping" loading="lazy" width="1000" height="750">
+        </picture>
       </div>
       <div class="work-tile">
-        <img src="/assets/work/placeholder-6.jpg" alt="Before and after — brush and bank cleared, Bristol" loading="lazy" width="800" height="600">
+        <picture>
+          <source type="image/webp" srcset="/assets/work/laceleaf-japanese-maple-kingsport-tn-1000w.webp">
+          <img src="/assets/work/laceleaf-japanese-maple-kingsport-tn-1000w.jpg" alt="Close-up of a red laceleaf Japanese maple ornamental accent planting" loading="lazy" width="1000" height="1333">
+        </picture>
       </div>
     </div>
   </div>
 </section>
 
 <div class="rule"></div>
--->
 
 <!-- ════════════════════════════════════════════
      5. PRICING GUIDANCE

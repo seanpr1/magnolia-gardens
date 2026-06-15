@@ -761,6 +761,34 @@
     }
     @media (max-width: 640px) { #float-call-mob { display: flex; } }
     @keyframes floatin { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── JOB PHOTOS (real work imagery) ─────── */
+    .media-band { padding: var(--space-8) 0; }
+    .photo-frame {
+      margin: 0; border: 1px solid var(--edge); background: var(--surface);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .photo-frame img { display: block; width: 100%; height: auto; }
+    .photo-inline { margin-top: var(--space-6); }
+
+    /* before / after pair */
+    .ba-pair {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--gap-grid); margin-top: var(--space-6);
+    }
+    .ba-item {
+      position: relative; border: 1px solid var(--edge);
+      background: var(--surface); border-radius: var(--r); overflow: hidden;
+    }
+    .ba-item img { display: block; width: 100%; height: auto; }
+    .ba-tag {
+      position: absolute; top: var(--space-3); left: var(--space-3);
+      font-family: var(--mono); font-size: var(--fs-label); font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--void); background: var(--gold);
+      border-radius: var(--r); padding: 4px 10px;
+    }
+    @media (max-width: 560px) { .ba-pair { grid-template-columns: 1fr; } }
   </style>
 
   <!-- Google tag (gtag.js) — GA4 property G-V93YBHW1PJ -->
@@ -833,6 +861,22 @@
   </div>
 </section>
 
+<!-- ── Hero photo · real job (eager / fetchpriority — primary hero image) ── -->
+<section class="media-band" aria-label="Freshly mulched landscaping beds in the Tri-Cities, TN">
+  <div class="wrap">
+    <figure class="photo-frame">
+      <picture>
+        <source type="image/webp" srcset="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.webp 1000w, /assets/work/mulch-installation-landscaping-kingsport-tn-1600w.webp 1600w" sizes="(max-width: 1040px) 100vw, 1040px">
+        <img src="/assets/work/mulch-installation-landscaping-kingsport-tn-1600w.jpg"
+             srcset="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.jpg 1000w, /assets/work/mulch-installation-landscaping-kingsport-tn-1600w.jpg 1600w"
+             sizes="(max-width: 1040px) 100vw, 1040px"
+             alt="Freshly mulched landscaping beds with mixed shrubs at a Tri-Cities TN home"
+             width="1600" height="1200" loading="eager" fetchpriority="high">
+      </picture>
+    </figure>
+  </div>
+</section>
+
 <!-- ════════════════════════════════════════════
      BODY
 ════════════════════════════════════════════ -->
@@ -848,6 +892,26 @@
   <div class="wrap">
     <h2>Bed prep, then a clean install</h2>
     <p>We don't just dump and rake. We re-cut the bed edges for a defined line, pull obvious weeds, lay mulch at an even depth around trees and shrubs without burying the trunks, and blow off the surrounding walks and drive. The beds look intentional, not just covered.</p>
+    <figure class="ba-pair" aria-label="Before and after — bed cleanup and fresh mulch in Kingsport, TN">
+      <div class="ba-item">
+        <span class="ba-tag">Before</span>
+        <picture>
+          <source type="image/webp" srcset="/assets/work/flower-bed-cleanup-before-kingsport-tn-1000w.webp">
+          <img src="/assets/work/flower-bed-cleanup-before-kingsport-tn-1000w.jpg"
+               alt="Magnolia Gardens owner clearing an overgrown bed with a string trimmer before mulching"
+               width="1000" height="750" loading="lazy">
+        </picture>
+      </div>
+      <div class="ba-item">
+        <span class="ba-tag">After</span>
+        <picture>
+          <source type="image/webp" srcset="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.webp">
+          <img src="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.jpg"
+               alt="The same garden bed after cleanup and fresh mulch installation by Magnolia Gardens Landscaping"
+               width="1000" height="750" loading="lazy">
+        </picture>
+      </div>
+    </figure>
   </div>
 </section>
 
