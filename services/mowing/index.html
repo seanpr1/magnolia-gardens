@@ -6,13 +6,13 @@
   <title>Lawn Mowing in Kingsport, TN | Magnolia Gardens Landscaping</title>
 
   <meta name="description" content="Scheduled lawn mowing in Kingsport, TN — cutting, edging, trimming, and blow-off every visit. Weekly, biweekly, or one-time. Text 423-390-9954 for a quote." />
-  <meta name="theme-color" content="#1F3D2E" />
+  <meta name="theme-color" content="#005343" />
   <meta name="geo.region" content="US-TN" />
   <meta name="geo.placename" content="Kingsport, Tennessee" />
   <meta name="geo.position" content="36.5081448;-82.5145476" />
   <meta name="ICBM" content="36.5081448, -82.5145476" />
   <link rel="canonical" href="https://magnoliagardenslandscaping.com/services/mowing/" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYWdub2xpYSBHYXJkZW5zIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIGZpbGw9IiMxRjNEMkUiPjwvcmVjdD4KICA8ZyBzdHJva2U9IiNGQUY2RUEiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgCiAgICA8cGF0aCBkPSJNIDE2IDUgQyA4IDEwLjUsIDguNyAyMS41LCAxNiAyNyBDIDIzLjMgMjEuNSwgMjQgMTAuNSwgMTYgNSBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNIDE2IDcuNSBDIDE0LjMgMTMsIDE0LjUgMjIsIDE2IDI1LjUiPjwvcGF0aD4KICA8L2c+Cjwvc3ZnPg==" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Magnolia Gardens Landscaping" />
@@ -38,11 +38,11 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Magnolia Gardens palette — cream paper, forest ink, blush accent.
+      /* Magnolia Gardens palette — cream paper, forest-green ink, brass-gold accent.
          Variable names retained from the prior dark theme for selector stability;
-         values remapped per the design system (moss-700 primary, cream-200 page,
-         charcoal text, magnolia-700 for the eyebrow hairline accent). */
-      --void:     #F5EFE0;  /* cream-200 · page background · text on primary CTA */
+         locked brand (June 2026): Forest Green #005343, Cream #F4ECD8, Brass Gold #C8A04A.
+         --gold = forest primary, --accent = brass (accent only, never a primary fill). */
+      --void:     #F4ECD8;  /* cream-200 · page background · text on primary CTA */
       --deep:     #FAF6EA;  /* cream-100 · lifted paper for nested surfaces */
       --surface:  #FAF6EA;  /* cream-100 · card background */
       --panel:    #EDE5D2;  /* cream-300 · hover / selected fill */
@@ -53,13 +53,13 @@
       --label:    #5C574E;  /* charcoal-500 */
       --body:     #2A2823;  /* charcoal-700 · primary body */
       --bright:   #1F1D18;  /* charcoal-900 · headings */
-      --gold:     #1F3D2E;  /* moss-700 · primary surface (was gold accent) */
-      --gold-l:   #16291F;  /* moss-800 · primary hover (darker on cream) */
-      --gold-d:   #3F6B55;  /* moss-500 · secondary moss · icons, ghost borders */
-      --gold-glow: rgba(31, 61, 46, 0.18);
-      --gold-bg:  rgba(31, 61, 46, 0.05);
-      --accent:   #C99587;  /* magnolia-700 · used sparingly: eyebrow hairlines */
-      --success:  #3F6B55;
+      --gold:     #005343;  /* Forest Green · primary surface, CTAs, headings ink */
+      --gold-l:   #00402F;  /* darker forest · primary hover */
+      --gold-d:   #2E7D69;  /* lighter forest · icons, ghost borders */
+      --gold-glow: rgba(0, 83, 67, 0.18);
+      --gold-bg:  rgba(0, 83, 67, 0.05);
+      --accent:   #C8A04A;  /* Brass Gold · accent only: hairlines, small caps */
+      --success:  #2E7D69;
       --r:        2px;
       --mono:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --serif:    'Cormorant Garamond', 'Hoefler Text', Garamond, serif;
@@ -111,8 +111,8 @@
       content: '';
       position: fixed; inset: 0; pointer-events: none; z-index: 0;
       background-image:
-        linear-gradient(rgba(31,61,46,.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(31,61,46,.018) 1px, transparent 1px);
+        linear-gradient(rgba(0,83,67,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,83,67,.018) 1px, transparent 1px);
       background-size: 64px 64px;
     }
 
@@ -168,7 +168,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 36px; height: 64px;
-      background: rgba(245,239,224,.92);
+      background: rgba(244,236,216,.92);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--edge);
     }
@@ -177,7 +177,7 @@
       height: 44px; flex-shrink: 0;
       color: var(--gold); text-decoration: none;
     }
-    .nav-logo svg {
+    .nav-logo img {
       height: 44px; width: auto; display: block;
     }
     .nav-links {
@@ -207,7 +207,7 @@
       .nav-links { display: none; }
     }
     @media (max-width: 480px) {
-      .nav-logo, .nav-logo svg { height: 34px; }
+      .nav-logo, .nav-logo img { height: 34px; }
     }
 
     /* ── HERO ───────────────────────────────── */
@@ -217,7 +217,7 @@
       padding: 100px 0 72px;
       isolation: isolate;
       overflow: hidden;
-      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTYwMCAxMDAwIiB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CiAgPGRlZnM+CiAgICA8cGF0dGVybiBpZD0iYmxvb21zIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDgpIj4KICAgICAgPGcgY29sb3I9IiMxRjNEMkUiIHN0cm9rZT0iIzFGM0QyRSIgc3Ryb2tlLXdpZHRoPSIwLjciIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgb3BhY2l0eT0iMC4wODUiPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwMCwgMjAwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLjQpIj48ZyB0cmFuc2Zvcm09InJvdGF0ZSgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSg2MCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTIwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgxODApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDI0MCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMzAwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48Y2lyY2xlIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciIgc3Ryb2tlPSJub25lIj48L2NpcmNsZT48L2c+PC9nPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYyMCwgNDYwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLjA1KSI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoNjApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDEyMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgyNDApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDMwMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGNpcmNsZSByPSIzIiBmaWxsPSJjdXJyZW50Q29sb3IiIHN0cm9rZT0ibm9uZSI+PC9jaXJjbGU+PC9nPjwvZz4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzODAsIDU0MCkiPjxnIHRyYW5zZm9ybT0ic2NhbGUoMC43KSI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoNjApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDEyMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgyNDApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDMwMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGNpcmNsZSByPSIzIiBmaWxsPSJjdXJyZW50Q29sb3IiIHN0cm9rZT0ibm9uZSI+PC9jaXJjbGU+PC9nPjwvZz4KICAgICAgPC9nPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRjVFRkUwIj48L3JlY3Q+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNibG9vbXMpIj48L3JlY3Q+Cjwvc3ZnPg==');
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTYwMCAxMDAwIiB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CiAgPGRlZnM+CiAgICA8cGF0dGVybiBpZD0iYmxvb21zIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDgpIj4KICAgICAgPGcgY29sb3I9IiMwMDUzNDMiIHN0cm9rZT0iIzAwNTM0MyIgc3Ryb2tlLXdpZHRoPSIwLjciIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgb3BhY2l0eT0iMC4wODUiPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwMCwgMjAwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLjQpIj48ZyB0cmFuc2Zvcm09InJvdGF0ZSgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSg2MCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTIwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgxODApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDI0MCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMzAwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48Y2lyY2xlIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciIgc3Ryb2tlPSJub25lIj48L2NpcmNsZT48L2c+PC9nPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYyMCwgNDYwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLjA1KSI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoNjApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDEyMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgyNDApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDMwMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGNpcmNsZSByPSIzIiBmaWxsPSJjdXJyZW50Q29sb3IiIHN0cm9rZT0ibm9uZSI+PC9jaXJjbGU+PC9nPjwvZz4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzODAsIDU0MCkiPjxnIHRyYW5zZm9ybT0ic2NhbGUoMC43KSI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoNjApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDEyMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwKSI+PHBhdGggZD0iTSAwIDAgQyAtMTAgLTIwLCAtMjggLTUwLCAwIC05MCBDIDI4IC01MCwgMTAgLTIwLCAwIDAgWiI+PC9wYXRoPjwvZz48ZyB0cmFuc2Zvcm09InJvdGF0ZSgyNDApIj48cGF0aCBkPSJNIDAgMCBDIC0xMCAtMjAsIC0yOCAtNTAsIDAgLTkwIEMgMjggLTUwLCAxMCAtMjAsIDAgMCBaIj48L3BhdGg+PC9nPjxnIHRyYW5zZm9ybT0icm90YXRlKDMwMCkiPjxwYXRoIGQ9Ik0gMCAwIEMgLTEwIC0yMCwgLTI4IC01MCwgMCAtOTAgQyAyOCAtNTAsIDEwIC0yMCwgMCAwIFoiPjwvcGF0aD48L2c+PGNpcmNsZSByPSIzIiBmaWxsPSJjdXJyZW50Q29sb3IiIHN0cm9rZT0ibm9uZSI+PC9jaXJjbGU+PC9nPjwvZz4KICAgICAgPC9nPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRjRFQ0Q4Ij48L3JlY3Q+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNibG9vbXMpIj48L3JlY3Q+Cjwvc3ZnPg==');
       background-size: 1100px auto;
       background-repeat: repeat;
       background-position: center;
@@ -227,12 +227,12 @@
       position: absolute; inset: 0; pointer-events: none; z-index: 0;
       background:
         radial-gradient(ellipse 70% 50% at 50% -8%, rgba(232,210,200,.35) 0%, transparent 65%),
-        linear-gradient(to bottom, rgba(245,239,224,0) 70%, var(--void) 100%);
+        linear-gradient(to bottom, rgba(244,236,216,0) 70%, var(--void) 100%);
     }
     .hero::after {
       content: ''; position: absolute; z-index: 0; pointer-events: none;
       right: -90px; bottom: -70px; width: min(560px, 64vw); aspect-ratio: 1;
-      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-110 -110 220 220' fill='none' stroke='%231F3D2E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><g transform='rotate(0)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(60)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(120)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(180)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(240)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(300)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><circle r='4' fill='%231F3D2E' stroke='none'/></svg>") center / contain no-repeat;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-110 -110 220 220' fill='none' stroke='%23005343' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><g transform='rotate(0)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(60)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(120)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(180)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(240)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(300)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><circle r='4' fill='%23005343' stroke='none'/></svg>") center / contain no-repeat;
       opacity: .13;
     }
     @media (max-width: 640px) {
@@ -689,7 +689,7 @@
       content: ''; position: absolute; z-index: 0; pointer-events: none;
       right: -50px; top: 50%; transform: translateY(-50%);
       width: min(400px, 44vw); aspect-ratio: 1;
-      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-110 -110 220 220' fill='none' stroke='%231F3D2E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><g transform='rotate(0)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(60)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(120)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(180)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(240)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(300)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><circle r='4' fill='%231F3D2E' stroke='none'/></svg>") center / contain no-repeat;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-110 -110 220 220' fill='none' stroke='%23005343' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><g transform='rotate(0)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(60)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(120)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(180)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(240)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><g transform='rotate(300)'><path d='M 0 0 C -10 -20 -28 -50 0 -90 C 28 -50 10 -20 0 0 Z'/></g><circle r='4' fill='%23005343' stroke='none'/></svg>") center / contain no-repeat;
       opacity: .11;
     }
     @media (max-width: 640px) {
@@ -719,7 +719,7 @@
       display: block; margin-bottom: var(--space-2);
       color: var(--gold);
     }
-    .footer-brand svg {
+    .footer-brand img {
       display: block; height: 40px; width: auto;
     }
     .footer-detail {
@@ -805,7 +805,7 @@
 ════════════════════════════════════════════ -->
 <nav>
   <a href="/" class="nav-logo" aria-label="Magnolia Gardens Landscaping — home">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" role="img" aria-label="Magnolia Gardens Landscaping"><title>Magnolia Gardens Landscaping</title><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(20, 0)"><g transform="translate(16 18) scale(1.6875)" stroke-width="1.185"><path d="M 32 4 C 20 20, 16 52, 32 74 C 48 52, 44 20, 32 4 Z"/><path d="M 32 9 L 32 90"/><path d="M 32 23 Q 27.8 21.5 22.0 14.0"/><path d="M 32 23 Q 36.2 21.5 42.0 14.0"/><path d="M 32 32 Q 26.3 30.5 18.5 23.0"/><path d="M 32 32 Q 37.7 30.5 45.5 23.0"/><path d="M 32 41 Q 25.7 39.5 17.0 32.0"/><path d="M 32 41 Q 38.3 39.5 47.0 32.0"/><path d="M 32 50 Q 26.1 48.5 18.0 41.0"/><path d="M 32 50 Q 37.9 48.5 46.0 41.0"/><path d="M 32 59 Q 27.4 57.5 21.0 50.0"/><path d="M 32 59 Q 36.6 57.5 43.0 50.0"/><path d="M 32 67 Q 28.9 65.5 24.5 58.0"/><path d="M 32 67 Q 35.1 65.5 39.5 58.0"/></g></g><g font-family="'Cormorant Garamond', 'Hoefler Text', Garamond, serif" font-weight="500" font-size="56" letter-spacing="3.4" fill="currentColor"><text x="170" y="100">MAGNOLIA GARDENS</text></g><line x1="170" y1="116" x2="790" y2="116" stroke="currentColor" stroke-width="0.6" opacity="0.55"/><g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="500" font-size="14" letter-spacing="5.9" fill="currentColor"><text x="172" y="138">LANDSCAPING</text></g></svg>
+    <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
   </a>
   <div class="nav-links">
     <a href="/#services"    class="nav-link">Services</a>
@@ -966,7 +966,7 @@
     <div class="footer-row">
       <div>
         <div class="footer-brand" aria-label="Magnolia Gardens Landscaping">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" role="img" aria-label="Magnolia Gardens Landscaping"><title>Magnolia Gardens Landscaping</title><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(20, 0)"><g transform="translate(16 18) scale(1.6875)" stroke-width="1.185"><path d="M 32 4 C 20 20, 16 52, 32 74 C 48 52, 44 20, 32 4 Z"/><path d="M 32 9 L 32 90"/><path d="M 32 23 Q 27.8 21.5 22.0 14.0"/><path d="M 32 23 Q 36.2 21.5 42.0 14.0"/><path d="M 32 32 Q 26.3 30.5 18.5 23.0"/><path d="M 32 32 Q 37.7 30.5 45.5 23.0"/><path d="M 32 41 Q 25.7 39.5 17.0 32.0"/><path d="M 32 41 Q 38.3 39.5 47.0 32.0"/><path d="M 32 50 Q 26.1 48.5 18.0 41.0"/><path d="M 32 50 Q 37.9 48.5 46.0 41.0"/><path d="M 32 59 Q 27.4 57.5 21.0 50.0"/><path d="M 32 59 Q 36.6 57.5 43.0 50.0"/><path d="M 32 67 Q 28.9 65.5 24.5 58.0"/><path d="M 32 67 Q 35.1 65.5 39.5 58.0"/></g></g><g font-family="'Cormorant Garamond', 'Hoefler Text', Garamond, serif" font-weight="500" font-size="56" letter-spacing="3.4" fill="currentColor"><text x="170" y="100">MAGNOLIA GARDENS</text></g><line x1="170" y1="116" x2="790" y2="116" stroke="currentColor" stroke-width="0.6" opacity="0.55"/><g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="500" font-size="14" letter-spacing="5.9" fill="currentColor"><text x="172" y="138">LANDSCAPING</text></g></svg>
+          <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
         </div>
         <div class="footer-detail">
           <a href="tel:4233909954">423-390-9954</a><br>

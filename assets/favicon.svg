@@ -1,9 +1,15 @@
-<?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Magnolia Gardens">
-  <rect width="32" height="32" fill="#1F3D2E"></rect>
-  <g stroke="#FAF6EA" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    
-    <path d="M 16 5 C 8 10.5, 8.7 21.5, 16 27 C 23.3 21.5, 24 10.5, 16 5 Z"></path>
-    <path d="M 16 7.5 C 14.3 13, 14.5 22, 16 25.5"></path>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+<rect width="200" height="200" fill="#005343"/>
+<g transform="translate(8,4) scale(0.92)">
+    <path d="M96,150 C68,153 36,146 22,122 C26,115 36,110 48,109 C70,109 88,128 96,146 Z" fill="#F4ECD8"/>
+    <path d="M104,150 C132,153 164,146 178,122 C174,115 164,110 152,109 C130,109 112,128 104,146 Z" fill="#F4ECD8"/>
+    <path d="M34,121 C56,118 80,130 92,144" fill="none" stroke="#005343" stroke-width="3"/>
+    <path d="M166,121 C144,118 120,130 108,144" fill="none" stroke="#005343" stroke-width="3"/>
+    <path d="M100,114 C89,104 83,84 85,58 C86,46 92,38 100,35 C108,38 114,46 115,58 C117,84 111,104 100,114 Z" fill="#F4ECD8" stroke="#005343" stroke-width="4"/>
+    <path d="M100,140 C79,126 62,100 62,66 C62,53 69,43 80,40 C93,46 99,66 100,88 C101,108 100,126 100,140 Z" fill="#F4ECD8" stroke="#005343" stroke-width="4"/>
+    <path d="M100,140 C121,126 138,100 138,66 C138,53 131,43 120,40 C107,46 101,66 100,88 C99,108 100,126 100,140 Z" fill="#F4ECD8" stroke="#005343" stroke-width="4"/>
+    <path d="M100,150 C64,142 40,116 36,80 C35,66 41,53 54,49 C69,54 82,70 89,92 C95,112 99,134 100,150 Z" fill="#F4ECD8" stroke="#005343" stroke-width="5"/>
+    <path d="M100,150 C136,142 160,116 164,80 C165,66 159,53 146,49 C131,54 118,70 111,92 C105,112 101,134 100,150 Z" fill="#F4ECD8" stroke="#005343" stroke-width="5"/>
+    <path d="M100,152 C90,148 84,136 83,118 C82,104 88,91 97,86 C98,85 102,85 103,86 C112,91 118,104 117,118 C116,136 110,148 100,152 Z" fill="#F4ECD8" stroke="#005343" stroke-width="5"/>
+    </g>
 </svg>
