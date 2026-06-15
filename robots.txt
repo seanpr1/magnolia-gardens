@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Opt out of Google's generative-AI training (Gemini/Vertex). Does NOT affect Search.
+User-agent: Google-Extended
+Disallow: /
+
 Sitemap: https://magnoliagardenslandscaping.com/sitemap.xml
