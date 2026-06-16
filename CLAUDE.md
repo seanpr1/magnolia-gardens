@@ -1,4 +1,4 @@
-# CLAUDE.md — magnolia-gardens (public website repo)
+# CLAUDE.md - magnolia-gardens (public website repo)
 
 This is the **public** website repo for Magnolia Gardens Landscaping, LLC. Customer PII never lands here.
 
