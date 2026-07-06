@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#005343">
+<title>Magnolia Gardens — Field Quote</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="icon.svg">
+<style>
+  :root{
+    --green:#005343; --green-deep:#003d31; --cream:#F4ECD8; --cream-2:#efe5cd;
+    --gold:#C8A04A; --gold-deep:#a9853a; --ink:#20302a; --muted:#5c6b63;
+    --line:#d9cdae; --white:#fffdf7; --danger:#9a3b2f; --ok:#2f7d4f;
+    --shadow:0 2px 10px rgba(0,40,30,.10);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Fraunces",Georgia,"Times New Roman",serif;
+    background:var(--cream); color:var(--ink);
+    font-size:17px; line-height:1.4;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  /* ---- top bar ---- */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:var(--green); color:var(--cream);
+    padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;
+    display:flex; align-items:center; gap:10px;
+    box-shadow:var(--shadow);
+  }
+  header .badge{width:30px;height:30px;flex:0 0 auto}
+  header h1{font-size:18px;margin:0;font-weight:600;letter-spacing:.2px;flex:1}
+  header .sub{font-size:11px;opacity:.75;font-family:-apple-system,sans-serif;letter-spacing:.4px;text-transform:uppercase}
+  .iconbtn{
+    background:rgba(255,253,247,.12); border:none; color:var(--cream);
+    width:40px;height:40px;border-radius:10px;font-size:19px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center
+  }
+  .iconbtn:active{background:rgba(255,253,247,.25)}
+  /* ---- screens ---- */
+  .screen{display:none;padding:16px;max-width:640px;margin:0 auto}
+  .screen.active{display:block}
+  /* ---- buttons ---- */
+  .btn{
+    font-family:-apple-system,sans-serif; font-weight:600; font-size:16px;
+    border:none;border-radius:12px;padding:14px 16px;cursor:pointer;width:100%;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn.primary{background:var(--green);color:var(--cream)}
+  .btn.primary:active{background:var(--green-deep)}
+  .btn.gold{background:var(--gold);color:#2a2213}
+  .btn.gold:active{background:var(--gold-deep)}
+  .btn.ghost{background:transparent;color:var(--green);border:1.5px solid var(--line)}
+  .btn.danger{background:transparent;color:var(--danger);border:1.5px solid #e0bcb4}
+  .btn.sm{width:auto;padding:9px 13px;font-size:14px;border-radius:10px}
+  .row{display:flex;gap:10px}
+  .row>*{flex:1}
+  /* ---- cards ---- */
+  .card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .card h2{font-size:15px;margin:0 0 12px;font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700}
+  label{display:block;font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:0 0 5px}
+  input,select,textarea{
+    font-family:-apple-system,sans-serif;font-size:16px;width:100%;
+    padding:12px;border:1.5px solid var(--line);border-radius:11px;background:var(--white);color:var(--ink);
+  }
+  input:focus,select,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+  textarea{min-height:64px;resize:vertical;line-height:1.35}
+  .field{margin-bottom:12px}
+  .field.half{display:inline-block;width:calc(50% - 5px)}
+  .field.half + .field.half{margin-left:8px}
+  .hint{font-family:-apple-system,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+  /* ---- to-do checklist signature ---- */
+  .lineitem{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--white)}
+  .li-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--cream-2);cursor:pointer}
+  .check{width:26px;height:26px;flex:0 0 auto;border-radius:7px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;background:var(--white);color:var(--green);font-size:16px;font-weight:700}
+  .check.done{background:var(--green);color:var(--cream)}
+  .li-title{flex:1;font-weight:600;font-size:16px}
+  .li-price{font-family:-apple-system,sans-serif;font-weight:700;color:var(--green);font-size:15px}
+  .li-body{padding:14px;display:none;border-top:1px dashed var(--line)}
+  .li-body.open{display:block}
+  .li-caret{font-family:-apple-system,sans-serif;font-size:12px;color:var(--muted)}
+  /* photos */
+  .thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .thumb{position:relative;width:74px;height:74px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--cream-2)}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb button{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(0,0,0,.6);color:#fff;font-size:13px;line-height:1;cursor:pointer}
+  .addphoto{width:74px;height:74px;border-radius:10px;border:1.5px dashed var(--gold-deep);background:var(--white);color:var(--gold-deep);font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .addphoto input{display:none}
+  /* tiers */
+  .tiers{display:flex;gap:6px;margin-top:6px}
+  .tier-toggle{flex:1;font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;text-align:center;padding:8px 4px;border:1.5px solid var(--line);border-radius:9px;background:var(--white);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.3px}
+  .tier-toggle.on{background:var(--green);color:var(--cream);border-color:var(--green)}
+  /* quote list */
+  .qcard{display:flex;align-items:center;gap:12px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:11px;box-shadow:var(--shadow);cursor:pointer}
+  .qcard .stripe{width:5px;align-self:stretch;border-radius:4px;background:var(--gold)}
+  .qcard.sent .stripe{background:var(--ok)}
+  .qcard .qmeta{flex:1;min-width:0}
+  .qcard .qname{font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .qcard .qsub{font-family:-apple-system,sans-serif;font-size:12px;color:var(--muted);margin-top:2px}
+  .qcard .qtotal{font-family:-apple-system,sans-serif;font-weight:700;color:var(--green);font-size:16px;text-align:right}
+  .pill{display:inline-block;font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:20px;background:var(--cream-2);color:var(--muted)}
+  .pill.sent{background:#dff0e4;color:var(--ok)}
+  /* totals bar */
+  .totalsbar{position:sticky;bottom:0;background:var(--green);color:var(--cream);margin:16px -16px -16px;padding:14px 16px calc(14px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;box-shadow:0 -3px 12px rgba(0,40,30,.15)}
+  .totalsbar .tt{flex:1;font-family:-apple-system,sans-serif}
+  .totalsbar .tt small{display:block;font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:.5px}
+  .totalsbar .tt b{font-size:23px;font-weight:700}
+  /* empty */
+  .empty{text-align:center;padding:48px 20px;color:var(--muted)}
+  .empty .big{font-size:44px;margin-bottom:8px}
+  .empty p{font-family:-apple-system,sans-serif;font-size:15px}
+  /* preview / customer view */
+  .preview{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .preview .ph{text-align:center;border-bottom:2px solid var(--green);padding-bottom:14px;margin-bottom:14px}
+  .preview .ph .co{font-size:22px;font-weight:600;color:var(--green)}
+  .preview .ph .tl{font-family:-apple-system,sans-serif;font-size:12px;color:var(--muted);letter-spacing:.3px;margin-top:3px}
+  .preview .prow{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-family:-apple-system,sans-serif}
+  .preview .prow .pn{font-weight:600;font-size:15px}
+  .preview .prow .pnotes{font-size:13px;color:var(--muted);margin-top:3px}
+  .preview .prow .pp{font-weight:700;color:var(--green);white-space:nowrap}
+  .preview .ptotal{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;margin-top:4px}
+  .preview .ptotal b{font-size:26px;color:var(--green);font-family:-apple-system,sans-serif}
+  .tierbox{border:1.5px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;font-family:-apple-system,sans-serif}
+  .tierbox.best{border-color:var(--gold);background:#fbf6e9}
+  .tierbox .tn{font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+  .tierbox .tv{font-size:22px;font-weight:700;color:var(--green);margin-top:2px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--cream);font-family:-apple-system,sans-serif;font-size:14px;padding:11px 18px;border-radius:24px;opacity:0;transition:.25s;z-index:50;pointer-events:none;box-shadow:var(--shadow)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .spacer{height:8px}
+  .offline-dot{width:8px;height:8px;border-radius:50%;background:#8ad0a0;display:inline-block;margin-left:2px}
+  @media print{
+    header,.totalsbar,.noprint{display:none!important}
+    body{background:#fff}
+    .screen{padding:0}
+    .preview{border:none;box-shadow:none;padding:0}
+  }
+</style>
+</head>
+<body>
+<header>
+  <svg class="badge" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#C8A04A" stroke-width="2"/><path d="M12 20.5l5 5 11-12" fill="none" stroke="#F4ECD8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div style="flex:1">
+    <h1>Field Quote</h1>
+    <div class="sub" id="netstate">Magnolia Gardens</div>
+  </div>
+  <button class="iconbtn" id="btnSettings" title="Settings" aria-label="Settings">⚙︎</button>
+</header>
+
+<!-- ============ LIST SCREEN ============ -->
+<section class="screen active" id="s-list">
+  <button class="btn primary" id="btnNew" style="margin-bottom:16px">＋ New quote</button>
+  <div id="quoteList"></div>
+</section>
+
+<!-- ============ EDIT SCREEN ============ -->
+<section class="screen" id="s-edit">
+  <button class="btn ghost sm noprint" id="btnBackList" style="margin-bottom:14px">‹ All quotes</button>
+
+  <div class="card">
+    <h2>Customer</h2>
+    <div class="field"><label>Name</label><input id="cName" placeholder="Alex Dykes"></div>
+    <div class="field"><label>Property address</label><input id="cAddr" placeholder="123 Harbor Dr, Kingsport"></div>
+    <div class="field"><label>Phone</label><input id="cPhone" type="tel" inputmode="tel" placeholder="423-000-0000"></div>
+  </div>
+
+  <div class="card">
+    <h2>Scope — check off the work</h2>
+    <div id="items"></div>
+    <button class="btn gold sm" id="btnAddItem" style="margin-top:4px">＋ Add service</button>
+  </div>
+
+  <div class="card">
+    <h2>Quote notes (internal / crew)</h2>
+    <textarea id="qNotes" placeholder="Gate code, dog on site, park on street, access notes for the crew…"></textarea>
+  </div>
+
+  <div class="row noprint">
+    <button class="btn primary" id="btnPreview">Preview quote ›</button>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn danger sm noprint" id="btnDelete">Delete this quote</button>
+
+  <div class="totalsbar">
+    <div class="tt"><small>Estimated total</small><b id="editTotal">$0</b></div>
+    <button class="btn gold sm" id="btnPreview2" style="flex:0 0 auto">Preview ›</button>
+  </div>
+</section>
+
+<!-- ============ PREVIEW SCREEN ============ -->
+<section class="screen" id="s-preview">
+  <button class="btn ghost sm noprint" id="btnBackEdit" style="margin-bottom:14px">‹ Edit</button>
+  <div class="preview" id="previewBody"></div>
+
+  <div class="noprint" style="margin-top:16px">
+    <div class="row"><button class="btn primary" id="btnPdf">Save / print PDF</button></div>
+    <div class="spacer"></div>
+    <div class="row">
+      <button class="btn gold" id="btnShareCust">Send to customer</button>
+      <button class="btn ghost" id="btnSendHQ">Email HQ</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn ghost sm" id="btnCopyHub">Copy for HubSpot</button>
+    <div class="spacer"></div>
+    <button class="btn ghost sm" id="btnMarkSent">Mark as sent ✓</button>
+  </div>
+</section>
+
+<!-- ============ SETTINGS SCREEN ============ -->
+<section class="screen" id="s-settings">
+  <button class="btn ghost sm" id="btnBackFromSettings" style="margin-bottom:14px">‹ Back</button>
+  <div class="card">
+    <h2>Pricing engine</h2>
+    <p class="hint" style="margin-bottom:12px">These drive the time-based estimates. Set them once to your real numbers.</p>
+    <div class="field half"><label>Stop fee $</label><input id="setStop" type="number" inputmode="decimal"></div>
+    <div class="field half"><label>Per-minute $</label><input id="setPerMin" type="number" inputmode="decimal"></div>
+    <div class="field half"><label>Minimum job $</label><input id="setMin" type="number" inputmode="decimal"></div>
+    <div class="field half"><label>Materials markup ×</label><input id="setMarkup" type="number" inputmode="decimal"></div>
+    <div class="field"><label>Time buffer %</label><input id="setBuffer" type="number" inputmode="decimal"></div>
+  </div>
+  <div class="card">
+    <h2>HQ + sharing</h2>
+    <div class="field"><label>HQ email</label><input id="setHqEmail" type="email" placeholder="contact@magnoliagardenslandscaping.com"></div>
+    <div class="field"><label>Services list (one per line)</label><textarea id="setServices" style="min-height:150px"></textarea></div>
+  </div>
+  <button class="btn primary" id="btnSaveSettings">Save settings</button>
+  <div class="spacer"></div>
+  <p class="hint" style="text-align:center">Magnolia Gardens Landscaping · v1 · works offline</p>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= storage (IndexedDB) ================= */
+const DB_NAME='mgls', DB_VER=1;
+let db;
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB_NAME,DB_VER);
+  r.onupgradeneeded=e=>{const d=e.target.result;
+    if(!d.objectStoreNames.contains('quotes'))d.createObjectStore('quotes',{keyPath:'id'});
+    if(!d.objectStoreNames.contains('photos'))d.createObjectStore('photos',{keyPath:'id'});};
+  r.onsuccess=e=>{db=e.target.result;res();};r.onerror=e=>rej(e);});}
+function tx(store,mode='readonly'){return db.transaction(store,mode).objectStore(store);}
+function put(store,val){return new Promise((res,rej)=>{const r=tx(store,'readwrite').put(val);r.onsuccess=()=>res();r.onerror=rej;});}
+function del(store,key){return new Promise((res,rej)=>{const r=tx(store,'readwrite').delete(key);r.onsuccess=()=>res();r.onerror=rej;});}
+function getAll(store){return new Promise((res,rej)=>{const r=tx(store).getAll();r.onsuccess=()=>res(r.result);r.onerror=rej;});}
+function get(store,key){return new Promise((res,rej)=>{const r=tx(store).get(key);r.onsuccess=()=>res(r.result);r.onerror=rej;});}
+
+/* ================= settings ================= */
+const DEFAULTS={stop:10,perMin:1.50,min:49,markup:1.25,buffer:20,
+  hqEmail:'contact@magnoliagardenslandscaping.com',
+  services:['Mowing','Edging','String trimming','Blowing / cleanup','Mulch install','Planting install','Bed cleanup','Leaf removal','Hedge / shrub trim']};
+function loadSettings(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem('mgls_set')||'{}'));}catch(e){return {...DEFAULTS};}}
+function saveSettings(s){localStorage.setItem('mgls_set',JSON.stringify(s));}
+let SET=loadSettings();
+
+/* ================= helpers ================= */
+const $=id=>document.getElementById(id);
+const money=n=>'$'+(Math.round(n*100)/100).toLocaleString('en-US',{minimumFractionDigits:(n%1?2:0),maximumFractionDigits:2});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1900);}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');window.scrollTo(0,0);}
+function fmtDate(ts){const d=new Date(ts);return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+
+/* ================= pricing ================= */
+function itemPrice(it){
+  if(it.mode==='manual')return Number(it.amount)||0;
+  const mins=(Number(it.minutes)||0)*(1+SET.buffer/100);
+  return mins*(Number(SET.perMin)||0);
+}
+// materials line: amount is material cost, marked up
+function materialPrice(it){return (Number(it.amount)||0)*(Number(SET.markup)||1);}
+function linePrice(it){
+  if(it.mode==='material')return materialPrice(it);
+  return itemPrice(it);
+}
+function tierTotals(q){
+  // returns {single, good, better, best, usesTiers}
+  let usesTiers=false;
+  const sums={good:0,better:0,best:0,single:0};
+  q.items.forEach(it=>{
+    const p=linePrice(it);
+    sums.single+=p;
+    const t=it.tiers||{good:true,better:true,best:true};
+    if(!(t.good&&t.better&&t.best))usesTiers=true;
+    if(t.good)sums.good+=p; if(t.better)sums.better+=p; if(t.best)sums.best+=p;
+  });
+  const stop=Number(SET.stop)||0, min=Number(SET.min)||0;
+  const clamp=v=> v>0? Math.max(v+stop,min):0;
+  return {usesTiers,
+    single:clamp(sums.single), good:clamp(sums.good), better:clamp(sums.better), best:clamp(sums.best)};
+}
+
+/* ================= state ================= */
+let CUR=null;   // current quote object
+let openItem=null;
+
+function newQuote(){
+  return {id:uid(),created:Date.now(),status:'draft',
+    cust:{name:'',addr:'',phone:''}, items:[], notes:''};
+}
+async function persist(){ if(CUR){CUR.updated=Date.now(); await put('quotes',stripBlobs(CUR));} }
+function stripBlobs(q){ // photos stored separately by id; keep only ids on quote
+  const c=JSON.parse(JSON.stringify({...q,items:q.items.map(it=>({...it,_thumbs:undefined}))}));
+  return c;
+}
+
+/* ================= quote list ================= */
+async function renderList(){
+  const all=(await getAll('quotes')).sort((a,b)=>(b.updated||b.created)-(a.updated||a.created));
+  const wrap=$('quoteList');
+  if(!all.length){wrap.innerHTML=`<div class="empty"><div class="big">☑</div><p>No quotes yet.<br>Tap <b>New quote</b> to put a job on the to-do list.</p></div>`;return;}
+  wrap.innerHTML=all.map(q=>{
+    const t=tierTotals(q);const tot=t.usesTiers?t.best:t.single;
+    const n=q.cust.name||'(no name)';
+    const svc=q.items.length?q.items.map(i=>i.service).slice(0,3).join(' · '):'No services yet';
+    return `<div class="qcard ${q.status==='sent'?'sent':''}" data-id="${q.id}">
+      <div class="stripe"></div>
+      <div class="qmeta"><div class="qname">${esc(n)}</div>
+      <div class="qsub">${fmtDate(q.created)} · ${esc(svc)} ${q.status==='sent'?'<span class="pill sent">Sent</span>':''}</div></div>
+      <div class="qtotal">${money(tot)}</div></div>`;}).join('');
+  wrap.querySelectorAll('.qcard').forEach(c=>c.onclick=()=>openQuote(c.dataset.id));
+}
+function esc(s){return (s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+
+/* ================= open / edit ================= */
+async function openQuote(id){
+  CUR=await get('quotes',id);
+  await hydratePhotos(CUR);
+  fillEdit(); show('s-edit');
+}
+async function hydratePhotos(q){
+  for(const it of q.items){ it._thumbs=[];
+    for(const pid of (it.photos||[])){ const p=await get('photos',pid);
+      if(p) it._thumbs.push({id:pid,url:URL.createObjectURL(p.blob)});}}
+}
+function fillEdit(){
+  $('cName').value=CUR.cust.name; $('cAddr').value=CUR.cust.addr; $('cPhone').value=CUR.cust.phone;
+  $('qNotes').value=CUR.notes||'';
+  renderItems(); updateEditTotal();
+}
+function renderItems(){
+  const wrap=$('items');
+  if(!CUR.items.length){wrap.innerHTML=`<p class="hint">No services yet — add mowing, mulch, trimming, whatever the job needs.</p>`;return;}
+  wrap.innerHTML=CUR.items.map((it,i)=>{
+    const p=linePrice(it); const open=openItem===it.id;
+    const done=it.service&&(p>0||it.mode==='manual'||it.mode==='material');
+    return `<div class="lineitem" data-id="${it.id}">
+      <div class="li-head" data-toggle="${it.id}">
+        <div class="check ${done?'done':''}">${done?'✓':''}</div>
+        <div class="li-title">${esc(it.service||'New service')}</div>
+        <div class="li-price">${p?money(p):''}</div>
+        <div class="li-caret">${open?'▲':'▼'}</div>
+      </div>
+      <div class="li-body ${open?'open':''}">
+        <div class="field"><label>Service</label>
+          <select data-f="service" data-id="${it.id}">${SET.services.map(s=>`<option ${s===it.service?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+        <div class="field"><label>Pricing method</label>
+          <select data-f="mode" data-id="${it.id}">
+            <option value="time" ${it.mode==='time'?'selected':''}>By time (minutes × rate)</option>
+            <option value="manual" ${it.mode==='manual'?'selected':''}>Flat price</option>
+            <option value="material" ${it.mode==='material'?'selected':''}>Materials (cost × markup)</option>
+          </select></div>
+        ${it.mode==='time'
+          ?`<div class="field"><label>Estimated minutes on site</label><input type="number" inputmode="numeric" data-f="minutes" data-id="${it.id}" value="${it.minutes||''}" placeholder="45"><div class="hint">Buffer + per-minute rate applied automatically.</div></div>`
+          :`<div class="field"><label>${it.mode==='material'?'Material cost $':'Flat price $'}</label><input type="number" inputmode="decimal" data-f="amount" data-id="${it.id}" value="${it.amount||''}" placeholder="${it.mode==='material'?'40':'75'}"></div>`}
+        <div class="field"><label>Notes for this service</label><textarea data-f="inotes" data-id="${it.id}" placeholder="e.g. double mulch depth along front bed">${esc(it.inotes||'')}</textarea></div>
+        <label>Include in tier</label>
+        <div class="tiers">
+          ${['good','better','best'].map(t=>{const on=(it.tiers?it.tiers[t]:true);return `<div class="tier-toggle ${on?'on':''}" data-tier="${t}" data-id="${it.id}">${t}</div>`;}).join('')}
+        </div>
+        <div class="hint" style="margin-top:6px">Leave all three on for a single-price quote.</div>
+        <label style="margin-top:12px">Photos</label>
+        <div class="thumbs">
+          ${(it._thumbs||[]).map(t=>`<div class="thumb"><img src="${t.url}"><button data-rmphoto="${t.id}" data-id="${it.id}">×</button></div>`).join('')}
+          <label class="addphoto">＋<input type="file" accept="image/*" capture="environment" data-photo="${it.id}"></label>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn danger sm" data-del="${it.id}">Remove service</button>
+      </div></div>`;}).join('');
+  bindItemEvents();
+}
+function bindItemEvents(){
+  document.querySelectorAll('[data-toggle]').forEach(h=>h.onclick=()=>{const id=h.dataset.toggle;openItem=openItem===id?null:id;renderItems();});
+  document.querySelectorAll('#items [data-f]').forEach(el=>{
+    const ev=el.tagName==='SELECT'?'change':'input';
+    el.addEventListener(ev,e=>{const it=CUR.items.find(x=>x.id===el.dataset.id);if(!it)return;
+      const f=el.dataset.f; it[f==='inotes'?'inotes':f]=el.value;
+      if(f==='mode'){renderItems();} updateEditTotal(); persist();
+      if(f==='service'){const hd=document.querySelector(`.li-head[data-toggle="${it.id}"] .li-title`);if(hd)hd.textContent=el.value;}
+      if(f==='minutes'||f==='amount'){const pe=document.querySelector(`.lineitem[data-id="${it.id}"] .li-price`);if(pe)pe.textContent=linePrice(it)?money(linePrice(it)):'';}
+    });});
+  document.querySelectorAll('.tier-toggle').forEach(tg=>tg.onclick=()=>{const it=CUR.items.find(x=>x.id===tg.dataset.id);if(!it)return;it.tiers=it.tiers||{good:true,better:true,best:true};it.tiers[tg.dataset.tier]=!it.tiers[tg.dataset.tier];tg.classList.toggle('on');updateEditTotal();persist();});
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{const id=b.dataset.del;const it=CUR.items.find(x=>x.id===id);if(it)for(const pid of(it.photos||[]))await del('photos',pid);CUR.items=CUR.items.filter(x=>x.id!==id);openItem=null;renderItems();updateEditTotal();persist();});
+  document.querySelectorAll('[data-photo]').forEach(inp=>inp.onchange=async e=>{
+    const file=e.target.files[0];if(!file)return;const it=CUR.items.find(x=>x.id===inp.dataset.photo);if(!it)return;
+    const blob=await downscale(file);const pid=uid();await put('photos',{id:pid,blob,quoteId:CUR.id});
+    it.photos=it.photos||[];it.photos.push(pid);it._thumbs=it._thumbs||[];it._thumbs.push({id:pid,url:URL.createObjectURL(blob)});
+    persist();renderItems();toast('Photo added');});
+  document.querySelectorAll('[data-rmphoto]').forEach(b=>b.onclick=async()=>{const pid=b.dataset.rmphoto;const it=CUR.items.find(x=>x.id===b.dataset.id);await del('photos',pid);it.photos=(it.photos||[]).filter(x=>x!==pid);it._thumbs=(it._thumbs||[]).filter(x=>x.id!==pid);renderItems();persist();});
+}
+// downscale big phone photos so storage stays light
+function downscale(file){return new Promise(res=>{const img=new Image();const rd=new FileReader();
+  rd.onload=()=>{img.onload=()=>{const max=1400;let{width:w,height:h}=img;if(w>max||h>max){const r=Math.min(max/w,max/h);w=w*r|0;h=h*r|0;}
+    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+    c.toBlob(b=>res(b||file),'image/jpeg',.8);};img.src=rd.result;};rd.readAsDataURL(file);});}
+
+function updateEditTotal(){const t=tierTotals(CUR);$('editTotal').textContent=money(t.usesTiers?t.best:t.single);}
+
+/* ---- customer / preview field bindings ---- */
+['cName','cAddr','cPhone'].forEach(f=>{}); // bound below
+
+/* ================= preview ================= */
+function buildPreview(){
+  const q=CUR;const t=tierTotals(q);
+  const rows=q.items.filter(i=>i.service).map(it=>{
+    const p=linePrice(it);
+    const notes=it.inotes?`<div class="pnotes">${esc(it.inotes)}</div>`:'';
+    return `<div class="prow"><div><div class="pn">☑ ${esc(it.service)}</div>${notes}</div><div class="pp">${money(p)}</div></div>`;}).join('');
+  let totalBlock;
+  if(t.usesTiers){
+    totalBlock=`
+      <div class="tierbox"><div class="tn"><span>Good</span></div><div class="tv">${money(t.good)}</div></div>
+      <div class="tierbox"><div class="tn"><span>Better</span></div><div class="tv">${money(t.better)}</div></div>
+      <div class="tierbox best"><div class="tn"><span>Best ★</span></div><div class="tv">${money(t.best)}</div></div>`;
+  }else{
+    totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">Total estimate</span><b>${money(t.single)}</b></div>`;
+  }
+  $('previewBody').innerHTML=`
+    <div class="ph"><div class="co">Magnolia Gardens Landscaping</div><div class="tl">Put your lawn on our to-do list · ${SET.hqEmail}</div></div>
+    <div style="font-family:-apple-system,sans-serif;font-size:14px;margin-bottom:12px">
+      <div style="font-weight:700;font-size:16px">${esc(q.cust.name||'')}</div>
+      <div style="color:var(--muted)">${esc(q.cust.addr||'')}${q.cust.phone?' · '+esc(q.cust.phone):''}</div>
+      <div style="color:var(--muted);margin-top:2px">Estimate · ${fmtDate(q.created)}</div>
+    </div>
+    ${rows||'<p class="hint">No services added.</p>'}
+    <div class="spacer"></div>
+    ${totalBlock}
+    <p class="hint" style="margin-top:14px">Estimate valid 30 days. Final price confirmed on site. Card kept on file at signup.</p>`;
+}
+
+/* ================= share / export ================= */
+function quoteText(){
+  const q=CUR;const t=tierTotals(q);
+  let s=`Magnolia Gardens Landscaping — Estimate\n${q.cust.name||''}\n${q.cust.addr||''}\n${fmtDate(q.created)}\n\n`;
+  q.items.filter(i=>i.service).forEach(it=>{s+=`☑ ${it.service} — ${money(linePrice(it))}${it.inotes?'\n   ('+it.inotes+')':''}\n`;});
+  s+=`\n`;
+  if(t.usesTiers)s+=`Good ${money(t.good)}  |  Better ${money(t.better)}  |  Best ${money(t.best)}\n`;
+  else s+=`TOTAL: ${money(t.single)}\n`;
+  return s;
+}
+function hqText(){
+  const q=CUR;let s=quoteText();
+  if(q.notes)s+=`\nCrew notes: ${q.notes}\n`;
+  const photos=q.items.reduce((n,it)=>n+(it.photos?it.photos.length:0),0);
+  s+=`\n[HubSpot] Contact: ${q.cust.name} · ${q.cust.phone}\nDeal: Estimate ${fmtDate(q.created)} · ${photos} photo(s) on device`;
+  return s;
+}
+
+/* ================= wire up ================= */
+$('btnNew').onclick=async()=>{CUR=newQuote();await put('quotes',stripBlobs(CUR));fillEdit();show('s-edit');};
+$('btnBackList').onclick=()=>{renderList();show('s-list');};
+$('btnAddItem').onclick=()=>{const it={id:uid(),service:SET.services[0],mode:'time',minutes:'',amount:'',inotes:'',photos:[],tiers:{good:true,better:true,best:true}};CUR.items.push(it);openItem=it.id;renderItems();persist();};
+['cName','cAddr','cPhone'].forEach(f=>$(f).addEventListener('input',()=>{const k={cName:'name',cAddr:'addr',cPhone:'phone'}[f];CUR.cust[k]=$(f).value;persist();}));
+$('qNotes').addEventListener('input',()=>{CUR.notes=$('qNotes').value;persist();});
+$('btnDelete').onclick=async()=>{if(!confirm('Delete this quote?'))return;for(const it of CUR.items)for(const pid of(it.photos||[]))await del('photos',pid);await del('quotes',CUR.id);CUR=null;renderList();show('s-list');toast('Quote deleted');};
+$('btnPreview').onclick=$('btnPreview2').onclick=()=>{buildPreview();show('s-preview');};
+$('btnBackEdit').onclick=()=>{fillEdit();show('s-edit');};
+$('btnPdf').onclick=()=>window.print();
+$('btnShareCust').onclick=async()=>{const txt=quoteText();if(navigator.share){try{await navigator.share({title:'Magnolia Gardens Estimate',text:txt});}catch(e){}}else{await copy(txt);toast('Quote copied — paste into a text');}};
+$('btnSendHQ').onclick=()=>{const subj=encodeURIComponent(`Estimate — ${CUR.cust.name||'new'} — ${money(tierTotals(CUR).best||tierTotals(CUR).single)}`);const body=encodeURIComponent(hqText());location.href=`mailto:${SET.hqEmail}?subject=${subj}&body=${body}`;};
+$('btnCopyHub').onclick=async()=>{await copy(hqText());toast('Copied for HubSpot');};
+$('btnMarkSent').onclick=async()=>{CUR.status='sent';await persist();toast('Marked as sent ✓');};
+async function copy(t){try{await navigator.clipboard.writeText(t);}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}}
+
+/* settings */
+$('btnSettings').onclick=()=>{fillSettings();show('s-settings');};
+$('btnBackFromSettings').onclick=()=>{renderList();show('s-list');};
+function fillSettings(){$('setStop').value=SET.stop;$('setPerMin').value=SET.perMin;$('setMin').value=SET.min;$('setMarkup').value=SET.markup;$('setBuffer').value=SET.buffer;$('setHqEmail').value=SET.hqEmail;$('setServices').value=SET.services.join('\n');}
+$('btnSaveSettings').onclick=()=>{SET={stop:+$('setStop').value||0,perMin:+$('setPerMin').value||0,min:+$('setMin').value||0,markup:+$('setMarkup').value||1,buffer:+$('setBuffer').value||0,hqEmail:$('setHqEmail').value.trim()||DEFAULTS.hqEmail,services:$('setServices').value.split('\n').map(s=>s.trim()).filter(Boolean)};if(!SET.services.length)SET.services=DEFAULTS.services;saveSettings(SET);toast('Settings saved');renderList();show('s-list');};
+
+/* net state */
+function net(){$('netstate').innerHTML=navigator.onLine?'Magnolia Gardens':'Offline — saved on device <span class="offline-dot"></span>';}
+window.addEventListener('online',net);window.addEventListener('offline',net);
+
+/* boot */
+openDB().then(()=>{net();renderList();
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}});
+</script>
+</body>
+</html>

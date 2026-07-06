@@ -1,0 +1,14 @@
+{
+  "name": "Magnolia Gardens — Field Quote",
+  "short_name": "MG Quote",
+  "description": "Offline field estimation tool for Magnolia Gardens Landscaping.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F4ECD8",
+  "theme_color": "#005343",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
