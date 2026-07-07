@@ -1103,18 +1103,14 @@
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "5168b9dfab9f4dd390f2447100a6e3db"}'></script>
 
-  <!-- Microsoft Clarity - free heatmaps, session recordings, scroll & rage-click maps.
-       ACTIVATE: sign up at clarity.microsoft.com, create a project, copy the
-       project ID, uncomment this block, and replace YOUR_PROJECT_ID below. -->
-  <!--
+  <!-- Microsoft Clarity - free heatmaps, session recordings, scroll & rage-click maps. -->
   <script>
     (function(c,l,a,r,i,t,y){
       c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
       t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "YOUR_PROJECT_ID");
+    })(window, document, "clarity", "script", "xiib0yey5e");
   </script>
-  -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -1187,42 +1183,25 @@
 
           <div class="intake-fields">
             <div class="intake-field">
-              <label for="hf2-name">Name</label>
-              <input type="text" id="hf2-name" name="name" required autocomplete="name">
-            </div>
-            <div class="intake-field">
               <label for="hf2-phone">Phone</label>
-              <input type="tel" id="hf2-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="423-555-0100">
+              <input type="tel" id="hf2-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123">
             </div>
             <div class="intake-field">
-              <label for="hf2-address">Address or ZIP code</label>
-              <input type="text" id="hf2-address" name="address" required autocomplete="street-address" placeholder="Street address or just the ZIP">
+              <label for="hf2-email">Email <span class="intake-field-opt">Optional &mdash; if you&rsquo;d rather not share a number.</span></label>
+              <input type="email" id="hf2-email" name="email" autocomplete="email" placeholder="you@email.com">
             </div>
             <div class="intake-field">
-              <label for="hf2-services">Service</label>
-              <select id="hf2-services" name="services">
-                <option value="">What do you need?</option>
-                <option value="Mowing">Mowing</option>
-                <option value="Trimming &amp; Edging">Trimming &amp; Edging</option>
-                <option value="Blowing &amp; Cleanup">Blowing &amp; Cleanup</option>
-                <option value="Brush/Overgrowth">Brush/Overgrowth</option>
-                <option value="Seasonal Cleanup">Seasonal Cleanup</option>
-                <option value="Recurring Maintenance">Recurring Maintenance</option>
-                <option value="Something else">Something else</option>
-              </select>
+              <label for="hf2-name">Name <span class="intake-field-opt">Optional.</span></label>
+              <input type="text" id="hf2-name" name="name" autocomplete="name" placeholder="First name is fine">
             </div>
-
-            <fieldset class="intake-radio-row">
-              <legend>Best way to reach you</legend>
-              <label class="intake-radio">
-                <input type="radio" name="contact_method" value="Text" checked>
-                <span>Text</span>
-              </label>
-              <label class="intake-radio">
-                <input type="radio" name="contact_method" value="Call">
-                <span>Call</span>
-              </label>
-            </fieldset>
+            <div class="intake-field">
+              <label for="hf2-zip">ZIP <span class="intake-field-opt">Optional &mdash; helps us confirm you&rsquo;re in our area.</span></label>
+              <input type="text" id="hf2-zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="37664">
+            </div>
+            <div class="intake-field">
+              <label for="hf2-message">What can we take off your list? <span class="intake-field-opt">Optional.</span></label>
+              <textarea id="hf2-message" name="message" rows="3" placeholder="Mow, cleanup, mulch, a photo texted to 423-390-9954&hellip;"></textarea>
+            </div>
           </div>
 
           <!-- UTM + meta + Formspree config. No id attributes here on purpose:
@@ -1631,142 +1610,30 @@
 
         <form id="intakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
 
-          <!-- Services -->
-          <div class="intake-sub-q" style="margin-top:0;">What do you need?</div>
-          <p class="est-q-sub">Pick anything that applies.</p>
-          <div class="est-grid">
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Mowing">
-              <div class="est-card-name">Mowing</div>
-              <div class="est-card-desc">Regular cuts on a reliable schedule</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Trimming &amp; Edging">
-              <div class="est-card-name">Trimming &amp; Edging</div>
-              <div class="est-card-desc">String trimming and clean edges</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Blowing &amp; Cleanup">
-              <div class="est-card-name">Blowing &amp; Cleanup</div>
-              <div class="est-card-desc">Clippings and debris cleared off</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Brush &amp; Overgrowth Control">
-              <div class="est-card-name">Brush &amp; Overgrowth</div>
-              <div class="est-card-desc">Heavy growth, fence lines, banks</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Yard Cleanup (Spring/Fall)">
-              <div class="est-card-name">Yard Cleanup (Spring/Fall)</div>
-              <div class="est-card-desc">Leaves, debris, a full seasonal reset</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Mulching &amp; Pine Straw Installation">
-              <div class="est-card-name">Mulching &amp; Pine Straw</div>
-              <div class="est-card-desc">Fresh beds and refreshed coverage</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Weed Control">
-              <div class="est-card-name">Weed Control</div>
-              <div class="est-card-desc">Beds, edges, and walkways kept clear</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Pruning &amp; Shrub Trimming">
-              <div class="est-card-name">Pruning &amp; Shrub Trimming</div>
-              <div class="est-card-desc">Hedges, shrubs, and ornamental shaping</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card" data-multi="services" data-v="Recurring Maintenance">
-              <div class="est-card-name">Recurring Maintenance</div>
-              <div class="est-card-desc">Weekly, biweekly, or monthly plans</div>
-            </button>
-            <button type="button" class="est-card intake-multi-card intake-card-full" data-multi="services" data-v="Other" id="svcOther">
-              <div class="est-card-name">Something else</div>
-              <div class="est-card-desc">Tell us what you have in mind, we probably do it</div>
-            </button>
-          </div>
-
-          <div class="intake-field" id="svcOtherField" hidden style="margin-top:14px;">
-            <label for="if-services-other">What do you have in mind?</label>
-            <input type="text" id="if-services-other" name="services_other" placeholder="A few words is enough" autocomplete="off">
-          </div>
-
-          <!-- Frequency -->
-          <fieldset class="intake-radio-row" style="margin-top:24px;">
-            <legend>How often?</legend>
-            <label class="intake-radio">
-              <input type="radio" name="frequency" value="Weekly">
-              <span>Weekly</span>
-            </label>
-            <label class="intake-radio">
-              <input type="radio" name="frequency" value="Biweekly">
-              <span>Biweekly</span>
-            </label>
-            <label class="intake-radio">
-              <input type="radio" name="frequency" value="Monthly">
-              <span>Monthly</span>
-            </label>
-            <label class="intake-radio">
-              <input type="radio" name="frequency" value="One-time">
-              <span>One-time</span>
-            </label>
-            <label class="intake-radio">
-              <input type="radio" name="frequency" value="Not sure yet">
-              <span>Not sure yet</span>
-            </label>
-          </fieldset>
-
-          <!-- Yard size -->
-          <fieldset class="intake-radio-row" style="margin-top:22px;">
-            <legend>Yard size <span class="intake-field-opt">Best guess is fine.</span></legend>
-            <label class="intake-radio">
-              <input type="radio" name="yard_size" value="Small (under 1/4 acre)">
-              <span>Small</span>
-            </label>
-            <label class="intake-radio">
-              <input type="radio" name="yard_size" value="Medium (1/4 to 1/2 acre)">
-              <span>Medium</span>
-            </label>
-            <label class="intake-radio">
-              <input type="radio" name="yard_size" value="Large (1/2 to 1 acre)">
-              <span>Large</span>
-            </label>
-            <label class="intake-radio">
-              <input type="radio" name="yard_size" value="Over 1 acre">
-              <span>Over 1 acre</span>
-            </label>
-          </fieldset>
-
-          <!-- Contact -->
-          <div class="intake-fields" style="margin-top:26px;">
-            <div class="intake-field">
-              <label for="if-name">Name</label>
-              <input type="text" id="if-name" name="name" required autocomplete="name">
-            </div>
+          <div class="intake-fields" style="margin-top:0;">
             <div class="intake-field">
               <label for="if-phone">Phone</label>
-              <input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="423-555-0100">
+              <input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123">
             </div>
             <div class="intake-field">
-              <label for="if-address">Address or ZIP code</label>
-              <input type="text" id="if-address" name="address" required autocomplete="street-address" placeholder="Street address or just the ZIP">
+              <label for="if-email">Email <span class="intake-field-opt">Optional &mdash; if you&rsquo;d rather not share a number.</span></label>
+              <input type="email" id="if-email" name="email" autocomplete="email" placeholder="you@email.com">
             </div>
-
-            <fieldset class="intake-radio-row">
-              <legend>Best way to reach you</legend>
-              <label class="intake-radio">
-                <input type="radio" name="contact_method" value="Text" checked>
-                <span>Text</span>
-              </label>
-              <label class="intake-radio">
-                <input type="radio" name="contact_method" value="Call">
-                <span>Call</span>
-              </label>
-              <label class="intake-radio">
-                <input type="radio" name="contact_method" value="Either">
-                <span>Either</span>
-              </label>
-            </fieldset>
-
             <div class="intake-field">
-              <label for="if-notes">Anything else? <span class="intake-field-opt">Gates, dogs, tricky spots, how soon you're hoping for service.</span></label>
-              <textarea id="if-notes" name="notes" rows="3"></textarea>
+              <label for="if-name">Name <span class="intake-field-opt">Optional.</span></label>
+              <input type="text" id="if-name" name="name" autocomplete="name" placeholder="First name is fine">
+            </div>
+            <div class="intake-field">
+              <label for="if-zip">ZIP <span class="intake-field-opt">Optional &mdash; helps us confirm you&rsquo;re in our area.</span></label>
+              <input type="text" id="if-zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="37664">
+            </div>
+            <div class="intake-field">
+              <label for="if-message">What can we take off your list? <span class="intake-field-opt">Optional.</span></label>
+              <textarea id="if-message" name="message" rows="3" placeholder="Mow, cleanup, mulch, a photo texted to 423-390-9954&hellip;"></textarea>
             </div>
           </div>
 
-          <!-- Hidden mirror for multi-select services + UTM + meta + Formspree config -->
-          <input type="hidden" name="services" id="hf-services" value="">
+          <!-- UTM + meta + Formspree config -->
           <input type="hidden" name="utm_source" id="utm_source" value="">
           <input type="hidden" name="utm_medium" id="utm_medium" value="">
           <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
@@ -2122,9 +1989,10 @@
         return;
       }
 
-      // Required: name, phone, address. Scroll the first empty field into
-      // view and focus it. novalidate is on so we control the UX here.
-      var required = ['name', 'phone', 'address'];
+      // Required: phone only (the one field that makes a lead reachable).
+      // Scroll the first empty field into view and focus it. novalidate is
+      // on so we control the UX here.
+      var required = ['phone'];
       for (var i = 0; i < required.length; i++) {
         var el = form.elements[required[i]];
         if (!el || !el.value.trim()) {
@@ -2186,7 +2054,7 @@
     if (!hero) return;
     track('cta_jump', { source: source || 'cta_repeat' });
     hero.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    var first = hero.querySelector('input[name="name"]');
+    var first = hero.querySelector('input[name="phone"]');
     if (first) setTimeout(function () {
       try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); }
     }, 420);
@@ -2302,7 +2170,7 @@
       var fEl = form.elements.frequency;
       var yEl = form.elements.yard_size;
       var cEl = form.elements.contact_method;
-      var nEl = form.elements.notes;
+      var nEl = form.elements.message;
       return {
         services_count: selectedServices.length,
         frequency: (fEl && fEl.value) || 'unset',
