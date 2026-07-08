@@ -808,6 +808,24 @@
       })(window, document, "clarity", "script", "xiib0yey5e");
     }
   </script>
+
+  <!-- Meta Pixel (id 1529884685261202) - guarded to production only, same
+       allowlist as GA4/Clarity/Cloudflare. noscript <img> fallback omitted on
+       purpose: it can't check the hostname and would fire off-prod. -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1529884685261202');
+      fbq('track', 'PageView');
+    }
+  </script>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
