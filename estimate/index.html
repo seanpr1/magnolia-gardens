@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#005343" />
+  <title>Get Your Instant Estimate · Magnolia Gardens Landscaping</title>
+  <meta name="description" content="See your lawn care price in about a minute. Magnolia Gardens Landscaping — mowing, maintenance, cleanup and mulch in Kingsport and the Tri-Cities." />
+  <link rel="canonical" href="https://magnoliagardenslandscaping.com/estimate/" />
+  <link rel="icon" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Analytics production guard: only initialize on the real production
+       domain, so owner self-testing on Netlify staging / localhost / Electron
+       previews never pollutes Clarity, GA4, or Cloudflare data. -->
+  <script>
+    window.MG_ANALYTICS_OK = (
+      location.hostname === 'magnoliagardenslandscaping.com' ||
+      location.hostname === 'www.magnoliagardenslandscaping.com'
+    );
+  </script>
+
+  <!-- Google tag (gtag.js) - GA4 property G-V93YBHW1PJ -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      var gaLoader = document.createElement('script');
+      gaLoader.async = true;
+      gaLoader.src = 'https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ';
+      document.head.appendChild(gaLoader);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', 'G-V93YBHW1PJ');
+    }
+  </script>
+
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --void:#F4ECD8; --deep:#FAF6EA; --surface:#FAF6EA; --panel:#EDE5D2;
+      --edge:#D6CFC0; --muted:#5C574E; --dim:#5C574E; --body:#2A2823; --bright:#1F1D18;
+      --gold:#005343; --gold-l:#00402F; --gold-d:#2E7D69;
+      --gold-bg:rgba(0,83,67,.05); --gold-glow:rgba(0,83,67,.18);
+      --accent:#C8A04A; --success:#2E7D69; --danger:#9a3b2f;
+      --r:2px;
+      --mono:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      --serif:'Fraunces','Hoefler Text',Garamond,serif;
+      --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      --ease:cubic-bezier(0.32,0,0.24,1);
+      --fs-display:clamp(30px,5vw,46px); --fs-heading:clamp(24px,3.5vw,34px);
+      --fs-feature:34px; --fs-title:20px; --fs-body:17px; --fs-label:12px;
+    }
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--void); color:var(--body); font-family:var(--sans);
+      font-size:var(--fs-body); line-height:1.6; min-height:100vh;
+      -webkit-tap-highlight-color:transparent; overflow-x:hidden;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+      background-image:linear-gradient(rgba(0,83,67,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,83,67,.018) 1px,transparent 1px);background-size:64px 64px}
+
+    /* nav */
+    nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+      padding:calc(env(safe-area-inset-top) + 0px) 24px 0;height:58px;background:rgba(244,236,216,.92);
+      backdrop-filter:blur(12px);border-bottom:1px solid var(--edge)}
+    .nav-logo{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.02em;color:var(--gold);text-decoration:none}
+    .nav-back{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.08em;text-transform:uppercase;
+      color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px}
+    .nav-back:hover{color:var(--body)}
+
+    /* progress */
+    .progress{position:sticky;top:58px;z-index:49;height:2px;background:var(--edge)}
+    .progress-fill{height:100%;width:0;background:var(--accent);transition:width .5s var(--ease)}
+
+    main{position:relative;z-index:1;max-width:660px;margin:0 auto;padding:32px 24px 64px}
+
+    .screen{display:none}
+    .screen.active{display:block;animation:in .38s var(--ease)}
+    @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    .eyebrow{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.16em;text-transform:uppercase;
+      color:var(--gold-d);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+    .eyebrow::before{content:'';width:22px;height:1px;background:var(--accent)}
+    h1,h2{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em;color:var(--bright)}
+    h1{font-size:var(--fs-display);margin-bottom:14px}
+    .q-title{font-size:var(--fs-heading);margin-bottom:6px}
+    .lead{font-size:var(--fs-body);color:var(--muted);margin-bottom:30px;max-width:52ch}
+    .q-sub{font-size:15px;color:var(--muted);margin-bottom:26px}
+
+    /* option cards */
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .opt{border:1px solid var(--edge);border-radius:var(--r);background:var(--surface);padding:20px 18px;
+      cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:8px;position:relative;
+      transition:border-color .18s,background .18s,transform .12s;font-family:inherit}
+    .opt:hover{border-color:var(--gold-d);transform:translateY(-2px)}
+    .opt.selected{border-color:var(--gold);background:var(--panel)}
+    .opt .ic{width:34px;height:34px;color:var(--gold-d)}
+    .opt .lab{font-family:var(--serif);font-size:var(--fs-title);font-weight:600;color:var(--bright);line-height:1.15}
+    .opt .desc{font-size:13px;color:var(--muted);line-height:1.45}
+    .opt .tick{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;
+      border:1.5px solid var(--edge);display:flex;align-items:center;justify-content:center;color:#fff;transition:.18s}
+    .opt.selected .tick{background:var(--gold);border-color:var(--gold)}
+
+    /* form */
+    .field{margin-bottom:16px}
+    label.fl{display:block;font-family:var(--mono);font-size:var(--fs-label);font-weight:500;letter-spacing:.06em;
+      text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    .opt-tag{color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400}
+    input,textarea{font-family:var(--sans);font-size:16px;width:100%;padding:13px 14px;border:1.5px solid var(--edge);
+      border-radius:var(--r);background:var(--surface);color:var(--body)}
+    input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-bg)}
+    textarea{min-height:70px;resize:vertical;line-height:1.5}
+
+    /* buttons */
+    .btn{font-family:var(--sans);font-weight:600;font-size:15px;border:none;border-radius:var(--r);
+      padding:15px 26px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      transition:background .18s,transform .15s,box-shadow .18s;text-decoration:none}
+    .btn-primary{background:var(--gold);color:var(--void);box-shadow:0 14px 34px -18px var(--gold-glow)}
+    .btn-primary:hover{background:var(--gold-l);transform:translateY(-1px)}
+    .btn-primary[disabled]{opacity:.55;cursor:default;transform:none}
+    .btn-ghost{background:transparent;color:var(--gold);border:1.5px solid var(--edge)}
+    .btn-ghost:hover{border-color:var(--gold-d)}
+    .btn-block{width:100%}
+    .actions{display:flex;gap:12px;margin-top:26px;align-items:center}
+    .actions .btn{flex:1}
+    .backlink{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.06em;text-transform:uppercase;
+      color:var(--muted);background:none;border:none;cursor:pointer;padding:8px 2px;display:inline-flex;align-items:center;gap:6px}
+    .backlink:hover{color:var(--body)}
+
+    .trust-row{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-family:var(--mono);font-size:var(--fs-label);
+      letter-spacing:.04em;color:var(--muted)}
+    .trust-row span{display:flex;align-items:center;gap:6px}
+    .trust-row svg{color:var(--gold-d)}
+
+    /* calculating */
+    #screen-calc{text-align:center;padding:60px 0}
+    .spinner{width:46px;height:46px;margin:0 auto 26px;border:3px solid var(--edge);border-top-color:var(--gold);
+      border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .calc-params{max-width:340px;margin:24px auto 0;text-align:left}
+    .calc-param{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--edge);
+      font-size:14px}
+    .calc-param .k{color:var(--muted)}
+    .calc-param .v{color:var(--bright);font-weight:600}
+
+    /* reveal */
+    .price-hero{background:var(--gold);color:var(--void);border-radius:var(--r);padding:30px 26px;text-align:center;
+      box-shadow:0 20px 48px -24px var(--gold-glow);margin-bottom:14px}
+    .price-hero .plab{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.16em;text-transform:uppercase;opacity:.8;margin-bottom:10px}
+    .price-hero .pval{font-family:var(--serif);font-size:clamp(40px,9vw,58px);font-weight:600;line-height:1;letter-spacing:-.02em}
+    .price-hero .punit{font-family:var(--mono);font-size:13px;letter-spacing:.04em;opacity:.85;margin-top:10px}
+    .price-mo{text-align:center;font-size:14px;color:var(--muted);margin-bottom:22px}
+    .price-mo b{color:var(--bright)}
+
+    .tiers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+    .tier{border:1px solid var(--edge);border-radius:var(--r);background:var(--surface);padding:16px 12px;text-align:center;position:relative}
+    .tier.best{border-color:var(--accent);background:#fbf6e9}
+    .tier .tn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .tier .tv{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--gold);line-height:1}
+    .tier .tvu{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:4px}
+    .tier .tdesc{font-size:12px;color:var(--muted);line-height:1.4;margin-top:9px}
+    .tier .flag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--accent);color:#2a2213;
+      font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:20px}
+
+    .disclaimer{font-size:13px;color:var(--muted);line-height:1.55;background:var(--panel);border-radius:var(--r);
+      padding:14px 16px;margin-bottom:22px}
+    .disclaimer b{color:var(--bright)}
+
+    /* thanks / captured */
+    .captured{background:var(--gold-bg);border:1px solid var(--gold-d);border-radius:var(--r);padding:14px 16px;
+      font-size:14px;color:var(--body);margin-bottom:20px;display:flex;gap:10px;align-items:flex-start}
+    .captured svg{color:var(--gold);flex-shrink:0;margin-top:2px}
+
+    /* booking embed slot */
+    #bookSlot{margin-top:8px}
+    .book-fallback{border:1px solid var(--edge);border-radius:var(--r);padding:22px;text-align:center;background:var(--gold-bg)}
+    .book-fallback .bh{font-family:var(--serif);font-size:var(--fs-title);color:var(--bright);margin-bottom:8px}
+    .book-fallback p{font-size:14px;color:var(--muted);margin-bottom:18px}
+
+    .err{color:var(--danger);font-size:13px;margin-top:10px;display:none}
+    .err.show{display:block}
+
+    footer{text-align:center;padding:28px 24px;font-family:var(--mono);font-size:var(--fs-label);
+      letter-spacing:.04em;color:var(--muted);border-top:1px solid var(--edge)}
+
+    @media(max-width:480px){
+      .cards{grid-template-columns:1fr}
+      .tiers{grid-template-columns:1fr}
+      main{padding:24px 18px 56px}
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">Magnolia Gardens</a>
+  <a href="/" class="nav-back">‹ Back to site</a>
+</nav>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+
+<main>
+
+  <!-- ===== INTRO ===== -->
+  <section class="screen active" id="screen-intro">
+    <div class="eyebrow">Instant estimate</div>
+    <h1>See your price in about a minute.</h1>
+    <p class="lead">Three quick questions and you'll see a real number, right here on the page — no waiting for a callback. Then, if it looks good, put your first visit on our schedule.</p>
+    <button class="btn btn-primary" id="btnStart">Start my estimate
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <div class="trust-row">
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Sullivan County licensed &amp; insured</span>
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Locally owned</span>
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Serving the Tri-Cities</span>
+    </div>
+  </section>
+
+  <!-- ===== Q1 SERVICE ===== -->
+  <section class="screen" id="screen-q1">
+    <div class="eyebrow"><span id="cnt1">Step 1 of 3</span></div>
+    <h2 class="q-title">What can we take off your list?</h2>
+    <p class="q-sub">Pick the main thing you need. You can add more later — we confirm everything on site.</p>
+    <div class="cards">
+      <button class="opt" data-q="service" data-val="mowing">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M6 17v-3a3 3 0 0 1 3-3h1M14 11V6a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v11"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>
+        <span class="lab">Recurring mowing</span>
+        <span class="desc">Mow, edge &amp; blow on a schedule — weekly or every two weeks.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="service" data-val="maintenance">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="3.2"/></svg>
+        <span class="lab">Full grounds care</span>
+        <span class="desc">Mowing plus beds, trimming &amp; seasonal upkeep — the whole property handled.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="service" data-val="cleanup">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l6-6M9 15l-2-2M14 4l6 6M11 7l6 6-3 3-6-6z"/></svg>
+        <span class="lab">One-time cleanup</span>
+        <span class="desc">Overgrowth, leaves, beds or a reset before it goes back on a schedule.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="service" data-val="mulch">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c3-4 6-4 9 0M12 18c3-4 6-4 9 0M2 18h20"/><path d="M8 10c0-2 1.8-4 4-4s4 2 4 4"/></svg>
+        <span class="lab">Mulch &amp; beds</span>
+        <span class="desc">Fresh mulch and bed definition. Priced by bed size on site.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+    </div>
+    <div class="actions"><button class="backlink" data-back="intro">‹ Back</button></div>
+  </section>
+
+  <!-- ===== Q2 SIZE ===== -->
+  <section class="screen" id="screen-q2">
+    <div class="eyebrow"><span id="cnt2">Step 2 of 3</span></div>
+    <h2 class="q-title">Roughly how big is the lawn?</h2>
+    <p class="q-sub">A ballpark is fine. If it's very different in person, we adjust after the first visit and tell you first — fewer than 1 in 100 ever change plans over it.</p>
+    <div class="cards">
+      <button class="opt" data-q="size" data-val="compact">
+        <span class="lab">Compact</span>
+        <span class="desc">Small yard or townhome — under ~¼ acre (under ~5,000 sq ft).</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="size" data-val="midsize">
+        <span class="lab">Mid-size</span>
+        <span class="desc">Typical single-family lot — about ¼ to ½ acre.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="size" data-val="spacious">
+        <span class="lab">Spacious</span>
+        <span class="desc">Larger lot — about ½ to 1 acre.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="size" data-val="estate">
+        <span class="lab">Estate</span>
+        <span class="desc">Over an acre of mowable ground.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+    </div>
+    <div class="actions"><button class="backlink" data-back="q1">‹ Back</button></div>
+  </section>
+
+  <!-- ===== Q3 CONTACT (capture BEFORE price) ===== -->
+  <section class="screen" id="screen-q3">
+    <div class="eyebrow"><span id="cnt3">Step 3 of 3</span></div>
+    <h2 class="q-title">Where's the property?</h2>
+    <p class="q-sub">Your address helps us confirm we cover your area and gets your price ready. We'll text it to the number below so you have it saved.</p>
+
+    <form id="estForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
+      <div class="field">
+        <label class="fl" for="f-addr">Property address</label>
+        <input type="text" id="f-addr" name="address" autocomplete="street-address" placeholder="123 Harbor Dr, Kingsport, TN 37664" required>
+      </div>
+      <div class="field">
+        <label class="fl" for="f-phone">Mobile number <span class="opt-tag">— we text your quote here</span></label>
+        <input type="tel" id="f-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123" required>
+      </div>
+      <div class="field">
+        <label class="fl" for="f-name">Name <span class="opt-tag">— optional</span></label>
+        <input type="text" id="f-name" name="name" autocomplete="name" placeholder="First name is fine">
+      </div>
+      <div class="field">
+        <label class="fl" for="f-email">Email <span class="opt-tag">— optional</span></label>
+        <input type="email" id="f-email" name="email" autocomplete="email" placeholder="you@email.com">
+      </div>
+
+      <!-- hidden: quiz answers + estimate get filled in by JS before submit -->
+      <input type="hidden" name="service" id="hf-service" value="">
+      <input type="hidden" name="lawn_size" id="hf-size" value="">
+      <input type="hidden" name="estimate" id="hf-estimate" value="">
+      <input type="hidden" name="source" value="instant-estimator">
+      <input type="hidden" name="outcome" id="hf-outcome" value="saw_price_no_booking">
+      <input type="hidden" name="_subject" id="hf-subject" value="🌱 ESTIMATE LEAD (no booking yet) - magnoliagardenslandscaping.com">
+      <input type="hidden" name="utm_source"   id="utm_source"   value="">
+      <input type="hidden" name="utm_medium"   id="utm_medium"   value="">
+      <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
+      <input type="hidden" name="page_url"     id="page_url"     value="">
+      <input type="hidden" name="submitted_at" id="submitted_at" value="">
+      <label style="position:absolute;left:-9999px" aria-hidden="true">Leave empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+
+      <div class="actions">
+        <button type="button" class="backlink" data-back="q2">‹ Back</button>
+        <button type="submit" class="btn btn-primary" id="btnReveal">Show my estimate ›</button>
+      </div>
+      <p class="err" id="formErr">Please add a property address and mobile number so we can text your quote.</p>
+    </form>
+    <div class="trust-row" style="margin-top:18px">
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>No spam. No obligation. We reply by text.</span>
+    </div>
+  </section>
+
+  <!-- ===== CALCULATING ===== -->
+  <section class="screen" id="screen-calc">
+    <div class="spinner"></div>
+    <h2 class="q-title" style="margin-bottom:6px">Building your estimate…</h2>
+    <p class="q-sub" style="margin-bottom:0">Pricing this against real routes in your area.</p>
+    <div class="calc-params" id="calcParams"></div>
+  </section>
+
+  <!-- ===== REVEAL ===== -->
+  <section class="screen" id="screen-reveal">
+    <div class="eyebrow">Your estimate</div>
+
+    <div class="captured">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <span>Saved — we've got your details and your quote. We'll text you a copy shortly; it's yours whether you book now or later.</span>
+    </div>
+
+    <div class="price-hero">
+      <div class="plab" id="revealLabel">Estimated per visit</div>
+      <div class="pval" id="revealPrice">$—</div>
+      <div class="punit" id="revealUnit"></div>
+    </div>
+    <p class="price-mo" id="revealMonthly"></p>
+
+    <div class="tiers" id="tiers"></div>
+
+    <div class="disclaimer">
+      <b>How this works:</b> this is a real working estimate for a <span id="revealSizeLabel"></span> in the Tri-Cities. We lock the final number when we see the property — and if it needs adjusting, we tell you before any work happens.
+    </div>
+
+    <div id="bookSlot">
+      <!-- Booking engine embeds here once chosen (Square Appointments / Calendly).
+           Until then, the working fallback below books via text + the lead is already at HQ. -->
+      <div class="book-fallback" id="bookFallback">
+        <div class="bh">Ready to take it off your list?</div>
+        <p>Your quote&rsquo;s saved. Tap below and it opens a text with everything already filled in &mdash; just hit send, and we&rsquo;ll reply with your first available visit. That&rsquo;s the whole thing.</p>
+        <a class="btn btn-primary btn-block" id="btnBook" href="#">Book my first visit</a>
+        <div style="height:12px"></div>
+        <a class="btn btn-ghost btn-block" href="tel:4233909954">Prefer to call? (423) 390-9954</a>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="backlink" data-back="intro">‹ Start over</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>Magnolia Gardens Landscaping, LLC · Kingsport &amp; the Tri-Cities · <a href="tel:4233909954" style="color:var(--gold)">423-390-9954</a></footer>
+
+<script>
+(function(){
+  "use strict";
+  const $ = s => document.querySelector(s);
+  const state = { service:'', size:'' };
+  let current = 'intro';
+  let leadSent = false;
+
+  /* ---------- pricing engine (aligned to Magnolia field engine) ---------- */
+  const ENGINE = { stop:10, perMin:1.50, buffer:0.20, floor:55 };
+  // estimated minutes on site by lawn size (mow + edge + blow), tuned to clean price anchors
+  const MINUTES = { compact:25, midsize:42, spacious:64, estate:95 };
+  const SIZE_LABEL = { compact:'compact lot', midsize:'mid-size lot', spacious:'spacious lot', estate:'estate property' };
+  const SIZE_ACRE  = { compact:'under ¼ acre', midsize:'¼–½ acre', spacious:'½–1 acre', estate:'over 1 acre' };
+  const SERVICE_LABEL = { mowing:'Recurring mowing', maintenance:'Full grounds care', cleanup:'One-time cleanup', mulch:'Mulch & beds' };
+
+  const round5 = n => Math.round(n/5)*5;
+  function baseVisit(size){
+    const mins = MINUTES[size] * (1 + ENGINE.buffer);
+    return Math.max(ENGINE.floor, ENGINE.stop + mins * ENGINE.perMin);
+  }
+
+  // returns the numbers to display for the chosen service+size
+  function calc(){
+    const svc = state.service;
+    const base = baseVisit(state.size);       // mow+edge+blow per visit
+
+    if(svc === 'mowing'){
+      const per = round5(base);
+      return {
+        kind:'per-visit',
+        label:'Estimated per visit',
+        low: round5(base*0.9), high: round5(base*1.12),
+        monthly:[ round5(base*0.9*4), round5(base*1.12*4) ],   // ~weekly
+        tiers:[
+          { n:'Good',   v:per,            u:'/ visit', d:'Mow, edge &amp; blow, every visit.' },
+          { n:'Better', v:round5(base*1.22), u:'/ visit', d:'Adds string-trim detail &amp; crisp precision edging.', best:false },
+          { n:'Best',   v:round5(base*1.5),  u:'/ visit', d:'Adds bed tidy &amp; seasonal touch-ups. Most popular.', best:true }
+        ]
+      };
+    }
+    if(svc === 'maintenance'){
+      const per = round5(base*1.5);
+      return {
+        kind:'per-visit',
+        label:'Estimated per visit',
+        low: round5(base*1.35), high: round5(base*1.75),
+        monthly:[ round5(base*1.35*4), round5(base*1.75*4) ],
+        tiers:[
+          { n:'Good',   v:round5(base*1.22), u:'/ visit', d:'Mow, edge, blow + light bed upkeep.' },
+          { n:'Better', v:per,               u:'/ visit', d:'Adds trimming, shrubs &amp; full bed care.', best:false },
+          { n:'Best',   v:round5(base*1.85), u:'/ visit', d:'Whole property handled + seasonal color. Most popular.', best:true }
+        ]
+      };
+    }
+    if(svc === 'cleanup'){
+      const one = base*3.2;   // one-time reset scales with size
+      return {
+        kind:'one-time',
+        label:'Estimated one-time',
+        low: round5(one*0.85), high: round5(one*1.25),
+        monthly:null,
+        tiers:[
+          { n:'Light',  v:round5(one*0.85), u:'one-time', d:'Mow-down, edge &amp; haul the clippings.' },
+          { n:'Full',   v:round5(one),      u:'one-time', d:'Adds beds, leaves &amp; overgrowth reset.', best:true },
+          { n:'Reset+', v:round5(one*1.25), u:'one-time', d:'Everything, plus mulch refresh &amp; detail.', best:false }
+        ]
+      };
+    }
+    // mulch — priced on site by bed area; show a starting range, no per-visit
+    const start = base*2.4;
+    return {
+      kind:'range',
+      label:'Typically starts around',
+      low: round5(start*0.8), high: round5(start*1.6),
+      monthly:null,
+      tiers:null,
+      note:'Mulch is priced by bed size and material — we confirm the exact number on site, usually same day.'
+    };
+  }
+
+  const money = n => '$' + Number(n).toLocaleString('en-US');
+
+  /* ---------- navigation ---------- */
+  const ORDER = ['intro','q1','q2','q3','calc','reveal'];
+  function goTo(name){
+    const from = $('#screen-'+current), to = $('#screen-'+name);
+    if(from) from.classList.remove('active');
+    if(to){ to.classList.add('active'); }
+    current = name;
+    window.scrollTo({top:0,behavior:'smooth'});
+    const idx = ORDER.indexOf(name);
+    const pct = name==='intro'?0 : name==='reveal'?100 : Math.round(idx/(ORDER.length-1)*100);
+    $('#progressFill').style.width = pct+'%';
+    if(window.gtag) gtag('event','estimator_step',{ step:name });
+  }
+
+  /* ---------- utm / meta capture ---------- */
+  (function meta(){
+    try{
+      const p = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign'].forEach(k=>{ const el=$('#'+k); if(el) el.value = p.get(k)||''; });
+      const pu=$('#page_url'); if(pu) pu.value = location.href;
+    }catch(e){}
+  })();
+
+  /* ---------- start / option clicks ---------- */
+  $('#btnStart').addEventListener('click', ()=>goTo('q1'));
+
+  document.querySelectorAll('.opt').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const q = card.dataset.q, val = card.dataset.val;
+      document.querySelectorAll('[data-q="'+q+'"]').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      state[q] = val;
+      setTimeout(()=>{ goTo(q==='service' ? 'q2' : 'q3'); }, 240);
+    });
+  });
+
+  document.querySelectorAll('[data-back]').forEach(b=>{
+    b.addEventListener('click', ()=>goTo(b.dataset.back));
+  });
+
+  /* ---------- step counters ---------- */
+  // (static labels already in markup)
+
+  /* ---------- submit: capture lead, THEN reveal price ---------- */
+  $('#estForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const addr = $('#f-addr').value.trim();
+    const phone = $('#f-phone').value.trim();
+    const err = $('#formErr');
+    if(!addr || phone.replace(/\D/g,'').length < 10){ err.classList.add('show'); return; }
+    err.classList.remove('show');
+
+    // fill hidden fields with the answers + computed estimate BEFORE sending
+    const e0 = calc();
+    $('#hf-service').value = SERVICE_LABEL[state.service] || state.service;
+    $('#hf-size').value = (SIZE_LABEL[state.size]||state.size) + ' (' + (SIZE_ACRE[state.size]||'') + ')';
+    $('#hf-estimate').value = e0.kind==='one-time'
+        ? ('One-time: '+money(e0.low)+'–'+money(e0.high))
+        : e0.kind==='range'
+        ? ('Starts around '+money(e0.low)+'–'+money(e0.high))
+        : ('Per visit: '+money(e0.low)+'–'+money(e0.high) + (e0.monthly?(' | Monthly ~'+money(e0.monthly[0])+'–'+money(e0.monthly[1])):''));
+    $('#submitted_at').value = new Date().toISOString();
+
+    const btn = $('#btnReveal'); btn.disabled = true; btn.textContent = 'One sec…';
+
+    // ---- abandoned-cart insurance: the lead reaches HQ even if they bounce at price ----
+    try{
+      await fetch(e.target.action, { method:'POST', body:new FormData(e.target), headers:{'Accept':'application/json'} });
+      leadSent = true;
+    }catch(err2){ /* still reveal price; text fallback covers it */ }
+
+    if(window.gtag) gtag('event','generate_lead',{ currency:'USD', value:e0.low });
+
+    btn.disabled = false; btn.textContent = 'Show my estimate ›';
+    runCalc();
+  });
+
+  /* ---------- calculating animation ---------- */
+  function runCalc(){
+    goTo('calc');
+    const p = $('#calcParams'); p.innerHTML='';
+    [['Service', SERVICE_LABEL[state.service]],
+     ['Lawn size', (SIZE_LABEL[state.size]||'') + ' · ' + (SIZE_ACRE[state.size]||'')],
+     ['Area', 'Tri-Cities route']
+    ].forEach(([k,v])=>{
+      const row=document.createElement('div'); row.className='calc-param';
+      row.innerHTML='<span class="k">'+k+'</span><span class="v">'+v+'</span>';
+      p.appendChild(row);
+    });
+    setTimeout(showReveal, 1500);
+  }
+
+  /* ---------- reveal ---------- */
+  function showReveal(){
+    const e = calc();
+    goTo('reveal');
+    $('#revealLabel').textContent = e.label;
+    $('#revealPrice').textContent = e.low===e.high ? money(e.low) : (money(e.low) + '–' + money(e.high));
+    $('#revealUnit').textContent = e.kind==='per-visit' ? 'per visit'
+        : e.kind==='one-time' ? 'one-time' : '';
+    $('#revealSizeLabel').textContent = SIZE_LABEL[state.size] || 'property';
+
+    // monthly line
+    const mo = $('#revealMonthly');
+    if(e.monthly){ mo.innerHTML = 'That&rsquo;s about <b>'+money(e.monthly[0])+'–'+money(e.monthly[1])+'/month</b> on a weekly schedule.'; mo.style.display=''; }
+    else if(e.note){ mo.innerHTML = e.note; mo.style.display=''; }
+    else { mo.style.display='none'; }
+
+    // tiers
+    const tw = $('#tiers');
+    if(e.tiers){
+      tw.style.display='';
+      tw.innerHTML = e.tiers.map(t=>`
+        <div class="tier ${t.best?'best':''}">
+          ${t.best?'<div class="flag">Most picked</div>':''}
+          <div class="tn">${t.n}</div>
+          <div class="tv">${money(t.v)}</div>
+          <div class="tvu">${t.u}</div>
+          <div class="tdesc">${t.d}</div>
+        </div>`).join('');
+    } else { tw.style.display='none'; }
+
+    // booking fallbacks — carry the estimate into the text + prefill
+    const est = $('#hf-estimate').value;
+    const smsBody = encodeURIComponent(
+      'Hi Magnolia Gardens — I got an instant estimate ('+ (SERVICE_LABEL[state.service]||'') +
+      ', '+(SIZE_LABEL[state.size]||'')+'): '+est+'. I\'d like to book my first visit at '+$('#f-addr').value.trim()+'.'
+    );
+    $('#btnBook').href = 'sms:+14233909954?body='+smsBody;   // becomes the booking-engine URL once a scheduling engine is wired
+
+    // ---- abandoned-cart: a Book click flips this lead from "abandoned" to "booking requested" ----
+    $('#btnBook').addEventListener('click', ()=>{
+      if(window.gtag) gtag('event','book_request',{ service:state.service, value:e.low, currency:'USD' });
+      try{
+        const fd = new FormData();
+        fd.append('phone',   $('#f-phone').value.trim());
+        fd.append('address', $('#f-addr').value.trim());
+        fd.append('name',    $('#f-name').value.trim());
+        fd.append('email',   $('#f-email').value.trim());
+        fd.append('service', SERVICE_LABEL[state.service]||state.service);
+        fd.append('estimate', est);
+        fd.append('source',  'instant-estimator');
+        fd.append('outcome', 'booking_requested');
+        fd.append('_subject','✅ BOOKING REQUEST - magnoliagardenslandscaping.com');
+        // fire-and-forget; keepalive lets it land even as the SMS app opens
+        fetch('https://formspree.io/f/mdajnnjw', { method:'POST', body:fd, headers:{'Accept':'application/json'}, keepalive:true });
+      }catch(err){}
+    }, {once:true});
+  }
+})();
+</script>
+</body>
+</html>
