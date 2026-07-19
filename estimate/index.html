@@ -412,11 +412,14 @@
 
     if(svc === 'mowing'){
       const per = round5(base);
+      // the range's low end is fuzzed down 10%, so clamp it back to the published
+      // minimum — otherwise a compact lot quotes under the site-wide floor.
+      const lowPer = Math.max(ENGINE.floor, round5(base*0.9));
       return {
         kind:'per-visit',
         label:'Estimated per visit',
-        low: round5(base*0.9), high: round5(base*1.12),
-        monthly:[ round5(base*0.9*4), round5(base*1.12*4) ],   // ~weekly
+        low: lowPer, high: round5(base*1.12),
+        monthly:[ lowPer*4, round5(base*1.12*4) ],   // ~weekly
         tiers:[
           { n:'Good',   v:per,            u:'/ visit', d:'Mow, edge &amp; blow, every visit.' },
           { n:'Better', v:round5(base*1.22), u:'/ visit', d:'Adds string-trim detail &amp; crisp precision edging.', best:false },
