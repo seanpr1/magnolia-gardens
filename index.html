@@ -2135,6 +2135,9 @@
       btn.disabled = true;
       btn.textContent = 'Sending…';
 
+      // Lead pipeline: mirror the submission to Zapier (Jobber + CRM + auto-reply). Fire-and-forget.
+      try { fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method: 'POST', body: new FormData(form), mode: 'no-cors', keepalive: true }); } catch (_) {}
+
       fetch(form.action, {
         method: 'POST',
         body: new FormData(form),
