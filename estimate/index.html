@@ -37,6 +37,46 @@
     }
   </script>
 
+  <!-- Cloudflare Web Analytics - privacy-respecting, cookieless pageview tracking. -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      var cfBeacon = document.createElement('script');
+      cfBeacon.defer = true;
+      cfBeacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfBeacon.setAttribute('data-cf-beacon', '{"token": "5168b9dfab9f4dd390f2447100a6e3db"}');
+      document.head.appendChild(cfBeacon);
+    }
+  </script>
+
+  <!-- Microsoft Clarity - free heatmaps, session recordings, scroll & rage-click maps. -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "xiib0yey5e");
+    }
+  </script>
+
+  <!-- Meta Pixel (id 1529884685261202) - guarded to production only, same
+       allowlist as GA4/Clarity/Cloudflare. noscript <img> fallback omitted on
+       purpose: it can't check the hostname and would fire off-prod. -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1529884685261202');
+      fbq('track', 'PageView');
+    }
+  </script>
+
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
@@ -370,7 +410,7 @@
         <p>Your quote&rsquo;s saved. Tap below and it opens a text with everything already filled in &mdash; just hit send, and we&rsquo;ll reply with your first available visit. That&rsquo;s the whole thing.</p>
         <a class="btn btn-primary btn-block" id="btnBook" href="#">Book my first visit</a>
         <div style="height:12px"></div>
-        <a class="btn btn-ghost btn-block" href="tel:4233909954">Prefer to call? (423) 390-9954</a>
+        <a class="btn btn-ghost btn-block" id="btnCall" href="tel:4233909954">Prefer to call? (423) 390-9954</a>
       </div>
     </div>
 
@@ -390,6 +430,7 @@
   const state = { service:'', size:'' };
   let current = 'intro';
   let leadSent = false;
+  let engaged = false;   // true once the visitor books or calls from the reveal screen
 
   /* ---------- pricing engine (aligned to Magnolia field engine) ---------- */
   const ENGINE = { stop:10, perMin:1.50, buffer:0.20, floor:55 };
@@ -536,11 +577,20 @@
 
     // ---- abandoned-cart insurance: the lead reaches HQ even if they bounce at price ----
     try{
-      await fetch(e.target.action, { method:'POST', body:new FormData(e.target), headers:{'Accept':'application/json'} });
-      leadSent = true;
+      const res = await fetch(e.target.action, { method:'POST', body:new FormData(e.target), headers:{'Accept':'application/json'} });
+      leadSent = res.ok;
     }catch(err2){ /* still reveal price; text fallback covers it */ }
 
-    if(window.gtag) gtag('event','generate_lead',{ currency:'USD', value:e0.low });
+    // Honest lead accounting (handoff §5): generate_lead only when Formspree
+    // actually accepted the POST — a failed submit is a lost lead, not a lead.
+    if(window.gtag){
+      if(leadSent){
+        gtag('event','lead_submit',{ form_location:'estimator', service:state.service, lawn_size:state.size });
+        gtag('event','generate_lead',{ currency:'USD', value:e0.low, form_id:'estForm' });
+      }else{
+        gtag('event','form_submit_error',{ reason:'formspree_post_failed', form_location:'estimator' });
+      }
+    }
 
     btn.disabled = false; btn.textContent = 'Show my estimate ›';
     runCalc();
@@ -601,6 +651,7 @@
 
     // ---- abandoned-cart: a Book click flips this lead from "abandoned" to "booking requested" ----
     $('#btnBook').addEventListener('click', ()=>{
+      engaged = true;
       if(window.gtag) gtag('event','book_request',{ service:state.service, value:e.low, currency:'USD' });
       try{
         const fd = new FormData();
@@ -618,6 +669,30 @@
       }catch(err){}
     }, {once:true});
   }
+
+  /* ---------- reveal-screen call taps (handoff §5): a caller is not an abandoner ---------- */
+  $('#btnCall').addEventListener('click', ()=>{
+    engaged = true;
+    if(window.gtag) gtag('event','click_to_call',{ location:'estimate_reveal' });
+  });
+
+  /* ---------- abandon-at-price-reveal (handoff §5): the recoverable cohort ----------
+     Fires once, on leaving the page (or backgrounding the tab) while sitting on the
+     reveal screen without booking or calling. A visitor who backgrounds the tab and
+     later comes back to book still emits book_request, so GA4 can net the two. */
+  let abandonSent = false;
+  function flagAbandon(){
+    if(abandonSent || engaged || current !== 'reveal') return;
+    abandonSent = true;
+    if(window.gtag) gtag('event','abandon_at_reveal',{
+      service:state.service, lawn_size:state.size,
+      value:calc().low, currency:'USD', transport_type:'beacon'
+    });
+  }
+  window.addEventListener('pagehide', flagAbandon);
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'hidden') flagAbandon();
+  });
 })();
 </script>
 </body>

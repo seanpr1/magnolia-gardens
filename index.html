@@ -2352,6 +2352,17 @@
     });
   });
 
+  /* ── /estimate/ links: estimator entry rate (handoff §5) ──
+     beacon transport so the event survives the same-tab navigation. */
+  document.querySelectorAll('a[href="/estimate/"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      track('estimator_entry', {
+        source: a.getAttribute('data-cta-source') || getCtaLocation(a),
+        transport_type: 'beacon'
+      });
+    });
+  });
+
   /* ── Hero form button and legacy form link ── */
   var heroFormBtn  = document.getElementById('heroFormBtn');
   var heroFormLink = document.getElementById('heroFormLink');
