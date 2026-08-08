@@ -512,6 +512,8 @@
 
     // ---- abandoned-cart insurance: the lead reaches HQ even if they bounce at price ----
     try{
+      // Lead pipeline: mirror the submission to Zapier (Jobber + CRM + auto-reply). Fire-and-forget.
+      try{ fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:new FormData(e.target), mode:'no-cors', keepalive:true }); }catch(_){}
       const res = await fetch(e.target.action, { method:'POST', body:new FormData(e.target), headers:{'Accept':'application/json'} });
       leadSent = res.ok;
     }catch(err2){ /* still reveal price; text fallback covers it */ }
@@ -601,6 +603,7 @@
         fd.append('_subject','✅ BOOKING REQUEST - magnoliagardenslandscaping.com');
         // fire-and-forget; keepalive lets it land even as the SMS app opens
         fetch('https://formspree.io/f/mdajnnjw', { method:'POST', body:fd, headers:{'Accept':'application/json'}, keepalive:true });
+        fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:fd, mode:'no-cors', keepalive:true });  // lead pipeline: booking-request signal
       }catch(err){}
     }, {once:true});
   }
