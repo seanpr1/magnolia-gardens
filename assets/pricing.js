@@ -8,7 +8,7 @@
   "use strict";
 
   /* ---------- pricing engine (aligned to Magnolia field engine) ---------- */
-  const ENGINE = { stop:10, perMin:1.50, buffer:0.20, floor:55 };
+  const ENGINE = { stop:10, perMin:1.50, buffer:0.20, floor:50 };
   // estimated minutes on site by lawn size (mow + edge + blow), tuned to clean price anchors
   const MINUTES = { compact:25, midsize:42, spacious:64, estate:95 };
   const SIZE_LABEL = { compact:'compact lot', midsize:'mid-size lot', spacious:'spacious lot', estate:'estate property' };
@@ -89,13 +89,14 @@
   const PUBLISHED = {
     floor: ENGINE.floor,
     minimumText: '$' + ENGINE.floor,
-    // compact Good $55 up to spacious Best-tier $190; estate lots are carved
+    // compact low $50 up to spacious Best-tier $190; estate lots are carved
     // out in copy as "larger and estate properties quoted higher"
-    perVisitRange: '$55–$190',
-    // homepage Full Lawn Service card. Handoff §7 flags that this band and the
-    // engine's full-grounds-care numbers still need reconciling — do not quote
-    // it in new components until that decision is made.
-    fullServiceBand: '$85–$190',
+    perVisitRange: '$50–$190',
+    // homepage Full Lawn Service card. Resolved 2026-08-07 (ops repo
+    // decisions/2026-08-07-fifty-dollar-floor-and-full-service-alignment.md):
+    // entry matches the engine's compact full-grounds low; the card keeps a
+    // trailing "+" for spacious Best and estate lots.
+    fullServiceBand: '$75–$190',
     phoneDisplay: '423-390-9954',
     telHref: 'tel:4233909954',
     smsHref: 'sms:+14233909954',

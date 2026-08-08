@@ -249,7 +249,7 @@ function getAll(store){return new Promise((res,rej)=>{const r=tx(store).getAll()
 function get(store,key){return new Promise((res,rej)=>{const r=tx(store).get(key);r.onsuccess=()=>res(r.result);r.onerror=rej;});}
 
 /* ================= settings ================= */
-const DEFAULTS={stop:10,perMin:1.50,min:49,markup:1.25,buffer:20,
+const DEFAULTS={stop:10,perMin:1.50,min:50,markup:1.25,buffer:20,
   hqEmail:'contact@magnoliagardenslandscaping.com',
   services:['Mowing','Edging','String trimming','Blowing / cleanup','Mulch install','Planting install','Bed cleanup','Leaf removal','Hedge / shrub trim']};
 function loadSettings(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem('mgls_set')||'{}'));}catch(e){return {...DEFAULTS};}}
