@@ -430,7 +430,7 @@ function buildPreview(){
     totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">Total estimate</span><b>${money(t.single)}</b></div>`;
   }
   $('previewBody').innerHTML=`
-    <div class="ph"><div class="co">Magnolia Gardens Landscaping</div><div class="tl">Put your lawn on our to-do list · ${SET.hqEmail}</div></div>
+    <div class="ph"><div class="co">Magnolia Gardens Landscaping</div><div class="tl">Take the lawn off your to-do list · ${SET.hqEmail}</div></div>
     <div style="font-family:-apple-system,sans-serif;font-size:14px;margin-bottom:12px">
       <div style="font-weight:700;font-size:16px">${esc(q.cust.name||'')}</div>
       <div style="color:var(--muted)">${esc(q.cust.addr||'')}${q.cust.phone?' · '+esc(q.cust.phone):''}</div>
