@@ -8,7 +8,7 @@
   "use strict";
 
   /* ---------- pricing engine (aligned to Magnolia field engine) ---------- */
-  const ENGINE = { stop:10, perMin:1.50, buffer:0.20, floor:50 };
+  const ENGINE = { stop:10, perMin:1.50, buffer:0.20, floor:55 };
   // estimated minutes on site by lawn size (mow + edge + blow), tuned to clean price anchors
   const MINUTES = { compact:25, midsize:42, spacious:64, estate:95 };
   const SIZE_LABEL = { compact:'compact lot', midsize:'mid-size lot', spacious:'spacious lot', estate:'estate property' };
@@ -28,14 +28,15 @@
 
     if(svc === 'mowing'){
       const per = round5(base);
-      // the range's low end is fuzzed down 10%, so clamp it back to the published
-      // minimum — otherwise a compact lot quotes under the site-wide floor.
-      const lowPer = Math.max(ENGINE.floor, round5(base*0.9));
+      // the displayed range runs Good → Better straight off the Rate Card.
+      // Tri-Cities lots skew mid-size and larger with real obstructions, so
+      // quoting below the anchor systematically underprices the region.
+      const highPer = round5(base*1.22);
       return {
         kind:'per-visit',
         label:'Estimated per visit',
-        low: lowPer, high: round5(base*1.12),
-        monthly:[ lowPer*4, round5(base*1.12*4) ],   // ~weekly
+        low: per, high: highPer,
+        monthly:[ per*4, highPer*4 ],   // ~weekly
         tiers:[
           { n:'Good',   v:per,            u:'/ visit', d:'Mow, edge &amp; blow, every visit.' },
           { n:'Better', v:round5(base*1.22), u:'/ visit', d:'Adds string-trim detail &amp; crisp precision edging.', best:false },
@@ -59,10 +60,12 @@
     }
     if(svc === 'cleanup'){
       const one = base*3.2;   // one-time reset scales with size
+      // range anchors at the Full reset — local cleanups run heavy (overgrowth,
+      // weeds, slopes), so the Light tier is the exception, not the headline.
       return {
         kind:'one-time',
         label:'Estimated one-time',
-        low: round5(one*0.85), high: round5(one*1.25),
+        low: round5(one), high: round5(one*1.25),
         monthly:null,
         tiers:[
           { n:'Light',  v:round5(one*0.85), u:'one-time', d:'Mow-down, edge &amp; haul the clippings.' },
@@ -76,7 +79,7 @@
     return {
       kind:'range',
       label:'Typically starts around',
-      low: round5(start*0.8), high: round5(start*1.6),
+      low: round5(start), high: round5(start*1.6),
       monthly:null,
       tiers:null,
       note:'Mulch is priced by bed size and material — we confirm the exact number on site, usually same day.'
@@ -89,9 +92,9 @@
   const PUBLISHED = {
     floor: ENGINE.floor,
     minimumText: '$' + ENGINE.floor,
-    // compact low $50 up to spacious Best-tier $190; estate lots are carved
+    // compact Good $55 up to spacious Best-tier $190; estate lots are carved
     // out in copy as "larger and estate properties quoted higher"
-    perVisitRange: '$50–$190',
+    perVisitRange: '$55–$190',
     // homepage Full Lawn Service card. Resolved 2026-08-07 (ops repo
     // decisions/2026-08-07-fifty-dollar-floor-and-full-service-alignment.md):
     // entry matches the engine's compact full-grounds low; the card keeps a

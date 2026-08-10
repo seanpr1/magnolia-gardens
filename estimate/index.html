@@ -149,6 +149,8 @@
     .opt .tick{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;
       border:1.5px solid var(--edge);display:flex;align-items:center;justify-content:center;color:#fff;transition:.18s}
     .opt.selected .tick{background:var(--gold);border-color:var(--gold)}
+    .opt .flag{position:absolute;top:-9px;left:16px;background:var(--accent);color:#2a2213;
+      font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:20px}
 
     /* form */
     .field{margin-bottom:16px}
@@ -301,7 +303,7 @@
   <section class="screen" id="screen-q2">
     <div class="eyebrow"><span id="cnt2">Step 2 of 3</span></div>
     <h2 class="q-title">Roughly how big is the lawn?</h2>
-    <p class="q-sub">A ballpark is fine. If it's very different in person, we adjust after the first visit and tell you first — fewer than 1 in 100 ever change plans over it.</p>
+    <p class="q-sub">A ballpark is fine. Most lawns around the Tri-Cities run mid-size or larger. If it's very different in person, we adjust after the first visit and tell you first — fewer than 1 in 100 ever change plans over it.</p>
     <div class="cards">
       <button class="opt" data-q="size" data-val="compact">
         <span class="lab">Compact</span>
@@ -309,6 +311,7 @@
         <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </button>
       <button class="opt" data-q="size" data-val="midsize">
+        <span class="flag">Most common here</span>
         <span class="lab">Mid-size</span>
         <span class="desc">Typical single-family lot — about ¼ to ½ acre.</span>
         <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
