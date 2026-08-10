@@ -35,6 +35,11 @@
   };
   var topic = TOPIC[service] || 'lawn care';
 
+  /* estimator deep link: services the engine can price get a pre-filled entry;
+     brush has no estimator path, so its CTAs stay on the photo-text route. */
+  var EST_KEYS = { mowing:1, maintenance:1, cleanup:1, mulch:1 };
+  var estHref = '/estimate/' + (EST_KEYS[service] ? '?service=' + service : '');
+
   function priceLine(P){
     if (service === 'mowing' || service === 'maintenance' || area){
       return 'Lawn care starts at a ' + P.PUBLISHED.minimumText + ' minimum — most visits run ' +
@@ -64,7 +69,13 @@
     '.mgqb-err.show{display:block}',
     '.mgqb-hp{position:absolute;left:-9999px}',
     '.mgqb-panel p{font-size:15px;color:var(--body,#2A2823);margin:0 0 10px;line-height:1.55}',
-    '.mgqb-panel a{color:var(--gold,#005343)}'
+    '.mgqb-panel a{color:var(--gold,#005343)}',
+    '#mgqb-sticky{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 14px calc(10px + env(safe-area-inset-bottom));',
+    '  background:rgba(250,246,234,.96);backdrop-filter:blur(10px);border-top:1px solid var(--edge,#D6CFC0)}',
+    '#mgqb-sticky a{display:block;text-align:center;background:var(--gold,#005343);color:#FAF6EA;font-weight:600;',
+    '  font-size:15px;padding:13px 20px;border-radius:var(--r,2px);text-decoration:none}',
+    '#mgqb-sticky a:active{background:var(--gold-l,#00402F)}',
+    '@media(min-width:768px){#mgqb-sticky{display:none}}'
   ].join('\n');
 
   function render(P){
@@ -89,7 +100,8 @@
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
         '<p class="mgqb-err">Add a mobile number so we can text your quote.</p>' +
       '</form>' +
-      '<p class="mgqb-alt">Want a number right now? <a href="/estimate/">See your price range in about a minute</a>.</p>';
+      (service === 'brush' ? '' :
+      '<p class="mgqb-alt">Want a number right now? <a href="' + estHref + '">See your price range in about a minute</a>.</p>');
     mount.parentNode.insertBefore(box, mount);
 
     var form = box.querySelector('form');
@@ -114,9 +126,29 @@
     form.addEventListener('input', firstTouch);
     form.addEventListener('focusin', firstTouch);
 
-    box.querySelector('.mgqb-alt a').addEventListener('click', function(){
+    var altLink = box.querySelector('.mgqb-alt a');
+    if (altLink) altLink.addEventListener('click', function(){
       track('estimator_entry', { source:'quote_block', page_path:pagePath, transport_type:'beacon' });
     });
+
+    /* sticky mobile CTA: service/area pages have no other above-the-fold path
+       to the estimator once the hero scrolls away. Brush stays on photo-text. */
+    if (!document.getElementById('mgqb-sticky')){
+      var bar = document.createElement('div');
+      bar.id = 'mgqb-sticky';
+      var sa = document.createElement('a');
+      if (service === 'brush'){
+        sa.href = smsHref();
+        sa.textContent = 'Text Us for a Quote';
+        sa.addEventListener('click', function(){ track('click_to_text', { location:'sticky_mobile', page_path:pagePath }); });
+      } else {
+        sa.href = estHref;
+        sa.textContent = 'Get My Instant Estimate';
+        sa.addEventListener('click', function(){ track('estimator_entry', { source:'sticky_mobile', page_path:pagePath, transport_type:'beacon' }); });
+      }
+      bar.appendChild(sa);
+      document.body.appendChild(bar);
+    }
 
     form.addEventListener('submit', function(e){
       e.preventDefault();

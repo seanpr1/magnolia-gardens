@@ -474,6 +474,29 @@
   /* ---------- start / option clicks ---------- */
   $('#btnStart').addEventListener('click', ()=>goTo('q1'));
 
+  /* ---------- deep links: /estimate/?service=cleanup[&size=midsize] ----------
+     door hangers, ads, and texted links open the estimator pre-filled, so the
+     visitor lands one or two taps from a price instead of at the intro. */
+  (function deepLink(){
+    try{
+      const p = new URLSearchParams(location.search);
+      const svc = p.get('service'), size = p.get('size');
+      if(!svc || !SERVICE_LABEL[svc]) return;
+      state.service = svc;
+      const c = document.querySelector('[data-q="service"][data-val="'+svc+'"]');
+      if(c) c.classList.add('selected');
+      if(size && SIZE_LABEL[size]){
+        state.size = size;
+        const s = document.querySelector('[data-q="size"][data-val="'+size+'"]');
+        if(s) s.classList.add('selected');
+        goTo('q3');
+      }else{
+        goTo('q2');
+      }
+      if(window.gtag) gtag('event','estimator_deeplink',{ service:svc, lawn_size:size||'' });
+    }catch(e){}
+  })();
+
   document.querySelectorAll('.opt').forEach(card=>{
     card.addEventListener('click', ()=>{
       const q = card.dataset.q, val = card.dataset.val;

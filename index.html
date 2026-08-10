@@ -608,6 +608,9 @@
     }
     @media (max-width: 760px) { .service-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 480px) { .service-grid { grid-template-columns: 1fr; } }
+    .svc-more { margin-top: 10px; font-size: 14px; }
+    .svc-more a { color: var(--gold, #005343); text-decoration: none; }
+    .svc-more a:hover { text-decoration: underline; }
     .service-card {
       background: var(--surface); border: 1px solid var(--edge);
       padding: var(--space-6) var(--space-5);
@@ -1469,6 +1472,7 @@
         </div>
         <div class="svc-name">Mowing</div>
         <div class="svc-desc">Regular cuts on a reliable schedule. We mow at the right height for the season and leave a clean finish every time.</div>
+        <div class="svc-more"><a href="/services/mowing/">Mowing details ›</a></div>
       </div>
 
       <div class="service-card">
@@ -1480,6 +1484,7 @@
         </div>
         <div class="svc-name">Trimming &amp; Edging</div>
         <div class="svc-desc">String trimming around obstacles and clean edging along driveways, sidewalks, and beds. The detail work that makes a yard look sharp.</div>
+        <div class="svc-more"><a href="/services/mowing/">Included with mowing ›</a></div>
       </div>
 
       <div class="service-card">
@@ -1490,6 +1495,7 @@
         </div>
         <div class="svc-name">Blowing &amp; Cleanup</div>
         <div class="svc-desc">Clippings blown off driveways, walkways, and patios. Loose debris cleared so the property looks finished, not just mowed.</div>
+        <div class="svc-more"><a href="/services/mowing/">Included with mowing ›</a></div>
       </div>
 
       <div class="service-card">
@@ -1501,6 +1507,7 @@
         </div>
         <div class="svc-name">Brush &amp; Overgrowth Control</div>
         <div class="svc-desc">Tall grass, heavy growth, fence lines, banks, and areas that have gotten out of hand. We quote these individually based on what's there.</div>
+        <div class="svc-more"><a href="/services/brush-clearing/">Brush clearing details ›</a></div>
       </div>
 
       <div class="service-card">
@@ -1512,6 +1519,7 @@
         </div>
         <div class="svc-name">Seasonal Cleanup</div>
         <div class="svc-desc">Leaf removal, spring cleanup after winter, fall prep before the cold. One-time or scheduled around the seasons.</div>
+        <div class="svc-more"><a href="/services/cleanup/">Fall cleanup details ›</a></div>
       </div>
 
       <div class="service-card">
@@ -1524,6 +1532,7 @@
         </div>
         <div class="svc-name">Recurring Maintenance</div>
         <div class="svc-desc">Weekly, biweekly, or monthly service plans that keep your property consistently maintained throughout the season.</div>
+        <div class="svc-more"><a href="/services/maintenance/">Maintenance plans ›</a></div>
       </div>
 
     </div>
@@ -1637,13 +1646,11 @@
     </div>
 
     <div class="cta-repeat">
-      <button type="button" class="btn-sms cta-jump">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-        </svg>
-        Get a Free Estimate
-      </button>
-      <span class="cta-repeat-note">Get your exact price. Free, no obligation.</span>
+      <a href="/estimate/" class="btn-sms" data-cta-source="pricing_section">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
+        Get My Instant Estimate
+      </a>
+      <span class="cta-repeat-note">Your range on screen in about a minute. Free, no obligation.</span>
     </div>
   </div>
 </section>
@@ -2005,7 +2012,7 @@
       <div class="footer-detail">
         SERVICES<br>
         <a href="/services/mowing/">Lawn Care</a><br>
-        <a href="/services/cleanup/">Yard &amp; Leaf Cleanup</a><br>
+        <a href="/services/cleanup/">Leaf Removal &amp; Fall Cleanup</a><br>
         <a href="/services/mulch/">Mulch Installation</a><br>
         <a href="/services/brush-clearing/">Brush Clearing</a><br>
         <a href="/services/maintenance/">Maintenance Plans</a>
@@ -2035,7 +2042,7 @@
 
 <!-- ── Sticky mobile CTA (mobile/tablet only; hidden ≥768px) ───── -->
 <div class="mg-sticky-cta">
-  <a href="#heroIntakeForm" class="cta-jump" data-cta-source="sticky_mobile">Get My Free Estimate</a>
+  <a href="/estimate/" data-cta-source="sticky_mobile">Get My Instant Estimate</a>
 </div>
 
 <!-- ════════════════════════════════════════════
@@ -2357,7 +2364,7 @@
 
   /* ── /estimate/ links: estimator entry rate (handoff §5) ──
      beacon transport so the event survives the same-tab navigation. */
-  document.querySelectorAll('a[href="/estimate/"]').forEach(function (a) {
+  document.querySelectorAll('a[href^="/estimate/"]').forEach(function (a) {
     a.addEventListener('click', function () {
       track('estimator_entry', {
         source: a.getAttribute('data-cta-source') || getCtaLocation(a),
