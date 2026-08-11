@@ -40,7 +40,7 @@
         tiers:[
           { n:'Good',   v:per,            u:'/ visit', d:'Mow, edge &amp; blow, every visit.' },
           { n:'Better', v:round5(base*1.22), u:'/ visit', d:'Adds string-trim detail &amp; crisp precision edging.', best:false },
-          { n:'Best',   v:round5(base*1.5),  u:'/ visit', d:'Adds bed tidy &amp; seasonal touch-ups. Most popular.', best:true }
+          { n:'Best',   v:round5(base*1.5),  u:'/ visit', d:'Adds bed tidy &amp; seasonal touch-ups. Our pick.', best:true }
         ]
       };
     }
@@ -54,7 +54,7 @@
         tiers:[
           { n:'Good',   v:round5(base*1.22), u:'/ visit', d:'Mow, edge, blow + light bed upkeep.' },
           { n:'Better', v:per,               u:'/ visit', d:'Adds trimming, shrubs &amp; full bed care.', best:false },
-          { n:'Best',   v:round5(base*1.85), u:'/ visit', d:'Whole property handled + seasonal color. Most popular.', best:true }
+          { n:'Best',   v:round5(base*1.85), u:'/ visit', d:'Whole property handled + seasonal color. Our pick.', best:true }
         ]
       };
     }
@@ -64,7 +64,8 @@
       // weeds, slopes), so the Light tier is the exception, not the headline.
       return {
         kind:'one-time',
-        label:'Estimated one-time',
+        label:'Typical range for your lot size',
+        note:'Cleanups are priced by condition. Text 2 or 3 photos to (423) 390-9954 and we confirm your exact number, usually same day.',
         low: round5(one), high: round5(one*1.25),
         monthly:null,
         tiers:[
@@ -82,7 +83,7 @@
       low: round5(start), high: round5(start*1.6),
       monthly:null,
       tiers:null,
-      note:'Mulch is priced by bed size and material — we confirm the exact number on site, usually same day.'
+      note:'Mulch is priced by bed size and material. We confirm the exact number on site, usually same day.'
     };
   }
 

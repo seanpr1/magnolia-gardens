@@ -15,7 +15,7 @@
 
   <!-- Pricing single source (handoff §2). Plain script on purpose: it must
        execute before the estimator IIFE at the end of <body>. -->
-  <script src="/assets/pricing.js"></script>
+  <script src="/assets/pricing.js?v=20260811"></script>
 
   <!-- Analytics production guard: only initialize on the real production
        domain, so owner self-testing on Netlify staging / localhost / Electron
@@ -254,7 +254,7 @@
   <section class="screen active" id="screen-intro">
     <div class="eyebrow">Instant estimate</div>
     <h1>See your price in about a minute.</h1>
-    <p class="lead">Three quick questions and you'll see a real number, right here on the page — no waiting for a callback. Then, if it looks good, put your first visit on our schedule.</p>
+    <p class="lead">Three quick questions and you'll see a real number, right here on the page, no waiting for a callback. Then, if it looks good, set up your first visit with one text.</p>
     <button class="btn btn-primary" id="btnStart">Start my estimate
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
@@ -303,27 +303,26 @@
   <section class="screen" id="screen-q2">
     <div class="eyebrow"><span id="cnt2">Step 2 of 3</span></div>
     <h2 class="q-title">Roughly how big is the lawn?</h2>
-    <p class="q-sub">A ballpark is fine. Most lawns around the Tri-Cities run mid-size or larger. If it's very different in person, we adjust after the first visit and tell you before any work starts.</p>
+    <p class="q-sub">A ballpark is fine. We confirm your exact number at the property before any work starts, and if anything changes it, you hear it from us first.</p>
     <div class="cards">
       <button class="opt" data-q="size" data-val="compact">
         <span class="lab">Compact</span>
-        <span class="desc">Small yard or townhome — under ~¼ acre (under ~5,000 sq ft).</span>
+        <span class="desc">Small yard or townhome, lot under about ¼ acre.</span>
         <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </button>
       <button class="opt" data-q="size" data-val="midsize">
-        <span class="flag">Most common here</span>
         <span class="lab">Mid-size</span>
-        <span class="desc">Typical single-family lot — about ¼ to ½ acre.</span>
+        <span class="desc">Typical single-family lot, about ¼ to ½ acre.</span>
         <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </button>
       <button class="opt" data-q="size" data-val="spacious">
         <span class="lab">Spacious</span>
-        <span class="desc">Larger lot — about ½ to 1 acre.</span>
+        <span class="desc">Larger lot, about ½ to 1 acre.</span>
         <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </button>
       <button class="opt" data-q="size" data-val="estate">
         <span class="lab">Estate</span>
-        <span class="desc">Over an acre of mowable ground.</span>
+        <span class="desc">Big property, lot over an acre.</span>
         <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </button>
     </div>
@@ -334,7 +333,7 @@
   <section class="screen" id="screen-q3">
     <div class="eyebrow"><span id="cnt3">Step 3 of 3</span></div>
     <h2 class="q-title">Where's the property?</h2>
-    <p class="q-sub">Your address helps us confirm we cover your area and gets your price ready. We'll text it to the number below so you have it saved.</p>
+    <p class="q-sub">Your address helps us confirm we cover your area and gets your price ready. We'll text it to the number below so you have it saved. Reply STOP anytime to opt out.</p>
 
     <form id="estForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
       <div class="field">
@@ -406,7 +405,7 @@
     <div class="tiers" id="tiers"></div>
 
     <div class="disclaimer">
-      <b>How this works:</b> this is a real working estimate for a <span id="revealSizeLabel"></span> in the Tri-Cities. We lock the final number when we see the property — and if it needs adjusting, we tell you before any work happens.
+      <b>How this works:</b> this is a real working estimate for a <span id="revealSizeLabel">property</span> in the Tri-Cities. We lock the final number when we see the property, and if it needs adjusting, we tell you before any work happens.
     </div>
 
     <div id="bookSlot">
@@ -415,7 +414,7 @@
       <div class="book-fallback" id="bookFallback">
         <div class="bh">Ready to take it off your list?</div>
         <p>Your quote&rsquo;s saved. Tap below and it opens a text with everything already filled in &mdash; just hit send, and we&rsquo;ll reply with your first available visit. That&rsquo;s the whole thing.</p>
-        <a class="btn btn-primary btn-block" id="btnBook" href="#">Book my first visit</a>
+        <a class="btn btn-primary btn-block" id="btnBook" href="#">Set up my first visit</a>
         <div style="height:12px"></div>
         <a class="btn btn-ghost btn-block" id="btnCall" href="tel:4233909954">Prefer to call? (423) 390-9954</a>
       </div>
@@ -565,7 +564,7 @@
     const p = $('#calcParams'); p.innerHTML='';
     [['Service', SERVICE_LABEL[state.service]],
      ['Lawn size', (SIZE_LABEL[state.size]||'') + ' · ' + (SIZE_ACRE[state.size]||'')],
-     ['Area', 'Tri-Cities route']
+     ['Coverage', 'Kingsport &amp; Tri-Cities']
     ].forEach(([k,v])=>{
       const row=document.createElement('div'); row.className='calc-param';
       row.innerHTML='<span class="k">'+k+'</span><span class="v">'+v+'</span>';
@@ -596,7 +595,7 @@
       tw.style.display='';
       tw.innerHTML = e.tiers.map(t=>`
         <div class="tier ${t.best?'best':''}">
-          ${t.best?'<div class="flag">Most picked</div>':''}
+          ${t.best?'<div class="flag">Recommended</div>':''}
           <div class="tn">${t.n}</div>
           <div class="tv">${money(t.v)}</div>
           <div class="tvu">${t.u}</div>
@@ -608,7 +607,7 @@
     const est = $('#hf-estimate').value;
     const smsBody = encodeURIComponent(
       'Hi Magnolia Gardens — I got an instant estimate ('+ (SERVICE_LABEL[state.service]||'') +
-      ', '+(SIZE_LABEL[state.size]||'')+'): '+est+'. I\'d like to book my first visit at '+$('#f-addr').value.trim()+'.'
+      ', '+(SIZE_LABEL[state.size]||'')+'): '+est+'. I\'d like to set up my first visit at '+$('#f-addr').value.trim()+'.'
     );
     $('#btnBook').href = 'sms:+14233909954?body='+smsBody;   // becomes the booking-engine URL once a scheduling engine is wired
 
