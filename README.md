@@ -1,6 +1,6 @@
 # magnolia-gardens
 
-Website source for **Magnolia Gardens Landscaping, LLC** - residential lawn care in Kingsport and the Tri-Cities, TN.
+Website source for **Magnolia Gardens Landscaping LLC** - residential lawn care in Kingsport and the Tri-Cities, TN.
 
 - Live site: https://magnoliagardenslandscaping.com
 - Owner: Sean Price (Member-Manager) | 423-390-9954

@@ -15,7 +15,7 @@
 
   <!-- Pricing single source (handoff §2). Plain script on purpose: it must
        execute before the estimator IIFE at the end of <body>. -->
-  <script src="/assets/pricing.js?v=20260811"></script>
+  <script src="/assets/pricing.js?v=20260817"></script>
 
   <!-- Analytics production guard: only initialize on the real production
        domain, so owner self-testing on Netlify staging / localhost / Electron
@@ -398,7 +398,7 @@
 
     <div class="price-hero">
       <div class="plab" id="revealLabel">Estimated per visit</div>
-      <div class="pval" id="revealPrice">$—</div>
+      <div class="pval" id="revealPrice">$50–$190</div>
       <div class="punit" id="revealUnit"></div>
     </div>
     <p class="price-mo" id="revealMonthly"></p>
@@ -410,8 +410,8 @@
     </div>
 
     <div id="bookSlot">
-      <!-- Booking engine embeds here once chosen (Square Appointments / Calendly).
-           Until then, the working fallback below books via text + the lead is already at HQ. -->
+      <!-- Booking runs through Jobber (system of record); no embed here yet.
+           The working fallback below books via text + the lead is already at HQ. -->
       <div class="book-fallback" id="bookFallback">
         <div class="bh">Ready to take it off your list?</div>
         <p>Your quote&rsquo;s saved. Tap below and it opens a text with everything already filled in &mdash; just hit send, and we&rsquo;ll reply with your first available visit. That&rsquo;s the whole thing.</p>
@@ -428,7 +428,7 @@
 
 </main>
 
-<footer>Magnolia Gardens Landscaping, LLC · Kingsport &amp; the Tri-Cities · <a href="tel:4233909954" style="color:var(--gold)">423-390-9954</a></footer>
+<footer>Magnolia Gardens Landscaping LLC · Kingsport &amp; the Tri-Cities · <a href="tel:4233909954" style="color:var(--gold)">423-390-9954</a></footer>
 
 <script>
 (function(){

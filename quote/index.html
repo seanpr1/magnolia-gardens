@@ -163,7 +163,7 @@
 
   <div class="card">
     <h2>Customer</h2>
-    <div class="field"><label>Name</label><input id="cName" placeholder="Alex Dykes"></div>
+    <div class="field"><label>Name</label><input id="cName" placeholder="Alex Carter"></div>
     <div class="field"><label>Property address</label><input id="cAddr" placeholder="123 Harbor Dr, Kingsport"></div>
     <div class="field"><label>Phone</label><input id="cPhone" type="tel" inputmode="tel" placeholder="423-000-0000"></div>
   </div>
@@ -204,7 +204,7 @@
       <button class="btn ghost" id="btnSendHQ">Email HQ</button>
     </div>
     <div class="spacer"></div>
-    <button class="btn ghost sm" id="btnCopyHub">Copy for HubSpot</button>
+    <button class="btn ghost sm" id="btnCopyHub">Copy for Jobber</button>
     <div class="spacer"></div>
     <button class="btn ghost sm" id="btnMarkSent">Mark as sent ✓</button>
   </div>
@@ -456,7 +456,7 @@ function hqText(){
   const q=CUR;let s=quoteText();
   if(q.notes)s+=`\nCrew notes: ${q.notes}\n`;
   const photos=q.items.reduce((n,it)=>n+(it.photos?it.photos.length:0),0);
-  s+=`\n[HubSpot] Contact: ${q.cust.name} · ${q.cust.phone}\nDeal: Estimate ${fmtDate(q.created)} · ${photos} photo(s) on device`;
+  s+=`\n[Jobber] Contact: ${q.cust.name} · ${q.cust.phone}\nRequest: Estimate ${fmtDate(q.created)} · ${photos} photo(s) on device`;
   return s;
 }
 
@@ -472,7 +472,7 @@ $('btnBackEdit').onclick=()=>{fillEdit();show('s-edit');};
 $('btnPdf').onclick=()=>window.print();
 $('btnShareCust').onclick=async()=>{const txt=quoteText();if(navigator.share){try{await navigator.share({title:'Magnolia Gardens Estimate',text:txt});}catch(e){}}else{await copy(txt);toast('Quote copied — paste into a text');}};
 $('btnSendHQ').onclick=()=>{const subj=encodeURIComponent(`Estimate — ${CUR.cust.name||'new'} — ${money(tierTotals(CUR).best||tierTotals(CUR).single)}`);const body=encodeURIComponent(hqText());location.href=`mailto:${SET.hqEmail}?subject=${subj}&body=${body}`;};
-$('btnCopyHub').onclick=async()=>{await copy(hqText());toast('Copied for HubSpot');};
+$('btnCopyHub').onclick=async()=>{await copy(hqText());toast('Copied for Jobber');};
 $('btnMarkSent').onclick=async()=>{CUR.status='sent';await persist();toast('Marked as sent ✓');};
 async function copy(t){try{await navigator.clipboard.writeText(t);}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}}
 

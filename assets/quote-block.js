@@ -91,7 +91,7 @@
     box.innerHTML =
       '<div class="mgqb-eye">About 15 seconds</div>' +
       '<h3 class="mgqb-h">Get your quote by text</h3>' +
-      '<p class="mgqb-sub">' + priceLine(P) + ' Leave your number and we’ll text your quote, usually the same day.</p>' +
+      '<p class="mgqb-sub">' + priceLine(P) + ' Leave your number and we’ll text your quote, usually the same day. Reply STOP anytime to opt out.</p>' +
       '<form novalidate>' +
         '<div class="mgqb-row">' +
           '<input type="tel" name="phone" inputmode="tel" autocomplete="tel" aria-label="Mobile number" placeholder="(423) 555-0123" required>' +
