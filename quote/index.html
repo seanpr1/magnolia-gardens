@@ -91,10 +91,6 @@
   .thumb button{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(0,0,0,.6);color:#fff;font-size:13px;line-height:1;cursor:pointer}
   .addphoto{width:74px;height:74px;border-radius:10px;border:1.5px dashed var(--gold-deep);background:var(--white);color:var(--gold-deep);font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .addphoto input{display:none}
-  /* tiers */
-  .tiers{display:flex;gap:6px;margin-top:6px}
-  .tier-toggle{flex:1;font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;text-align:center;padding:8px 4px;border:1.5px solid var(--line);border-radius:9px;background:var(--white);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.3px}
-  .tier-toggle.on{background:var(--green);color:var(--cream);border-color:var(--green)}
   /* visit frequency */
   .freq{display:flex;gap:6px;margin-top:6px}
   .freq-opt{flex:1;font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;text-align:center;padding:9px 4px;border:1.5px solid var(--line);border-radius:9px;background:var(--white);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.3px}
@@ -129,10 +125,6 @@
   .preview .prow .pp{font-weight:700;color:var(--green);white-space:nowrap}
   .preview .ptotal{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;margin-top:4px}
   .preview .ptotal b{font-size:26px;color:var(--green);font-family:-apple-system,sans-serif}
-  .tierbox{border:1.5px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;font-family:-apple-system,sans-serif}
-  .tierbox.best{border-color:var(--gold);background:#fbf6e9}
-  .tierbox .tn{font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
-  .tierbox .tv{font-size:22px;font-weight:700;color:var(--green);margin-top:2px}
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--cream);font-family:-apple-system,sans-serif;font-size:14px;padding:11px 18px;border-radius:24px;opacity:0;transition:.25s;z-index:50;pointer-events:none;box-shadow:var(--shadow)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .spacer{height:8px}
@@ -334,20 +326,15 @@ function linePrice(it){
   if(it.mode==='material')return materialPrice(it);
   return itemPrice(it);
 }
-function tierTotals(q){
-  // returns {single, good, better, best, usesTiers}
+// Returns {single}. One quote, one number - the Good/Better/Best ladder was
+// retired 2026-08-25. Any `tiers` object still sitting on a saved line item is
+// simply not read; nothing was deleted from storage.
+function quoteTotals(q){
   // Service and materials are summed apart: frequency lifts the service rate,
   // never the materials. A bag of mulch costs the same whatever the mow cycle.
-  let usesTiers=false;
-  const mk=()=>({svc:0,mat:0});
-  const sums={good:mk(),better:mk(),best:mk(),single:mk()};
+  const sums={svc:0,mat:0};
   q.items.forEach(it=>{
-    const p=linePrice(it);
-    const k=it.mode==='material'?'mat':'svc';
-    sums.single[k]+=p;
-    const t=it.tiers||{good:true,better:true,best:true};
-    if(!(t.good&&t.better&&t.best))usesTiers=true;
-    if(t.good)sums.good[k]+=p; if(t.better)sums.better[k]+=p; if(t.best)sums.best[k]+=p;
+    sums[it.mode==='material'?'mat':'svc']+=linePrice(it);
   });
   const stop=Number(SET.stop)||0, min=Number(SET.min)||0, fm=freqMult(q);
   const clamp=s=>{
@@ -359,8 +346,7 @@ function tierTotals(q){
     const raw = svcRate + s.mat + (s.svc>0 ? 0 : stop);
     return Math.max(raw, s.svc>0 ? min*fm : min);
   };
-  return {usesTiers,
-    single:clamp(sums.single), good:clamp(sums.good), better:clamp(sums.better), best:clamp(sums.best)};
+  return { single: clamp(sums) };
 }
 
 /* ================= state ================= */
@@ -383,7 +369,7 @@ async function renderList(){
   const wrap=$('quoteList');
   if(!all.length){wrap.innerHTML=`<div class="empty"><div class="big">☑</div><p>No quotes yet.<br>Tap <b>New quote</b> to put a job on the to-do list.</p></div>`;return;}
   wrap.innerHTML=all.map(q=>{
-    const t=tierTotals(q);const tot=t.usesTiers?t.best:t.single;
+    const tot=quoteTotals(q).single;
     const n=q.cust.name||'(no name)';
     const svc=q.items.length?q.items.map(i=>i.service).slice(0,3).join(' · '):'No services yet';
     return `<div class="qcard ${q.status==='sent'?'sent':''}" data-id="${q.id}">
@@ -444,11 +430,6 @@ function renderItems(){
           ?`<div class="field"><label>Estimated minutes on site</label><input type="number" inputmode="numeric" data-f="minutes" data-id="${it.id}" value="${it.minutes||''}" placeholder="45"><div class="hint">Buffer + per-minute rate applied automatically.</div></div>`
           :`<div class="field"><label>${it.mode==='material'?'Material cost $':'Flat price $'}</label><input type="number" inputmode="decimal" data-f="amount" data-id="${it.id}" value="${it.amount||''}" placeholder="${it.mode==='material'?'40':'75'}"></div>`}
         <div class="field"><label>Notes for this service</label><textarea data-f="inotes" data-id="${it.id}" placeholder="e.g. double mulch depth along front bed">${esc(it.inotes||'')}</textarea></div>
-        <label>Include in tier</label>
-        <div class="tiers">
-          ${['good','better','best'].map(t=>{const on=(it.tiers?it.tiers[t]:true);return `<div class="tier-toggle ${on?'on':''}" data-tier="${t}" data-id="${it.id}">${t}</div>`;}).join('')}
-        </div>
-        <div class="hint" style="margin-top:6px">Leave all three on for a single-price quote.</div>
         <label style="margin-top:12px">Photos</label>
         <div class="thumbs">
           ${(it._thumbs||[]).map(t=>`<div class="thumb"><img src="${t.url}"><button data-rmphoto="${t.id}" data-id="${it.id}">×</button></div>`).join('')}
@@ -469,7 +450,6 @@ function bindItemEvents(){
       if(f==='service'){const hd=document.querySelector(`.li-head[data-toggle="${it.id}"] .li-title`);if(hd)hd.textContent=el.value;}
       if(f==='minutes'||f==='amount'){const pe=document.querySelector(`.lineitem[data-id="${it.id}"] .li-price`);if(pe)pe.textContent=linePrice(it)?money(linePrice(it)):'';}
     });});
-  document.querySelectorAll('.tier-toggle').forEach(tg=>tg.onclick=()=>{const it=CUR.items.find(x=>x.id===tg.dataset.id);if(!it)return;it.tiers=it.tiers||{good:true,better:true,best:true};it.tiers[tg.dataset.tier]=!it.tiers[tg.dataset.tier];tg.classList.toggle('on');updateEditTotal();persist();});
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{const id=b.dataset.del;const it=CUR.items.find(x=>x.id===id);if(it)for(const pid of(it.photos||[]))await del('photos',pid);CUR.items=CUR.items.filter(x=>x.id!==id);openItem=null;renderItems();updateEditTotal();persist();});
   document.querySelectorAll('[data-photo]').forEach(inp=>inp.onchange=async e=>{
     const file=e.target.files[0];if(!file)return;const it=CUR.items.find(x=>x.id===inp.dataset.photo);if(!it)return;
@@ -484,7 +464,7 @@ function downscale(file){return new Promise(res=>{const img=new Image();const rd
     const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
     c.toBlob(b=>res(b||file),'image/jpeg',.8);};img.src=rd.result;};rd.readAsDataURL(file);});}
 
-function updateEditTotal(){const t=tierTotals(CUR);$('editTotal').textContent=approx(t.usesTiers?t.best:t.single);}
+function updateEditTotal(){$('editTotal').textContent=approx(quoteTotals(CUR).single);}
 
 /* ---- customer / preview field bindings ---- */
 ['cName','cAddr','cPhone'].forEach(f=>{}); // bound below
@@ -495,20 +475,12 @@ function freqNote(q){
   return f==='onetime' ? 'One-time visit' : 'Per visit · '+FREQ_LABEL[f].toLowerCase()+' service';
 }
 function buildPreview(){
-  const q=CUR;const t=tierTotals(q);
+  const q=CUR;const t=quoteTotals(q);
   const rows=q.items.filter(i=>i.service).map(it=>{
     const p=linePrice(it);
     const notes=it.inotes?`<div class="pnotes">${esc(it.inotes)}</div>`:'';
     return `<div class="prow"><div><div class="pn">☑ ${esc(it.service)}</div>${notes}</div><div class="pp">${money(p)}</div></div>`;}).join('');
-  let totalBlock;
-  if(t.usesTiers){
-    totalBlock=`
-      <div class="tierbox"><div class="tn"><span>Good</span></div><div class="tv">${money(t.good)}</div></div>
-      <div class="tierbox"><div class="tn"><span>Better</span></div><div class="tv">${money(t.better)}</div></div>
-      <div class="tierbox best"><div class="tn"><span>Best ★</span></div><div class="tv">${money(t.best)}</div></div>`;
-  }else{
-    totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${esc(freqNote(q))}</span><b>${approx(t.single)}</b></div>`;
-  }
+  const totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${esc(freqNote(q))}</span><b>${approx(t.single)}</b></div>`;
   $('previewBody').innerHTML=`
     <div class="ph"><div class="co">Magnolia Gardens Landscaping</div><div class="tl">Take the lawn off your to-do list · ${SET.hqEmail}</div></div>
     <div style="font-family:-apple-system,sans-serif;font-size:14px;margin-bottom:12px">
@@ -524,12 +496,11 @@ function buildPreview(){
 
 /* ================= share / export ================= */
 function quoteText(){
-  const q=CUR;const t=tierTotals(q);
+  const q=CUR;const t=quoteTotals(q);
   let s=`Magnolia Gardens Landscaping — Estimate\n${q.cust.name||''}\n${q.cust.addr||''}\n${fmtDate(q.created)}\n\n`;
   q.items.filter(i=>i.service).forEach(it=>{s+=`☑ ${it.service} — ${money(linePrice(it))}${it.inotes?'\n   ('+it.inotes+')':''}\n`;});
   s+=`\n`;
-  if(t.usesTiers)s+=`Good ${money(t.good)}  |  Better ${money(t.better)}  |  Best ${money(t.best)}\n`;
-  else s+=`TOTAL: ${approx(t.single)}\n`;
+  s+=`TOTAL: ${approx(t.single)}\n`;
   s+=`${freqNote(q)}\n`;
   return s;
 }
@@ -544,7 +515,7 @@ function hqText(){
 /* ================= wire up ================= */
 $('btnNew').onclick=async()=>{CUR=newQuote();await put('quotes',stripBlobs(CUR));fillEdit();show('s-edit');};
 $('btnBackList').onclick=()=>{renderList();show('s-list');};
-$('btnAddItem').onclick=()=>{const it={id:uid(),service:SET.services[0],mode:'time',minutes:'',amount:'',inotes:'',photos:[],tiers:{good:true,better:true,best:true}};CUR.items.push(it);openItem=it.id;renderItems();persist();};
+$('btnAddItem').onclick=()=>{const it={id:uid(),service:SET.services[0],mode:'time',minutes:'',amount:'',inotes:'',photos:[]};CUR.items.push(it);openItem=it.id;renderItems();persist();};
 ['cName','cAddr','cPhone'].forEach(f=>$(f).addEventListener('input',()=>{const k={cName:'name',cAddr:'addr',cPhone:'phone'}[f];CUR.cust[k]=$(f).value;persist();}));
 document.querySelectorAll('#freqRow .freq-opt').forEach(el=>el.onclick=()=>{
   CUR.frequency=el.dataset.freq; renderFreq(); updateEditTotal(); persist();
@@ -555,7 +526,7 @@ $('btnPreview').onclick=$('btnPreview2').onclick=()=>{buildPreview();show('s-pre
 $('btnBackEdit').onclick=()=>{fillEdit();show('s-edit');};
 $('btnPdf').onclick=()=>window.print();
 $('btnShareCust').onclick=async()=>{const txt=quoteText();if(navigator.share){try{await navigator.share({title:'Magnolia Gardens Estimate',text:txt});}catch(e){}}else{await copy(txt);toast('Quote copied — paste into a text');}};
-$('btnSendHQ').onclick=()=>{const subj=encodeURIComponent(`Estimate — ${CUR.cust.name||'new'} — ${money(tierTotals(CUR).best||tierTotals(CUR).single)}`);const body=encodeURIComponent(hqText());location.href=`mailto:${SET.hqEmail}?subject=${subj}&body=${body}`;};
+$('btnSendHQ').onclick=()=>{const subj=encodeURIComponent(`Estimate — ${CUR.cust.name||'new'} — ${approx(quoteTotals(CUR).single)}`);const body=encodeURIComponent(hqText());location.href=`mailto:${SET.hqEmail}?subject=${subj}&body=${body}`;};
 $('btnCopyHub').onclick=async()=>{await copy(hqText());toast('Copied for Jobber');};
 $('btnMarkSent').onclick=async()=>{CUR.status='sent';await persist();toast('Marked as sent ✓');};
 async function copy(t){try{await navigator.clipboard.writeText(t);}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}}
@@ -571,8 +542,7 @@ $('btnExport').onclick=async()=>{
     // records keep the photo ids so nothing is silently misrepresented.
     const payload={exported:new Date().toISOString(),schema:'mgls-quotes-1',pricingRev:PRICING_REV,count:all.length,quotes:all};
     const text=JSON.stringify(payload,null,2);
-    const legacy=all.filter(q=>(q.items||[]).some(it=>it.tiers&&!(it.tiers.good&&it.tiers.better&&it.tiers.best))).length;
-    $('exportHint').textContent=all.length+' quote(s) backed up · '+legacy+' using retired Good/Better/Best · photos not included';
+    $('exportHint').textContent=all.length+' quote(s) backed up · photos not included';
     const name='magnolia-quotes-'+new Date().toISOString().slice(0,10)+'.json';
     const blob=new Blob([text],{type:'application/json'});
     // Share sheet first (it is the sane path on a phone), but never rely on it:
