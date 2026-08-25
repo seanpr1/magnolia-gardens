@@ -2376,34 +2376,6 @@
     form.addEventListener('focusin', onFormFirstTouch);
   }
 
-  /* Multi-select cards: services. Updates the #hf-services hidden field
-     so Formspree receives a comma-joined value. */
-  var selectedServices = [];
-  document.querySelectorAll('.est-card[data-multi="services"]').forEach(function (card) {
-    card.addEventListener('click', function () {
-      var val = card.dataset.v;
-      var on = card.classList.toggle('sel');
-      var i = selectedServices.indexOf(val);
-      if (on && i < 0) selectedServices.push(val);
-      if (!on && i >= 0) selectedServices.splice(i, 1);
-      var hidden = document.getElementById('hf-services');
-      if (hidden) hidden.value = selectedServices.join(', ');
-    });
-  });
-
-  /* "Other" / "Something else" - reveal a text input when selected. */
-  var svcOther      = document.getElementById('svcOther');
-  var svcOtherField = document.getElementById('svcOtherField');
-  var svcOtherInput = document.getElementById('if-services-other');
-  if (svcOther && svcOtherField) {
-    svcOther.addEventListener('click', function () {
-      var on = svcOther.classList.contains('sel');
-      svcOtherField.hidden = !on;
-      if (on && svcOtherInput) setTimeout(function () { svcOtherInput.focus(); }, 60);
-      if (!on && svcOtherInput) svcOtherInput.value = '';
-    });
-  }
-
   /* ── Wire both quote forms ───────────────────────────────────────
      Detailed #intakeForm and the hero quick form share one submit
      pipeline (wireQuoteForm above). Each posts to the same Formspree
@@ -2423,7 +2395,6 @@
       var cEl = form.elements.contact_method;
       var nEl = form.elements.message;
       return {
-        services_count: selectedServices.length,
         frequency: (fEl && fEl.value) || 'unset',
         yard_size: (yEl && yEl.value) || 'unset',
         contact_method: (cEl && cEl.value) || 'Text',
@@ -2490,18 +2461,6 @@
         transport_type: 'beacon'
       });
     });
-  });
-
-  /* ── Hero form button and legacy form link ── */
-  var heroFormBtn  = document.getElementById('heroFormBtn');
-  var heroFormLink = document.getElementById('heroFormLink');
-  if (heroFormBtn) heroFormBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    openForm('hero_button');
-  });
-  if (heroFormLink) heroFormLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    openForm('hero_link');
   });
 
   /* ── Repeated "Get a Free Estimate" CTAs → hero quick form ── */
