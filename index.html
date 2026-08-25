@@ -1037,6 +1037,35 @@
     .work-tile img {
       display: block; width: 100%; height: 100%; object-fit: cover;
     }
+
+    /* Tiles are real controls: tapping a photo opens it full size.
+       Clarity Aug 16-22 2026 showed 20.5% of sessions dead-clicking; the tiles
+       were plain divs, so every tap on a work photo did nothing. */
+    button.work-tile {
+      padding: 0; margin: 0; font: inherit; color: inherit;
+      display: block; width: 100%; cursor: zoom-in;
+    }
+    button.work-tile:focus-visible { outline: 2px solid var(--gold, #005343); outline-offset: 3px; }
+
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9000; display: none;
+      background: rgba(12,20,16,.93); padding: 24px;
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 86vh; object-fit: contain; display: block; }
+    .lightbox button {
+      position: absolute; background: none; border: 0; color: #fff;
+      cursor: pointer; padding: 12px; line-height: 1; opacity: .85; font-size: 32px;
+    }
+    .lightbox button:hover { opacity: 1; }
+    .lightbox .lb-close { top: 6px; right: 10px; font-size: 36px; }
+    .lightbox .lb-prev  { left: 2px;  top: 50%; transform: translateY(-50%); }
+    .lightbox .lb-next  { right: 2px; top: 50%; transform: translateY(-50%); }
+    .lightbox .lb-cap {
+      position: absolute; bottom: 14px; left: 0; right: 0; text-align: center;
+      color: #fff; opacity: .8; font-size: 13px; padding: 0 48px;
+    }
     @media (max-width: 720px) { .work-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 480px) { .work-grid { grid-template-columns: 1fr; } }
 
@@ -1575,42 +1604,42 @@
       <p class="section-sub">Recent beds, mulch, and lawns around Kingsport and the Tri-Cities, every visit documented.</p>
     </div>
     <div class="work-grid">
-      <div class="work-tile">
+      <button class="work-tile" type="button">
         <picture>
           <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp">
           <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg" alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN" loading="lazy" width="1000" height="750">
         </picture>
-      </div>
-      <div class="work-tile">
+      </button>
+      <button class="work-tile" type="button">
         <picture>
           <source type="image/webp" srcset="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.webp">
           <img src="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.jpg" alt="Freshly mulched landscaping beds with mixed shrubs at a Tri-Cities TN home" loading="lazy" width="1000" height="750">
         </picture>
-      </div>
-      <div class="work-tile">
+      </button>
+      <button class="work-tile" type="button">
         <picture>
           <source type="image/webp" srcset="/assets/work/lawn-mowing-hillside-kingsport-tn-1000w.webp">
           <img src="/assets/work/lawn-mowing-hillside-kingsport-tn-1000w.jpg" alt="Freshly mowed hillside lawn under a blue sky - Magnolia Gardens Landscaping, Kingsport TN" loading="lazy" width="1000" height="750">
         </picture>
-      </div>
-      <div class="work-tile">
+      </button>
+      <button class="work-tile" type="button">
         <picture>
           <source type="image/webp" srcset="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.webp">
           <img src="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.jpg" alt="Foundation planting bed with boxwoods, liriope and roses freshly mulched against brick" loading="lazy" width="1000" height="750">
         </picture>
-      </div>
-      <div class="work-tile">
+      </button>
+      <button class="work-tile" type="button">
         <picture>
           <source type="image/webp" srcset="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.webp">
           <img src="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.jpg" alt="The same garden bed after cleanup and fresh mulch installation by Magnolia Gardens Landscaping" loading="lazy" width="1000" height="750">
         </picture>
-      </div>
-      <div class="work-tile">
+      </button>
+      <button class="work-tile" type="button">
         <picture>
           <source type="image/webp" srcset="/assets/work/laceleaf-japanese-maple-kingsport-tn-1000w.webp">
           <img src="/assets/work/laceleaf-japanese-maple-kingsport-tn-1000w.jpg" alt="Close-up of a red laceleaf Japanese maple ornamental accent planting" loading="lazy" width="1000" height="1333">
         </picture>
-      </div>
+      </button>
     </div>
   </div>
 </section>
@@ -2545,5 +2574,65 @@
 })();
 </script>
 
+
+<!-- Recent-work lightbox (dead-click fix, Clarity Aug 16-22 2026) -->
+<div class="lightbox" id="workLightbox" role="dialog" aria-modal="true" aria-label="Recent work photo">
+  <button class="lb-close" type="button" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-prev"  type="button" id="lbPrev"  aria-label="Previous photo">&#8249;</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-next"  type="button" id="lbNext"  aria-label="Next photo">&#8250;</button>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+<script>
+(function(){
+  var tiles = [].slice.call(document.querySelectorAll('button.work-tile'));
+  var box   = document.getElementById('workLightbox');
+  if (!tiles.length || !box) return;
+  var img = document.getElementById('lbImg'),
+      cap = document.getElementById('lbCap'),
+      i = 0, lastFocus = null;
+  var shots = tiles.map(function (t) {
+    var im = t.querySelector('img');
+    // currentSrc is the file the tile actually loaded (the WebP from <source>).
+    // Reading src instead would re-download the JPEG fallback on every open.
+    return { src: im.currentSrc || im.getAttribute('src'), alt: im.getAttribute('alt') || '' };
+  });
+  function show(n) {
+    i = (n + shots.length) % shots.length;
+    img.src = shots[i].src; img.alt = shots[i].alt; cap.textContent = shots[i].alt;
+  }
+  function open(n) {
+    lastFocus = document.activeElement;
+    show(n); box.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lbClose').focus();
+    if (window.gtag) gtag('event', 'work_photo_open', { photo_index: n });
+  }
+  function close() {
+    box.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  tiles.forEach(function (t, n) { t.addEventListener('click', function () { open(n); }); });
+  document.getElementById('lbClose').addEventListener('click', close);
+  document.getElementById('lbPrev').addEventListener('click', function () { show(i - 1); });
+  document.getElementById('lbNext').addEventListener('click', function () { show(i + 1); });
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft')  show(i - 1);
+    else if (e.key === 'ArrowRight') show(i + 1);
+    else if (e.key === 'Tab') {
+      // aria-modal="true" promises focus stays inside; keep that promise.
+      var f = box.querySelectorAll('button');
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      else if (!box.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+    }
+  });
+})();
+</script>
 </body>
 </html>

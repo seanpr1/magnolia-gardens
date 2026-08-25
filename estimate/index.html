@@ -443,7 +443,27 @@
      ENGINE, MINUTES, calc() and the labels all come from MG_PRICING so a price
      change is one edit in one file, shared with the injected quote blocks. */
   const P = window.MG_PRICING;
-  if(!P) return;   // pricing.js failed to load; the raw tel:/sms: links still work
+  if(!P){
+    /* pricing.js did not load (blocked, bad cache, CDN hiccup). Everything below
+       stays unwired and NOTHING throws, so this failure never registers as a JS
+       error - it just looks like a page where no button works. Fail loudly to
+       the text path instead of silently. */
+    var sb = document.getElementById('btnStart');
+    if(sb && sb.parentNode){
+      var a = document.createElement('a');
+      a.className = sb.className;
+      a.href = 'sms:+14233909954?body=' + encodeURIComponent(
+        "Hi Magnolia Gardens - I'd like a quote for lawn care.");
+      a.textContent = 'Text us for your quote';
+      sb.parentNode.replaceChild(a, sb);
+      var note = document.createElement('p');
+      note.style.cssText = 'font-size:14px;margin-top:12px;opacity:.75';
+      note.textContent = "The instant estimator isn't loading right now. Text us and we'll send your quote, usually the same day.";
+      a.parentNode.insertBefore(note, a.nextSibling);
+    }
+    if(window.gtag) gtag('event','estimator_unavailable',{ reason:'pricing_js_missing' });
+    return;
+  }
   const SIZE_LABEL = P.SIZE_LABEL, SIZE_ACRE = P.SIZE_ACRE, SERVICE_LABEL = P.SERVICE_LABEL;
   const money = P.money;
   const calc = () => P.calc(state.service, state.size);
