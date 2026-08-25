@@ -15,7 +15,7 @@
 
   <!-- Pricing single source (handoff §2). Plain script on purpose: it must
        execute before the estimator IIFE at the end of <body>. -->
-  <script src="/assets/pricing.js?v=20260817"></script>
+  <script src="/assets/pricing.js?v=20260825"></script>
 
   <!-- Analytics production guard: only initialize on the real production
        domain, so owner self-testing on Netlify staging / localhost / Electron
@@ -377,6 +377,33 @@
     <div class="actions"><button class="backlink" data-back="q1">‹ Back</button></div>
   </section>
 
+  <!-- ===== QF FREQUENCY (recurring services only) =====
+       Asked before the price so the number on screen is the number billed.
+       Skipped for cleanup and mulch, which are one-off by nature. -->
+  <section class="screen" id="screen-qf">
+    <div class="eyebrow"><span id="cntf">Step 3 of 4</span></div>
+    <h2 class="q-title">How often should we come?</h2>
+    <p class="q-sub">Weekly is our best per-visit rate. Two weeks of growth makes for a longer, heavier visit, so biweekly is priced higher. You can change this any time.</p>
+    <div class="cards">
+      <button class="opt" data-q="freq" data-val="weekly">
+        <span class="lab">Weekly</span>
+        <span class="desc">Best per-visit rate. The lawn never gets ahead of you.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="freq" data-val="biweekly">
+        <span class="lab">Every 2 weeks</span>
+        <span class="desc">Fewer visits, more growth each time, so a higher per-visit price.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-q="freq" data-val="onetime">
+        <span class="lab">Just once</span>
+        <span class="desc">A single visit on a maintained lawn. No schedule, no commitment.</span>
+        <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+    </div>
+    <div class="actions"><button class="backlink" data-back="q2">‹ Back</button></div>
+  </section>
+
   <!-- ===== Q3 CONTACT (capture BEFORE price) ===== -->
   <section class="screen" id="screen-q3">
     <div class="eyebrow"><span id="cnt3">Step 3 of 3</span></div>
@@ -404,6 +431,7 @@
       <!-- hidden: quiz answers + estimate get filled in by JS before submit -->
       <input type="hidden" name="service" id="hf-service" value="">
       <input type="hidden" name="lawn_size" id="hf-size" value="">
+      <input type="hidden" name="frequency" id="hf-frequency" value="">
       <input type="hidden" name="estimate" id="hf-estimate" value="">
       <input type="hidden" name="source" value="instant-estimator">
       <input type="hidden" name="outcome" id="hf-outcome" value="saw_price_no_booking">
@@ -445,7 +473,7 @@
 
     <div class="price-hero">
       <div class="plab" id="revealLabel">Estimated per visit</div>
-      <div class="pval" id="revealPrice">$50–$190</div>
+      <div class="pval" id="revealPrice">~$50–$190</div>
       <div class="punit" id="revealUnit"></div>
     </div>
     <p class="price-mo" id="revealMonthly"></p>
@@ -481,7 +509,7 @@
 (function(){
   "use strict";
   const $ = s => document.querySelector(s);
-  const state = { service:'', size:'' };
+  const state = { service:'', size:'', freq:'weekly' };
   let current = 'intro';
   let leadSent = false;
   let engaged = false;   // true once the visitor books or calls from the reveal screen
@@ -512,11 +540,18 @@
     return;
   }
   const SIZE_LABEL = P.SIZE_LABEL, SIZE_ACRE = P.SIZE_ACRE, SERVICE_LABEL = P.SERVICE_LABEL;
+  const FREQ_LABEL = P.FREQ_LABEL, FREQ_APPLIES = P.FREQ_APPLIES;
   const money = P.money;
-  const calc = () => P.calc(state.service, state.size);
+  // Every figure here is an estimate, so it is shown as one. The tilde is the
+  // whole signal - no number on this screen is a committed price.
+  const approx = n => '~' + money(n);
+  const calc = () => P.calc(state.service, state.size, state.freq);
+  // Cleanups and mulch are one-off jobs; asking how often makes no sense there.
+  const asksFreq = () => !!FREQ_APPLIES[state.service];
 
   /* ---------- navigation ---------- */
-  const ORDER = ['intro','q1','q2','q3','calc','reveal'];
+  const ORDER = ['intro','q1','q2','qf','q3','calc','reveal'];
+  const NEXT = { service:'q2', size:'qf', freq:'q3' };
   function goTo(name){
     const from = $('#screen-'+current), to = $('#screen-'+name);
     if(from) from.classList.remove('active');
@@ -526,6 +561,7 @@
     const idx = ORDER.indexOf(name);
     const pct = name==='intro'?0 : name==='reveal'?100 : Math.round(idx/(ORDER.length-1)*100);
     $('#progressFill').style.width = pct+'%';
+    stepLabels();
     if(window.gtag) gtag('event','estimator_step',{ step:name });
   }
 
@@ -552,15 +588,22 @@
       state.service = svc;
       const c = document.querySelector('[data-q="service"][data-val="'+svc+'"]');
       if(c) c.classList.add('selected');
+      const freq = p.get('freq');
+      if(freq && FREQ_LABEL[freq] && asksFreq()){
+        state.freq = freq; state.freq_from_url = true;
+        const fe = document.querySelector('[data-q="freq"][data-val="'+freq+'"]');
+        if(fe) fe.classList.add('selected');
+      }
       if(size && SIZE_LABEL[size]){
         state.size = size;
         const s = document.querySelector('[data-q="size"][data-val="'+size+'"]');
         if(s) s.classList.add('selected');
-        goTo('q3');
+        // Land on the frequency step unless the link already answered it.
+        goTo(asksFreq() && !state.freq_from_url ? 'qf' : 'q3');
       }else{
         goTo('q2');
       }
-      if(window.gtag) gtag('event','estimator_deeplink',{ service:svc, lawn_size:size||'' });
+      if(window.gtag) gtag('event','estimator_deeplink',{ service:svc, lawn_size:size||'', frequency:state.freq });
     }catch(e){}
   })();
 
@@ -570,7 +613,15 @@
       document.querySelectorAll('[data-q="'+q+'"]').forEach(c=>c.classList.remove('selected'));
       card.classList.add('selected');
       state[q] = val;
-      setTimeout(()=>{ goTo(q==='service' ? 'q2' : 'q3'); }, 240);
+      if(q === 'service'){
+        // A one-off job has no frequency; reset so a back-and-change cannot
+        // leave a stale biweekly multiplier on a cleanup.
+        state.freq = 'weekly';
+        document.querySelectorAll('[data-q="freq"]').forEach(c=>c.classList.remove('selected'));
+      }
+      let next = NEXT[q] || 'q3';
+      if(next === 'qf' && !asksFreq()) next = 'q3';
+      setTimeout(()=>{ goTo(next); }, 240);
     });
   });
 
@@ -579,7 +630,12 @@
   });
 
   /* ---------- step counters ---------- */
-  // (static labels already in markup)
+  // Three steps for a one-off job, four when we also ask how often.
+  function stepLabels(){
+    const total = (!state.service || asksFreq()) ? 4 : 3;
+    const set = (id, n) => { const el = $('#'+id); if(el) el.textContent = 'Step '+n+' of '+total; };
+    set('cnt1', 1); set('cnt2', 2); set('cntf', 3); set('cnt3', total);
+  }
 
   /* ---------- submit: capture lead, THEN reveal price ---------- */
   $('#estForm').addEventListener('submit', async (e)=>{
@@ -594,11 +650,13 @@
     const e0 = calc();
     $('#hf-service').value = SERVICE_LABEL[state.service] || state.service;
     $('#hf-size').value = (SIZE_LABEL[state.size]||state.size) + ' (' + (SIZE_ACRE[state.size]||'') + ')';
+    $('#hf-frequency').value = asksFreq() ? (FREQ_LABEL[state.freq]||state.freq) : 'n/a (one-off job)';
     $('#hf-estimate').value = e0.kind==='one-time'
-        ? ('One-time: '+money(e0.low)+'–'+money(e0.high))
+        ? ('One-time: '+approx(e0.low)+'–'+money(e0.high))
         : e0.kind==='range'
-        ? ('Starts around '+money(e0.low)+'–'+money(e0.high))
-        : ('Per visit: '+money(e0.low)+'–'+money(e0.high) + (e0.monthly?(' | Monthly ~'+money(e0.monthly[0])+'–'+money(e0.monthly[1])):''));
+        ? ('Starts around '+approx(e0.low)+'–'+money(e0.high))
+        : ((e0.freqLabel||'Weekly')+' — per visit: '+approx(e0.low)+'–'+money(e0.high)
+           + (e0.monthly?(' | Monthly '+approx(e0.monthly[0])+'–'+money(e0.monthly[1])):''));
     $('#submitted_at').value = new Date().toISOString();
 
     const btn = $('#btnReveal'); btn.disabled = true; btn.textContent = 'One sec…';
@@ -615,7 +673,7 @@
     // actually accepted the POST — a failed submit is a lost lead, not a lead.
     if(window.gtag){
       if(leadSent){
-        gtag('event','lead_submit',{ form_location:'estimator', service:state.service, lawn_size:state.size });
+        gtag('event','lead_submit',{ form_location:'estimator', service:state.service, lawn_size:state.size, frequency:asksFreq()?state.freq:'n/a' });
         gtag('event','generate_lead',{ currency:'USD', value:e0.low, form_id:'estForm' });
       }else{
         gtag('event','form_submit_error',{ reason:'formspree_post_failed', form_location:'estimator' });
@@ -632,6 +690,7 @@
     const p = $('#calcParams'); p.innerHTML='';
     [['Service', SERVICE_LABEL[state.service]],
      ['Lawn size', (SIZE_LABEL[state.size]||'') + ' · ' + (SIZE_ACRE[state.size]||'')],
+     ['Frequency', asksFreq() ? FREQ_LABEL[state.freq] : 'One-off job'],
      ['Coverage', 'Kingsport &amp; Tri-Cities']
     ].forEach(([k,v])=>{
       const row=document.createElement('div'); row.className='calc-param';
@@ -645,15 +704,19 @@
   function showReveal(){
     const e = calc();
     goTo('reveal');
-    $('#revealLabel').textContent = e.label;
-    $('#revealPrice').textContent = e.low===e.high ? money(e.low) : (money(e.low) + '–' + money(e.high));
+    $('#revealLabel').textContent = e.freqLabel ? (e.label + ' · ' + e.freqLabel) : e.label;
+    $('#revealPrice').textContent = e.low===e.high ? approx(e.low) : (approx(e.low) + '–' + money(e.high));
     $('#revealUnit').textContent = e.kind==='per-visit' ? 'per visit'
         : e.kind==='one-time' ? 'one-time' : '';
     $('#revealSizeLabel').textContent = SIZE_LABEL[state.size] || 'property';
 
     // monthly line
     const mo = $('#revealMonthly');
-    if(e.monthly){ mo.innerHTML = 'That&rsquo;s about <b>'+money(e.monthly[0])+'–'+money(e.monthly[1])+'/month</b> on a weekly schedule.'; mo.style.display=''; }
+    if(e.monthly){
+      const per = e.visitsPerMonth===2 ? 'about two visits a month' : 'about four visits a month';
+      mo.innerHTML = 'That&rsquo;s <b>'+approx(e.monthly[0])+'–'+money(e.monthly[1])+'/month</b> at '+per+'.';
+      mo.style.display='';
+    }
     else if(e.note){ mo.innerHTML = e.note; mo.style.display=''; }
     else { mo.style.display='none'; }
 
@@ -665,7 +728,7 @@
         <div class="tier ${t.best?'best':''}">
           ${t.best?'<div class="flag">Recommended</div>':''}
           <div class="tn">${t.n}</div>
-          <div class="tv">${money(t.v)}</div>
+          <div class="tv">${approx(t.v)}</div>
           <div class="tvu">${t.u}</div>
           <div class="tdesc">${t.d}</div>
         </div>`).join('');
@@ -675,7 +738,8 @@
     const est = $('#hf-estimate').value;
     const smsBody = encodeURIComponent(
       'Hi Magnolia Gardens — I got an instant estimate ('+ (SERVICE_LABEL[state.service]||'') +
-      ', '+(SIZE_LABEL[state.size]||'')+'): '+est+'. I\'d like to set up my first visit at '+$('#f-addr').value.trim()+'.'
+      ', '+(SIZE_LABEL[state.size]||'')+'): '+est+
+      '. I\'d like to set up my first visit at '+$('#f-addr').value.trim()+'.'
     );
     $('#btnBook').href = 'sms:+14233909954?body='+smsBody;   // becomes the booking-engine URL once a scheduling engine is wired
 
@@ -690,6 +754,7 @@
         fd.append('name',    $('#f-name').value.trim());
         fd.append('email',   $('#f-email').value.trim());
         fd.append('service', SERVICE_LABEL[state.service]||state.service);
+        fd.append('frequency', asksFreq() ? (FREQ_LABEL[state.freq]||state.freq) : 'n/a (one-off job)');
         fd.append('estimate', est);
         fd.append('source',  'instant-estimator');
         fd.append('outcome', 'booking_requested');

@@ -43,7 +43,7 @@
   function priceLine(P){
     if (service === 'mowing' || service === 'maintenance' || area){
       return 'Lawn care starts at a ' + P.PUBLISHED.minimumText + ' minimum — most visits run ' +
-        P.PUBLISHED.perVisitRange + ' by lot size and service level, with larger and estate properties quoted higher.';
+        P.PUBLISHED.perVisitRange + ' per visit on a weekly schedule, by lot size and service level, with larger and estate properties quoted higher.';
     }
     // cleanup / mulch / brush: no published range yet — quoted from photos
     return 'Quoted from a photo or two, with a ' + P.PUBLISHED.minimumText + ' minimum.';
@@ -242,7 +242,7 @@
   if (window.MG_PRICING){ render(window.MG_PRICING); }
   else {
     var s = document.createElement('script');
-    s.src = '/assets/pricing.js';
+    s.src = '/assets/pricing.js?v=20260825';
     s.onload = function(){ if (window.MG_PRICING) render(window.MG_PRICING); };
     document.head.appendChild(s);
   }

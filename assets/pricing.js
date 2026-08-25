@@ -17,16 +17,34 @@
   const SIZE_ACRE  = { compact:'under ¼ acre', midsize:'¼–½ acre', spacious:'½–1 acre', estate:'over 1 acre' };
   const SERVICE_LABEL = { mowing:'Recurring mowing', maintenance:'Full grounds care', cleanup:'One-time cleanup', mulch:'Mulch & beds' };
 
+  /* ---------- visit frequency ----------
+     Weekly is the reference rate. Biweekly is a longer, heavier visit - two
+     weeks of growth - and is priced against weekly. Mirrors the field tool in
+     quote/index.html; the two change together or not at all.
+     Frequency applies only to the recurring services: a cleanup or a mulch
+     install is a one-off by nature and is already priced on its own terms. */
+  const FREQ        = { weekly:1, biweekly:1.8, onetime:1 };
+  const FREQ_LABEL  = { weekly:'Weekly', biweekly:'Every 2 weeks', onetime:'One-time' };
+  const FREQ_VISITS = { weekly:4, biweekly:2, onetime:0 };   // visits per month
+  const FREQ_APPLIES = { mowing:true, maintenance:true, cleanup:false, mulch:false };
+  const normFreq = (service, freq) =>
+    (FREQ_APPLIES[service] && FREQ[freq]) ? freq : 'weekly';
+
   const round5 = n => Math.round(n/5)*5;
   function baseVisit(size){
     const mins = MINUTES[size] * (1 + ENGINE.buffer);
     return Math.max(ENGINE.floor, ENGINE.stop + mins * ENGINE.perMin);
   }
 
-  // returns the numbers to display for the chosen service+size
-  function calc(service, size){
+  // returns the numbers to display for the chosen service+size+frequency
+  function calc(service, size, freq){
     const svc = service;
-    const base = baseVisit(size);             // mow+edge+blow per visit
+    const f  = normFreq(svc, freq);
+    const fm = FREQ_APPLIES[svc] ? FREQ[f] : 1;
+    // The multiplier lifts the finished per-visit rate, so the customer still
+    // sees one flat price per visit - just a higher one on a longer cycle.
+    const base = baseVisit(size) * fm;        // mow+edge+blow per visit
+    const visits = FREQ_VISITS[f];
 
     if(svc === 'mowing'){
       // pricing v2 (ops repo, 2026-08-16): one flat per-visit price per property,
@@ -36,10 +54,10 @@
       const per = round5(base);
       const full = round5(base*1.5);
       return {
-        kind:'per-visit',
+        kind:'per-visit', freq:f, freqLabel:FREQ_LABEL[f], visitsPerMonth:visits,
         label:'Estimated per visit',
         low: per, high: full,
-        monthly:[ per*4, full*4 ],   // ~weekly
+        monthly: visits ? [ per*visits, full*visits ] : null,
         tiers:[
           { n:'Standard',     v:per,  u:'/ visit', d:'Mow, trim, edge &amp; blow — the full standard visit.', best:true },
           { n:'Full-service', v:full, u:'/ visit', d:'Adds bed tidy, detail edging &amp; seasonal touch-ups.', best:false }
@@ -53,10 +71,10 @@
       const per = round5(base);
       const full = round5(base*1.5);
       return {
-        kind:'per-visit',
+        kind:'per-visit', freq:f, freqLabel:FREQ_LABEL[f], visitsPerMonth:visits,
         label:'Estimated per visit',
         low: per, high: full,
-        monthly:[ per*4, full*4 ],
+        monthly: visits ? [ per*visits, full*visits ] : null,
         tiers:[
           { n:'Standard',     v:per,  u:'/ visit', d:'Mow, trim, edge &amp; blow — the full standard visit.', best:false },
           { n:'Full-service', v:full, u:'/ visit', d:'Adds bed care, detail edging &amp; seasonal touch-ups.', best:true }
@@ -111,5 +129,6 @@
   };
 
   window.MG_PRICING = { ENGINE, MINUTES, SIZE_LABEL, SIZE_ACRE, SERVICE_LABEL,
+    FREQ, FREQ_LABEL, FREQ_VISITS, FREQ_APPLIES, normFreq,
     round5, baseVisit, calc, money, PUBLISHED };
 })();
