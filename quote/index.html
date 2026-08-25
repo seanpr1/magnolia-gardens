@@ -250,10 +250,30 @@ function getAll(store){return new Promise((res,rej)=>{const r=tx(store).getAll()
 function get(store,key){return new Promise((res,rej)=>{const r=tx(store).get(key);r.onsuccess=()=>res(r.result);r.onerror=rej;});}
 
 /* ================= settings ================= */
-const DEFAULTS={stop:10,perMin:1.50,min:55,markup:1.25,buffer:20,
-  hqEmail:'contact@magnoliagardenslandscaping.com',
+/* Engine mirrors assets/pricing.js (MAGNOLIA.md §4: the two move in lockstep).
+   stop/perMin/buffer match; min is the $50 floor ruled 2026-08-17. markup is
+   materials-only and has no site counterpart. Bump PRICING_REV whenever any
+   engine number changes - see loadSettings. */
+const PRICING_REV=2;
+const DEFAULTS={stop:10,perMin:1.50,min:50,markup:1.25,buffer:20,
+  hqEmail:'quotes@magnoliagardenslandscaping.com',
   services:['Mowing','Edging','String trimming','Blowing / cleanup','Mulch install','Planting install','Bed cleanup','Leaf removal','Hedge / shrub trim']};
-function loadSettings(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem('mgls_set')||'{}'));}catch(e){return {...DEFAULTS};}}
+function loadSettings(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('mgls_set')||'{}');
+    const merged=Object.assign({},DEFAULTS,saved);
+    // Settings saved on this device outrank the defaults, which is right for
+    // hqEmail and the service list but wrong for the pricing engine: a phone
+    // that hit Save once would quote the old floor forever. On a new revision
+    // the engine numbers come back from DEFAULTS and the change is persisted.
+    if((saved.pricingRev||0)<PRICING_REV){
+      ['stop','perMin','min','markup','buffer'].forEach(k=>{merged[k]=DEFAULTS[k];});
+      merged.pricingRev=PRICING_REV;
+      try{localStorage.setItem('mgls_set',JSON.stringify(merged));}catch(e){}
+    }
+    return merged;
+  }catch(e){return {...DEFAULTS,pricingRev:PRICING_REV};}
+}
 function saveSettings(s){localStorage.setItem('mgls_set',JSON.stringify(s));}
 let SET=loadSettings();
 
@@ -480,7 +500,7 @@ async function copy(t){try{await navigator.clipboard.writeText(t);}catch(e){cons
 $('btnSettings').onclick=()=>{fillSettings();show('s-settings');};
 $('btnBackFromSettings').onclick=()=>{renderList();show('s-list');};
 function fillSettings(){$('setStop').value=SET.stop;$('setPerMin').value=SET.perMin;$('setMin').value=SET.min;$('setMarkup').value=SET.markup;$('setBuffer').value=SET.buffer;$('setHqEmail').value=SET.hqEmail;$('setServices').value=SET.services.join('\n');}
-$('btnSaveSettings').onclick=()=>{SET={stop:+$('setStop').value||0,perMin:+$('setPerMin').value||0,min:+$('setMin').value||0,markup:+$('setMarkup').value||1,buffer:+$('setBuffer').value||0,hqEmail:$('setHqEmail').value.trim()||DEFAULTS.hqEmail,services:$('setServices').value.split('\n').map(s=>s.trim()).filter(Boolean)};if(!SET.services.length)SET.services=DEFAULTS.services;saveSettings(SET);toast('Settings saved');renderList();show('s-list');};
+$('btnSaveSettings').onclick=()=>{SET={stop:+$('setStop').value||0,perMin:+$('setPerMin').value||0,min:+$('setMin').value||0,markup:+$('setMarkup').value||1,buffer:+$('setBuffer').value||0,hqEmail:$('setHqEmail').value.trim()||DEFAULTS.hqEmail,services:$('setServices').value.split('\n').map(s=>s.trim()).filter(Boolean)};if(!SET.services.length)SET.services=DEFAULTS.services;SET.pricingRev=PRICING_REV;saveSettings(SET);toast('Settings saved');renderList();show('s-list');};
 
 /* net state */
 function net(){$('netstate').innerHTML=navigator.onLine?'Magnolia Gardens':'Offline — saved on device <span class="offline-dot"></span>';}
