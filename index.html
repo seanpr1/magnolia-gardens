@@ -2222,6 +2222,31 @@
     } catch (e) { /* never block the form */ }
   }
 
+  /* ── Shared: which part of the service area a lead came from. Buckets the
+     ZIP the visitor typed into the areas MAGNOLIA.md commits to publicly, so
+     GA4 can show where leads originate without ever receiving the ZIP. */
+  var PRIMARY_ZIPS = ['37660', '37663', '37664', '37665'];   // Kingsport
+  var ROUTED_ZIPS  = ['37620', '37625'];                      // Bristol TN route days
+  function serviceArea(form) {
+    var el = form.elements.zip;
+    var z  = ((el && el.value) || '').trim();
+    if (!/^\d{5}$/.test(z)) return 'unset';
+    if (PRIMARY_ZIPS.indexOf(z) >= 0) return 'primary';
+    if (ROUTED_ZIPS.indexOf(z)  >= 0) return 'routed_secondary';
+    return 'outside_area';
+  }
+
+  /* ── Shared: the props both forms report on a lead. Only fields the form
+     really collects - a constant is worse than no dimension at all. */
+  function commonLeadProps(form) {
+    var msg = form.elements.message, mail = form.elements.email;
+    return {
+      service_area: serviceArea(form),
+      has_notes: !!(msg  && msg.value  && msg.value.trim()),
+      has_email: !!(mail && mail.value && mail.value.trim())
+    };
+  }
+
   /* ── Shared: wire a quote form's submit pipeline. Both forms post to the
      same Formspree endpoint with the same hidden fields, the same honeypot,
      and the same success / error panels. cfg.leadProps() returns the
@@ -2322,6 +2347,7 @@
   var body   = document.getElementById('estBody');
 
   function setToggleOpen(open, source) {
+    if (!toggle || !body) return;
     var wasOpen = toggle.classList.contains('open');
     toggle.classList.toggle('open', open);
     body.classList.toggle('open', open);
@@ -2331,15 +2357,17 @@
     // it does fire it's a meaningful "re-engagement" signal.
     if (open && !wasOpen) track('form_open', { source: source || 'toggle' });
   }
-  toggle.addEventListener('click', function () {
-    setToggleOpen(!toggle.classList.contains('open'), 'toggle');
-  });
-  toggle.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
+  if (toggle) {
+    toggle.addEventListener('click', function () {
       setToggleOpen(!toggle.classList.contains('open'), 'toggle');
-    }
-  });
+    });
+    toggle.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setToggleOpen(!toggle.classList.contains('open'), 'toggle');
+      }
+    });
+  }
 
   /* ── Intake form ─────────────────────────── */
   var form        = document.getElementById('intakeForm');
@@ -2394,19 +2422,7 @@
     errorRetry: errorRetry,
     submitBtn: submitBtn,
     formLocation: 'detailed',
-    leadProps: function () {
-      // Enriched detail from the detailed form's real radio inputs.
-      var fEl = form.elements.frequency;
-      var yEl = form.elements.yard_size;
-      var cEl = form.elements.contact_method;
-      var nEl = form.elements.message;
-      return {
-        frequency: (fEl && fEl.value) || 'unset',
-        yard_size: (yEl && yEl.value) || 'unset',
-        contact_method: (cEl && cEl.value) || 'Text',
-        has_notes: !!(nEl && nEl.value && nEl.value.trim())
-      };
-    }
+    leadProps: function () { return commonLeadProps(form); }
   });
 
   var heroForm = document.getElementById('heroIntakeForm');
@@ -2417,15 +2433,7 @@
     errorRetry: document.getElementById('heroErrorRetry'),
     submitBtn: document.getElementById('heroSubmit'),
     formLocation: 'hero',
-    leadProps: function () {
-      var sEl = heroForm.elements.services;
-      var cEl = heroForm.elements.contact_method;
-      var svc = (sEl && sEl.value) || '';
-      return {
-        service: svc || 'unset',
-        contact_method: (cEl && cEl.value) || 'Text'
-      };
-    }
+    leadProps: function () { return commonLeadProps(heroForm); }
   });
 
   /* ── SMS links: target="_blank" + desktop intercept ─────────────
