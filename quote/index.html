@@ -304,6 +304,8 @@ let SET=loadSettings();
 /* ================= helpers ================= */
 const $=id=>document.getElementById(id);
 const money=n=>'$'+(Math.round(n*100)/100).toLocaleString('en-US',{minimumFractionDigits:(n%1?2:0),maximumFractionDigits:2});
+// Every figure this tool prints is an estimate; the tilde says so out loud.
+const approx=n=>'~'+money(n);
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1900);}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');window.scrollTo(0,0);}
@@ -334,17 +336,29 @@ function linePrice(it){
 }
 function tierTotals(q){
   // returns {single, good, better, best, usesTiers}
+  // Service and materials are summed apart: frequency lifts the service rate,
+  // never the materials. A bag of mulch costs the same whatever the mow cycle.
   let usesTiers=false;
-  const sums={good:0,better:0,best:0,single:0};
+  const mk=()=>({svc:0,mat:0});
+  const sums={good:mk(),better:mk(),best:mk(),single:mk()};
   q.items.forEach(it=>{
     const p=linePrice(it);
-    sums.single+=p;
+    const k=it.mode==='material'?'mat':'svc';
+    sums.single[k]+=p;
     const t=it.tiers||{good:true,better:true,best:true};
     if(!(t.good&&t.better&&t.best))usesTiers=true;
-    if(t.good)sums.good+=p; if(t.better)sums.better+=p; if(t.best)sums.best+=p;
+    if(t.good)sums.good[k]+=p; if(t.better)sums.better[k]+=p; if(t.best)sums.best[k]+=p;
   });
   const stop=Number(SET.stop)||0, min=Number(SET.min)||0, fm=freqMult(q);
-  const clamp=v=> v>0? Math.max(v+stop,min)*fm:0;
+  const clamp=s=>{
+    if(s.svc<=0&&s.mat<=0)return 0;
+    // The stop fee rides with the service visit and scales with it; a
+    // materials-only quote still pays it once, unscaled. At fm=1 this is
+    // exactly the old formula, so no saved quote changes.
+    const svcRate = s.svc>0 ? (s.svc+stop)*fm : 0;
+    const raw = svcRate + s.mat + (s.svc>0 ? 0 : stop);
+    return Math.max(raw, s.svc>0 ? min*fm : min);
+  };
   return {usesTiers,
     single:clamp(sums.single), good:clamp(sums.good), better:clamp(sums.better), best:clamp(sums.best)};
 }
@@ -376,7 +390,7 @@ async function renderList(){
       <div class="stripe"></div>
       <div class="qmeta"><div class="qname">${esc(n)}</div>
       <div class="qsub">${fmtDate(q.created)} · ${esc(svc)} ${quoteFreq(q)!=='weekly'?`<span class="pill">${FREQ_LABEL[quoteFreq(q)]}</span>`:''} ${q.status==='sent'?'<span class="pill sent">Sent</span>':''}</div></div>
-      <div class="qtotal">${money(tot)}</div></div>`;}).join('');
+      <div class="qtotal">${approx(tot)}</div></div>`;}).join('');
   wrap.querySelectorAll('.qcard').forEach(c=>c.onclick=()=>openQuote(c.dataset.id));
 }
 function esc(s){return (s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
@@ -470,7 +484,7 @@ function downscale(file){return new Promise(res=>{const img=new Image();const rd
     const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
     c.toBlob(b=>res(b||file),'image/jpeg',.8);};img.src=rd.result;};rd.readAsDataURL(file);});}
 
-function updateEditTotal(){const t=tierTotals(CUR);$('editTotal').textContent=money(t.usesTiers?t.best:t.single);}
+function updateEditTotal(){const t=tierTotals(CUR);$('editTotal').textContent=approx(t.usesTiers?t.best:t.single);}
 
 /* ---- customer / preview field bindings ---- */
 ['cName','cAddr','cPhone'].forEach(f=>{}); // bound below
@@ -493,7 +507,7 @@ function buildPreview(){
       <div class="tierbox"><div class="tn"><span>Better</span></div><div class="tv">${money(t.better)}</div></div>
       <div class="tierbox best"><div class="tn"><span>Best ★</span></div><div class="tv">${money(t.best)}</div></div>`;
   }else{
-    totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${esc(freqNote(q))}</span><b>${money(t.single)}</b></div>`;
+    totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${esc(freqNote(q))}</span><b>${approx(t.single)}</b></div>`;
   }
   $('previewBody').innerHTML=`
     <div class="ph"><div class="co">Magnolia Gardens Landscaping</div><div class="tl">Take the lawn off your to-do list · ${SET.hqEmail}</div></div>
@@ -515,7 +529,7 @@ function quoteText(){
   q.items.filter(i=>i.service).forEach(it=>{s+=`☑ ${it.service} — ${money(linePrice(it))}${it.inotes?'\n   ('+it.inotes+')':''}\n`;});
   s+=`\n`;
   if(t.usesTiers)s+=`Good ${money(t.good)}  |  Better ${money(t.better)}  |  Best ${money(t.best)}\n`;
-  else s+=`TOTAL: ${money(t.single)}\n`;
+  else s+=`TOTAL: ${approx(t.single)}\n`;
   s+=`${freqNote(q)}\n`;
   return s;
 }
