@@ -95,6 +95,10 @@
   .tiers{display:flex;gap:6px;margin-top:6px}
   .tier-toggle{flex:1;font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;text-align:center;padding:8px 4px;border:1.5px solid var(--line);border-radius:9px;background:var(--white);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.3px}
   .tier-toggle.on{background:var(--green);color:var(--cream);border-color:var(--green)}
+  /* visit frequency */
+  .freq{display:flex;gap:6px;margin-top:6px}
+  .freq-opt{flex:1;font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;text-align:center;padding:9px 4px;border:1.5px solid var(--line);border-radius:9px;background:var(--white);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.3px}
+  .freq-opt.on{background:var(--green);color:var(--cream);border-color:var(--green)}
   /* quote list */
   .qcard{display:flex;align-items:center;gap:12px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:11px;box-shadow:var(--shadow);cursor:pointer}
   .qcard .stripe{width:5px;align-self:stretch;border-radius:4px;background:var(--gold)}
@@ -155,6 +159,9 @@
 <section class="screen active" id="s-list">
   <button class="btn primary" id="btnNew" style="margin-bottom:16px">＋ New quote</button>
   <div id="quoteList"></div>
+  <div class="spacer"></div>
+  <button class="btn ghost sm" id="btnExport">⬇ Back up all quotes (JSON)</button>
+  <p class="hint" id="exportHint" style="margin-top:8px">Saved quotes live only on this device. Back up before changing phones.</p>
 </section>
 
 <!-- ============ EDIT SCREEN ============ -->
@@ -166,6 +173,14 @@
     <div class="field"><label>Name</label><input id="cName" placeholder="Alex Carter"></div>
     <div class="field"><label>Property address</label><input id="cAddr" placeholder="123 Harbor Dr, Kingsport"></div>
     <div class="field"><label>Phone</label><input id="cPhone" type="tel" inputmode="tel" placeholder="423-000-0000"></div>
+    <div class="field" style="margin-bottom:0"><label>Visit frequency</label>
+      <div class="freq" id="freqRow">
+        <div class="freq-opt" data-freq="weekly">Weekly</div>
+        <div class="freq-opt" data-freq="biweekly">Biweekly</div>
+        <div class="freq-opt" data-freq="onetime">One-time</div>
+      </div>
+      <div class="hint" id="freqHint"></div>
+    </div>
   </div>
 
   <div class="card">
@@ -223,6 +238,12 @@
     <div class="field"><label>Time buffer %</label><input id="setBuffer" type="number" inputmode="decimal"></div>
   </div>
   <div class="card">
+    <h2>Frequency multipliers</h2>
+    <p class="hint" style="margin-bottom:12px">Applied to the finished per-visit rate. Weekly is the reference price; the others are quoted against it.</p>
+    <div class="field half"><label>Biweekly ×</label><input id="setFreqBiweekly" type="number" inputmode="decimal" step="0.05"></div>
+    <div class="field half"><label>One-time ×</label><input id="setFreqOnetime" type="number" inputmode="decimal" step="0.05"></div>
+  </div>
+  <div class="card">
     <h2>HQ + sharing</h2>
     <div class="field"><label>HQ email</label><input id="setHqEmail" type="email" placeholder="contact@magnoliagardenslandscaping.com"></div>
     <div class="field"><label>Services list (one per line)</label><textarea id="setServices" style="min-height:150px"></textarea></div>
@@ -250,12 +271,14 @@ function getAll(store){return new Promise((res,rej)=>{const r=tx(store).getAll()
 function get(store,key){return new Promise((res,rej)=>{const r=tx(store).get(key);r.onsuccess=()=>res(r.result);r.onerror=rej;});}
 
 /* ================= settings ================= */
-/* Engine mirrors assets/pricing.js (MAGNOLIA.md §4: the two move in lockstep).
-   stop/perMin/buffer match; min is the $50 floor ruled 2026-08-17. markup is
-   materials-only and has no site counterpart. Bump PRICING_REV whenever any
-   engine number changes - see loadSettings. */
-const PRICING_REV=2;
+/* Engine mirrors assets/pricing.js: stop/perMin/buffer/min all match, and min
+   is the $50 floor. markup is materials-only and has no site counterpart.
+   Frequency multipliers apply to the finished per-visit rate, so weekly stays
+   the reference price and biweekly is quoted against it. Bump PRICING_REV
+   whenever any of these numbers change - see loadSettings. */
+const PRICING_REV=3;
 const DEFAULTS={stop:10,perMin:1.50,min:50,markup:1.25,buffer:20,
+  freqWeekly:1, freqBiweekly:1.8, freqOnetime:1,
   hqEmail:'quotes@magnoliagardenslandscaping.com',
   services:['Mowing','Edging','String trimming','Blowing / cleanup','Mulch install','Planting install','Bed cleanup','Leaf removal','Hedge / shrub trim']};
 function loadSettings(){
@@ -267,7 +290,8 @@ function loadSettings(){
     // that hit Save once would quote the old floor forever. On a new revision
     // the engine numbers come back from DEFAULTS and the change is persisted.
     if((saved.pricingRev||0)<PRICING_REV){
-      ['stop','perMin','min','markup','buffer'].forEach(k=>{merged[k]=DEFAULTS[k];});
+      ['stop','perMin','min','markup','buffer',
+       'freqWeekly','freqBiweekly','freqOnetime'].forEach(k=>{merged[k]=DEFAULTS[k];});
       merged.pricingRev=PRICING_REV;
       try{localStorage.setItem('mgls_set',JSON.stringify(merged));}catch(e){}
     }
@@ -286,6 +310,17 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 function fmtDate(ts){const d=new Date(ts);return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
 
 /* ================= pricing ================= */
+const FREQ_LABEL={weekly:'Weekly', biweekly:'Biweekly', onetime:'One-time'};
+const FREQ_ORDER=['weekly','biweekly','onetime'];
+function quoteFreq(q){ const f=(q&&q.frequency)||'weekly'; return FREQ_LABEL[f]?f:'weekly'; }
+// Multiplies the finished per-visit rate, not the minutes: the customer still
+// gets one flat price per visit, just a higher one on a longer cycle. Quotes
+// saved before frequency existed read as weekly, so their totals do not move.
+function freqMult(q){
+  const f=quoteFreq(q);
+  const m=Number(SET['freq'+f.charAt(0).toUpperCase()+f.slice(1)]);
+  return m>0?m:1;
+}
 function itemPrice(it){
   if(it.mode==='manual')return Number(it.amount)||0;
   const mins=(Number(it.minutes)||0)*(1+SET.buffer/100);
@@ -308,8 +343,8 @@ function tierTotals(q){
     if(!(t.good&&t.better&&t.best))usesTiers=true;
     if(t.good)sums.good+=p; if(t.better)sums.better+=p; if(t.best)sums.best+=p;
   });
-  const stop=Number(SET.stop)||0, min=Number(SET.min)||0;
-  const clamp=v=> v>0? Math.max(v+stop,min):0;
+  const stop=Number(SET.stop)||0, min=Number(SET.min)||0, fm=freqMult(q);
+  const clamp=v=> v>0? Math.max(v+stop,min)*fm:0;
   return {usesTiers,
     single:clamp(sums.single), good:clamp(sums.good), better:clamp(sums.better), best:clamp(sums.best)};
 }
@@ -319,7 +354,7 @@ let CUR=null;   // current quote object
 let openItem=null;
 
 function newQuote(){
-  return {id:uid(),created:Date.now(),status:'draft',
+  return {id:uid(),created:Date.now(),status:'draft',frequency:'weekly',
     cust:{name:'',addr:'',phone:''}, items:[], notes:''};
 }
 async function persist(){ if(CUR){CUR.updated=Date.now(); await put('quotes',stripBlobs(CUR));} }
@@ -340,7 +375,7 @@ async function renderList(){
     return `<div class="qcard ${q.status==='sent'?'sent':''}" data-id="${q.id}">
       <div class="stripe"></div>
       <div class="qmeta"><div class="qname">${esc(n)}</div>
-      <div class="qsub">${fmtDate(q.created)} · ${esc(svc)} ${q.status==='sent'?'<span class="pill sent">Sent</span>':''}</div></div>
+      <div class="qsub">${fmtDate(q.created)} · ${esc(svc)} ${quoteFreq(q)!=='weekly'?`<span class="pill">${FREQ_LABEL[quoteFreq(q)]}</span>`:''} ${q.status==='sent'?'<span class="pill sent">Sent</span>':''}</div></div>
       <div class="qtotal">${money(tot)}</div></div>`;}).join('');
   wrap.querySelectorAll('.qcard').forEach(c=>c.onclick=()=>openQuote(c.dataset.id));
 }
@@ -360,7 +395,14 @@ async function hydratePhotos(q){
 function fillEdit(){
   $('cName').value=CUR.cust.name; $('cAddr').value=CUR.cust.addr; $('cPhone').value=CUR.cust.phone;
   $('qNotes').value=CUR.notes||'';
-  renderItems(); updateEditTotal();
+  renderFreq(); renderItems(); updateEditTotal();
+}
+function renderFreq(){
+  const f=quoteFreq(CUR), m=freqMult(CUR);
+  document.querySelectorAll('#freqRow .freq-opt').forEach(el=>el.classList.toggle('on',el.dataset.freq===f));
+  $('freqHint').textContent = m===1
+    ? FREQ_LABEL[f]+' is priced at the reference rate.'
+    : FREQ_LABEL[f]+' is priced at '+m+'× the weekly rate.';
 }
 function renderItems(){
   const wrap=$('items');
@@ -434,6 +476,10 @@ function updateEditTotal(){const t=tierTotals(CUR);$('editTotal').textContent=mo
 ['cName','cAddr','cPhone'].forEach(f=>{}); // bound below
 
 /* ================= preview ================= */
+function freqNote(q){
+  const f=quoteFreq(q);
+  return f==='onetime' ? 'One-time visit' : 'Per visit · '+FREQ_LABEL[f].toLowerCase()+' service';
+}
 function buildPreview(){
   const q=CUR;const t=tierTotals(q);
   const rows=q.items.filter(i=>i.service).map(it=>{
@@ -447,7 +493,7 @@ function buildPreview(){
       <div class="tierbox"><div class="tn"><span>Better</span></div><div class="tv">${money(t.better)}</div></div>
       <div class="tierbox best"><div class="tn"><span>Best ★</span></div><div class="tv">${money(t.best)}</div></div>`;
   }else{
-    totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">Total estimate</span><b>${money(t.single)}</b></div>`;
+    totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${esc(freqNote(q))}</span><b>${money(t.single)}</b></div>`;
   }
   $('previewBody').innerHTML=`
     <div class="ph"><div class="co">Magnolia Gardens Landscaping</div><div class="tl">Take the lawn off your to-do list · ${SET.hqEmail}</div></div>
@@ -470,6 +516,7 @@ function quoteText(){
   s+=`\n`;
   if(t.usesTiers)s+=`Good ${money(t.good)}  |  Better ${money(t.better)}  |  Best ${money(t.best)}\n`;
   else s+=`TOTAL: ${money(t.single)}\n`;
+  s+=`${freqNote(q)}\n`;
   return s;
 }
 function hqText(){
@@ -485,6 +532,9 @@ $('btnNew').onclick=async()=>{CUR=newQuote();await put('quotes',stripBlobs(CUR))
 $('btnBackList').onclick=()=>{renderList();show('s-list');};
 $('btnAddItem').onclick=()=>{const it={id:uid(),service:SET.services[0],mode:'time',minutes:'',amount:'',inotes:'',photos:[],tiers:{good:true,better:true,best:true}};CUR.items.push(it);openItem=it.id;renderItems();persist();};
 ['cName','cAddr','cPhone'].forEach(f=>$(f).addEventListener('input',()=>{const k={cName:'name',cAddr:'addr',cPhone:'phone'}[f];CUR.cust[k]=$(f).value;persist();}));
+document.querySelectorAll('#freqRow .freq-opt').forEach(el=>el.onclick=()=>{
+  CUR.frequency=el.dataset.freq; renderFreq(); updateEditTotal(); persist();
+});
 $('qNotes').addEventListener('input',()=>{CUR.notes=$('qNotes').value;persist();});
 $('btnDelete').onclick=async()=>{if(!confirm('Delete this quote?'))return;for(const it of CUR.items)for(const pid of(it.photos||[]))await del('photos',pid);await del('quotes',CUR.id);CUR=null;renderList();show('s-list');toast('Quote deleted');};
 $('btnPreview').onclick=$('btnPreview2').onclick=()=>{buildPreview();show('s-preview');};
@@ -499,8 +549,39 @@ async function copy(t){try{await navigator.clipboard.writeText(t);}catch(e){cons
 /* settings */
 $('btnSettings').onclick=()=>{fillSettings();show('s-settings');};
 $('btnBackFromSettings').onclick=()=>{renderList();show('s-list');};
-function fillSettings(){$('setStop').value=SET.stop;$('setPerMin').value=SET.perMin;$('setMin').value=SET.min;$('setMarkup').value=SET.markup;$('setBuffer').value=SET.buffer;$('setHqEmail').value=SET.hqEmail;$('setServices').value=SET.services.join('\n');}
-$('btnSaveSettings').onclick=()=>{SET={stop:+$('setStop').value||0,perMin:+$('setPerMin').value||0,min:+$('setMin').value||0,markup:+$('setMarkup').value||1,buffer:+$('setBuffer').value||0,hqEmail:$('setHqEmail').value.trim()||DEFAULTS.hqEmail,services:$('setServices').value.split('\n').map(s=>s.trim()).filter(Boolean)};if(!SET.services.length)SET.services=DEFAULTS.services;SET.pricingRev=PRICING_REV;saveSettings(SET);toast('Settings saved');renderList();show('s-list');};
+function fillSettings(){$('setStop').value=SET.stop;$('setPerMin').value=SET.perMin;$('setMin').value=SET.min;$('setMarkup').value=SET.markup;$('setBuffer').value=SET.buffer;$('setFreqBiweekly').value=SET.freqBiweekly;$('setFreqOnetime').value=SET.freqOnetime;$('setHqEmail').value=SET.hqEmail;$('setServices').value=SET.services.join('\n');}
+$('btnExport').onclick=async()=>{
+  try{
+    const all=await getAll('quotes');
+    // Photo blobs live in their own store and are not included; the quote
+    // records keep the photo ids so nothing is silently misrepresented.
+    const payload={exported:new Date().toISOString(),schema:'mgls-quotes-1',pricingRev:PRICING_REV,count:all.length,quotes:all};
+    const text=JSON.stringify(payload,null,2);
+    const legacy=all.filter(q=>(q.items||[]).some(it=>it.tiers&&!(it.tiers.good&&it.tiers.better&&it.tiers.best))).length;
+    $('exportHint').textContent=all.length+' quote(s) backed up · '+legacy+' using retired Good/Better/Best · photos not included';
+    const name='magnolia-quotes-'+new Date().toISOString().slice(0,10)+'.json';
+    const blob=new Blob([text],{type:'application/json'});
+    // Share sheet first (it is the sane path on a phone), but never rely on it:
+    // it needs a real tap, the user can cancel, and desktop support is patchy.
+    // Any failure falls through to a download so the backup always lands.
+    let shared=false;
+    try{
+      const f=new File([blob],name,{type:'application/json'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){
+        await navigator.share({files:[f],title:'Magnolia quotes backup'});
+        shared=true; toast('Backup shared');
+      }
+    }catch(e){}
+    if(!shared){
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),4000);
+      await copy(text);
+      toast('Backup downloaded and copied');
+    }
+  }catch(e){ toast('Backup failed: '+(e&&e.message||e)); }
+};
+$('btnSaveSettings').onclick=()=>{SET={stop:+$('setStop').value||0,perMin:+$('setPerMin').value||0,min:+$('setMin').value||0,markup:+$('setMarkup').value||1,buffer:+$('setBuffer').value||0,freqWeekly:DEFAULTS.freqWeekly,freqBiweekly:+$('setFreqBiweekly').value||1,freqOnetime:+$('setFreqOnetime').value||1,hqEmail:$('setHqEmail').value.trim()||DEFAULTS.hqEmail,services:$('setServices').value.split('\n').map(s=>s.trim()).filter(Boolean)};if(!SET.services.length)SET.services=DEFAULTS.services;SET.pricingRev=PRICING_REV;saveSettings(SET);toast('Settings saved');renderList();show('s-list');};
 
 /* net state */
 function net(){$('netstate').innerHTML=navigator.onLine?'Magnolia Gardens':'Offline — saved on device <span class="offline-dot"></span>';}
