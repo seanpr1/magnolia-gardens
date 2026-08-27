@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Employment Application | Magnolia Gardens Landscaping LLC</title>
+<meta name="description" content="Apply to join the Magnolia Gardens Landscaping crew in Kingsport and the Tri-Cities. Fill out the application once and you are on file with us.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#005343;
+  --green-deep:#00382d;
+  --cream:#f4ecd8;
+  --paper:#fbf7ee;
+  --gold:#c8a04a;
+  --ink:#1a2420;
+  --muted:#5c6b63;
+  --line:rgba(0,83,67,.18);
+  --shadow:0 1px 2px rgba(0,56,45,.06),0 8px 24px rgba(0,56,45,.05);
+  --radius:10px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;
+  line-height:1.55;
+}
+.wrap{max-width:660px;margin:0 auto;padding:0 20px}
+
+/* ---------- masthead ---------- */
+.masthead{background:var(--green);color:var(--cream);padding:40px 0 44px}
+.eyebrow{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--gold);margin:0 0 18px
+}
+.masthead h1{
+  font-family:Fraunces,Georgia,serif;
+  font-weight:600;
+  font-size:clamp(30px,7.2vw,44px);
+  line-height:1.08;
+  margin:0 0 14px;
+  letter-spacing:-.01em;
+}
+.masthead h1 .strike{position:relative;white-space:nowrap}
+.masthead h1 .strike::after{
+  content:"";position:absolute;left:-2px;right:-2px;top:56%;height:3px;
+  background:var(--gold);border-radius:2px;transform:scaleX(0);transform-origin:left;
+  animation:strike .7s .5s cubic-bezier(.22,.61,.36,1) forwards;
+}
+@keyframes strike{to{transform:scaleX(1)}}
+.masthead p{margin:0;max-width:44ch;color:rgba(244,236,216,.86);font-size:16px}
+
+/* ---------- about the work ---------- */
+.brief{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 8px;margin:-22px 0 30px;box-shadow:var(--shadow);
+}
+.brief h2{
+  font-family:Fraunces,Georgia,serif;font-size:19px;font-weight:600;margin:0 0 12px
+}
+.brief dl{margin:0;display:grid;grid-template-columns:1fr;gap:0}
+.brief dt{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:600;color:var(--muted);margin-top:12px
+}
+.brief dd{margin:2px 0 0;font-size:15px}
+.brief .foot{
+  margin:18px -22px 0;padding:12px 22px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--muted)
+}
+@media(min-width:520px){
+  .brief dl{grid-template-columns:1fr 1fr;column-gap:24px}
+}
+
+/* ---------- sections ---------- */
+.section{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:0 22px 24px;margin:0 0 18px;box-shadow:var(--shadow);
+}
+.section > header{
+  display:flex;align-items:center;gap:12px;
+  padding:20px 0 18px;margin:0 0 20px;border-bottom:1px solid var(--line)
+}
+.section > header h2{
+  font-family:Fraunces,Georgia,serif;font-size:20px;font-weight:600;margin:0;flex:1
+}
+.tick{flex:0 0 26px;width:26px;height:26px;border:2px solid var(--green);border-radius:5px;
+  display:grid;place-items:center;background:transparent;transition:background .25s ease}
+.tick svg{width:16px;height:16px;display:block}
+.tick path{
+  fill:none;stroke:var(--gold);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ease
+}
+.section.done .tick{background:var(--green)}
+.section.done .tick path{stroke-dashoffset:0}
+
+/* ---------- fields ---------- */
+.field{margin:0 0 18px}
+.row{display:grid;gap:0}
+@media(min-width:520px){
+  .row{grid-template-columns:1fr 1fr;column-gap:16px}
+  .row.thirds{grid-template-columns:2fr 1fr 1fr}
+}
+label,legend{display:block;font-size:14px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.hint{display:block;font-weight:400;font-size:13px;color:var(--muted);margin:2px 0 6px}
+.req{color:var(--gold);font-weight:700}
+input[type=text],input[type=tel],input[type=email],input[type=date],input[type=number],select,textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--ink);
+  background:#fff;border:1px solid var(--line);border-radius:7px;
+  padding:11px 12px;appearance:none
+}
+textarea{min-height:88px;resize:vertical}
+select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235c6b63' stroke-width='2'/></svg>");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{
+  outline:3px solid var(--gold);outline-offset:2px
+}
+fieldset{border:0;margin:0 0 18px;padding:0}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+.choice span{
+  display:block;padding:9px 15px;border:1px solid var(--line);border-radius:99px;
+  background:#fff;font-size:15px;cursor:pointer;transition:background .15s,border-color .15s
+}
+.choice input:checked + span{background:var(--green);border-color:var(--green);color:var(--cream);font-weight:500}
+.choice input:focus-visible + span{outline:3px solid var(--gold);outline-offset:2px}
+.grid-checks{display:grid;grid-template-columns:1fr;gap:2px}
+@media(min-width:520px){.grid-checks{grid-template-columns:1fr 1fr;column-gap:16px}}
+.check{display:flex;align-items:flex-start;gap:10px;padding:7px 0;font-size:15px;font-weight:400;cursor:pointer}
+.check input{flex:0 0 20px;width:20px;height:20px;margin:2px 0 0;accent-color:var(--green)}
+.pair{border-top:1px solid var(--line);padding-top:18px;margin-top:4px}
+.pair:first-of-type{border-top:0;padding-top:0}
+.pair h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;font-weight:600}
+
+/* ---------- sign ---------- */
+.terms{background:#fff;border:1px solid var(--line);border-radius:7px;padding:16px 16px 8px;margin:0 0 20px;font-size:14px;color:var(--muted)}
+.terms p{margin:0 0 12px}
+.signature input{font-family:Fraunces,Georgia,serif;font-size:20px}
+
+/* ---------- submit bar ---------- */
+.bar{
+  position:sticky;bottom:0;z-index:5;margin:0 -20px;padding:14px 20px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(to bottom,rgba(244,236,216,0),var(--cream) 32%);
+}
+.bar-inner{display:flex;align-items:center;gap:14px}
+.progress{flex:1;font-size:13px;color:var(--muted);line-height:1.3}
+.progress b{display:block;font-size:14px;color:var(--ink)}
+button.send{
+  font:inherit;font-weight:600;font-size:16px;border:0;border-radius:99px;cursor:pointer;
+  background:var(--green);color:var(--cream);padding:14px 26px;box-shadow:var(--shadow);
+  transition:background .15s
+}
+button.send:hover{background:var(--green-deep)}
+button.send[disabled]{opacity:.55;cursor:progress}
+
+/* ---------- messages ---------- */
+.alert{
+  display:none;background:#fff;border:1px solid var(--gold);border-left:4px solid var(--gold);
+  border-radius:7px;padding:14px 16px;margin:0 0 18px;font-size:15px
+}
+.alert.show{display:block}
+.done-card{
+  display:none;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:34px 24px;text-align:center;box-shadow:var(--shadow);margin:0 0 24px
+}
+.done-card.show{display:block}
+.done-card h2{font-family:Fraunces,Georgia,serif;font-size:26px;margin:0 0 10px;font-weight:600}
+.done-card p{margin:0 auto 8px;max-width:38ch;color:var(--muted)}
+.done-mark{width:56px;height:56px;border-radius:8px;background:var(--green);display:grid;place-items:center;margin:0 auto 18px}
+.done-mark svg{width:30px;height:30px}
+.done-mark path{fill:none;stroke:var(--gold);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- footer ---------- */
+footer{padding:34px 0 60px;font-size:13px;color:var(--muted)}
+footer p{margin:0 0 10px;max-width:56ch}
+footer a{color:var(--green);text-decoration-color:var(--line);text-underline-offset:3px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .masthead h1 .strike::after{transform:scaleX(1)}
+}
+
+/* ---------- print (blank paper application) ---------- */
+@media print{
+  body{background:#fff;font-size:11pt}
+  .masthead{background:#fff;color:#000;padding:0 0 12pt;border-bottom:2pt solid #000}
+  .masthead h1{font-size:22pt}
+  .masthead p,.eyebrow{color:#000}
+  .masthead h1 .strike::after{display:none}
+  .bar,.alert,.done-card{display:none!important}
+  .section,.brief{box-shadow:none;border:1pt solid #000;break-inside:avoid;page-break-inside:avoid;margin-bottom:12pt}
+  input,select,textarea{border:1pt solid #666}
+  .wrap{max-width:none;padding:0}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Now hiring &middot; Kingsport &amp; the Tri-Cities</p>
+    <h1>Take the <span class="strike">job hunt</span> off your to&#8209;do list.</h1>
+    <p>Magnolia Gardens Landscaping LLC is taking applications for lawn and landscape crew. Fill this out once and you are on file with us.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="brief" aria-label="About the work">
+    <h2>About the work</h2>
+    <dl>
+      <dt>Pay</dt>
+      <dd>$15 to $20 an hour, based on experience</dd>
+      <dt>Hours</dt>
+      <dd>Part time and seasonal, daytime, Monday through Friday with some Saturdays</dd>
+      <dt>The job</dt>
+      <dd>Mowing, trimming, edging, blowing, mulch and bed work, cleanups, planting</dd>
+      <dt>Where</dt>
+      <dd>Kingsport and the surrounding Tri-Cities area</dd>
+    </dl>
+    <p class="foot">This is outdoor work in all kinds of weather. Expect to be on your feet all day, lift up to 50 pounds, and handle mowers, trimmers and blowers. We will talk through anything you need to do the job well.</p>
+  </section>
+
+  <div class="alert" id="alert" role="alert"></div>
+
+  <div class="done-card" id="done">
+    <div class="done-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+    <h2>Application received</h2>
+    <p>Thanks for applying. We keep every application on file and reach out when a spot opens up that fits.</p>
+    <p>If you have a resume, send it to <a href="mailto:apply@magnoliagardenslandscaping.com">apply@magnoliagardenslandscaping.com</a> and we will add it to your file.</p>
+  </div>
+
+  <!-- ============================================================
+       SETUP: replace YOUR_FORM_ID below with the Formspree form ID
+       for the hiring form. That is the only edit needed to go live.
+       ============================================================ -->
+  <form id="app" action="https://formspree.io/f/mgaewkjg" method="POST" novalidate>
+
+    <input type="hidden" name="_subject" value="New job application - Magnolia Gardens">
+    <div class="hp" aria-hidden="true"><label>Leave this blank<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+
+    <!-- 1 -->
+    <section class="section" data-section>
+      <header>
+        <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h2>About you</h2>
+      </header>
+
+      <div class="row">
+        <div class="field">
+          <label for="first">First name <span class="req">*</span></label>
+          <input id="first" name="First name" type="text" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="last">Last name <span class="req">*</span></label>
+          <input id="last" name="Last name" type="text" autocomplete="family-name" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="phone">Phone <span class="req">*</span></label>
+          <input id="phone" name="Phone" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="Email" type="email" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="row thirds">
+        <div class="field">
+          <label for="city">City you live in <span class="req">*</span></label>
+          <input id="city" name="City" type="text" autocomplete="address-level2" required>
+        </div>
+        <div class="field">
+          <label for="state">State</label>
+          <input id="state" name="State" type="text" autocomplete="address-level1" value="TN">
+        </div>
+        <div class="field">
+          <label for="zip">ZIP</label>
+          <input id="zip" name="ZIP" type="text" inputmode="numeric" autocomplete="postal-code">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="heard">How did you hear about us?</label>
+        <select id="heard" name="How they heard about us">
+          <option value="">Choose one</option>
+          <option>Facebook</option>
+          <option>Indeed</option>
+          <option>Someone who works here</option>
+          <option>Saw a truck, sign or shirt</option>
+          <option>A customer told me</option>
+          <option>Website</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="section" data-section>
+      <header>
+        <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h2>Getting to work</h2>
+      </header>
+
+      <fieldset>
+        <legend>Are you 18 or older? <span class="req">*</span></legend>
+        <span class="hint">Our crews run power equipment, so this position is 18 and up.</span>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="18 or older" value="Yes" required><span>Yes</span></label>
+          <label class="choice"><input type="radio" name="18 or older" value="No"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Are you legally authorized to work in the United States? <span class="req">*</span></legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="Authorized to work in US" value="Yes" required><span>Yes</span></label>
+          <label class="choice"><input type="radio" name="Authorized to work in US" value="No"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Do you have a valid driver's license? <span class="req">*</span></legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="Valid drivers license" value="Yes" required><span>Yes</span></label>
+          <label class="choice"><input type="radio" name="Valid drivers license" value="No"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Do you have reliable transportation to get to work? <span class="req">*</span></legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="Reliable transportation" value="Yes" required><span>Yes</span></label>
+          <label class="choice"><input type="radio" name="Reliable transportation" value="No"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Are you comfortable driving a truck and pulling a trailer? <span class="req">*</span></legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="Comfortable towing a trailer" value="Yes, done it before" required><span>Yes, done it before</span></label>
+          <label class="choice"><input type="radio" name="Comfortable towing a trailer" value="Willing to learn"><span>Willing to learn</span></label>
+          <label class="choice"><input type="radio" name="Comfortable towing a trailer" value="Would rather not"><span>Would rather not</span></label>
+        </div>
+      </fieldset>
+    </section>
+
+    <!-- 3 -->
+    <section class="section" data-section>
+      <header>
+        <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h2>What you have done</h2>
+      </header>
+
+      <fieldset>
+        <legend>Check anything you have real hands-on experience with</legend>
+        <span class="hint">No experience is fine. We train. Check only what you have actually done.</span>
+        <div class="grid-checks">
+          <label class="check"><input type="checkbox" name="Experience" value="Push and self-propelled mowing"><span>Push and self-propelled mowing</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Zero-turn / riding mowers"><span>Zero-turn or riding mowers</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="String trimmer and edger"><span>String trimmer and edger</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Backpack blower"><span>Backpack blower</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Mulch and bed work"><span>Mulch and bed work</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Planting shrubs and trees"><span>Planting shrubs and trees</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Pruning and shrub shaping"><span>Pruning and shrub shaping</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Hardscape - pavers, walls, steps"><span>Hardscape, pavers, walls, steps</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Drainage and grading"><span>Drainage and grading</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Irrigation"><span>Irrigation</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Chainsaw and tree work"><span>Chainsaw and tree work</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Skid steer or mini excavator"><span>Skid steer or mini excavator</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Small engine repair and maintenance"><span>Small engine repair</span></label>
+          <label class="check"><input type="checkbox" name="Experience" value="Leading a crew"><span>Leading a crew</span></label>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="years">Years working in lawn care or landscaping <span class="req">*</span></label>
+        <select id="years" name="Years of experience" required>
+          <option value="">Choose one</option>
+          <option>None yet</option>
+          <option>Less than 1 year</option>
+          <option>1 to 2 years</option>
+          <option>3 to 5 years</option>
+          <option>More than 5 years</option>
+        </select>
+      </div>
+
+      <div class="pair">
+        <h3>Most recent job</h3>
+        <div class="row">
+          <div class="field">
+            <label for="e1n">Employer <span class="req">*</span></label>
+            <input id="e1n" name="Employer 1 - name" type="text" required>
+          </div>
+          <div class="field">
+            <label for="e1t">What you did there</label>
+            <input id="e1t" name="Employer 1 - role" type="text">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="e1d">Dates</label>
+            <input id="e1d" name="Employer 1 - dates" type="text" placeholder="For example, Mar 2024 to now">
+          </div>
+          <div class="field">
+            <label for="e1r">Reason for leaving</label>
+            <input id="e1r" name="Employer 1 - reason for leaving" type="text">
+          </div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <h3>Job before that</h3>
+        <div class="row">
+          <div class="field">
+            <label for="e2n">Employer</label>
+            <input id="e2n" name="Employer 2 - name" type="text">
+          </div>
+          <div class="field">
+            <label for="e2t">What you did there</label>
+            <input id="e2t" name="Employer 2 - role" type="text">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="e2d">Dates</label>
+            <input id="e2d" name="Employer 2 - dates" type="text">
+          </div>
+          <div class="field">
+            <label for="e2r">Reason for leaving</label>
+            <input id="e2r" name="Employer 2 - reason for leaving" type="text">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="about">Anything else we should know about you?</label>
+        <span class="hint">Certifications, equipment you own, work you are proud of, or why you want the job.</span>
+        <textarea id="about" name="Anything else"></textarea>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="section" data-section>
+      <header>
+        <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h2>When you can work</h2>
+      </header>
+
+      <div class="row">
+        <div class="field">
+          <label for="start">Date you could start <span class="req">*</span></label>
+          <input id="start" name="Available start date" type="date" required>
+        </div>
+        <div class="field">
+          <label for="hours">Hours you want <span class="req">*</span></label>
+          <select id="hours" name="Hours wanted" required>
+            <option value="">Choose one</option>
+            <option>Full time</option>
+            <option>Part time</option>
+            <option>Either one</option>
+            <option>Weekends only</option>
+          </select>
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>Days you are available <span class="req">*</span></legend>
+        <div class="choices">
+          <label class="choice"><input type="checkbox" name="Days available" value="Mon"><span>Mon</span></label>
+          <label class="choice"><input type="checkbox" name="Days available" value="Tue"><span>Tue</span></label>
+          <label class="choice"><input type="checkbox" name="Days available" value="Wed"><span>Wed</span></label>
+          <label class="choice"><input type="checkbox" name="Days available" value="Thu"><span>Thu</span></label>
+          <label class="choice"><input type="checkbox" name="Days available" value="Fri"><span>Fri</span></label>
+          <label class="choice"><input type="checkbox" name="Days available" value="Sat"><span>Sat</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Crews start early, usually around 7am. Does that work for you? <span class="req">*</span></legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="Early starts" value="Yes" required><span>Yes</span></label>
+          <label class="choice"><input type="radio" name="Early starts" value="Sometimes"><span>Sometimes</span></label>
+          <label class="choice"><input type="radio" name="Early starts" value="No"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="sched">Anything we should schedule around?</label>
+        <span class="hint">School, another job, a standing appointment. It helps to know up front.</span>
+        <textarea id="sched" name="Schedule notes"></textarea>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="section" data-section>
+      <header>
+        <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h2>References</h2>
+      </header>
+      <p class="hint" style="margin-top:-6px">Two people who have seen you work. A past boss or coworker is best. Not family.</p>
+
+      <div class="pair">
+        <h3>Reference one</h3>
+        <div class="row">
+          <div class="field">
+            <label for="r1n">Name <span class="req">*</span></label>
+            <input id="r1n" name="Reference 1 - name" type="text" required>
+          </div>
+          <div class="field">
+            <label for="r1p">Phone <span class="req">*</span></label>
+            <input id="r1p" name="Reference 1 - phone" type="tel" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="r1h">How they know you</label>
+          <input id="r1h" name="Reference 1 - relationship" type="text" placeholder="For example, my supervisor at...">
+        </div>
+      </div>
+
+      <div class="pair">
+        <h3>Reference two</h3>
+        <div class="row">
+          <div class="field">
+            <label for="r2n">Name <span class="req">*</span></label>
+            <input id="r2n" name="Reference 2 - name" type="text" required>
+          </div>
+          <div class="field">
+            <label for="r2p">Phone <span class="req">*</span></label>
+            <input id="r2p" name="Reference 2 - phone" type="tel" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="r2h">How they know you</label>
+          <input id="r2h" name="Reference 2 - relationship" type="text">
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="section" data-section>
+      <header>
+        <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h2>Sign and send</h2>
+      </header>
+
+      <div class="terms">
+        <p>Everything I have put on this application is true and complete. I understand that leaving something out or putting down something untrue can end my application or my employment.</p>
+        <p>I understand that filling this out is not a job offer, that employment with Magnolia Gardens Landscaping LLC is at will, and that either of us can end it at any time.</p>
+        <p>I understand a job offer may depend on a driving record check or a background check, and that I would sign a separate form for that first.</p>
+      </div>
+
+      <label class="check" style="margin-bottom:14px">
+        <input type="checkbox" name="Certified true and accurate" value="Yes" required>
+        <span>I have read the above and it is all true. <span class="req">*</span></span>
+      </label>
+
+      <label class="check" style="margin-bottom:20px">
+        <input type="checkbox" name="Can perform the work" value="Yes" required>
+        <span>I can do the work described at the top of this page, with or without a reasonable accommodation. <span class="req">*</span></span>
+      </label>
+
+      <div class="row">
+        <div class="field signature">
+          <label for="sig">Type your full name to sign <span class="req">*</span></label>
+          <input id="sig" name="Signature" type="text" autocomplete="off" required>
+        </div>
+        <div class="field">
+          <label for="sigdate">Date <span class="req">*</span></label>
+          <input id="sigdate" name="Date signed" type="date" required>
+        </div>
+      </div>
+    </section>
+
+    <div class="bar">
+      <div class="bar-inner">
+        <p class="progress" id="progress"><b>0 of 6 sections done</b>Every section with a star needs an answer.</p>
+        <button class="send" type="submit" id="send">Send application</button>
+      </div>
+    </div>
+  </form>
+
+  <footer>
+    <p><strong>Magnolia Gardens Landscaping LLC</strong> is an equal opportunity employer. We hire on ability and fit for the work, and we do not make employment decisions based on race, color, religion, sex, sexual orientation, gender identity, national origin, age, disability, genetic information, veteran status, or anything else protected by law. If you need help filling out this application, call or text and we will work it out.</p>
+    <p>We never ask for your Social Security number, bank details or a copy of your ID on this application. Those only come after a job offer, on the hiring paperwork. Applications are kept on file for one year.</p>
+    <p><a href="/">magnoliagardenslandscaping.com</a></p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var form = document.getElementById('app');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('[data-section]'));
+  var progress = document.getElementById('progress');
+  var alertBox = document.getElementById('alert');
+  var doneCard = document.getElementById('done');
+  var sendBtn = document.getElementById('send');
+
+  // default the signature date to today
+  var today = new Date();
+  var iso = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  document.getElementById('sigdate').value = iso;
+
+  // "Days available" needs at least one box checked
+  var days = Array.prototype.slice.call(form.querySelectorAll('input[name="Days available"]'));
+  function daysOk(){ return days.some(function(d){ return d.checked; }); }
+
+  function sectionComplete(sec){
+    var ok = true;
+    Array.prototype.slice.call(sec.querySelectorAll('[required]')).forEach(function(el){
+      if(el.type === 'radio'){
+        if(!form.querySelector('input[name="' + el.name + '"]:checked')) ok = false;
+      } else if(el.type === 'checkbox'){
+        if(!el.checked) ok = false;
+      } else if(!el.value.trim()){
+        ok = false;
+      }
+    });
+    if(sec.contains(days[0]) && !daysOk()) ok = false;
+    return ok;
+  }
+
+  function refresh(){
+    var count = 0;
+    sections.forEach(function(sec){
+      var ok = sectionComplete(sec);
+      sec.classList.toggle('done', ok);
+      if(ok) count++;
+    });
+    var left = sections.length - count;
+    progress.innerHTML = '<b>' + count + ' of ' + sections.length + ' sections done</b>' +
+      (left === 0 ? 'Ready to send.' : 'Every section with a star needs an answer.');
+  }
+
+  form.addEventListener('input', refresh);
+  form.addEventListener('change', refresh);
+  refresh();
+
+  function showAlert(msg){
+    alertBox.textContent = msg;
+    alertBox.classList.add('show');
+    alertBox.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    alertBox.classList.remove('show');
+
+    if(!daysOk()){
+      showAlert('Pick at least one day you are available to work.');
+      return;
+    }
+    if(!form.checkValidity()){
+      var first = form.querySelector(':invalid');
+      showAlert('A few answers are still missing. The first one is highlighted below.');
+      if(first){ first.focus(); first.scrollIntoView({behavior:'smooth', block:'center'}); }
+      return;
+    }
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {'Accept': 'application/json'}
+    }).then(function(res){
+      if(res.ok){
+        form.style.display = 'none';
+        doneCard.classList.add('show');
+        doneCard.scrollIntoView({behavior:'smooth', block:'start'});
+      } else {
+        throw new Error('rejected');
+      }
+    }).catch(function(){
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Send application';
+      showAlert('That did not go through. Try once more, or call or text us and we will take your information over the phone.');
+    });
+  });
+})();
+</script>
+</body>
+</html>
