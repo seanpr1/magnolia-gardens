@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Landscaping &amp; Lawn Care in Kingsport, TN | Magnolia Gardens</title>
+  <!-- Fall (Sep–Nov) title. Revert on Dec 1 to the year-round title:
+       "Landscaping &amp; Lawn Care in Kingsport, TN | Magnolia Gardens" -->
+  <title>Fall Cleanup, Leaf Removal &amp; Lawn Care in Kingsport, TN | Magnolia Gardens</title>
 
   <!-- ── SEO / description ─────────────────────────────────────── -->
-  <meta name="description" content="Locally owned landscaping and lawn care in Kingsport and the Tri-Cities, TN - mowing, mulch and beds, cleanups, seasonal care. See your price online in about a minute." />
+  <meta name="description" content="Kingsport and Tri-Cities, TN lawn care - fall cleanups, leaf removal, aeration and overseeding, mowing and mulch. See your price online in about a minute." />
   <meta name="theme-color" content="#005343" />
   <meta name="geo.region" content="US-TN" />
   <meta name="geo.placename" content="Kingsport, Tennessee" />
@@ -18,7 +20,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Magnolia Gardens Landscaping" />
   <meta property="og:title" content="Magnolia Gardens Landscaping - Take the lawn off your to-do list." />
-  <meta property="og:description" content="Locally owned landscaping and lawn care in Kingsport and the Tri-Cities, TN - mowing, mulch and beds, cleanups, seasonal care. See your price online in about a minute." />
+  <meta property="og:description" content="Kingsport and Tri-Cities, TN lawn care - fall cleanups, leaf removal, aeration and overseeding, mowing and mulch. See your price online in about a minute." />
   <meta property="og:url" content="https://magnoliagardenslandscaping.com/" />
   <meta property="og:image" content="https://magnoliagardenslandscaping.com/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -29,7 +31,7 @@
   <!-- ── Twitter / X large card ──────────────────────────────── -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Magnolia Gardens Landscaping - Take the lawn off your to-do list." />
-  <meta name="twitter:description" content="Locally owned landscaping and lawn care in Kingsport and the Tri-Cities, TN - mowing, mulch and beds, cleanups, seasonal care." />
+  <meta name="twitter:description" content="Locally owned lawn care in Kingsport and the Tri-Cities, TN - fall cleanups, leaf removal, aeration and overseeding, mowing, mulch and beds, seasonal care." />
   <meta name="twitter:image" content="https://magnoliagardenslandscaping.com/og-image.png" />
   <meta name="twitter:image:alt" content="Magnolia Gardens Landscaping - lawn care in Kingsport and the Tri-Cities, TN." />
 
@@ -101,6 +103,9 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Blowing and Cleanup", "description": "Clippings cleared from driveways, walkways, and patios so the property looks finished, not just mowed." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brush and Overgrowth Control", "description": "Tall grass, heavy growth, fence lines, banks, and areas that have gotten out of hand. Quoted individually." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seasonal Cleanup", "description": "Leaf removal, spring cleanup after winter, fall prep before the cold." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Leaf Removal", "description": "Single-visit leaf removal or a 3-visit season package, quoted from photos, typically the same day." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fall Cleanup", "description": "Leaves, beds, overgrowth, and the last tall mow of the year, finished to before-and-after proof photos." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Aeration and Overseeding", "description": "Core aeration and overseeding for fescue lawns in Northeast Tennessee. September through mid-October is the window." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Recurring Maintenance", "description": "Weekly, biweekly, or monthly service plans that keep the property consistently maintained throughout the season." } }
       ]
     },
@@ -169,6 +174,22 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Standard residential mowing starts at a $50 minimum and typically runs about $50–$190 per visit on a weekly schedule, depending on lot size and service level. Addresses on or near an existing route day can land at the low end of the range. Every property gets one flat per-visit price, set by lot size and how often we come. Weekly is the best per-visit rate; biweekly visits are priced higher because two weeks of growth makes a longer, heavier visit. Larger and estate properties, seasonal cleanups, full grounds care, and overgrown lawns are quoted after a quick look at photos or a walk-through."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I aerate and overseed my lawn in Kingsport?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "September through mid-October. That’s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we’ll quote it, usually the same day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does leaf removal pricing work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Quoted from photos, typically the same day. One pass or a 3-visit season package depending on your trees. Every visit finishes to before-and-after proof photos. Leaf slots fill before the leaves do, so book early."
         }
       },
       {
@@ -1341,7 +1362,8 @@
 
       <div class="hero-copy">
         <div class="hero-eyebrow">Landscaping &amp; lawn care · Kingsport &amp; the Tri-Cities</div>
-        <p class="hero-booking">Now booking recurring mowing and full-service lawn care.</p>
+        <!-- Static default: update at each season change (Mar 1, May 1, Sep 1, Dec 1) to match SEASONS in the seasonal script. The JS swap only helps humans; crawlers read this line. -->
+        <p class="hero-booking" data-season-line>Now booking fall cleanups and leaf removal, plus recurring routes through the season.</p>
 
         <h1 class="hero-h1">Take the lawn off <em>your</em> <span class="nowrap">to-do list.</span></h1>
 
@@ -1432,7 +1454,8 @@
             </p>
             <p class="hero-offer-line">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              Now booking summer route spots in Kingsport.
+              <!-- Static default: keep in sync with the .hero-booking line above; the seasonal script swaps both. -->
+              <span data-season-line>Now booking fall cleanups and leaf removal, plus recurring routes through the season.</span>
             </p>
           </div>
         </form>
@@ -2020,6 +2043,16 @@
       </div>
 
       <div class="faq-item">
+        <h3 class="faq-q">When should I aerate and overseed my lawn in Kingsport?</h3>
+        <div class="faq-a"><p>September through mid-October. That&rsquo;s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we&rsquo;ll quote it, usually the same day.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">How does leaf removal pricing work?</h3>
+        <div class="faq-a"><p>Quoted from photos, typically the same day. One pass or a 3-visit season package depending on your trees. Every visit finishes to before-and-after proof photos. Leaf slots fill before the leaves do, so book early.</p></div>
+      </div>
+
+      <div class="faq-item">
         <h3 class="faq-q">What payment methods do you accept?</h3>
         <div class="faq-a"><p>We accept all major forms of payment: credit and debit cards, tap-to-pay, cash, and check. We can send an invoice by text or email, whatever&rsquo;s easiest for you. No card surcharges. You don&rsquo;t pay extra for the convenience of paying.</p></div>
       </div>
@@ -2561,7 +2594,8 @@
 </script>
 
 <script>
-/* Seasonal booking line - swaps the hero "Now booking…" message to the service
+/* Seasonal booking line - swaps every [data-season-line] "Now booking…" message
+   (hero eyebrow line + the line under the quote form) to the service
    mix in highest demand and most profitable for the current season. Date-driven
    today; SEASONS is the single place to tune copy or later wire in live demand /
    margin signals. Each season leads with its highest-value action:
@@ -2570,8 +2604,8 @@
      summer → recurring routes (best lifetime value) + full service over basic
      fall   → leaf removal / fall cleanups (high-ticket) + recurring */
 (function () {
-  var el = document.querySelector('.hero-booking');
-  if (!el) return;
+  var els = document.querySelectorAll('[data-season-line]');
+  if (!els.length) return;
   var now = new Date();
   var m = now.getMonth();            // 0 = Jan … 11 = Dec
   var year = now.getFullYear();
@@ -2589,7 +2623,7 @@
     (m <= 7)             ? 'summer' :    // May–Aug
                            'fall';       // Sep–Nov
 
-  el.textContent = SEASONS[season];
+  els.forEach(function (el) { el.textContent = SEASONS[season]; });
 })();
 </script>
 
