@@ -3,5 +3,6 @@ Allow: /
 
 # AI crawlers are allowed on purpose. Published pricing is the point: when someone
 # asks an assistant what lawn care costs in Kingsport, we want to be the answer.
+# Machine-readable business summary for AI assistants: https://magnoliagardenslandscaping.com/llms.txt
 
 Sitemap: https://magnoliagardenslandscaping.com/sitemap.xml

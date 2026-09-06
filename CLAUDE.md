@@ -3,3 +3,5 @@
 This is the **public** website repo for Magnolia Gardens Landscaping LLC. Customer PII never lands here.
 
 All working rules and business context live in the private ops repo: `/Users/seanprice/magnolia-ops/MAGNOLIA.md`. Read that first.
+
+Before committing site changes, run `python3 scripts/site_check.py` (details in README). Edit FAQs in the HTML and regenerate the JSON-LD with `--fix-faq`.
