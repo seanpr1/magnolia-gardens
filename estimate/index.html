@@ -466,9 +466,9 @@
   <section class="screen" id="screen-reveal">
     <div class="eyebrow">Your estimate</div>
 
-    <div class="captured">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      <span>Saved — we've got your details and your quote. We'll text you a copy shortly; it's yours whether you book now or later.</span>
+    <div class="captured" role="status" aria-live="polite">
+      <svg id="submissionCheck" style="display:none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      <span id="submissionStatus">Your estimate is ready. Delivery of your request has not been confirmed.</span>
     </div>
 
     <div class="price-hero">
@@ -489,7 +489,7 @@
            The working fallback below books via text + the lead is already at HQ. -->
       <div class="book-fallback" id="bookFallback">
         <div class="bh">Ready to take it off your list?</div>
-        <p>Your quote&rsquo;s saved. Tap below and it opens a text with everything already filled in &mdash; just hit send, and we&rsquo;ll reply with your first available visit. That&rsquo;s the whole thing.</p>
+        <p>Tap below to open a text with your estimate and property details filled in. Send it to ask about available visits. A visit is scheduled after we confirm it with you.</p>
         <a class="btn btn-primary btn-block" id="btnBook" href="#">Set up my first visit</a>
         <div style="height:12px"></div>
         <a class="btn btn-ghost btn-block" id="btnCall" href="tel:4233909954">Prefer to call? (423) 390-9954</a>
@@ -661,7 +661,9 @@
 
     const btn = $('#btnReveal'); btn.disabled = true; btn.textContent = 'One sec…';
 
-    // ---- abandoned-cart insurance: the lead reaches HQ even if they bounce at price ----
+    // Each attempt needs its own delivery result; an earlier success cannot carry over.
+    leadSent = false;
+    // Form acceptance does not confirm Jobber creation or delivery of a text reply.
     try{
       // Lead pipeline: mirror the submission to Zapier (Jobber + CRM + auto-reply). Fire-and-forget.
       try{ fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:new FormData(e.target), mode:'no-cors', keepalive:true }); }catch(_){}
@@ -703,6 +705,10 @@
   /* ---------- reveal ---------- */
   function showReveal(){
     const e = calc();
+    $('#submissionStatus').textContent = leadSent
+      ? 'Your request was sent. Your estimate is below; text us to ask about available visits.'
+      : 'We could not confirm delivery of your request. Your estimate is below; text or call us to continue.';
+    $('#submissionCheck').style.display = leadSent ? '' : 'none';
     goTo('reveal');
     $('#revealLabel').textContent = e.freqLabel ? (e.label + ' · ' + e.freqLabel) : e.label;
     $('#revealPrice').textContent = e.low===e.high ? approx(e.low) : (approx(e.low) + '–' + money(e.high));
