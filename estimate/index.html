@@ -517,10 +517,26 @@
 <script>
 (function(){
   "use strict";
+  // A timed-out request may still reach the server; show unknown delivery, never auto-retry.
+  function postWithDeadline(url, options) {
+    var controller = new AbortController(), timeout;
+    var deadline = new Promise(function (_, reject) {
+      timeout = setTimeout(function () {
+        controller.abort();
+        reject(new Error('formspree_timeout'));
+      }, 15000);
+    });
+    return Promise.race([
+      Promise.resolve().then(function () { return fetch(url, Object.assign({}, options, { signal: controller.signal })); }),
+      deadline
+    ]).finally(function () { clearTimeout(timeout); });
+  }
+
   const $ = s => document.querySelector(s);
   const state = { service:'', size:'', freq:'weekly' };
   let current = 'intro';
   let leadSent = false;
+  let submitting = false;
   let engaged = false;   // true once the visitor books or calls from the reveal screen
   let bookClickHandler = null;
 
@@ -663,6 +679,7 @@
   /* ---------- submit: capture lead, THEN reveal price ---------- */
   $('#estForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
+    if(submitting || current !== 'q3') return;
     const addr = $('#f-addr').value.trim();
     const phone = $('#f-phone').value.trim();
     const err = $('#formErr');
@@ -697,17 +714,27 @@
            + (e0.monthly?(' | Monthly '+approx(e0.monthly[0])+'–'+money(e0.monthly[1])):''));
     $('#submitted_at').value = new Date().toISOString();
 
-    const btn = $('#btnReveal'); btn.disabled = true; btn.textContent = 'One sec…';
+    // Snapshot before disabling controls; the estimate must match this attempt's answers.
+    const payload = new FormData(e.target);
+    const controls = Array.from(e.target.querySelectorAll('input:not([type="hidden"]),textarea,select,button')).map(el => ({el, disabled:el.disabled}));
+    submitting = true;
+    e.target.setAttribute('aria-busy', 'true');
+    controls.forEach(({el}) => { el.disabled = true; });
+    const btn = $('#btnReveal'); btn.textContent = 'Sending request…';
 
     // Each attempt needs its own delivery result; an earlier success cannot carry over.
     leadSent = false;
     // Form acceptance does not confirm Jobber creation or delivery of a text reply.
     try{
       // Lead pipeline: mirror the submission to Zapier (Jobber + CRM + auto-reply). Fire-and-forget.
-      try{ fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:new FormData(e.target), mode:'no-cors', keepalive:true }); }catch(_){}
-      const res = await fetch(e.target.action, { method:'POST', body:new FormData(e.target), headers:{'Accept':'application/json'} });
+      try{ fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:payload, mode:'no-cors', keepalive:true }).catch(()=>{}); }catch(_){}
+      const res = await postWithDeadline(e.target.action, { method:'POST', body:payload, headers:{'Accept':'application/json'} });
       leadSent = res.ok;
     }catch(err2){ /* still reveal price; text fallback covers it */ }
+
+    controls.forEach(({el, disabled}) => { el.disabled = disabled; });
+    e.target.removeAttribute('aria-busy');
+    submitting = false;
 
     // Preserve legacy events for Formspree HTTP acceptance. They describe one
     // attempt and do not establish Jobber intake, a unique lead or a sent text.
@@ -807,8 +834,8 @@
         fd.append('outcome', 'booking_requested');
         fd.append('_subject','✅ BOOKING REQUEST - magnoliagardenslandscaping.com');
         // fire-and-forget; keepalive lets it land even as the SMS app opens
-        fetch('https://formspree.io/f/mdajnnjw', { method:'POST', body:fd, headers:{'Accept':'application/json'}, keepalive:true });
-        fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:fd, mode:'no-cors', keepalive:true });  // lead pipeline: booking-request signal
+        fetch('https://formspree.io/f/mdajnnjw', { method:'POST', body:fd, headers:{'Accept':'application/json'}, keepalive:true }).catch(()=>{});
+        fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:fd, mode:'no-cors', keepalive:true }).catch(()=>{});  // lead pipeline: booking-request signal
       }catch(err){}
     };
     bookButton.addEventListener('click', bookClickHandler, {once:true});

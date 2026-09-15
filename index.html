@@ -2343,10 +2343,26 @@
      and the same success / error panels. cfg.leadProps() returns the
      per-form GA4 props; cfg.formLocation ('hero' | 'detailed') tags every
      event so the two forms can be told apart in GA4. */
+  // A timed-out request may still reach the server; show unknown delivery, never auto-retry.
+  function postWithDeadline(url, options) {
+    var controller = new AbortController(), timeout;
+    var deadline = new Promise(function (_, reject) {
+      timeout = setTimeout(function () {
+        controller.abort();
+        reject(new Error('formspree_timeout'));
+      }, 15000);
+    });
+    return Promise.race([
+      Promise.resolve().then(function () { return fetch(url, Object.assign({}, options, { signal: controller.signal })); }),
+      deadline
+    ]).finally(function () { clearTimeout(timeout); });
+  }
+
   function wireQuoteForm(cfg) {
     var form = cfg.form;
     if (!form) return;
     fillMeta(form);
+    var submitting = false;
     var stages = window.MG_FORM_METRICS && window.MG_FORM_METRICS.bind(form, cfg.formLocation);
 
     function showResultPanel(panel) {
@@ -2362,6 +2378,7 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (submitting || form.style.display === 'none') return;
 
       // Honeypot - if a bot filled it, drop the submission silently and pretend it worked.
       var gotcha = form.elements._gotcha;
@@ -2392,13 +2409,15 @@
 
       var btn = cfg.submitBtn;
       var origLabel = btn.textContent;
+      submitting = true;
+      form.setAttribute('aria-busy', 'true');
       btn.disabled = true;
       btn.textContent = 'Sending…';
 
       // Lead pipeline: mirror the submission to Zapier (Jobber + CRM + auto-reply). Fire-and-forget.
-      try { fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method: 'POST', body: new FormData(form), mode: 'no-cors', keepalive: true }); } catch (_) {}
+      try { fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method: 'POST', body: new FormData(form), mode: 'no-cors', keepalive: true }).catch(function () {}); } catch (_) {}
 
-      fetch(form.action, {
+      postWithDeadline(form.action, {
         method: 'POST',
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
@@ -2421,6 +2440,8 @@
           track('form_submit_error', { reason: (err && err.message) || 'unknown', form_location: cfg.formLocation });
         })
         .finally(function () {
+          submitting = false;
+          form.removeAttribute('aria-busy');
           btn.disabled = false;
           btn.textContent = origLabel;
         });
@@ -2430,6 +2451,8 @@
       cfg.errorRetry.addEventListener('click', function () {
         cfg.errorPanel.hidden = true;
         form.style.display = '';
+        cfg.submitBtn.focus({ preventScroll: true });
+        cfg.submitBtn.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
       });
     }
   }

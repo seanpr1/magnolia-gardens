@@ -19,6 +19,21 @@
   var service = mount.getAttribute('data-service') || '';
   var area    = mount.getAttribute('data-area') || '';
 
+  // A timed-out request may still reach the server; show unknown delivery, never auto-retry.
+  function postWithDeadline(url, options) {
+    var controller = new AbortController(), timeout;
+    var deadline = new Promise(function (_, reject) {
+      timeout = setTimeout(function () {
+        controller.abort();
+        reject(new Error('formspree_timeout'));
+      }, 15000);
+    });
+    return Promise.race([
+      Promise.resolve().then(function () { return fetch(url, Object.assign({}, options, { signal: controller.signal })); }),
+      deadline
+    ]).finally(function () { clearTimeout(timeout); });
+  }
+
   function track(name, props){
     try{
       if (typeof window.gtag === 'function') window.gtag('event', name, props || {});
@@ -153,8 +168,10 @@
       document.body.appendChild(bar);
     }
 
+    var submitting = false;
     form.addEventListener('submit', function(e){
       e.preventDefault();
+      if (submitting || form.style.display === 'none') return;
 
       // honeypot: pretend it worked, send nothing
       if (form.elements._gotcha && form.elements._gotcha.value){ showThanks(); return; }
@@ -182,11 +199,13 @@
         });
       }catch(e2){}
 
+      submitting = true;
+      form.setAttribute('aria-busy', 'true');
       btn.disabled = true;
       var orig = btn.textContent;
       btn.textContent = 'Sending…';
 
-      fetch(P.PUBLISHED.formspree, { method:'POST', body:fd, headers:{ 'Accept':'application/json' } })
+      postWithDeadline(P.PUBLISHED.formspree, { method:'POST', body:fd, headers:{ 'Accept':'application/json' } })
         .then(function(res){
           if (!res.ok) throw new Error('Formspree returned ' + res.status);
           showThanks();
@@ -199,6 +218,8 @@
           track('form_submit_error', { reason:(e3 && e3.message) || 'unknown', form_location:'quote_block' });
         })
         .finally(function(){
+          submitting = false;
+          form.removeAttribute('aria-busy');
           btn.disabled = false;
           btn.textContent = orig;
         });
