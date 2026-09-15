@@ -364,6 +364,7 @@
     .eyebrow::before { content: ''; display: block; width: 18px; height: 1px; background: var(--accent); }
 
     /* ── Buttons ────────────────────────────── */
+    .btn-sms,.btn-call,.btn-primary,.intake-submit,.est-reset,.hero-cta-alt{min-height:44px}
     .btn-sms {
       display: inline-flex; align-items: center; gap: 9px;
       padding: 14px 28px;
@@ -1336,6 +1337,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+<script src="/assets/form-metrics.js?v=2"></script>
 </head>
 <body>
 
@@ -1404,8 +1406,8 @@
       <div class="hero-quote">
         <form id="heroIntakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
           <div class="hero-quote-eye">About 30 seconds</div>
-          <div class="hero-quote-h">Get a Free Estimate</div>
-          <p class="hero-quote-sub">A few quick details and we&rsquo;ll text your quote, usually the same day.</p>
+          <div class="hero-quote-h" role="heading" aria-level="2">Get a Free Estimate</div>
+          <p class="hero-quote-sub">Send a few details to request a quote. You can also text us photos of your yard.</p>
 
           <div class="intake-fields">
             <div class="intake-field">
@@ -1468,15 +1470,15 @@
         <!-- Success state (revealed by JS after a clean Formspree POST) -->
         <div class="intake-thanks" id="heroThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
-          <h3 class="intake-thanks-h">Thanks, we&rsquo;ve got your request.</h3>
-          <p class="intake-thanks-body">We&rsquo;ll text you back shortly with your quote. No need to call.</p>
+          <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
+          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="sms:+14233909954?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="tel:4233909954">call (423) 390-9954</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
         <div class="intake-error" id="heroError" hidden>
           <div class="intake-thanks-eye">Something blocked the form</div>
-          <h3 class="intake-thanks-h">Texting still works, and it's faster anyway.</h3>
-          <p class="intake-thanks-body">Send a few photos to 423-390-9954 and we'll get you a quote the same day. Or give the form another try.</p>
+          <h3 class="intake-thanks-h">We couldn&rsquo;t confirm delivery.</h3>
+          <p class="intake-thanks-body">Try again, text photos of your yard, or <a href="tel:4233909954">call (423) 390-9954</a> to continue.</p>
           <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -1915,7 +1917,7 @@
     <div class="section-hd">
       <div class="eyebrow">Get a quote</div>
       <h2>Fill this in once. We come back with <em>a real quote</em>.</h2>
-      <p class="section-sub">Tell us what you need and how to reach you. We come back with a quote, usually the same day.</p>
+      <p class="section-sub">Tell us what you need and how to reach you to request a quote.</p>
     </div>
 
     <div class="est-wrap">
@@ -1977,22 +1979,22 @@
           <div class="intake-step-actions" style="justify-content:flex-end; margin-top:28px;">
             <button type="submit" class="intake-submit" id="intakeSubmit">Send to Magnolia Gardens</button>
           </div>
-          <p style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.04em;color:var(--muted);text-align:right;margin-top:12px;line-height:1.6;">No obligation &middot; No spam &middot; We reply by text, usually the same day.</p>
+          <p style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.04em;color:var(--muted);text-align:right;margin-top:12px;line-height:1.6;">No obligation &middot; No spam &middot; Text or call if you prefer.</p>
 
         </form>
 
         <!-- Success state (revealed by JS after a clean Formspree POST) -->
         <div class="intake-thanks" id="intakeThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
-          <h3 class="intake-thanks-h">Thanks, we&rsquo;ve got your request.</h3>
-          <p class="intake-thanks-body">We&rsquo;ll text you back shortly with your quote. No need to call.</p>
+          <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
+          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="sms:+14233909954?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="tel:4233909954">call (423) 390-9954</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
         <div class="intake-error" id="intakeError" hidden>
           <div class="intake-thanks-eye">Something blocked the form</div>
-          <h3 class="intake-thanks-h">Texting still works, and it's faster anyway.</h3>
-          <p class="intake-thanks-body">Send a few photos to 423-390-9954 and we'll get you a quote the same day. Or give the form another try.</p>
+          <h3 class="intake-thanks-h">We couldn&rsquo;t confirm delivery.</h3>
+          <p class="intake-thanks-body">Try again, text photos of your yard, or <a href="tel:4233909954">call (423) 390-9954</a> to continue.</p>
           <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -2276,6 +2278,9 @@
 
   /* ── Helpers ─────────────────────────────── */
   var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var lastPointerType = '';
+  document.addEventListener('pointerdown', function (event) { lastPointerType = event.pointerType; }, true);
+  document.addEventListener('keydown', function () { lastPointerType = ''; }, true);
 
   /* Page-relative CTA location for text_click / call_click events.
      Lets GA4 slice CTA performance by where the click came from. */
@@ -2342,6 +2347,18 @@
     var form = cfg.form;
     if (!form) return;
     fillMeta(form);
+    var stages = window.MG_FORM_METRICS && window.MG_FORM_METRICS.bind(form, cfg.formLocation);
+
+    function showResultPanel(panel) {
+      panel.hidden = false;
+      var heading = panel.querySelector('h3'), message = panel.querySelector('.intake-thanks-body');
+      if (heading) {
+        if (message) { message.id = panel.id + 'Message'; heading.setAttribute('aria-describedby', message.id); }
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+        heading.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      }
+    }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -2350,7 +2367,7 @@
       var gotcha = form.elements._gotcha;
       if (gotcha && gotcha.value) {
         form.style.display = 'none';
-        cfg.thanksPanel.hidden = false;
+        showResultPanel(cfg.thanksPanel);
         return;
       }
 
@@ -2389,17 +2406,18 @@
         .then(function (res) {
           if (!res.ok) throw new Error('Formspree returned ' + res.status);
           form.style.display = 'none';
-          cfg.thanksPanel.hidden = false;
+          showResultPanel(cfg.thanksPanel);
           // Same lead_submit event for both forms; form_location distinguishes them.
           var props = (cfg.leadProps && cfg.leadProps()) || {};
           props.form_location = cfg.formLocation;
           track('lead_submit', props);
+          if (stages) stages.accepted();
           // GA4 conversion - form_id distinguishes hero vs full-intake submissions.
           track('generate_lead', { form_id: form.id });
         })
         .catch(function (err) {
           form.style.display = 'none';
-          cfg.errorPanel.hidden = false;
+          showResultPanel(cfg.errorPanel);
           track('form_submit_error', { reason: (err && err.message) || 'unknown', form_location: cfg.formLocation });
         })
         .finally(function () {
@@ -2421,11 +2439,13 @@
     var hero = document.getElementById('heroIntakeForm');
     if (!hero) return;
     track('cta_jump', { source: source || 'cta_repeat' });
-    hero.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    var first = hero.querySelector('input[name="phone"]');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    hero.scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth', block: 'center' });
+    var first = hero.querySelector(lastPointerType === 'touch' || lastPointerType === 'pen' ? '.hero-quote-h' : 'input[name="phone"]');
+    if (first && !first.matches('input')) first.tabIndex = -1;
     if (first) setTimeout(function () {
       try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); }
-    }, 420);
+    }, reduceMotion ? 0 : 420);
   }
 
   /* ── Accordion toggle ────────────────────── */

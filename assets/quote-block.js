@@ -59,7 +59,7 @@
     '.mgqb input[type=tel]{flex:1 1 180px;font-size:16px;padding:12px 13px;border:1.5px solid var(--edge,#D6CFC0);',
     '  border-radius:var(--r,2px);background:#fff;color:var(--body,#2A2823);font-family:inherit}',
     '.mgqb input[type=tel]:focus{outline:none;border-color:var(--gold,#005343)}',
-    '.mgqb button{font-family:inherit;font-weight:600;font-size:15px;border:none;border-radius:var(--r,2px);',
+    '.mgqb button{min-height:44px;font-family:inherit;font-weight:600;font-size:15px;border:none;border-radius:var(--r,2px);',
     '  padding:12px 20px;cursor:pointer;background:var(--gold,#005343);color:#FAF6EA}',
     '.mgqb button:hover{background:var(--gold-l,#00402F)}',
     '.mgqb button[disabled]{opacity:.55;cursor:default}',
@@ -90,15 +90,15 @@
     box.className = 'mgqb';
     box.innerHTML =
       '<div class="mgqb-eye">About 15 seconds</div>' +
-      '<h3 class="mgqb-h">Get your quote by text</h3>' +
-      '<p class="mgqb-sub">' + priceLine(P) + ' Leave your number and we’ll text your quote, usually the same day. Reply STOP anytime to opt out.</p>' +
+      '<h3 class="mgqb-h">Request a quote</h3>' +
+      '<p class="mgqb-sub">' + priceLine(P) + ' Leave your number to request a quote. You can also text us photos of your yard. Reply STOP anytime to opt out.</p>' +
       '<form novalidate>' +
         '<div class="mgqb-row">' +
           '<input type="tel" name="phone" inputmode="tel" autocomplete="tel" aria-label="Mobile number" placeholder="(423) 555-0123" required>' +
-          '<button type="submit">Text Me My Quote</button>' +
+          '<button type="submit">Request My Quote</button>' +
         '</div>' +
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
-        '<p class="mgqb-err">Add a mobile number so we can text your quote.</p>' +
+        '<p class="mgqb-err">Add a mobile number so we can follow up about your request.</p>' +
       '</form>' +
       (service === 'brush' ? '' :
       '<p class="mgqb-alt">Want a number right now? <a href="' + estHref + '">See your price range in about a minute</a>.</p>');
@@ -109,6 +109,9 @@
     var btn = form.querySelector('button');
     var err = box.querySelector('.mgqb-err');
     var pagePath = location.pathname;
+    var stages = window.MG_FORM_METRICS && window.MG_FORM_METRICS.bind(form, 'quote_block', function () {
+      return {service:service, frequency:['cleanup','mulch','brush'].indexOf(service)>=0?'one_off':'unknown'};
+    });
 
     /* funnel: form_view once on scroll into view, form_start on first touch */
     if ('IntersectionObserver' in window){
@@ -188,6 +191,7 @@
           if (!res.ok) throw new Error('Formspree returned ' + res.status);
           showThanks();
           track('lead_submit', { form_location:'quote_block', service:service || 'area', page_path:pagePath });
+          if (stages) stages.accepted();
           track('generate_lead', { form_id:'quoteBlockForm' });
         })
         .catch(function(e3){
@@ -208,20 +212,25 @@
       form.style.display = 'none';
       var p = document.createElement('div');
       p.className = 'mgqb-panel';
-      p.innerHTML = '<p><b>Got it.</b> We’ll text your quote, usually the same day. ' +
-        'Want it faster? Text a photo of the yard to <a href="' + smsHref() + '">' + P.PUBLISHED.phoneDisplay + '</a>.</p>';
+      p.innerHTML = '<p><b>Your request was sent.</b> To add photos or details, text <a href="' + smsHref() + '">' + P.PUBLISHED.phoneDisplay + '</a>.</p>';
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
+      p.tabIndex = -1;
+      p.focus({preventScroll:true});
+      p.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
     }
 
     function showError(){
       form.style.display = 'none';
       var p = document.createElement('div');
       p.className = 'mgqb-panel';
-      p.innerHTML = '<p>That didn’t send. Text us at <a href="' + smsHref() + '">' + P.PUBLISHED.phoneDisplay + '</a> ' +
+      p.innerHTML = '<p>We couldn’t confirm delivery. Text us at <a href="' + smsHref() + '">' + P.PUBLISHED.phoneDisplay + '</a> ' +
         'or call <a href="' + P.PUBLISHED.telHref + '">' + P.PUBLISHED.phoneDisplay + '</a> and we’ll quote from there.</p>';
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
+      p.tabIndex = -1;
+      p.focus({preventScroll:true});
+      p.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
     }
 
     /* injected links miss the page's global sms/tel handlers — wire our own */

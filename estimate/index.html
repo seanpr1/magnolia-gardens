@@ -162,6 +162,7 @@
     .nav-logo{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.02em;color:var(--gold);text-decoration:none}
     .nav-back{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.08em;text-transform:uppercase;
       color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px}
+    .nav-back{min-height:44px}
     .nav-back:hover{color:var(--body)}
 
     /* progress */
@@ -206,6 +207,12 @@
     .opt-tag{color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400}
     input,textarea{font-family:var(--sans);font-size:16px;width:100%;padding:13px 14px;border:1.5px solid var(--edge);
       border-radius:var(--r);background:var(--surface);color:var(--body)}
+    .screen [tabindex="-1"]:focus-visible,#formErr:focus{outline:2px solid var(--gold);outline-offset:6px}
+    button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    }
+    input[aria-invalid="true"]{border-color:#9a3b2f}
     input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-bg)}
     textarea{min-height:70px;resize:vertical;line-height:1.5}
 
@@ -223,6 +230,7 @@
     .actions .btn{flex:1}
     .backlink{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.06em;text-transform:uppercase;
       color:var(--muted);background:none;border:none;cursor:pointer;padding:8px 2px;display:inline-flex;align-items:center;gap:6px}
+    .backlink{min-height:44px;min-width:44px}
     .backlink:hover{color:var(--body)}
 
     .trust-row{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-family:var(--mono);font-size:var(--fs-label);
@@ -287,6 +295,7 @@
       main{padding:24px 18px 56px}
     }
   </style>
+<script src="/assets/form-metrics.js?v=2"></script>
 </head>
 <body>
 <nav>
@@ -408,16 +417,16 @@
   <section class="screen" id="screen-q3">
     <div class="eyebrow"><span id="cnt3">Step 3 of 3</span></div>
     <h2 class="q-title">Where's the property?</h2>
-    <p class="q-sub">Your address helps us confirm we cover your area and gets your price ready. We'll text it to the number below so you have it saved. Reply STOP anytime to opt out.</p>
+    <p class="q-sub">Your address helps us check the service area. Your estimate appears on the next screen; your number lets us follow up about your request. Reply STOP anytime to opt out.</p>
 
     <form id="estForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
       <div class="field">
         <label class="fl" for="f-addr">Property address</label>
-        <input type="text" id="f-addr" name="address" autocomplete="street-address" placeholder="123 Harbor Dr, Kingsport, TN 37664" required>
+        <input type="text" id="f-addr" name="address" aria-describedby="formErr" autocomplete="street-address" placeholder="123 Harbor Dr, Kingsport, TN 37664" required>
       </div>
       <div class="field">
-        <label class="fl" for="f-phone">Mobile number <span class="opt-tag">— we text your quote here</span></label>
-        <input type="tel" id="f-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123" required>
+        <label class="fl" for="f-phone">Mobile number <span class="opt-tag">— for follow-up about your request</span></label>
+        <input type="tel" id="f-phone" name="phone" aria-describedby="formErr" inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123" required>
       </div>
       <div class="field">
         <label class="fl" for="f-name">Name <span class="opt-tag">— optional</span></label>
@@ -447,10 +456,10 @@
         <button type="button" class="backlink" data-back="q2">‹ Back</button>
         <button type="submit" class="btn btn-primary" id="btnReveal">Show my estimate ›</button>
       </div>
-      <p class="err" id="formErr">Please add a property address and mobile number so we can text your quote.</p>
+      <p class="err" id="formErr" tabindex="-1" role="alert" aria-live="assertive">Please add a property address and a mobile number with at least 10 digits.</p>
     </form>
     <div class="trust-row" style="margin-top:18px">
-      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>No spam. No obligation. We reply by text.</span>
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>No spam. No obligation. Text or call if you prefer.</span>
     </div>
   </section>
 
@@ -464,7 +473,7 @@
 
   <!-- ===== REVEAL ===== -->
   <section class="screen" id="screen-reveal">
-    <div class="eyebrow">Your estimate</div>
+    <div class="eyebrow" id="revealHeading" role="heading" aria-level="2" aria-describedby="revealPrice submissionStatus">Your estimate</div>
 
     <div class="captured" role="status" aria-live="polite">
       <svg id="submissionCheck" style="display:none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
@@ -486,7 +495,7 @@
 
     <div id="bookSlot">
       <!-- Booking runs through Jobber (system of record); no embed here yet.
-           The working fallback below books via text + the lead is already at HQ. -->
+           The fallback opens a text request; delivery and scheduling need confirmation. -->
       <div class="book-fallback" id="bookFallback">
         <div class="bh">Ready to take it off your list?</div>
         <p>Tap below to open a text with your estimate and property details filled in. Send it to ask about available visits. A visit is scheduled after we confirm it with you.</p>
@@ -513,6 +522,7 @@
   let current = 'intro';
   let leadSent = false;
   let engaged = false;   // true once the visitor books or calls from the reveal screen
+  let bookClickHandler = null;
 
   /* ---------- pricing: single source lives in /assets/pricing.js (handoff §2) ----------
      ENGINE, MINUTES, calc() and the labels all come from MG_PRICING so a price
@@ -533,7 +543,7 @@
       sb.parentNode.replaceChild(a, sb);
       var note = document.createElement('p');
       note.style.cssText = 'font-size:14px;margin-top:12px;opacity:.75';
-      note.textContent = "The instant estimator isn't loading right now. Text us and we'll send your quote, usually the same day.";
+      note.textContent = "The instant estimator isn't loading right now. Text us your service needs to request a quote.";
       a.parentNode.insertBefore(note, a.nextSibling);
     }
     if(window.gtag) gtag('event','estimator_unavailable',{ reason:'pricing_js_missing' });
@@ -549,6 +559,15 @@
   // Cleanups and mulch are one-off jobs; asking how often makes no sense there.
   const asksFreq = () => !!FREQ_APPLIES[state.service];
 
+  const stages = window.MG_FORM_METRICS && window.MG_FORM_METRICS.bind(document.querySelector('main'), 'estimator', () => ({
+    service:state.service, lawn_size:state.size, frequency:!state.service?'unknown':!asksFreq()?'one_off':document.querySelector('[data-q="freq"].selected')?state.freq:'unknown'
+  }));
+
+  // A deliberate touch submit should show the error without reopening an input keyboard.
+  let inputMethod = 'keyboard';
+  document.addEventListener('pointerdown', event => { inputMethod = event.pointerType; }, true);
+  document.addEventListener('keydown', () => { inputMethod = 'keyboard'; }, true);
+
   /* ---------- navigation ---------- */
   const ORDER = ['intro','q1','q2','qf','q3','calc','reveal'];
   const NEXT = { service:'q2', size:'qf', freq:'q3' };
@@ -557,11 +576,15 @@
     if(from) from.classList.remove('active');
     if(to){ to.classList.add('active'); }
     current = name;
-    window.scrollTo({top:0,behavior:'smooth'});
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({top:0,behavior:reduceMotion?'instant':'smooth'});
     const idx = ORDER.indexOf(name);
     const pct = name==='intro'?0 : name==='reveal'?100 : Math.round(idx/(ORDER.length-1)*100);
     $('#progressFill').style.width = pct+'%';
     stepLabels();
+    // Focus only non-editable headings, after their screen content and labels are ready.
+    const heading = to && (to.querySelector('h1,h2,[role="heading"]') || to.querySelector('.eyebrow'));
+    if(heading){ heading.tabIndex = -1; heading.focus({preventScroll:true}); }
     if(window.gtag) gtag('event','estimator_step',{ step:name });
   }
 
@@ -643,7 +666,22 @@
     const addr = $('#f-addr').value.trim();
     const phone = $('#f-phone').value.trim();
     const err = $('#formErr');
-    if(!addr || phone.replace(/\D/g,'').length < 10){ err.classList.add('show'); return; }
+    const addressInvalid = !addr, phoneInvalid = phone.replace(/\D/g,'').length < 10;
+    $('#f-addr').setAttribute('aria-invalid', String(addressInvalid));
+    $('#f-phone').setAttribute('aria-invalid', String(phoneInvalid));
+    if(addressInvalid || phoneInvalid){
+      err.textContent = addressInvalid && phoneInvalid
+        ? 'Please add a property address and a mobile number with at least 10 digits.'
+        : addressInvalid ? 'Please add the property address.' : 'Please enter a mobile number with at least 10 digits.';
+      err.classList.add('show');
+      if(inputMethod === 'touch' || inputMethod === 'pen'){
+        err.focus({preventScroll:true});
+        err.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+      }else{
+        $(addressInvalid ? '#f-addr' : '#f-phone').focus();
+      }
+      return;
+    }
     err.classList.remove('show');
 
     // fill hidden fields with the answers + computed estimate BEFORE sending
@@ -671,10 +709,11 @@
       leadSent = res.ok;
     }catch(err2){ /* still reveal price; text fallback covers it */ }
 
-    // Honest lead accounting (handoff §5): generate_lead only when Formspree
-    // actually accepted the POST — a failed submit is a lost lead, not a lead.
+    // Preserve legacy events for Formspree HTTP acceptance. They describe one
+    // attempt and do not establish Jobber intake, a unique lead or a sent text.
     if(window.gtag){
       if(leadSent){
+        if(stages) stages.accepted();
         gtag('event','lead_submit',{ form_location:'estimator', service:state.service, lawn_size:state.size, frequency:asksFreq()?state.freq:'n/a' });
         gtag('event','generate_lead',{ currency:'USD', value:e0.low, form_id:'estForm' });
       }else{
@@ -688,7 +727,7 @@
 
   /* ---------- calculating animation ---------- */
   function runCalc(){
-    goTo('calc');
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ showReveal(); return; }
     const p = $('#calcParams'); p.innerHTML='';
     [['Service', SERVICE_LABEL[state.service]],
      ['Lawn size', (SIZE_LABEL[state.size]||'') + ' · ' + (SIZE_ACRE[state.size]||'')],
@@ -699,6 +738,7 @@
       row.innerHTML='<span class="k">'+k+'</span><span class="v">'+v+'</span>';
       p.appendChild(row);
     });
+    goTo('calc');
     setTimeout(showReveal, 1500);
   }
 
@@ -709,7 +749,6 @@
       ? 'Your request was sent. Your estimate is below; text us to ask about available visits.'
       : 'We could not confirm delivery of your request. Your estimate is below; text or call us to continue.';
     $('#submissionCheck').style.display = leadSent ? '' : 'none';
-    goTo('reveal');
     $('#revealLabel').textContent = e.freqLabel ? (e.label + ' · ' + e.freqLabel) : e.label;
     $('#revealPrice').textContent = e.low===e.high ? approx(e.low) : (approx(e.low) + '–' + money(e.high));
     $('#revealUnit').textContent = e.kind==='per-visit' ? 'per visit'
@@ -750,7 +789,9 @@
     $('#btnBook').href = 'sms:+14233909954?body='+smsBody;   // becomes the booking-engine URL once a scheduling engine is wired
 
     // ---- abandoned-cart: a Book click flips this lead from "abandoned" to "booking requested" ----
-    $('#btnBook').addEventListener('click', ()=>{
+    const bookButton = $('#btnBook');
+    if(bookClickHandler) bookButton.removeEventListener('click', bookClickHandler);
+    bookClickHandler = ()=>{
       engaged = true;
       if(window.gtag) gtag('event','book_request',{ service:state.service, value:e.low, currency:'USD' });
       try{
@@ -769,7 +810,9 @@
         fetch('https://formspree.io/f/mdajnnjw', { method:'POST', body:fd, headers:{'Accept':'application/json'}, keepalive:true });
         fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method:'POST', body:fd, mode:'no-cors', keepalive:true });  // lead pipeline: booking-request signal
       }catch(err){}
-    }, {once:true});
+    };
+    bookButton.addEventListener('click', bookClickHandler, {once:true});
+    goTo('reveal');
   }
 
   /* ---------- reveal-screen call taps (handoff §5): a caller is not an abandoner ---------- */
