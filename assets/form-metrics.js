@@ -17,7 +17,8 @@
           form_location: allowed(location, ['hero', 'detailed', 'estimator', 'quote_block']),
           service: allowed(v.service, SERVICES),
           lawn_size: allowed(v.lawn_size, SIZES),
-          frequency: allowed(v.frequency, FREQUENCIES),
+          // The estimator uses onetime; retain the existing analytics vocabulary.
+          frequency: allowed(v.frequency === 'onetime' ? 'one_off' : v.frequency, FREQUENCIES),
           measurement_version: '2',
           acceptance_provider: stage === 'accepted' ? 'formspree' : 'not_applicable'
         };

@@ -284,7 +284,8 @@
       --gold-d:   #2E7D69;  /* lighter forest · icons, ghost borders */
       --gold-glow: rgba(0, 83, 67, 0.18);
       --gold-bg:  rgba(0, 83, 67, 0.05);
-      --accent:   #C8A04A;  /* Brass Gold · accent only: hairlines, small caps */
+      --accent:   #C8A04A;  /* Brass Gold · decorative borders and accents */
+      --accent-ink: #795D24; /* Dark brass · readable text on cream surfaces */
       --success:  #2E7D69;
       --r:        2px;
       --mono:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -353,7 +354,7 @@
     h1 { font-size: var(--fs-display); letter-spacing: -.01em; line-height: 1.04; }
     h2 { font-size: var(--fs-heading); }
     h3 { font-size: var(--fs-title); font-weight: 500; }
-    h1 em, h2 em, h3 em { font-style: italic; font-weight: 500; color: var(--accent); }
+    h1 em, h2 em, h3 em { font-style: italic; font-weight: 500; color: var(--accent-ink); }
     .nowrap { white-space: nowrap; }
 
     .eyebrow {
@@ -724,7 +725,7 @@
       margin: 0 0 22px; border: 1px solid var(--edge);
     }
     .about-body em {
-      font-family: var(--serif); font-style: italic; color: var(--accent);
+      font-family: var(--serif); font-style: italic; color: var(--accent-ink);
     }
     .about-creds {
       background: var(--surface); border: 1px solid var(--edge);
@@ -2114,7 +2115,7 @@
     </div>
     <div class="trust-grid" style="grid-template-columns:minmax(0,700px);justify-content:center;">
       <div class="trust-card">
-        <div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.15em;color:var(--accent);margin-bottom:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.15em;color:var(--accent-ink);margin-bottom:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p style="font-family:var(--serif);font-style:italic;color:var(--bright);font-size:var(--fs-body);line-height:1.6;margin-bottom:14px;">&ldquo;Reliable and professional. Very responsive and respectful. Completed a mulching and cleanup job on 4 beds for me. Very happy with the results. Signed up for mowing services also. Great attention to detail. Fair prices. Highly recommend. Will be using for leaf services in the fall as well.&rdquo;</p>
         <div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.1em;color:var(--muted);">Verified Google review</div>
       </div>
