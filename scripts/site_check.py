@@ -152,8 +152,8 @@ def check_season(src, today):
     season = season_for(today.month)
     expected = seasons.get(season)
     lines = [text_of(t) for t in re.findall(r"<(?:p|span)\b[^>]*\sdata-season-line[^>]*>(.*?)</", src, re.S)]
-    if len(lines) < 2:
-        report("FAIL", f"index.html: expected 2 [data-season-line] elements, found {len(lines)}")
+    if not lines:
+        report("FAIL", f"index.html: expected a [data-season-line] element, found {len(lines)}")
     for t in lines:
         if t == expected:
             report("PASS", f"index.html: static booking line matches the {season} SEASONS text")

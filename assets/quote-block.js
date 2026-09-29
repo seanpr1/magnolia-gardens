@@ -79,6 +79,8 @@
     '#mgqb-sticky a{display:block;text-align:center;background:var(--gold,#005343);color:#FAF6EA;font-weight:600;',
     '  font-size:15px;padding:13px 20px;border-radius:var(--r,2px);text-decoration:none}',
     '#mgqb-sticky a:active{background:var(--gold-l,#00402F)}',
+    '.has-quick-request>.hero-ctas{display:none}',
+    '@media(max-width:767px){body.mgqb-ready{padding-bottom:calc(90px + env(safe-area-inset-bottom))}.mgqb-ready #float-sms{display:none}}',
     '@media(min-width:768px){#mgqb-sticky{display:none}}'
   ].join('\n');
 
@@ -94,7 +96,6 @@
     box.className = 'mgqb';
     box.innerHTML =
       '<div class="mgqb-eye">Quick request</div>' +
-      '<h3 class="mgqb-h">Request a quote</h3>' +
       '<p class="mgqb-sub">Leave your number. We’ll follow up about your yard.</p>' +
       '<form novalidate>' +
         '<label for="mgqb-phone" style="display:block;font-size:15px;margin-bottom:6px">Phone number</label>' +
@@ -116,6 +117,7 @@
       '<p class="quick-contact"><a href="'+smsHref()+'">Text us</a><span>or</span><a href="'+P.PUBLISHED.telHref+'">Call '+P.PUBLISHED.phoneDisplay+'</a></p>' +
       (!isProject ? '<p class="mgqb-alt"><a href="/estimate/planning/">Explore a mowing price range</a></p>' : '');
     mount.parentNode.insertBefore(box, mount);
+    mount.parentNode.classList.add('has-quick-request');
 
     var form = box.querySelector('form');
     var phone = form.querySelector('input[name=phone]');
@@ -156,6 +158,7 @@
       sa.textContent = 'Request My Quote';
       sa.addEventListener('click', function(){ track('estimator_entry', { source:'sticky_mobile', page_path:pagePath, transport_type:'beacon' }); });
       bar.appendChild(sa);
+      document.body.classList.add('mgqb-ready');
       document.body.appendChild(bar);
     }
 

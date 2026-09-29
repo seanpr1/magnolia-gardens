@@ -589,6 +589,9 @@
       color: var(--muted); line-height: 1.5;
       display: flex; align-items: flex-start; gap: 8px;
     }
+    .hero-review{margin:10px 0 0;padding-top:16px;border-top:1px solid var(--edge);font-size:16px;line-height:1.55;color:var(--body)}
+    .hero-review cite{display:block;margin-top:6px;font-size:12px;font-style:normal;color:var(--muted)}
+    .hero-review a{color:var(--gold)}
     .hero-offer-line svg { color: var(--gold-d); flex-shrink: 0; margin-top: 2px; }
 
     /* Repeated estimate CTA - after Services, Pricing, Process.
@@ -1481,11 +1484,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               Satisfaction guaranteed. If the first visit isn&rsquo;t right, we make it right at no charge.
             </p>
-            <p class="hero-offer-line">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              <!-- Static default: keep in sync with the .hero-booking line above; the seasonal script swaps both. -->
-              <span data-season-line>Now booking fall cleanups and leaf removal, plus recurring routes through the season.</span>
-            </p>
+            <blockquote class="hero-review">“Reliable and professional. Very responsive and respectful.”<cite>From a Google review · <a href="#testimonials">Read the full review</a></cite></blockquote>
           </div>
         </form>
 
