@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/assets/brand.css">
+  <link rel="stylesheet" href="/assets/quote-block.css">
+  <script src="/assets/site-config.js"></script>
+  <script src="/assets/campaign-context.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Brush Clearing & Overgrowth in Kingsport, TN | Magnolia Gardens</title>
 
-  <meta name="description" content="Brush clearing and overgrowth removal in Kingsport, TN - tall grass, fence lines, banks, and lots cut back and hauled off. Text 423-390-9954." />
-  <meta name="theme-color" content="#005343" />
+  <meta name="description" content="Brush clearing and overgrowth removal in Kingsport, TN - tall grass, fence lines, banks, and lots cut back and hauled off. Text {{contact.phoneDisplay}}." />
+  <meta name="theme-color" content="{{brand.primary}}" />
   <meta name="geo.region" content="US-TN" />
   <meta name="geo.placename" content="Kingsport, Tennessee" />
   <meta name="geo.position" content="36.5081448;-82.5145476" />
@@ -16,7 +20,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Magnolia Gardens Landscaping" />
   <meta property="og:title" content="Brush Clearing & Overgrowth in Kingsport, TN | Magnolia Gardens" />
-  <meta property="og:description" content="Brush clearing and overgrowth removal in Kingsport, TN - tall grass, fence lines, banks, and lots cut back and hauled off. Text 423-390-9954." />
+  <meta property="og:description" content="Brush clearing and overgrowth removal in Kingsport, TN - tall grass, fence lines, banks, and lots cut back and hauled off. Text {{contact.phoneDisplay}}." />
   <meta property="og:url" content="https://magnoliagardenslandscaping.com/services/brush-clearing/" />
   <meta property="og:image" content="https://magnoliagardenslandscaping.com/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -26,7 +30,7 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Brush Clearing & Overgrowth in Kingsport, TN | Magnolia Gardens" />
-  <meta name="twitter:description" content="Brush clearing and overgrowth removal in Kingsport, TN - tall grass, fence lines, banks, and lots cut back and hauled off. Text 423-390-9954." />
+  <meta name="twitter:description" content="Brush clearing and overgrowth removal in Kingsport, TN - tall grass, fence lines, banks, and lots cut back and hauled off. Text {{contact.phoneDisplay}}." />
   <meta name="twitter:image" content="https://magnoliagardenslandscaping.com/og-image.png" />
   <meta name="twitter:image:alt" content="Magnolia Gardens Landscaping - lawn care in Kingsport and the Tri-Cities, TN." />
 
@@ -36,54 +40,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      /* Magnolia Gardens palette - cream paper, forest-green ink, brass-gold accent.
-         Variable names retained from the prior dark theme for selector stability;
-         locked brand (June 2026): Forest Green #005343, Cream #F4ECD8, Brass Gold #C8A04A.
-         --gold = forest primary, --accent = brass (accent only, never a primary fill). */
-      --void:     #F4ECD8;  /* cream-200 · page background · text on primary CTA */
-      --deep:     #FAF6EA;  /* cream-100 · lifted paper for nested surfaces */
-      --surface:  #FAF6EA;  /* cream-100 · card background */
-      --panel:    #EDE5D2;  /* cream-300 · hover / selected fill */
-      --edge:     #D6CFC0;  /* stone-300 · hairline border */
-      --muted:    #5C574E;  /* charcoal-500 · muted metadata (darkened for WCAG AA on cream) */
-      --mid:      #5C574E;  /* charcoal-500 */
-      --dim:      #5C574E;  /* charcoal-500 · secondary body, captions */
-      --label:    #5C574E;  /* charcoal-500 */
-      --body:     #2A2823;  /* charcoal-700 · primary body */
-      --bright:   #1F1D18;  /* charcoal-900 · headings */
-      --gold:     #005343;  /* Forest Green · primary surface, CTAs, headings ink */
-      --gold-l:   #00402F;  /* darker forest · primary hover */
-      --gold-d:   #2E7D69;  /* lighter forest · icons, ghost borders */
-      --gold-glow: rgba(0, 83, 67, 0.18);
-      --gold-bg:  rgba(0, 83, 67, 0.05);
-      --accent:   #C8A04A;  /* Brass Gold · accent only: hairlines, small caps */
-      --success:  #2E7D69;
-      --r:        2px;
-      --mono:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --serif:    'Fraunces', 'Hoefler Text', Garamond, serif;
-      --sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-      /* -- Type scale: 5 text sizes + 1 stat size; everything pulls from these -- */
-      --fs-display: clamp(38px, 5.8vw, 66px); /* h1 / hero headline */
-      --fs-heading: clamp(28px, 3.9vw, 42px); /* h2 / section titles */
-      --fs-feature: 30px;                     /* stat numbers: prices, estimator result */
-      --fs-title:   22px;                     /* h3, card & step names, FAQ questions */
-      --fs-body:    17px;                     /* body copy, intros, answers, inputs */
-      --fs-label:   12px;                     /* eyebrows, nav, labels, buttons, fine print */
-
-      /* -- Spacing scale: all padding / margin / gap pulls from these -- */
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 24px;
-      --space-6: 32px;
-      --space-7: 48px;
-      --space-8: 64px;
-      --space-9: 80px;
-      --gap-grid: 2px; /* hairline gap between framed cards -- brand signature */
-    }
 
     /* ── Keyboard focus ─────────────────────── */
     :focus { outline: none; }
@@ -126,7 +83,7 @@
     h1 { font-size: var(--fs-display); letter-spacing: -.01em; line-height: 1.04; }
     h2 { font-size: var(--fs-heading); }
     h3 { font-size: var(--fs-title); font-weight: 500; }
-    h1 em, h2 em, h3 em { font-style: italic; font-weight: 500; color: var(--accent); }
+    h1 em, h2 em, h3 em { font-style: italic; font-weight: 500; color: var(--accent-ink); }
     .nowrap { white-space: nowrap; }
 
     .eyebrow {
@@ -376,7 +333,7 @@
     }
     .about-body p:last-child { margin-bottom: 0; }
     .about-body em {
-      font-family: var(--serif); font-style: italic; color: var(--accent);
+      font-family: var(--serif); font-style: italic; color: var(--accent-ink);
     }
     .about-creds {
       background: var(--surface); border: 1px solid var(--edge);
@@ -767,58 +724,11 @@
        domain, so owner self-testing on Netlify staging / localhost / Electron
        previews never pollutes Clarity, GA4, or Cloudflare data. -->
   <script>
-    window.MG_ANALYTICS_OK = (
-      location.hostname === 'magnoliagardenslandscaping.com' ||
-      location.hostname === 'www.magnoliagardenslandscaping.com'
-    );
+    window.MG_ANALYTICS_OK = !!(window.MG_SITE_CONFIG && window.MG_SITE_CONFIG.analytics.productionHosts.includes(location.hostname));
   </script>
 
-  <!-- First-party error reporting. Clarity reports THAT a session had a JS
-       error, never what it was, so route errors to GA4 as exception events.
-       Installed above the third-party tags so it also catches their failures.
-       Capped at 5 per page so a loop can't flood the property; queued because
-       gtag is defined by the tag directly below this one. -->
-  <script>
-  (function () {
-    var sent = 0, queue = [];
-    function flush() {
-      if (!window.gtag) return;
-      while (queue.length) window.gtag('event', 'exception', queue.shift());
-    }
-    function report(desc, src, line, col) {
-      if (sent >= 5) return;
-      sent++;
-      queue.push({
-        description: String(desc || 'unknown').slice(0, 300),
-        // A bare "Script error." with no source is a cross-origin script -
-        // GA4, the Pixel, Clarity, or a browser extension. The browser hides
-        // the detail on purpose; knowing that much still narrows it down.
-        script: String(src || '(cross-origin or inline)').slice(0, 300),
-        line_col: (line || 0) + ':' + (col || 0),
-        page_path: location.pathname,
-        fatal: false
-      });
-      flush();
-    }
-    // Capture phase: resource load failures do not bubble, and a pricing.js or
-    // image that fails to load is exactly the kind of silent break worth seeing.
-    window.addEventListener('error', function (e) {
-      if (e.target && e.target !== window && e.target.tagName) {
-        // An element with an empty src resolves to the page URL and fires a
-        // load error; that is markup noise, not a broken asset. Skip it.
-        var url = e.target.src || e.target.href || '';
-        if (url && url !== location.href) report('resource failed: ' + e.target.tagName, url, 0, 0);
-      } else {
-        report(e.message, e.filename, e.lineno, e.colno);
-      }
-    }, true);
-    window.addEventListener('unhandledrejection', function (e) {
-      report('unhandledrejection: ' + ((e.reason && e.reason.message) || e.reason), '', 0, 0);
-    });
-    var t = setInterval(function () { if (window.gtag) { flush(); clearInterval(t); } }, 500);
-    setTimeout(function () { clearInterval(t); }, 10000);
-  })();
-  </script>
+  <!-- Diagnostics contain fixed reason codes only. -->
+  <script src="/assets/error-reporting.js"></script>
 
   <!-- Google tag (gtag.js) - GA4 property G-V93YBHW1PJ -->
   <script>
@@ -879,14 +789,19 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<script src="/assets/form-metrics.js?v=2"></script>
+<link rel="stylesheet" href="/assets/site-nav.css?v=20260928">
+<script src="/assets/site-nav.js?v=20260928" defer></script>
+<script src="/assets/form-metrics.js"></script>
+<script src="/assets/form-core.js"></script>
+  <link rel="stylesheet" href="/assets/form-ui.css">
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ════════════════════════════════════════════
      NAV
 ════════════════════════════════════════════ -->
-<nav>
+<nav aria-label="Main navigation">
   <a href="/" class="nav-logo" aria-label="Magnolia Gardens Landscaping - home">
     <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
   </a>
@@ -896,9 +811,22 @@
     <a href="/#how"         class="nav-link">Our process</a>
     <a href="/#about"       class="nav-link">About</a>
     <a href="/#faq"         class="nav-link">FAQ</a>
-    <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
+    <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
   </div>
+  <details class="mobile-nav">
+    <summary>Menu</summary>
+    <div class="mobile-nav-panel">
+      <a href="/#services">Services</a>
+      <a href="/#work">Our work</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#areas">Service areas</a>
+      <a href="/#faq">Questions</a>
+      <a href="{{contact.telHref}}">Call Magnolia</a>
+      <a href="/estimate/" class="mobile-quote">Request a quote</a>
+    </div>
+  </details>
 </nav>
+<main id="main-content" tabindex="-1">
 
 <!-- ════════════════════════════════════════════
      HERO
@@ -911,13 +839,13 @@
       For the areas that have gotten out of hand - tall grass, overgrown fence lines, brush along banks and back lots across Kingsport and the Tri-Cities. We cut it down, clear it out, and haul it off, leaving the area usable again. Every brush job is different, so these are quoted individually after we see photos.
     </p>
     <div class="hero-ctas">
-      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+      <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Text Us for a Quote
       </a>
-      <a href="tel:4233909954" class="btn-call">
+      <a href="{{contact.telHref}}" class="btn-call">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/></svg>
-        Call 423-390-9954
+        Call {{contact.phoneDisplay}}
       </a>
     </div>
     <p class="hero-trust">Locally owned<span>·</span>Sullivan County licensed &amp; insured<span>·</span>Fast quotes, typically same day</p>
@@ -953,7 +881,7 @@
 <section class="section">
   <div class="wrap">
     <h2>Pricing and quotes</h2>
-    <p class="pricing-note">Brush and overgrowth work is quoted individually after we see the area. Text us at 423-390-9954 — a photo or two speeds it up — and we'll come back with a clear, all-in number - cutting and haul-off included.</p>
+    <p class="pricing-note">Brush and overgrowth work is quoted individually after we see the area. Text us at {{contact.phoneDisplay}} — a photo or two speeds it up — and we'll come back with a clear, all-in number - cutting and haul-off included.</p>
   </div>
 </section>
 
@@ -963,7 +891,7 @@
     <div class="section-hd">
       <div class="eyebrow">Frequently asked</div>
       <h2>Brush clearing questions, <em>answered</em>.</h2>
-      <p class="section-sub">Straight answers about brush and overgrowth clearing in Kingsport. Text 423-390-9954 if yours isn't here.</p>
+      <p class="section-sub">Straight answers about brush and overgrowth clearing in Kingsport. Text {{contact.phoneDisplay}} if yours isn't here.</p>
     </div>
 
     <div class="faq-list">
@@ -997,17 +925,17 @@
     <h2>Get a quote</h2>
     <script src="/assets/quote-block.js" data-service="brush" defer></script>
     <div class="hero-ctas" style="margin-top:18px;margin-bottom:4px;">
-      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+      <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Text Us for a Quote
       </a>
-      <a href="tel:4233909954" class="btn-call">
+      <a href="{{contact.telHref}}" class="btn-call">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/></svg>
-        Call 423-390-9954
+        Call {{contact.phoneDisplay}}
       </a>
     </div>
     <p>
-      Text <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care.">423-390-9954</a> with a few photos of your yard, or <a href="/#estimate">open the intake form</a>. We also serve <a href="/areas/johnson-city/">Johnson City</a> and <a href="/areas/bristol/">Bristol</a>.
+      Text <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care.">{{contact.phoneDisplay}}</a> with a few photos of your yard, or <a href="/#estimate">open the intake form</a>. We also serve <a href="/areas/johnson-city/">Johnson City</a> and <a href="/areas/bristol/">Bristol</a>.
     </p>
   </div>
 </section>
@@ -1024,6 +952,7 @@
 <!-- ════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════ -->
+</main>
 <footer>
   <div class="wrap">
     <div class="footer-row">
@@ -1032,7 +961,7 @@
           <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
         </div>
         <div class="footer-detail">
-          <a href="tel:4233909954">423-390-9954</a><br>
+          <a href="{{contact.telHref}}">{{contact.phoneDisplay}}</a><br>
           Magnolia Gardens Landscaping LLC<br>
           Kingsport, TN · Sullivan County licensed · Insured
         </div>
@@ -1061,13 +990,13 @@
 </footer>
 
 <!-- ── Floating buttons ───────────────────────── -->
-<a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote">
+<a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>
   Text for a Quote
 </a>
-<a href="tel:4233909954" id="float-call-mob" aria-label="Call Magnolia Gardens">
+<a href="{{contact.telHref}}" id="float-call-mob" aria-label="Call Magnolia Gardens">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
   </svg>
@@ -1115,7 +1044,6 @@
     } catch (e) {}
   }
 
-  var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   function getCtaLocation(el) {
     if (el.id === 'float-sms' || el.id === 'float-call-mob') return 'floating';
@@ -1126,16 +1054,11 @@
     return 'other';
   }
 
-  /* SMS links: track + (desktop) route to the home page intake form so
-     desktop visitors never hit a dead end. Touch devices fire native sms:. */
+  /* Keep text links native, including desktops with a messaging app. */
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
     a.setAttribute('target', '_blank');
     a.addEventListener('click', function (e) {
       track('click_to_text', { location: getCtaLocation(a) });
-      if (isDesktop) {
-        e.preventDefault();
-        window.location.href = '/#estimate';
-      }
     });
   });
 

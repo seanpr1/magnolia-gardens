@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/assets/brand.css">
+  <script src="/assets/site-config.js"></script>
+  <script src="/assets/campaign-context.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="{{brand.primary}}" />
+  <title>Mowing Price Range · Magnolia Gardens Landscaping</title>
+  <meta name="description" content="Explore a lawn mowing planning range for Kingsport and the Tri-Cities. No contact details needed. Magnolia Gardens confirms the final scope and price." />
+  <link rel="canonical" href="https://magnoliagardenslandscaping.com/estimate/planning/" />
+  <link rel="icon" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+
+  <!-- Analytics production guard: only initialize on the real production
+       domain, so owner self-testing on Netlify staging / localhost / Electron
+       previews never pollutes Clarity, GA4, or Cloudflare data. -->
+  <script>
+    window.MG_ANALYTICS_OK = !!(window.MG_SITE_CONFIG && window.MG_SITE_CONFIG.analytics.productionHosts.includes(location.hostname));
+  </script>
+
+  <!-- Diagnostics contain fixed reason codes only. -->
+  <script src="/assets/error-reporting.js"></script>
+
+  <!-- Google tag (gtag.js) - GA4 property G-V93YBHW1PJ -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      var gaLoader = document.createElement('script');
+      gaLoader.async = true;
+      gaLoader.src = 'https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ';
+      document.head.appendChild(gaLoader);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', 'G-V93YBHW1PJ');
+    }
+  </script>
+
+  <!-- Cloudflare Web Analytics - privacy-respecting, cookieless pageview tracking. -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      var cfBeacon = document.createElement('script');
+      cfBeacon.defer = true;
+      cfBeacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfBeacon.setAttribute('data-cf-beacon', '{"token": "5168b9dfab9f4dd390f2447100a6e3db"}');
+      document.head.appendChild(cfBeacon);
+    }
+  </script>
+
+  <!-- Microsoft Clarity - free heatmaps, session recordings, scroll & rage-click maps. -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "xiib0yey5e");
+    }
+  </script>
+
+  <!-- Meta Pixel (id 1529884685261202) - guarded to production only, same
+       allowlist as GA4/Clarity/Cloudflare. noscript <img> fallback omitted on
+       purpose: it can't check the hostname and would fire off-prod. -->
+  <script>
+    if (window.MG_ANALYTICS_OK) {
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1529884685261202');
+      fbq('track', 'PageView');
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/request.css?v=20260929">
+  <script src="/assets/form-metrics.js"></script>
+<script src="/assets/form-core.js"></script>
+  <link rel="stylesheet" href="/assets/form-ui.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<nav aria-label="Main navigation"><a href="/" class="nav-logo">Magnolia Gardens</a><a href="/">Back to site</a></nav>
+<main id="main-content" tabindex="-1">
+<div class="eyebrow">Optional planning tool</div><h1>Explore a mowing price range.</h1>
+<p class="intro">No contact information needed. Your final quote depends on the actual property and work.</p>
+<section class="request-card" aria-label="Mowing planning range">
+<div class="field"><label for="plan-service">Service</label><select id="plan-service"><option value="mowing">Mowing</option><option value="maintenance">Ongoing property care</option></select></div>
+<div class="field"><label for="plan-size">Approximate lawn size</label><select id="plan-size"><option value="">Choose a size</option><option value="compact">Under ¼ acre</option><option value="midsize">¼–½ acre</option><option value="spacious">½–1 acre</option><option value="estate">Over 1 acre</option></select></div>
+<div class="field"><label for="plan-frequency">How often?</label><select id="plan-frequency"><option value="weekly">Weekly</option><option value="biweekly">Every 2 weeks</option><option value="onetime">Just once</option></select></div>
+<div id="plan-result" class="planning-result" role="status" aria-live="polite">Choose a lawn size to see a planning range.</div>
+<p class="detail-help">The range covers different scopes of mowing and property care. Slope, access, lawn condition and additional work can change the quote. Cleanup, mulch and brush work are quoted individually.</p>
+<a href="/estimate/" id="plan-request" class="primary">Request my quote</a>
+</section>
+<p class="planner-link"><a href="/estimate/">Skip the calculator and request a quote</a></p>
+</main><footer>Magnolia Gardens Landscaping · Kingsport, TN</footer>
+<script src="/assets/pricing.js?v=20260928"></script>
+<script src="/assets/planning-range.js?v=20260929"></script>
+</body></html>

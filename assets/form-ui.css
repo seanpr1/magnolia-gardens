@@ -1,0 +1,133 @@
+/* Shared request presentation. Load after page layout styles. These classes
+   are also present in static HTML, so the finish does not depend on JavaScript. */
+.request-surface {
+  background: linear-gradient(var(--accent), var(--accent)) center top / 48px 2px no-repeat, var(--surface);
+  border: 1px solid var(--edge);
+  border-radius: var(--r);
+  box-shadow: 0 2px 4px rgba(31,29,24,.04), 0 20px 48px -34px rgba(31,29,24,.28);
+}
+
+.request-form { --request-duration: 140ms; }
+.request-form label[for],
+.request-form .optional-fields label {
+  font: 500 15px/1.5 var(--sans);
+  color: var(--body);
+  letter-spacing: normal;
+  text-transform: none;
+}
+.request-form input:not([type="hidden"]):not([name="_gotcha"]),
+.request-form select,
+.request-form textarea {
+  min-height: 48px;
+  font: 16px/1.5 var(--sans);
+  border: 1px solid var(--request-field-color, var(--field-edge));
+  border-radius: var(--r);
+  background-color: var(--field);
+  transition: border-color var(--request-duration) ease;
+}
+.request-form input:not([type="hidden"]):not([name="_gotcha"]):focus,
+.request-form select:focus,
+.request-form textarea:focus {
+  outline: 2px solid var(--request-field-color, var(--gold));
+  outline-offset: 3px;
+  border-color: var(--request-field-color, var(--gold));
+}
+.request-form input[aria-invalid="true"],
+.request-form input[aria-invalid="true"]:focus {
+  --request-field-color: var(--error);
+  border-color: var(--error);
+  outline-color: var(--error);
+}
+.request-form :is(.field-validation, .form-error, .mgqb-err) {
+  color: var(--error);
+  font: 15px/1.5 var(--sans);
+}
+
+/* Keep the native disclosure marker and keyboard/touch behavior. */
+.request-form .optional-details {
+  margin: 16px 0;
+  border-top: 1px solid var(--edge);
+  border-bottom: 1px solid var(--edge);
+}
+.request-form .optional-details summary {
+  min-height: 48px;
+  padding: 12px 4px;
+  color: var(--gold);
+  font: 15px/1.5 var(--sans);
+  cursor: pointer;
+}
+.request-form .optional-details summary::marker { color: var(--gold); }
+.request-form .optional-details[open] > summary { background: var(--gold-bg); }
+.request-form .optional-fields { padding: 16px 0; }
+.request-form .optional-fields > :last-child { margin-bottom: 0; }
+
+.request-form .request-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 20px;
+  border: 1px solid var(--gold);
+  border-radius: var(--r);
+  background: var(--gold);
+  color: var(--surface);
+  font: 600 16px/1.5 var(--sans);
+  letter-spacing: normal;
+  text-transform: none;
+  box-shadow: 0 2px 3px rgba(31,29,24,.08);
+  transition: background-color var(--request-duration) ease, box-shadow var(--request-duration) ease;
+}
+.request-form .request-action:hover:not(:disabled) {
+  background: var(--gold-l);
+  border-color: var(--gold-l);
+  transform: none;
+}
+.request-form .request-action:active:not(:disabled) { box-shadow: inset 0 2px 4px rgba(0,0,0,.16); }
+.request-form .request-action:disabled { opacity: .65; cursor: wait; box-shadow: none; }
+.request-form .request-action:focus-visible,
+.request-form summary:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+/* Neutral result treatment: appearance never implies confirmed inbox receipt. */
+.request-status {
+  padding: 24px 0;
+  border: 0;
+  background: transparent;
+  text-align: center;
+}
+.request-status :is(h2, h3) {
+  margin: 0 0 16px;
+  color: var(--bright);
+  font: 500 27px/1.2 var(--serif);
+}
+.request-status p { font: 16px/1.65 var(--sans); margin: 0 0 16px; }
+.request-status > :last-child { margin-bottom: 0; }
+.request-status:focus,
+.request-status :is(h2, h3):focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 8px;
+  border-radius: var(--r);
+}
+/* Keep keyboard focus clear without framing a message after a pointer tap. */
+.request-status:focus:not(:focus-visible),
+.request-status :is(h2, h3):focus:not(:focus-visible) { outline: none; }
+.request-status .request-recovery { text-align: left; }
+
+@media (prefers-reduced-motion: reduce) {
+  .request-form { --request-duration: 0s; }
+}
+@media (forced-colors: active) {
+  .request-surface { border-color: CanvasText; box-shadow: none; }
+  .request-form .request-action { border-color: ButtonText; }
+  .request-form input:not([type="hidden"]):not([name="_gotcha"]):focus, .request-form select:focus, .request-form textarea:focus,
+  .request-form .request-action:focus-visible, .request-form summary:focus-visible,
+  .request-status:focus, .request-status :is(h2, h3):focus { outline-color: Highlight; }
+}
+
+/* Private recovery details stay in a masked read-only input. */
+.request-recovery{margin:18px 0;color:var(--body)}
+.request-recovery summary{cursor:pointer;min-height:44px;padding:10px 0;color:var(--gold);font:15px/1.5 var(--sans)}
+.request-recovery textarea{display:block;width:100%;min-height:180px;padding:12px;border:1px solid var(--edge);background:var(--surface);color:var(--body);font:16px/1.5 var(--sans)}
+.request-recovery summary:focus-visible,.request-recovery textarea:focus{outline:2px solid var(--gold);outline-offset:3px}

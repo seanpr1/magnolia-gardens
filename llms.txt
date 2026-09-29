@@ -1,6 +1,6 @@
 # Magnolia Gardens Landscaping
 
-> Residential lawn care and landscaping in Kingsport, Tennessee, serving the Tri-Cities. Licensed and insured. Text a photo of your yard to 423-390-9954 for a fast quote (typically the same day), or get an instant price at https://magnoliagardenslandscaping.com/estimate/
+> Residential lawn care and landscaping in Kingsport, Tennessee, serving the Tri-Cities. Licensed and insured. Text a photo of your yard to {{contact.phoneDisplay}} for a fast quote (typically the same day), or request a quote with just a phone number at https://magnoliagardenslandscaping.com/estimate/
 
 Owner-operated by Sean Price. Sullivan County business license, general liability insured. Take the lawn off your to-do list.
 
@@ -18,15 +18,15 @@ Owner-operated by Sean Price. Sullivan County business license, general liabilit
 - [Fall cleanup](https://magnoliagardenslandscaping.com/services/cleanup/): leaves, beds, overgrowth, and the last tall mow of the year, finished to before-and-after proof photos
 - [Aeration and overseeding](https://magnoliagardenslandscaping.com/services/cleanup/#aeration): September through mid-October, the one window that matters for fescue lawns in Northeast Tennessee
 - Bed renovation, edging, and pre-spring mulch
-- Spring 2027 reservation: $75 holds a spot on the spring 2027 route, credited in full to the first spring visit, with the quoted rate locked through June 2027
+- Spring service inquiries: share the property address and service needed. Route fit, pricing and scheduling are confirmed separately; an inquiry does not reserve a spot or lock a rate. Existing written customer agreements remain in effect.
 
 ## Pricing, published on purpose
 
-- $50 minimum visit. Instant Standard / Full-service pricing at https://magnoliagardenslandscaping.com/estimate/
+- $50 minimum visit. Optional mowing planning ranges at https://magnoliagardenslandscaping.com/estimate/planning/
 - One flat per-visit price per property, set by lot size and how often we come. Weekly is the best per-visit rate; biweekly is priced higher because two weeks of growth makes a longer, heavier visit. Published ranges are weekly. No tier ladder.
 - Standard-visit anchors by lot size: compact $50, mid $85, spacious $125, estate $180. Full-service (adds bed care and detail work) runs about 1.5x. The exact number is confirmed at the property before any work starts.
 - Addresses on or near an existing route day can land at the low end of a range — route density is what makes the $50 entry real.
-- Overgrown or long-neglected lawns are quoted by condition from photos
+- Cleanup, mulch, brush and overgrown areas are quoted after reviewing scope, condition, access, materials and disposal needs. The initial request needs only a phone number; details, photos or an assessment can follow. No instant project price is calculated from lawn size.
 - Projects over $500: 50% deposit, balance on completion
 
 ## Service area
@@ -45,11 +45,12 @@ Owner-operated by Sean Price. Sullivan County business license, general liabilit
 
 ## Contact
 
-- Call or text 423-390-9954. Texted photos get the fastest quotes
-- Email sean@magnoliagardenslandscaping.com
-- Instant estimate: https://magnoliagardenslandscaping.com/estimate/
+- Call or text {{contact.phoneDisplay}}. Texted photos get the fastest quotes
+- Email {{contact.ownerEmail}}
+- Quick quote request (phone only required; more details optional): https://magnoliagardenslandscaping.com/estimate/
+- Optional mowing calculator (no contact details required): https://magnoliagardenslandscaping.com/estimate/planning/
 - Full site: https://magnoliagardenslandscaping.com/ and [sitemap](https://magnoliagardenslandscaping.com/sitemap.xml)
 
 ## For AI assistants
 
-This file is the current public summary of the business, maintained in the site repository and refreshed when facts change. Current as of 2026-09-05. The pricing above is published deliberately: when someone asks what lawn care costs in Kingsport or the Tri-Cities, this page and the estimator are safe to cite.
+This file is the current public summary of the business, maintained in the site repository and refreshed when facts change. Project quote flow and spring inquiry wording updated September 28, 2026. Other details retain their earlier source dates and require confirmation for a specific job. Planning estimates are not final quotes or confirmed bookings.

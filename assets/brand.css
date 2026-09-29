@@ -1,0 +1,53 @@
+/* Public brand tokens. Edit here; page layout stays in each page stylesheet. */
+:root {
+  /* Magnolia Gardens palette - cream paper, forest-green ink, brass-gold accent.
+     Variable names retained from the prior dark theme for selector stability;
+     locked brand (June 2026): Forest Green #005343, Cream #F4ECD8, Brass Gold #C8A04A.
+     --gold = forest primary, --accent = brass (accent only, never a primary fill). */
+  --void:     #F4ECD8;  /* cream-200 · page background · text on primary CTA */
+  --deep:     #FAF6EA;  /* cream-100 · lifted paper for nested surfaces */
+  --surface:  #FAF6EA;  /* cream-100 · card background */
+  --panel:    #EDE5D2;  /* cream-300 · hover / selected fill */
+  --edge:     #D6CFC0;  /* stone-300 · hairline border */
+  --field:    #FFFFFF;  /* input paper */
+  --field-edge: #8A8478; /* visible input boundary on cream and white */
+  --error:    #8B3028;  /* field errors, paired with explanatory text */
+  --muted:    #5C574E;  /* charcoal-500 · muted metadata (darkened for WCAG AA on cream) */
+  --mid:      #5C574E;  /* charcoal-500 */
+  --dim:      #5C574E;  /* charcoal-500 · secondary body, captions */
+  --label:    #5C574E;  /* charcoal-500 */
+  --body:     #2A2823;  /* charcoal-700 · primary body */
+  --bright:   #1F1D18;  /* charcoal-900 · headings */
+  --gold:     #005343;  /* Forest Green · primary surface, CTAs, headings ink */
+  --gold-l:   #00402F;  /* darker forest · primary hover */
+  --gold-d:   #2E7D69;  /* lighter forest · icons, ghost borders */
+  --gold-glow: rgba(0, 83, 67, 0.18);
+  --gold-bg:  rgba(0, 83, 67, 0.05);
+  --accent:   #C8A04A;  /* Brass Gold · decorative borders and accents */
+  --accent-ink: #795D24; /* Dark brass · readable text on cream surfaces */
+  --success:  #2E7D69;
+  --r:        2px;
+  --mono:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --serif:    'Fraunces', 'Hoefler Text', Garamond, serif;
+  --sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* -- Type scale: 5 text sizes + 1 stat size; everything pulls from these -- */
+  --fs-display: clamp(38px, 5.8vw, 66px); /* h1 / hero headline */
+  --fs-heading: clamp(28px, 3.9vw, 42px); /* h2 / section titles */
+  --fs-feature: 30px;                     /* stat numbers: prices, estimator result */
+  --fs-title:   22px;                     /* h3, card & step names, FAQ questions */
+  --fs-body:    17px;                     /* body copy, intros, answers, inputs */
+  --fs-label:   12px;                     /* eyebrows, nav, labels, buttons, fine print */
+
+  /* -- Spacing scale: all padding / margin / gap pulls from these -- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --gap-grid: 2px; /* hairline gap between framed cards -- brand signature */
+}

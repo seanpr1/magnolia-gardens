@@ -1,6 +1,5 @@
-# Static-site checks: JSON-LD, FAQ parity, seasonal hero copy, meta lengths, internal links, sitemap.
-# Runs on every push and PR, and on the 1st of each season-change month so stale seasonal copy
-# fails loudly (the site has no build step, so nothing else would catch it).
+# The same offline build/static/form checks used on a fresh clone.
+# Seasonal runs intentionally report stale seasonal content.
 name: Site check
 
 on:
@@ -15,5 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run site checks
-        run: python3 scripts/site_check.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Install pinned npm
+        run: npm install --global npm@12.1.0
+      - name: Install locked test dependencies
+        run: npm ci --ignore-scripts
+      - name: Run offline website checks
+        run: npm test
