@@ -29,3 +29,5 @@ input[aria-invalid="true"]{border-color:#8b3028}
 #intakeSubmit{width:100%;justify-content:center}
 @media(max-width:1040px){nav .nav-links{display:none}.mobile-nav{display:block}}
 @media(max-width:360px){.mobile-nav summary{padding:10px}.mobile-nav-panel{grid-template-columns:1fr}}
+
+main a:not([class]){color:#005343;text-underline-offset:3px}
