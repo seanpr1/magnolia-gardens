@@ -881,13 +881,16 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <script src="/assets/form-metrics.js?v=2"></script>
+<link rel="stylesheet" href="/assets/site-nav.css?v=20260928">
+<script src="/assets/site-nav.js?v=20260928" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ════════════════════════════════════════════
      NAV
 ════════════════════════════════════════════ -->
-<nav>
+<nav aria-label="Main navigation">
   <a href="/" class="nav-logo" aria-label="Magnolia Gardens Landscaping - home">
     <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
   </a>
@@ -899,7 +902,20 @@
     <a href="/#faq"         class="nav-link">FAQ</a>
     <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
   </div>
+  <details class="mobile-nav">
+    <summary>Menu</summary>
+    <div class="mobile-nav-panel">
+      <a href="/#services">Services</a>
+      <a href="/#work">Our work</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#areas">Service areas</a>
+      <a href="/#faq">Questions</a>
+      <a href="tel:4233909954">Call Magnolia</a>
+      <a href="/estimate/" class="mobile-quote">Request a quote</a>
+    </div>
+  </details>
 </nav>
+<main id="main-content" tabindex="-1">
 
 <!-- ════════════════════════════════════════════
      HERO
@@ -1025,6 +1041,7 @@
 <!-- ════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════ -->
+</main>
 <footer>
   <div class="wrap">
     <div class="footer-row">

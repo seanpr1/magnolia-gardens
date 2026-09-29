@@ -50,9 +50,9 @@
   };
   var topic = TOPIC[service] || 'lawn care';
 
-  /* estimator deep link: services the engine can price get a pre-filled entry;
-     brush has no estimator path, so its CTAs stay on the photo-text route. */
-  var EST_KEYS = { mowing:1, maintenance:1, cleanup:1, mulch:1 };
+  /* Recurring services open an estimate; projects open a scope-based request. */
+  var EST_KEYS = { mowing:1, maintenance:1, cleanup:1, mulch:1, brush:1 };
+  var isProject = ['cleanup','mulch','brush'].indexOf(service) >= 0;
   var estHref = '/estimate/' + (EST_KEYS[service] ? '?service=' + service : '');
 
   function priceLine(P){
@@ -61,7 +61,7 @@
         P.PUBLISHED.perVisitRange + ' per visit on a weekly schedule, by lot size and service level, with larger and estate properties quoted higher.';
     }
     // cleanup / mulch / brush: no published range yet — quoted from photos
-    return 'Quoted from a photo or two, with a ' + P.PUBLISHED.minimumText + ' minimum.';
+    return 'Quoted after reviewing the work, with a ' + P.PUBLISHED.minimumText + ' minimum. Photos help; an assessment may be needed.';
   }
 
   var CSS = [
@@ -115,8 +115,9 @@
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
         '<p class="mgqb-err">Add a mobile number so we can follow up about your request.</p>' +
       '</form>' +
-      (service === 'brush' ? '' :
-      '<p class="mgqb-alt">Want a number right now? <a href="' + estHref + '">See your price range in about a minute</a>.</p>');
+      (isProject
+        ? '<p class="mgqb-alt"><a href="' + estHref + '">Describe your project for a quote</a>. Photos are optional.</p>'
+        : '<p class="mgqb-alt"><a href="' + estHref + '">' + (area ? 'Request a project quote or mowing estimate' : 'See a mowing planning estimate') + '</a>.</p>');
     mount.parentNode.insertBefore(box, mount);
 
     var form = box.querySelector('form');
@@ -155,15 +156,9 @@
       var bar = document.createElement('div');
       bar.id = 'mgqb-sticky';
       var sa = document.createElement('a');
-      if (service === 'brush'){
-        sa.href = smsHref();
-        sa.textContent = 'Text Us for a Quote';
-        sa.addEventListener('click', function(){ track('click_to_text', { location:'sticky_mobile', page_path:pagePath }); });
-      } else {
-        sa.href = estHref;
-        sa.textContent = 'Get My Instant Estimate';
-        sa.addEventListener('click', function(){ track('estimator_entry', { source:'sticky_mobile', page_path:pagePath, transport_type:'beacon' }); });
-      }
+      sa.href = estHref;
+      sa.textContent = isProject || area ? 'Request My Quote' : 'Get My Mowing Estimate';
+      sa.addEventListener('click', function(){ track('estimator_entry', { source:'sticky_mobile', page_path:pagePath, transport_type:'beacon' }); });
       bar.appendChild(sa);
       document.body.appendChild(bar);
     }
@@ -272,7 +267,7 @@
   if (window.MG_PRICING){ render(window.MG_PRICING); }
   else {
     var s = document.createElement('script');
-    s.src = '/assets/pricing.js?v=20260825';
+    s.src = '/assets/pricing.js?v=20260928';
     s.onload = function(){ if (window.MG_PRICING) render(window.MG_PRICING); };
     document.head.appendChild(s);
   }

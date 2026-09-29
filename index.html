@@ -1339,13 +1339,16 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <script src="/assets/form-metrics.js?v=2"></script>
+<link rel="stylesheet" href="/assets/site-nav.css?v=20260928">
+<script src="/assets/site-nav.js?v=20260928" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ════════════════════════════════════════════
      1. NAV
 ════════════════════════════════════════════ -->
-<nav>
+<nav aria-label="Main navigation">
   <a href="#" class="nav-logo" aria-label="Magnolia Gardens Landscaping - home">
     <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
   </a>
@@ -1359,7 +1362,20 @@
     <a href="#faq"         class="nav-link">FAQ</a>
     <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
   </div>
+  <details class="mobile-nav">
+    <summary>Menu</summary>
+    <div class="mobile-nav-panel">
+      <a href="/#services">Services</a>
+      <a href="/#work">Our work</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#areas">Service areas</a>
+      <a href="/#faq">Questions</a>
+      <a href="tel:4233909954">Call Magnolia</a>
+      <a href="/estimate/" class="mobile-quote">Request a quote</a>
+    </div>
+  </details>
 </nav>
+<main id="main-content" tabindex="-1">
 
 <!-- ════════════════════════════════════════════
      2. HERO
@@ -1383,7 +1399,7 @@
 
         <div class="hero-ctas">
           <a href="/estimate/" class="btn-primary" data-cta-source="hero_primary">
-            Get My Instant Estimate
+            Request My Quote
           </a>
           <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="hero-cta-alt">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1392,6 +1408,20 @@
             Or text a photo to 423-390-9954
           </a>
         </div>
+
+<figure class="photo-frame hero-project">
+     <button class="photo-zoom" type="button">
+      <picture>
+        <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.webp 1600w" sizes="(max-width: 660px) 100vw, 520px">
+        <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg"
+             srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg 1600w"
+             sizes="(max-width: 660px) 100vw, 520px"
+             alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN"
+             width="1600" height="1200" loading="eager" fetchpriority="high">
+      </picture>
+     </button>
+    <figcaption>Bed maintenance · Kingsport, TN. <a href="#work">See more of our work</a></figcaption>
+    </figure>
 
         <div class="hero-proof" aria-label="Included on every visit">
           <span class="hero-proof-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mowed</span>
@@ -1494,23 +1524,6 @@
   </div>
 </section>
 
-<!-- ── Hero photo · real job (eager / fetchpriority - primary hero image) ── -->
-<section class="media-band" aria-label="Recent landscaping work in Kingsport, TN">
-  <div class="wrap">
-    <figure class="photo-frame">
-     <button class="photo-zoom" type="button">
-      <picture>
-        <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.webp 1600w" sizes="(max-width: 1040px) 100vw, 1040px">
-        <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg"
-             srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg 1600w"
-             sizes="(max-width: 1040px) 100vw, 1040px"
-             alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN"
-             width="1600" height="1200" loading="eager" fetchpriority="high">
-      </picture>
-     </button>
-    </figure>
-  </div>
-</section>
 
 <div class="rule"></div>
 
@@ -1773,9 +1786,9 @@
     <div class="cta-repeat">
       <a href="/estimate/" class="btn-sms" data-cta-source="pricing_section">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
-        Get My Instant Estimate
+        Request My Quote
       </a>
-      <span class="cta-repeat-note">Your range on screen in about a minute. Free, no obligation.</span>
+      <span class="cta-repeat-note">Tell us what you need. Free quote, no obligation.</span>
     </div>
   </div>
 </section>
@@ -1861,22 +1874,22 @@
 
       <div class="price-card">
         <div class="price-card-label">Option 2</div>
-        <div class="price-card-name">Cleanup + Spring Reservation</div>
-        <div class="price-amount">$75</div>
-        <div class="price-desc">Holds your spot on the spring 2027 route. The $75 is credited in full to your first spring visit, and your quoted rate is locked through June 2027.</div>
+        <div class="price-card-name">Planning for Spring</div>
+        <div class="price-amount quote">Let’s talk</div>
+        <div class="price-desc">Thinking ahead to spring 2027? Share your address and the service you need. We’ll discuss route fit, scope and availability before confirming a quote or schedule.</div>
       </div>
 
       <div class="price-card">
         <div class="price-card-label">Option 3</div>
         <div class="price-card-name">Cleanup + Maintenance</div>
         <div class="price-amount quote">Flat per-visit</div>
-        <div class="price-desc">Straight onto the recurring route — biweekly or weekly through season's end, auto-resuming in spring, at your flat per-visit rate.</div>
+        <div class="price-desc">Ask about weekly or biweekly care after your cleanup. We confirm the service plan, price and start date with you, including any plans to resume in spring.</div>
       </div>
 
     </div>
 
     <div class="pricing-note">
-      When spring hits and everyone calls at once, you're already on the schedule. Reservation and rate protection are confirmed in writing with your cleanup quote.
+      Interested in spring service? <a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20to%20ask%20about%20spring%20service.">Ask about spring service</a>. An inquiry does not reserve a route spot; pricing and scheduling are confirmed separately.
     </div>
 
     <div class="section-hd" style="margin-top:44px">
@@ -1895,13 +1908,13 @@
     </ul>
 
     <div class="pricing-note">
-      Every winter customer can hold a spring 2027 spot for $75, credited to the first spring visit, rate locked through June 2027.
+      Planning winter work and spring care together? Mention both when you contact us so we can discuss the work and timing. Existing written customer agreements remain in effect.
     </div>
 
     <div class="cta-repeat">
       <a href="/estimate/" class="btn-sms" data-cta-source="fall_section">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
-        Get My Instant Estimate
+        Request My Quote
       </a>
       <span class="cta-repeat-note">Or text photos to 423-390-9954 — fast quote, typically the same day.</span>
     </div>
@@ -2204,7 +2217,8 @@
 <!-- ════════════════════════════════════════════
      9. FOOTER
 ════════════════════════════════════════════ -->
-<footer>
+</main>
+<footer id="areas">
   <div class="wrap">
     <div class="footer-row">
       <div>
@@ -2256,7 +2270,7 @@
 
 <!-- ── Sticky mobile CTA (mobile/tablet only; hidden ≥768px) ───── -->
 <div class="mg-sticky-cta">
-  <a href="/estimate/" data-cta-source="sticky_mobile">Get My Instant Estimate</a>
+  <a href="/estimate/" data-cta-source="sticky_mobile">Request My Quote</a>
 </div>
 
 <!-- ════════════════════════════════════════════
@@ -2363,6 +2377,16 @@
     var form = cfg.form;
     if (!form) return;
     fillMeta(form);
+    var validation = document.createElement('p');
+    validation.className = 'field-validation';
+    validation.id = form.id + 'Validation';
+    validation.setAttribute('role','alert');
+    validation.tabIndex = -1;
+    validation.hidden = true;
+    cfg.submitBtn.before(validation);
+    ['phone','email'].forEach(function(name){
+      if(form.elements[name]) form.elements[name].setAttribute('aria-describedby',validation.id);
+    });
     var submitting = false;
     var stages = window.MG_FORM_METRICS && window.MG_FORM_METRICS.bind(form, cfg.formLocation);
 
@@ -2389,20 +2413,25 @@
         return;
       }
 
-      // Required: phone only (the one field that makes a lead reachable).
-      // Scroll the first empty field into view and focus it. novalidate is
-      // on so we control the UX here.
-      var required = ['phone'];
-      for (var i = 0; i < required.length; i++) {
-        var el = form.elements[required[i]];
-        if (!el || !el.value.trim()) {
-          track('lead_submit_invalid', { missing: required[i], form_location: cfg.formLocation });
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            setTimeout(function () { el.focus(); }, 320);
-          }
-          return;
+      var phoneField = form.elements.phone;
+      var emailField = form.elements.email;
+      var phoneInvalid = !phoneField || phoneField.value.replace(/\D/g, '').length < 10;
+      var emailInvalid = emailField && !emailField.validity.valid;
+      if(phoneField) phoneField.setAttribute('aria-invalid', String(phoneInvalid));
+      if(emailField) emailField.setAttribute('aria-invalid', String(!!emailInvalid));
+      validation.hidden = !(phoneInvalid || emailInvalid);
+      if(phoneInvalid || emailInvalid){
+        validation.textContent = phoneInvalid
+          ? 'Please enter a phone number with at least 10 digits.'
+          : 'Please enter a valid email address, or leave email blank.';
+        track('lead_submit_invalid', { missing:phoneInvalid?'phone':'email', form_location:cfg.formLocation });
+        if(lastPointerType === 'touch' || lastPointerType === 'pen'){
+          validation.focus({preventScroll:true});
+          validation.scrollIntoView({block:'nearest'});
+        }else{
+          (phoneInvalid ? phoneField : emailField).focus();
         }
+        return;
       }
 
       var ts = form.querySelector('[name="submitted_at"]');
@@ -2649,7 +2678,7 @@
    mix in highest demand and most profitable for the current season. Date-driven
    today; SEASONS is the single place to tune copy or later wire in live demand /
    margin signals. Each season leads with its highest-value action:
-     winter → lock in spring recurring routes + dormant-season brush (big-ticket)
+     winter → discuss spring recurring routes + dormant-season brush
      spring → spring cleanups (big-ticket) + recurring signups
      summer → recurring routes (best lifetime value) + full service over basic
      fall   → leaf removal / fall cleanups (high-ticket) + recurring */

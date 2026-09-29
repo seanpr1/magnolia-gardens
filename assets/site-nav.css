@@ -1,0 +1,19 @@
+/* Shared, progressively enhanced navigation for the existing static pages. */
+.skip-link{position:fixed;top:8px;left:8px;z-index:1000;padding:12px 18px;background:#005343;color:#fff;transform:translateY(-150%)}
+.skip-link:focus{transform:none}
+#main-content{scroll-margin-top:90px}
+.mobile-nav{display:none}
+.mobile-nav summary{cursor:pointer;min-height:44px;padding:12px 16px;border:1px solid #005343;border-radius:2px;font-size:16px;color:#005343;background:#FAF6EA}
+.mobile-nav summary:focus-visible,.mobile-nav a:focus-visible{outline:3px solid #005343;outline-offset:3px}
+.mobile-nav-panel{position:absolute;top:100%;left:0;right:0;padding:12px 20px 20px;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;background:#FAF6EA;border-bottom:1px solid #D6CFC0;box-shadow:0 12px 18px #0002;max-height:calc(100dvh - 78px);overflow:auto}
+.mobile-nav-panel a{display:flex;align-items:center;min-height:44px;padding:10px 12px;font-size:16px;line-height:1.4;text-decoration:none;color:#005343}
+.mobile-nav-panel .mobile-quote{background:#005343;color:#fff;grid-column:1/-1;justify-content:center;margin-top:8px}
+.field-validation{color:#8b3028;font-size:15px;margin:12px 0;line-height:1.5}
+.field-validation[hidden]{display:none}
+.field-validation:focus{outline:2px solid #005343;outline-offset:4px}
+input[aria-invalid="true"]{border-color:#8b3028}
+.hero-project{margin:24px 0 18px}
+.hero-project figcaption{font-size:14px;line-height:1.5;padding:10px 12px;background:#FAF6EA;color:#514B40}
+.hero-project figcaption a{color:#005343;margin-left:8px}
+@media(max-width:1040px){nav .nav-links{display:none}.mobile-nav{display:block}}
+@media(max-width:360px){.mobile-nav summary{padding:10px}.mobile-nav-panel{grid-template-columns:1fr}}

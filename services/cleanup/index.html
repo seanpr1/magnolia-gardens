@@ -881,13 +881,16 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <script src="/assets/form-metrics.js?v=2"></script>
+<link rel="stylesheet" href="/assets/site-nav.css?v=20260928">
+<script src="/assets/site-nav.js?v=20260928" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ════════════════════════════════════════════
      NAV
 ════════════════════════════════════════════ -->
-<nav>
+<nav aria-label="Main navigation">
   <a href="/" class="nav-logo" aria-label="Magnolia Gardens Landscaping - home">
     <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
   </a>
@@ -899,7 +902,20 @@
     <a href="/#faq"         class="nav-link">FAQ</a>
     <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
   </div>
+  <details class="mobile-nav">
+    <summary>Menu</summary>
+    <div class="mobile-nav-panel">
+      <a href="/#services">Services</a>
+      <a href="/#work">Our work</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#areas">Service areas</a>
+      <a href="/#faq">Questions</a>
+      <a href="tel:4233909954">Call Magnolia</a>
+      <a href="/estimate/" class="mobile-quote">Request a quote</a>
+    </div>
+  </details>
 </nav>
+<main id="main-content" tabindex="-1">
 
 <!-- ════════════════════════════════════════════
      HERO
@@ -914,7 +930,7 @@
     <div class="hero-ctas">
       <a href="/estimate/?service=cleanup" class="btn-sms" data-cta-source="hero">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
-        Get My Instant Estimate
+        Request My Cleanup Quote
       </a>
       <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -973,7 +989,7 @@
   <div class="wrap">
     <h2>Pricing and quotes</h2>
     <p class="pricing-note">Cleanups are quoted by size and condition, with a $50 minimum. Send a few photos of the yard to 423-390-9954 and we'll come back with a clear number before anything is scheduled.</p>
-    <p class="pricing-note">Book a fall cleanup and you can hold a spot on the spring 2027 route for $75, credited in full to your first spring visit, with your quoted rate locked through June 2027. Reservation and rate protection are confirmed in writing with your cleanup quote.</p>
+    <p class="pricing-note">Interested in spring service after your cleanup? Tell us your address and what you need. We’ll discuss route fit, pricing and availability before confirming a schedule. Existing written customer agreements remain in effect.</p>
   </div>
 </section>
 
@@ -1020,7 +1036,7 @@
 
       <div class="faq-item">
         <h3 class="faq-q">How is cleanup priced?</h3>
-        <div class="faq-a"><p>Cleanups are quoted by size and condition, with a $50 minimum. Want a ballpark first? <a href="/estimate/?service=cleanup">The instant estimate</a> shows your one-time range in about a minute. For the committed number, text us at 423-390-9954 — a photo or two speeds it up.</p></div>
+        <div class="faq-a"><p>Cleanups are quoted by the work area, condition, access and disposal needs, with a $50 minimum. <a href="/estimate/?service=cleanup">Describe your cleanup</a> and optionally text photos to 423-390-9954. We confirm the scope and price after reviewing the work; an assessment may be needed.</p></div>
       </div>
 
     </div>
@@ -1059,6 +1075,7 @@
 <!-- ════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════ -->
+</main>
 <footer>
   <div class="wrap">
     <div class="footer-row">
@@ -1253,7 +1270,7 @@
       "name": "How is cleanup priced?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Cleanups are quoted by size and condition, with a $50 minimum. Want a ballpark first? The instant estimate shows your one-time range in about a minute. For the committed number, text us at 423-390-9954 — a photo or two speeds it up."
+        "text": "Cleanups are quoted by the work area, condition, access and disposal needs, with a $50 minimum. Describe your cleanup and optionally text photos to 423-390-9954. We confirm the scope and price after reviewing the work; an assessment may be needed."
       }
     }
   ]
