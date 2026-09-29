@@ -39,6 +39,8 @@ Netlify reads `netlify.toml`, runs `npm run build`, and publishes **only `dist/`
 
 The build finishes rendering and validation in a temporary directory before replacing `dist/`. A failed build preserves the last successful output; do not mistake that older preview for a passing build.
 
-Production is hosted on Cloudflare Pages. Its currently recorded legacy build settings require a separately authorized update before release: build with `npm run build` and publish `dist/`. See the release record; do not merge raw templates into the production branch before that prerequisite is complete.
+Production is hosted on Cloudflare Pages. On September 29, 2026, Sean authorized the build-setting fix and a PR #6 preview retry. The project settings were applied and read back: build command `npm run build`, output `dist`, and an empty root directory (repository root). The existing `.nvmrc` selects Node 24.19.0. The Cloudflare preview built and deployed successfully; its revision marker, five critical pages and 16 referenced assets were verified. See the [release record](docs/RELEASE.md).
+
+These build settings apply project-wide. Current production `main` still lacks `package.json` and the new build script, so do not rebuild that old revision with these settings. The production deployment remains unchanged; this authorization does not include merging or releasing the draft.
 
 A successful PR preview does not change production. After an authorized release, verify `/version.json` against the hosting deployment and check critical page contents, then update the release record.

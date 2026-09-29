@@ -53,7 +53,9 @@ See [verification evidence](VERIFICATION.md) for event definitions, delivery obs
 - `sitemap.xml`, `robots.txt`, `llms.txt`, and `CNAME` remain explicit public source files.
 - `scripts/build.cjs` resolves shared values, copies a public allowlist to `dist/`, creates runtime config/version metadata, and hashes local asset URLs. New top-level public directories must be deliberately added to the allowlist.
 - `scripts/site_check.py` checks `dist/` by default; `SITE_ROOT` or `--root` can override it. Dependency, scratch and generated directories are excluded from source-mode scans. `npm test` supplies the rendered root to all checks.
-- `netlify.toml` selects the draft-preview build command and `dist/` folder. `wrangler.jsonc` restricts Cloudflare Pages output to `dist/` while preserving the verified compatibility date. `.github/workflows/site-check.yml` owns CI and scheduled seasonal verification. Production Cloudflare build-command setup remains a release prerequisite, tracked separately.
+- `netlify.toml` selects the Netlify draft-preview build command and `dist/` folder. `wrangler.jsonc` restricts Cloudflare Pages output to `dist/` while preserving the verified compatibility date. Cloudflare project settings were authorized, applied and read back on September 29, 2026: `npm run build`, output `dist`, empty root directory. The existing `.nvmrc` selects Node 24.19.0. The PR #6 preview built, deployed and passed the served-content checks recorded in [the release record](RELEASE.md). That record also defines authorization boundaries. `.github/workflows/site-check.yml` owns CI and scheduled seasonal verification.
+
+Cloudflare's build settings apply project-wide. Current production `main` predates this build system and lacks `package.json` and the new build script. Do not rebuild that old revision with the new settings. The setting fix and preview retry do not authorize a merge or production release.
 
 The build is deterministic for identical source, configuration and hosting metadata. `version.json` records the commit's date, not a fabricated release time. Release verification date is recorded separately in `docs/RELEASE.md`.
 
