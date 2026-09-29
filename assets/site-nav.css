@@ -15,5 +15,17 @@ input[aria-invalid="true"]{border-color:#8b3028}
 .hero-project{margin:24px 0 18px}
 .hero-project figcaption{font-size:14px;line-height:1.5;padding:10px 12px;background:#FAF6EA;color:#514B40}
 .hero-project figcaption a{color:#005343;margin-left:8px}
+.optional-details{margin:10px 0 16px}
+.optional-details summary{cursor:pointer;font-size:15px;color:#005343;padding:10px 0;min-height:44px;letter-spacing:normal;text-transform:none}
+.optional-details summary span{color:#5C574E}
+.optional-details summary:focus-visible{outline:2px solid #005343;outline-offset:3px}
+.optional-fields{padding-top:14px;display:grid;gap:14px}
+.optional-fields input,.optional-fields select,.optional-fields textarea{width:100%;font:16px/1.5 Inter,system-ui,sans-serif;padding:12px;border:1px solid #BBB5A8;border-radius:3px;background:#FAF6EA;color:#2A2823}
+.optional-fields label{display:block;font-size:14px;margin-bottom:6px}
+.optional-fields .detail-help{font-size:14px;line-height:1.5;color:#5C574E}
+.quick-contact{display:flex;align-items:center;justify-content:center;gap:12px;font-size:14px;margin-top:12px}
+.quick-contact a{min-height:44px;display:inline-flex;align-items:center;color:#005343}
+#heroIntakeForm{scroll-margin-top:90px}
+#intakeSubmit{width:100%;justify-content:center}
 @media(max-width:1040px){nav .nav-links{display:none}.mobile-nav{display:block}}
 @media(max-width:360px){.mobile-nav summary{padding:10px}.mobile-nav-panel{grid-template-columns:1fr}}

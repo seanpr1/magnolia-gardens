@@ -16,3 +16,9 @@
     if(event.matches) menu.open = false;
   });
 })();
+
+// Apple's Messages app uses an ampersand before the body parameter.
+(function(){
+  var apple=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  if(apple)document.querySelectorAll('a[href^="sms:"]').forEach(function(a){a.href=a.href.replace('?body=','&body=');});
+})();

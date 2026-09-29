@@ -1133,7 +1133,6 @@
     } catch (e) {}
   }
 
-  var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   function getCtaLocation(el) {
     if (el.id === 'float-sms' || el.id === 'float-call-mob') return 'floating';
@@ -1144,16 +1143,11 @@
     return 'other';
   }
 
-  /* SMS links: track + (desktop) route to the home page intake form so
-     desktop visitors never hit a dead end. Touch devices fire native sms:. */
+  /* Keep text links native, including desktops with a messaging app. */
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
     a.setAttribute('target', '_blank');
     a.addEventListener('click', function (e) {
       track('click_to_text', { location: getCtaLocation(a) });
-      if (isDesktop) {
-        e.preventDefault();
-        window.location.href = '/#estimate';
-      }
     });
   });
 

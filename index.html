@@ -500,7 +500,7 @@
     .hero-trust-call:hover { color: var(--body); }
 
     /* Single dominant primary action - forest-green, used in the hero and
-       repeated by the sticky mobile bar. One label everywhere: Get My Free Estimate. */
+       repeated by the sticky mobile bar. One label everywhere: Request My Quote. */
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: center; gap: 9px;
       padding: 15px 30px; min-height: 48px;
@@ -549,7 +549,7 @@
 
     /* ── HERO QUOTE FORM (above-the-fold lead capture) ───────────
        Two columns: brand copy + SMS path on the left, a compact
-       "Get a Free Estimate" form on the right. Collapses to one
+       "Request a Free Quote" form on the right. Collapses to one
        stacked column on phones - copy first, then the form card. */
     .hero-grid {
       display: grid;
@@ -563,6 +563,7 @@
     }
 
     .hero-quote {
+      align-self: start;
       background: var(--surface);
       border: 1px solid var(--edge);
       border-radius: var(--r);
@@ -1371,7 +1372,7 @@
       <a href="/#areas">Service areas</a>
       <a href="/#faq">Questions</a>
       <a href="tel:4233909954">Call Magnolia</a>
-      <a href="/estimate/" class="mobile-quote">Request a quote</a>
+      <a href="#heroIntakeForm" class="mobile-quote cta-jump">Request a quote</a>
     </div>
   </details>
 </nav>
@@ -1398,7 +1399,7 @@
         </p>
 
         <div class="hero-ctas">
-          <a href="/estimate/" class="btn-primary" data-cta-source="hero_primary">
+          <a href="#heroIntakeForm" class="btn-primary cta-jump" data-cta-source="hero_primary">
             Request My Quote
           </a>
           <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="hero-cta-alt">
@@ -1436,32 +1437,22 @@
 
       <div class="hero-quote">
         <form id="heroIntakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
-          <div class="hero-quote-eye">About 30 seconds</div>
-          <div class="hero-quote-h" role="heading" aria-level="2">Get a Free Estimate</div>
-          <p class="hero-quote-sub">Send a few details to request a quote. You can also text us photos of your yard.</p>
+          <div class="hero-quote-eye">Quick request</div>
+          <div class="hero-quote-h" role="heading" aria-level="2">Request a Free Quote</div>
+          <p class="hero-quote-sub">Just your phone number to get started. Add details only if you want to.</p>
 
-          <div class="intake-fields">
-            <div class="intake-field">
-              <label for="hf2-phone">Phone</label>
-              <input type="tel" id="hf2-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123">
-            </div>
-            <div class="intake-field">
-              <label for="hf2-email">Email <span class="intake-field-opt">Optional.</span></label>
-              <input type="email" id="hf2-email" name="email" autocomplete="email" placeholder="you@email.com">
-            </div>
-            <div class="intake-field">
-              <label for="hf2-name">Name <span class="intake-field-opt">Optional.</span></label>
-              <input type="text" id="hf2-name" name="name" autocomplete="name" placeholder="First name is fine">
-            </div>
-            <div class="intake-field">
-              <label for="hf2-zip">ZIP <span class="intake-field-opt">Optional.</span></label>
-              <input type="text" id="hf2-zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="37664">
-            </div>
-            <div class="intake-field">
-              <label for="hf2-message">What can we take off your list? <span class="intake-field-opt">Optional.</span></label>
-              <textarea id="hf2-message" name="message" rows="3" placeholder="Mow, cleanup, mulch, a photo texted to 423-390-9954&hellip;"></textarea>
-            </div>
-          </div>
+          <div class="intake-field"><label for="hf2-phone">Phone number</label><input type="tel" id="hf2-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+<details class="optional-details">
+  <summary>Add details <span>(optional)</span></summary>
+  <div class="optional-fields">
+    <div class="intake-field"><label for="hf2-service">What do you need?</label><select id="hf2-service" name="service"><option value="">Not sure yet</option><option value="mowing">Mowing</option><option value="maintenance">Ongoing property care</option><option value="cleanup">Cleanup</option><option value="mulch">Mulch &amp; beds</option><option value="brush">Brush &amp; overgrowth</option><option value="other">Something else</option></select></div>
+    <div class="intake-field"><label for="hf2-message">Tell us about the work</label><textarea id="hf2-message" name="message" rows="3" maxlength="2000" placeholder="Share as much or as little as you like."></textarea></div>
+    <div class="intake-field"><label for="hf2-name">Name</label><input id="hf2-name" name="name" autocomplete="name" placeholder="First name is fine"></div>
+    <div class="intake-field"><label for="hf2-address">Address or ZIP</label><input id="hf2-address" name="address" autocomplete="street-address" placeholder="An address or ZIP is helpful, if handy."></div>
+    <div class="intake-field"><label for="hf2-email">Email</label><input type="email" id="hf2-email" name="email" autocomplete="email" placeholder="you@email.com"></div>
+    <p class="detail-help">Everything here is optional. Have photos? You can <a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
+  </div>
+</details>
 
           <!-- UTM + meta + Formspree config. No id attributes here on purpose:
                the shared JS populates these by name, scoped to this form, so
@@ -1483,7 +1474,7 @@
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
           </label>
 
-          <button type="submit" class="intake-submit" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Get My Free Estimate</button>
+          <button type="submit" class="intake-submit" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Request My Quote</button><p class="quick-contact"><a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="tel:4233909954">Call 423-390-9954</a></p>
 
           <div class="hero-offer">
             <p class="hero-offer-line">
@@ -1679,7 +1670,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
-        Get a Free Estimate
+        Request a Free Quote
       </button>
       <span class="cta-repeat-note">Free, no obligation. Most quotes the same day.</span>
     </div>
@@ -1784,7 +1775,7 @@
     </div>
 
     <div class="cta-repeat">
-      <a href="/estimate/" class="btn-sms" data-cta-source="pricing_section">
+      <a href="#heroIntakeForm" class="btn-sms cta-jump" data-cta-source="pricing_section">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
         Request My Quote
       </a>
@@ -1837,7 +1828,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
-        Get a Free Estimate
+        Request a Free Quote
       </button>
       <span class="cta-repeat-note">Free quote, usually the same day.</span>
     </div>
@@ -1912,7 +1903,7 @@
     </div>
 
     <div class="cta-repeat">
-      <a href="/estimate/" class="btn-sms" data-cta-source="fall_section">
+      <a href="#heroIntakeForm" class="btn-sms cta-jump" data-cta-source="fall_section">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
         Request My Quote
       </a>
@@ -1930,14 +1921,14 @@
   <div class="wrap">
     <div class="section-hd">
       <div class="eyebrow">Get a quote</div>
-      <h2>Fill this in once. We come back with <em>a real quote</em>.</h2>
-      <p class="section-sub">Tell us what you need and how to reach you to request a quote.</p>
+      <h2>A free quote starts with <em>your number</em>.</h2>
+      <p class="section-sub">Leave your number, or add details if you already know what you need.</p>
     </div>
 
     <div class="est-wrap">
       <div class="est-toggle open" id="estToggle" role="button" aria-expanded="true" tabindex="0">
         <div>
-          <div class="est-toggle-label">About 60 seconds</div>
+          <div class="est-toggle-label">Quick request</div>
           <div class="est-toggle-title">Request a quote</div>
         </div>
         <svg class="est-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1949,28 +1940,18 @@
 
         <form id="intakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
 
-          <div class="intake-fields" style="margin-top:0;">
-            <div class="intake-field">
-              <label for="if-phone">Phone</label>
-              <input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123">
-            </div>
-            <div class="intake-field">
-              <label for="if-email">Email <span class="intake-field-opt">Optional.</span></label>
-              <input type="email" id="if-email" name="email" autocomplete="email" placeholder="you@email.com">
-            </div>
-            <div class="intake-field">
-              <label for="if-name">Name <span class="intake-field-opt">Optional.</span></label>
-              <input type="text" id="if-name" name="name" autocomplete="name" placeholder="First name is fine">
-            </div>
-            <div class="intake-field">
-              <label for="if-zip">ZIP <span class="intake-field-opt">Optional.</span></label>
-              <input type="text" id="if-zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="37664">
-            </div>
-            <div class="intake-field">
-              <label for="if-message">What can we take off your list? <span class="intake-field-opt">Optional.</span></label>
-              <textarea id="if-message" name="message" rows="3" placeholder="Mow, cleanup, mulch, a photo texted to 423-390-9954&hellip;"></textarea>
-            </div>
-          </div>
+          <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+<details class="optional-details">
+  <summary>Add details <span>(optional)</span></summary>
+  <div class="optional-fields">
+    <div class="intake-field"><label for="if-service">What do you need?</label><select id="if-service" name="service"><option value="">Not sure yet</option><option value="mowing">Mowing</option><option value="maintenance">Ongoing property care</option><option value="cleanup">Cleanup</option><option value="mulch">Mulch &amp; beds</option><option value="brush">Brush &amp; overgrowth</option><option value="other">Something else</option></select></div>
+    <div class="intake-field"><label for="if-message">Tell us about the work</label><textarea id="if-message" name="message" rows="3" maxlength="2000" placeholder="Share as much or as little as you like."></textarea></div>
+    <div class="intake-field"><label for="if-name">Name</label><input id="if-name" name="name" autocomplete="name" placeholder="First name is fine"></div>
+    <div class="intake-field"><label for="if-address">Address or ZIP</label><input id="if-address" name="address" autocomplete="street-address" placeholder="An address or ZIP is helpful, if handy."></div>
+    <div class="intake-field"><label for="if-email">Email</label><input type="email" id="if-email" name="email" autocomplete="email" placeholder="you@email.com"></div>
+    <p class="detail-help">Everything here is optional. Have photos? You can <a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
+  </div>
+</details>
 
           <!-- UTM + meta + Formspree config -->
           <input type="hidden" name="utm_source" id="utm_source" value="">
@@ -1990,8 +1971,8 @@
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
           </label>
 
-          <div class="intake-step-actions" style="justify-content:flex-end; margin-top:28px;">
-            <button type="submit" class="intake-submit" id="intakeSubmit">Send to Magnolia Gardens</button>
+          <div class="intake-step-actions" style="display:block; margin-top:18px;">
+            <button type="submit" class="intake-submit" id="intakeSubmit">Request My Quote</button><p class="quick-contact"><a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="tel:4233909954">Call 423-390-9954</a></p>
           </div>
           <p style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.04em;color:var(--muted);text-align:right;margin-top:12px;line-height:1.6;">No obligation &middot; No spam &middot; Text or call if you prefer.</p>
 
@@ -2270,7 +2251,7 @@
 
 <!-- ── Sticky mobile CTA (mobile/tablet only; hidden ≥768px) ───── -->
 <div class="mg-sticky-cta">
-  <a href="/estimate/" data-cta-source="sticky_mobile">Request My Quote</a>
+  <a href="#heroIntakeForm" class="cta-jump" data-cta-source="sticky_mobile">Request My Quote</a>
 </div>
 
 <!-- ════════════════════════════════════════════
@@ -2292,7 +2273,6 @@
   }
 
   /* ── Helpers ─────────────────────────────── */
-  var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var lastPointerType = '';
   document.addEventListener('pointerdown', function (event) { lastPointerType = event.pointerType; }, true);
   document.addEventListener('keydown', function () { lastPointerType = ''; }, true);
@@ -2334,7 +2314,7 @@
   var PRIMARY_ZIPS = ['37660', '37663', '37664', '37665'];   // Kingsport
   var ROUTED_ZIPS  = ['37620', '37625'];                      // Bristol TN route days
   function serviceArea(form) {
-    var el = form.elements.zip;
+    var el = form.elements.zip || form.elements.address;
     var z  = ((el && el.value) || '').trim();
     if (!/^\d{5}$/.test(z)) return 'unset';
     if (PRIMARY_ZIPS.indexOf(z) >= 0) return 'primary';
@@ -2417,6 +2397,7 @@
       var emailField = form.elements.email;
       var phoneInvalid = !phoneField || phoneField.value.replace(/\D/g, '').length < 10;
       var emailInvalid = emailField && !emailField.validity.valid;
+      if(emailInvalid){ var detailPanel=emailField.closest('details'); if(detailPanel) detailPanel.open=true; }
       if(phoneField) phoneField.setAttribute('aria-invalid', String(phoneInvalid));
       if(emailField) emailField.setAttribute('aria-invalid', String(!!emailInvalid));
       validation.hidden = !(phoneInvalid || emailInvalid);
@@ -2595,25 +2576,11 @@
     leadProps: function () { return commonLeadProps(heroForm); }
   });
 
-  /* ── SMS links: target="_blank" + desktop intercept ─────────────
-     On touch devices the sms: URI fires the native messaging app.
-     On desktop sms: typically does nothing, so we intercept and open
-     the intake form instead. target="_blank" prevents a failed sms:
-     from blanking the current tab on any device. */
-  function openForm(source) {
-    setToggleOpen(true, source);
-    var estimateEl = document.getElementById('estimate');
-    if (estimateEl) estimateEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
+  /* Keep text links native, including desktops with a messaging app. */
   document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
     a.setAttribute('target', '_blank');
     a.addEventListener('click', function (e) {
       track('click_to_text', { location: getCtaLocation(a) });
-      if (isDesktop) {
-        e.preventDefault();
-        openForm('sms_desktop');
-      }
     });
   });
 
@@ -2635,7 +2602,7 @@
     });
   });
 
-  /* ── Repeated "Get a Free Estimate" CTAs → hero quick form ── */
+  /* ── Repeated "Request a Free Quote" CTAs → hero quick form ── */
   document.querySelectorAll('.cta-jump').forEach(function (b) {
     b.addEventListener('click', function (e) {
       e.preventDefault();

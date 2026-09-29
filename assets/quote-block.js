@@ -4,14 +4,13 @@
      <script src="/assets/quote-block.js" data-service="mowing" defer></script>
      <script src="/assets/quote-block.js" data-area="Kingsport" defer></script>
 
-   renders, directly above the script tag, a phone-only capture form plus a
-   "see a price range first" link into /estimate/. Phone alone is required —
+   renders, directly above the script tag, a phone-only capture form plus an
+   optional detail section. Phone alone is required —
    the default path stays maximum-ease (handoff §2); the estimator is offered
    alongside, never imposed. If JS fails the page's existing raw-HTML sms:/tel:
    buttons still work, untouched.
 
-   Price strings come from /assets/pricing.js (loaded on demand) so a price
-   change never means editing this file or any page. */
+   Contact destinations come from /assets/pricing.js (loaded on demand). */
 (function(){
   "use strict";
   var mount = document.currentScript;
@@ -41,7 +40,6 @@
     }catch(e){}
   }
 
-  var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* What the visitor is asking about, for the SMS prefill + Formspree subject. */
   var TOPIC = {
@@ -50,19 +48,10 @@
   };
   var topic = TOPIC[service] || 'lawn care';
 
-  /* Recurring services open an estimate; projects open a scope-based request. */
+  /* Every primary service link opens the same quick request. */
   var EST_KEYS = { mowing:1, maintenance:1, cleanup:1, mulch:1, brush:1 };
   var isProject = ['cleanup','mulch','brush'].indexOf(service) >= 0;
   var estHref = '/estimate/' + (EST_KEYS[service] ? '?service=' + service : '');
-
-  function priceLine(P){
-    if (service === 'mowing' || service === 'maintenance' || area){
-      return 'Lawn care starts at a ' + P.PUBLISHED.minimumText + ' minimum — most visits run ' +
-        P.PUBLISHED.perVisitRange + ' per visit on a weekly schedule, by lot size and service level, with larger and estate properties quoted higher.';
-    }
-    // cleanup / mulch / brush: no published range yet — quoted from photos
-    return 'Quoted after reviewing the work, with a ' + P.PUBLISHED.minimumText + ' minimum. Photos help; an assessment may be needed.';
-  }
 
   var CSS = [
     '.mgqb{border:1px solid var(--edge,#D6CFC0);border-radius:var(--r,2px);background:var(--surface,#FAF6EA);',
@@ -104,20 +93,28 @@
     var box = document.createElement('div');
     box.className = 'mgqb';
     box.innerHTML =
-      '<div class="mgqb-eye">About 15 seconds</div>' +
+      '<div class="mgqb-eye">Quick request</div>' +
       '<h3 class="mgqb-h">Request a quote</h3>' +
-      '<p class="mgqb-sub">' + priceLine(P) + ' Leave your number to request a quote. You can also text us photos of your yard. Reply STOP anytime to opt out.</p>' +
+      '<p class="mgqb-sub">Leave your number. We’ll follow up about your yard.</p>' +
       '<form novalidate>' +
+        '<label for="mgqb-phone" style="display:block;font-size:15px;margin-bottom:6px">Phone number</label>' +
         '<div class="mgqb-row">' +
-          '<input type="tel" name="phone" inputmode="tel" autocomplete="tel" aria-label="Mobile number" placeholder="(423) 555-0123" required>' +
-          '<button type="submit">Request My Quote</button>' +
+          '<input id="mgqb-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" aria-describedby="mgqb-error" placeholder="(423) 555-0123" required>' +
         '</div>' +
+        '<details class="optional-details"><summary>Add details <span>(optional)</span></summary><div class="optional-fields">' +
+          '<label for="mgqb-notes">Tell us about the work<textarea id="mgqb-notes" name="message" rows="3" maxlength="2000" placeholder="Share as much or as little as you like."></textarea></label>' +
+          '<label for="mgqb-name">Name<input id="mgqb-name" name="name" autocomplete="name"></label>' +
+          '<label for="mgqb-address">Address or ZIP<input id="mgqb-address" name="address" autocomplete="street-address"></label>' +
+          '<label for="mgqb-email">Email<input id="mgqb-email" type="email" name="email" autocomplete="email" aria-describedby="mgqb-error"></label>' +
+          '<p class="detail-help">All details are optional. You can text photos after sending your request.</p>' +
+        '</div></details>' +
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
-        '<p class="mgqb-err">Add a mobile number so we can follow up about your request.</p>' +
+        '<p class="mgqb-err" id="mgqb-error" role="alert" tabindex="-1">Add a phone number so we can follow up about your request.</p>' +
+        '<button type="submit" style="width:100%">Request My Quote</button>' +
+        '<p class="mgqb-alt">No obligation. Reply STOP to opt out of texts.</p>' +
       '</form>' +
-      (isProject
-        ? '<p class="mgqb-alt"><a href="' + estHref + '">Describe your project for a quote</a>. Photos are optional.</p>'
-        : '<p class="mgqb-alt"><a href="' + estHref + '">' + (area ? 'Request a project quote or mowing estimate' : 'See a mowing planning estimate') + '</a>.</p>');
+      '<p class="quick-contact"><a href="'+smsHref()+'">Text us</a><span>or</span><a href="'+P.PUBLISHED.telHref+'">Call '+P.PUBLISHED.phoneDisplay+'</a></p>' +
+      (!isProject ? '<p class="mgqb-alt"><a href="/estimate/planning/">Explore a mowing price range</a></p>' : '');
     mount.parentNode.insertBefore(box, mount);
 
     var form = box.querySelector('form');
@@ -150,14 +147,13 @@
       track('estimator_entry', { source:'quote_block', page_path:pagePath, transport_type:'beacon' });
     });
 
-    /* sticky mobile CTA: service/area pages have no other above-the-fold path
-       to the estimator once the hero scrolls away. Brush stays on photo-text. */
+    /* Keep a quick request within reach after the hero scrolls away. */
     if (!document.getElementById('mgqb-sticky')){
       var bar = document.createElement('div');
       bar.id = 'mgqb-sticky';
       var sa = document.createElement('a');
       sa.href = estHref;
-      sa.textContent = isProject || area ? 'Request My Quote' : 'Get My Mowing Estimate';
+      sa.textContent = 'Request My Quote';
       sa.addEventListener('click', function(){ track('estimator_entry', { source:'sticky_mobile', page_path:pagePath, transport_type:'beacon' }); });
       bar.appendChild(sa);
       document.body.appendChild(bar);
@@ -172,15 +168,25 @@
       if (form.elements._gotcha && form.elements._gotcha.value){ showThanks(); return; }
 
       if (phone.value.replace(/\D/g,'').length < 10){
+        err.textContent = 'Please enter a phone number with at least 10 digits.';
+        phone.setAttribute('aria-invalid','true');
         err.classList.add('show');
         track('lead_submit_invalid', { missing:'phone', form_location:'quote_block' });
         phone.focus();
         return;
       }
+      phone.setAttribute('aria-invalid','false');
+      var email=form.elements.email;
+      if(!email.validity.valid){
+        form.querySelector('details').open=true;
+        err.textContent='Please enter a valid email address, or leave email blank.';
+        err.classList.add('show');email.setAttribute('aria-invalid','true');email.focus();return;
+      }
+      email.setAttribute('aria-invalid','false');
       err.classList.remove('show');
 
-      var fd = new FormData();
-      fd.append('phone', phone.value.trim());
+      var fd = new FormData(form);
+      fd.set('phone', phone.value.trim());
       fd.append('service', topic);
       fd.append('source', 'quote-block');
       fd.append('page_url', location.href);
@@ -221,7 +227,10 @@
     });
 
     function smsHref(){
-      return P.PUBLISHED.smsHref + '?body=' + encodeURIComponent('Hi, I’d like a quote for ' + topic + '.');
+      var apple=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+      var notes=form&&form.elements.message.value.trim();
+      var address=form&&form.elements.address.value.trim();
+      return P.PUBLISHED.smsHref + (apple?'&':'?') + 'body=' + encodeURIComponent('Hi, I’d like a quote for ' + topic + (address?' at '+address:'') + '.' + (notes?' '+notes:''));
     }
 
     function showThanks(){
@@ -249,13 +258,13 @@
       p.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
     }
 
-    /* injected links miss the page's global sms/tel handlers — wire our own */
+    /* Result links are added after the page's existing click handlers. */
     function wireLinks(scope){
       scope.querySelectorAll('[href^="sms:"]').forEach(function(a){
         a.setAttribute('target','_blank');
         a.addEventListener('click', function(ev){
           track('click_to_text', { location:'quote_block' });
-          if (isDesktop){ ev.preventDefault(); window.location.href = '/#estimate'; }
+          a.href = smsHref();
         });
       });
       scope.querySelectorAll('[href^="tel:"]').forEach(function(a){
