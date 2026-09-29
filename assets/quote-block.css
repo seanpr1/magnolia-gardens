@@ -1,0 +1,29 @@
+/* Shared service/area request form layout. Brand colors: brand.css. */
+.mgqb{border:1px solid var(--edge);border-radius:var(--r,2px);background:var(--surface);
+  padding:22px 20px;margin:18px 0 22px;max-width:560px}
+.mgqb-eye{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px}
+.mgqb-h{font-family:var(--serif,Georgia,serif);font-size:21px;font-weight:600;color:var(--bright);margin:0 0 6px}
+.mgqb-sub{font-size:14px;color:var(--muted);margin:0 0 14px;line-height:1.5}
+.mgqb-row{display:flex;gap:10px;flex-wrap:wrap}
+.mgqb input[type=tel]{flex:1 1 180px;font-size:16px;padding:12px 13px;border:1.5px solid var(--edge);
+  border-radius:var(--r,2px);background:#fff;color:var(--body);font-family:inherit}
+.mgqb input[type=tel]:focus{outline:none;border-color:var(--gold)}
+.mgqb button{min-height:44px;font-family:inherit;font-weight:600;font-size:15px;border:none;border-radius:var(--r,2px);
+  padding:12px 20px;cursor:pointer;background:var(--gold);color:var(--surface)}
+.mgqb button:hover{background:var(--gold-l)}
+.mgqb button[disabled]{opacity:.55;cursor:default}
+.mgqb-alt{font-size:14px;margin:12px 0 0}
+.mgqb-alt a{color:var(--gold)}
+.mgqb-err{color:#9a3b2f;font-size:13px;margin:8px 0 0;display:none}
+.mgqb-err.show{display:block}
+.mgqb-hp{position:absolute;left:-9999px}
+.mgqb-panel p{font-size:15px;color:var(--body);margin:0 0 10px;line-height:1.55}
+.mgqb-panel a{color:var(--gold)}
+#mgqb-sticky{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(250,246,234,.96);backdrop-filter:blur(10px);border-top:1px solid var(--edge)}
+#mgqb-sticky a{display:block;text-align:center;background:var(--gold);color:var(--surface);font-weight:600;
+  font-size:15px;padding:13px 20px;border-radius:var(--r,2px);text-decoration:none}
+#mgqb-sticky a:active{background:var(--gold-l)}
+.has-quick-request>.hero-ctas,.has-quick-request>.hero-ctas+p{display:none}
+@media(max-width:767px){body.mgqb-ready{padding-bottom:calc(90px + env(safe-area-inset-bottom))}.mgqb-ready #float-sms{display:none}}
+@media(min-width:768px){#mgqb-sticky{display:none}}

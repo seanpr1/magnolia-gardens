@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/assets/brand.css">
+  <link rel="stylesheet" href="/assets/form-ui.css">
+  <script src="/assets/site-config.js"></script>
+  <script src="/assets/campaign-context.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#005343" />
+  <meta name="theme-color" content="{{brand.primary}}" />
   <title>Request a Quote · Magnolia Gardens Landscaping</title>
   <meta name="description" content="Request a free lawn care or landscaping quote with just your phone number. Add details if you like, or call or text Magnolia Gardens in Kingsport, TN." />
   <link rel="canonical" href="https://magnoliagardenslandscaping.com/estimate/" />
@@ -18,58 +22,11 @@
        domain, so owner self-testing on Netlify staging / localhost / Electron
        previews never pollutes Clarity, GA4, or Cloudflare data. -->
   <script>
-    window.MG_ANALYTICS_OK = (
-      location.hostname === 'magnoliagardenslandscaping.com' ||
-      location.hostname === 'www.magnoliagardenslandscaping.com'
-    );
+    window.MG_ANALYTICS_OK = !!(window.MG_SITE_CONFIG && window.MG_SITE_CONFIG.analytics.productionHosts.includes(location.hostname));
   </script>
 
-  <!-- First-party error reporting. Clarity reports THAT a session had a JS
-       error, never what it was, so route errors to GA4 as exception events.
-       Installed above the third-party tags so it also catches their failures.
-       Capped at 5 per page so a loop can't flood the property; queued because
-       gtag is defined by the tag directly below this one. -->
-  <script>
-  (function () {
-    var sent = 0, queue = [];
-    function flush() {
-      if (!window.gtag) return;
-      while (queue.length) window.gtag('event', 'exception', queue.shift());
-    }
-    function report(desc, src, line, col) {
-      if (sent >= 5) return;
-      sent++;
-      queue.push({
-        description: String(desc || 'unknown').slice(0, 300),
-        // A bare "Script error." with no source is a cross-origin script -
-        // GA4, the Pixel, Clarity, or a browser extension. The browser hides
-        // the detail on purpose; knowing that much still narrows it down.
-        script: String(src || '(cross-origin or inline)').slice(0, 300),
-        line_col: (line || 0) + ':' + (col || 0),
-        page_path: location.pathname,
-        fatal: false
-      });
-      flush();
-    }
-    // Capture phase: resource load failures do not bubble, and a pricing.js or
-    // image that fails to load is exactly the kind of silent break worth seeing.
-    window.addEventListener('error', function (e) {
-      if (e.target && e.target !== window && e.target.tagName) {
-        // An element with an empty src resolves to the page URL and fires a
-        // load error; that is markup noise, not a broken asset. Skip it.
-        var url = e.target.src || e.target.href || '';
-        if (url && url !== location.href) report('resource failed: ' + e.target.tagName, url, 0, 0);
-      } else {
-        report(e.message, e.filename, e.lineno, e.colno);
-      }
-    }, true);
-    window.addEventListener('unhandledrejection', function (e) {
-      report('unhandledrejection: ' + ((e.reason && e.reason.message) || e.reason), '', 0, 0);
-    });
-    var t = setInterval(function () { if (window.gtag) { flush(); clearInterval(t); } }, 500);
-    setTimeout(function () { clearInterval(t); }, 10000);
-  })();
-  </script>
+  <!-- Diagnostics contain fixed reason codes only. -->
+  <script src="/assets/error-reporting.js"></script>
 
   <!-- Google tag (gtag.js) - GA4 property G-V93YBHW1PJ -->
   <script>
@@ -126,7 +83,8 @@
   </script>
 
   <link rel="stylesheet" href="/assets/request.css?v=20260929">
-  <script src="/assets/form-metrics.js?v=2"></script>
+  <script src="/assets/form-metrics.js"></script>
+<script src="/assets/form-core.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -136,7 +94,7 @@
 <h1>Get a free quote.</h1>
 <p class="intro">Leave your number. We’ll follow up about your yard.</p>
 <section class="request-card" aria-label="Quote request">
-<form id="quickRequest" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
+<form id="quickRequest" action="{{forms.formspree}}" method="POST">
 <div class="field"><label for="qr-phone">Phone number</label><input type="tel" id="qr-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
@@ -146,7 +104,7 @@
     <div class="field"><label for="qr-name">Name</label><input id="qr-name" name="name" autocomplete="name" placeholder="First name is fine"></div>
     <div class="field"><label for="qr-address">Address or ZIP</label><input id="qr-address" name="address" autocomplete="street-address" placeholder="An address or ZIP is helpful, if handy."></div>
     <div class="field"><label for="qr-email">Email</label><input type="email" id="qr-email" name="email" autocomplete="email" placeholder="you@email.com"></div>
-    <p class="detail-help">Everything here is optional. Have photos? You can <a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
+    <p class="detail-help">Everything here is optional. Have photos? You can <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
   </div>
 </details>
 <input type="hidden" name="source" value="instant-estimator">
@@ -162,7 +120,7 @@
 <p class="fine">No obligation. We’ll only use your number to follow up about your request. Reply STOP to opt out of texts.</p>
 </form>
 <div id="requestResult" class="result" tabindex="-1" role="status" hidden></div>
-<div class="contact-options"><a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote." data-contact="text">Text us</a><a href="tel:4233909954" data-contact="call">Call 423-390-9954</a></div>
+<div class="contact-options"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote." data-contact="text">Text us</a><a href="{{contact.telHref}}" data-contact="call">Call {{contact.phoneDisplay}}</a></div>
 </section>
 <p class="planner-link">Just exploring? <a href="/estimate/planning/">See a mowing price range</a>.</p>
 </main>

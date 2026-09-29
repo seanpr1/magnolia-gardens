@@ -1,0 +1,5 @@
+/* Shared failure recovery; private details stay in a masked read-only input. */
+.request-recovery{margin:18px 0;color:var(--body)}
+.request-recovery summary{cursor:pointer;min-height:44px;padding:10px 0;color:var(--gold);font:15px/1.5 var(--sans)}
+.request-recovery textarea{display:block;width:100%;min-height:180px;padding:12px;border:1px solid var(--edge);background:var(--surface);color:var(--body);font:16px/1.5 var(--sans)}
+.request-recovery summary:focus-visible,.request-recovery textarea:focus{outline:2px solid var(--gold);outline-offset:3px}

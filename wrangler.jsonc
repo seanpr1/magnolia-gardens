@@ -1,0 +1,7 @@
+{
+  // Public output only. Cloudflare must run npm run build before a release.
+  // With the legacy empty build command, absence of dist should stop a preview.
+  "name": "magnolia-gardens",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-07-19"
+}

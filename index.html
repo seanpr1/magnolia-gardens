@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/assets/brand.css">
+  <link rel="stylesheet" href="/assets/form-ui.css">
+  <script src="/assets/site-config.js"></script>
+  <script src="/assets/campaign-context.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Fall (Sep–Nov) title. Revert on Dec 1 to the year-round title:
        "Landscaping &amp; Lawn Care in Kingsport, TN | Magnolia Gardens"
@@ -10,7 +14,7 @@
 
   <!-- ── SEO / description ─────────────────────────────────────── -->
   <meta name="description" content="Kingsport and Tri-Cities, TN lawn care - fall cleanups, leaf removal, aeration and overseeding, mowing and mulch. See your price online in about a minute." />
-  <meta name="theme-color" content="#005343" />
+  <meta name="theme-color" content="{{brand.primary}}" />
   <meta name="geo.region" content="US-TN" />
   <meta name="geo.placename" content="Kingsport, Tennessee" />
   <meta name="geo.position" content="36.5081448;-82.5145476" />
@@ -50,8 +54,8 @@
     "description": "Locally owned residential landscaping and lawn care in Kingsport and the Tri-Cities, Tennessee. Mowing, trimming, edging, mulch and bed care, cleanup, brush and overgrowth control, and seasonal cleanups. Quotes by text, scheduled service, same-standard work every visit.",
     "slogan": "Take the lawn off your to-do list.",
     "url": "https://magnoliagardenslandscaping.com/",
-    "telephone": "+1-423-390-9954",
-    "email": "info@magnoliagardenslandscaping.com",
+    "telephone": "{{contact.phoneSchema}}",
+    "email": "{{contact.email}}",
     "priceRange": "$$",
     "paymentAccepted": "Cash, Check, Credit Card, Debit Card, Invoice",
     "geo": {
@@ -116,7 +120,7 @@
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+1-423-390-9954",
+      "telephone": "{{contact.phoneSchema}}",
       "contactType": "customer service",
       "areaServed": "US-TN",
       "availableLanguage": "English"
@@ -250,7 +254,7 @@
         "name": "How do I get started?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Text a few photos of your yard to 423-390-9954, or fill out the intake form above. We come back with a real quote, usually the same day, and schedule when you’re ready."
+          "text": "Text a few photos of your yard to {{contact.phoneDisplay}}, or fill out the intake form above. We come back with a real quote, usually the same day, and schedule when you’re ready."
         }
       }
     ]
@@ -263,55 +267,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      /* Magnolia Gardens palette - cream paper, forest-green ink, brass-gold accent.
-         Variable names retained from the prior dark theme for selector stability;
-         locked brand (June 2026): Forest Green #005343, Cream #F4ECD8, Brass Gold #C8A04A.
-         --gold = forest primary, --accent = brass (accent only, never a primary fill). */
-      --void:     #F4ECD8;  /* cream-200 · page background · text on primary CTA */
-      --deep:     #FAF6EA;  /* cream-100 · lifted paper for nested surfaces */
-      --surface:  #FAF6EA;  /* cream-100 · card background */
-      --panel:    #EDE5D2;  /* cream-300 · hover / selected fill */
-      --edge:     #D6CFC0;  /* stone-300 · hairline border */
-      --muted:    #5C574E;  /* charcoal-500 · muted metadata (darkened for WCAG AA on cream) */
-      --mid:      #5C574E;  /* charcoal-500 */
-      --dim:      #5C574E;  /* charcoal-500 · secondary body, captions */
-      --label:    #5C574E;  /* charcoal-500 */
-      --body:     #2A2823;  /* charcoal-700 · primary body */
-      --bright:   #1F1D18;  /* charcoal-900 · headings */
-      --gold:     #005343;  /* Forest Green · primary surface, CTAs, headings ink */
-      --gold-l:   #00402F;  /* darker forest · primary hover */
-      --gold-d:   #2E7D69;  /* lighter forest · icons, ghost borders */
-      --gold-glow: rgba(0, 83, 67, 0.18);
-      --gold-bg:  rgba(0, 83, 67, 0.05);
-      --accent:   #C8A04A;  /* Brass Gold · decorative borders and accents */
-      --accent-ink: #795D24; /* Dark brass · readable text on cream surfaces */
-      --success:  #2E7D69;
-      --r:        2px;
-      --mono:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --serif:    'Fraunces', 'Hoefler Text', Garamond, serif;
-      --sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-      /* -- Type scale: 5 text sizes + 1 stat size; everything pulls from these -- */
-      --fs-display: clamp(38px, 5.8vw, 66px); /* h1 / hero headline */
-      --fs-heading: clamp(28px, 3.9vw, 42px); /* h2 / section titles */
-      --fs-feature: 30px;                     /* stat numbers: prices, estimator result */
-      --fs-title:   22px;                     /* h3, card & step names, FAQ questions */
-      --fs-body:    17px;                     /* body copy, intros, answers, inputs */
-      --fs-label:   12px;                     /* eyebrows, nav, labels, buttons, fine print */
-
-      /* -- Spacing scale: all padding / margin / gap pulls from these -- */
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 24px;
-      --space-6: 32px;
-      --space-7: 48px;
-      --space-8: 64px;
-      --space-9: 80px;
-      --gap-grid: 2px; /* hairline gap between framed cards -- brand signature */
-    }
 
     /* ── Keyboard focus ─────────────────────── */
     :focus { outline: none; }
@@ -1230,58 +1186,11 @@
        domain, so owner self-testing on Netlify staging / localhost / Electron
        previews never pollutes Clarity, GA4, or Cloudflare data. -->
   <script>
-    window.MG_ANALYTICS_OK = (
-      location.hostname === 'magnoliagardenslandscaping.com' ||
-      location.hostname === 'www.magnoliagardenslandscaping.com'
-    );
+    window.MG_ANALYTICS_OK = !!(window.MG_SITE_CONFIG && window.MG_SITE_CONFIG.analytics.productionHosts.includes(location.hostname));
   </script>
 
-  <!-- First-party error reporting. Clarity reports THAT a session had a JS
-       error, never what it was, so route errors to GA4 as exception events.
-       Installed above the third-party tags so it also catches their failures.
-       Capped at 5 per page so a loop can't flood the property; queued because
-       gtag is defined by the tag directly below this one. -->
-  <script>
-  (function () {
-    var sent = 0, queue = [];
-    function flush() {
-      if (!window.gtag) return;
-      while (queue.length) window.gtag('event', 'exception', queue.shift());
-    }
-    function report(desc, src, line, col) {
-      if (sent >= 5) return;
-      sent++;
-      queue.push({
-        description: String(desc || 'unknown').slice(0, 300),
-        // A bare "Script error." with no source is a cross-origin script -
-        // GA4, the Pixel, Clarity, or a browser extension. The browser hides
-        // the detail on purpose; knowing that much still narrows it down.
-        script: String(src || '(cross-origin or inline)').slice(0, 300),
-        line_col: (line || 0) + ':' + (col || 0),
-        page_path: location.pathname,
-        fatal: false
-      });
-      flush();
-    }
-    // Capture phase: resource load failures do not bubble, and a pricing.js or
-    // image that fails to load is exactly the kind of silent break worth seeing.
-    window.addEventListener('error', function (e) {
-      if (e.target && e.target !== window && e.target.tagName) {
-        // An element with an empty src resolves to the page URL and fires a
-        // load error; that is markup noise, not a broken asset. Skip it.
-        var url = e.target.src || e.target.href || '';
-        if (url && url !== location.href) report('resource failed: ' + e.target.tagName, url, 0, 0);
-      } else {
-        report(e.message, e.filename, e.lineno, e.colno);
-      }
-    }, true);
-    window.addEventListener('unhandledrejection', function (e) {
-      report('unhandledrejection: ' + ((e.reason && e.reason.message) || e.reason), '', 0, 0);
-    });
-    var t = setInterval(function () { if (window.gtag) { flush(); clearInterval(t); } }, 500);
-    setTimeout(function () { clearInterval(t); }, 10000);
-  })();
-  </script>
+  <!-- Diagnostics contain fixed reason codes only. -->
+  <script src="/assets/error-reporting.js"></script>
 
   <!-- Google tag (gtag.js) - GA4 property G-V93YBHW1PJ -->
   <script>
@@ -1342,9 +1251,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<script src="/assets/form-metrics.js?v=2"></script>
 <link rel="stylesheet" href="/assets/site-nav.css?v=20260928">
 <script src="/assets/site-nav.js?v=20260928" defer></script>
+<script src="/assets/form-metrics.js"></script>
+<script src="/assets/form-core.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -1364,7 +1274,7 @@
     <a href="#fall"        class="nav-link">Fall</a>
     <a href="#about"       class="nav-link">About</a>
     <a href="#faq"         class="nav-link">FAQ</a>
-    <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
+    <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
   </div>
   <details class="mobile-nav">
     <summary>Menu</summary>
@@ -1374,7 +1284,7 @@
       <a href="/#pricing">Pricing</a>
       <a href="/#areas">Service areas</a>
       <a href="/#faq">Questions</a>
-      <a href="tel:4233909954">Call Magnolia</a>
+      <a href="{{contact.telHref}}">Call Magnolia</a>
       <a href="#heroIntakeForm" class="mobile-quote cta-jump">Request a quote</a>
     </div>
   </details>
@@ -1405,11 +1315,11 @@
           <a href="#heroIntakeForm" class="btn-primary cta-jump" data-cta-source="hero_primary">
             Request My Quote
           </a>
-          <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="hero-cta-alt">
+          <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="hero-cta-alt">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
-            Or text a photo to 423-390-9954
+            Or text a photo to {{contact.phoneDisplay}}
           </a>
         </div>
 
@@ -1434,12 +1344,12 @@
         </div>
 
         <p class="hero-trust">
-          Sullivan County licensed &amp; insured<span>·</span>Locally owned<span>·</span>Built on a decade of corporate quality-control discipline<span>·</span><a href="tel:4233909954" class="hero-trust-call">Call 423-390-9954</a>
+          Sullivan County licensed &amp; insured<span>·</span>Locally owned<span>·</span>Built on a decade of corporate quality-control discipline<span>·</span><a href="{{contact.telHref}}" class="hero-trust-call">Call {{contact.phoneDisplay}}</a>
         </p>
       </div><!-- /hero-copy -->
 
       <div class="hero-quote">
-        <form id="heroIntakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
+        <form id="heroIntakeForm" action="{{forms.formspree}}" method="POST">
           <div class="hero-quote-eye">Quick request</div>
           <div class="hero-quote-h" role="heading" aria-level="2">Request a Free Quote</div>
           <p class="hero-quote-sub">Just your phone number to get started. Add details only if you want to.</p>
@@ -1453,7 +1363,7 @@
     <div class="intake-field"><label for="hf2-name">Name</label><input id="hf2-name" name="name" autocomplete="name" placeholder="First name is fine"></div>
     <div class="intake-field"><label for="hf2-address">Address or ZIP</label><input id="hf2-address" name="address" autocomplete="street-address" placeholder="An address or ZIP is helpful, if handy."></div>
     <div class="intake-field"><label for="hf2-email">Email</label><input type="email" id="hf2-email" name="email" autocomplete="email" placeholder="you@email.com"></div>
-    <p class="detail-help">Everything here is optional. Have photos? You can <a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
+    <p class="detail-help">Everything here is optional. Have photos? You can <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
   </div>
 </details>
 
@@ -1477,7 +1387,7 @@
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
           </label>
 
-          <button type="submit" class="intake-submit" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Request My Quote</button><p class="quick-contact"><a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="tel:4233909954">Call 423-390-9954</a></p>
+          <button type="submit" class="intake-submit" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Request My Quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
 
           <div class="hero-offer">
             <p class="hero-offer-line">
@@ -1492,21 +1402,20 @@
         <div class="intake-thanks" id="heroThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
-          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="sms:+14233909954?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="tel:4233909954">call (423) 390-9954</a>.</p>
+          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
         <div class="intake-error" id="heroError" hidden>
           <div class="intake-thanks-eye">Something blocked the form</div>
           <h3 class="intake-thanks-h">We couldn&rsquo;t confirm delivery.</h3>
-          <p class="intake-thanks-body">Try again, text photos of your yard, or <a href="tel:4233909954">call (423) 390-9954</a> to continue.</p>
-          <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
+          <p class="intake-thanks-body">Your request may already have arrived. Please text us or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a> to continue.</p>
+          <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
-            Text 423-390-9954
+            Text {{contact.phoneDisplay}}
           </a>
-          <button type="button" class="est-reset" id="heroErrorRetry">Try again</button>
         </div>
       </div><!-- /hero-quote -->
 
@@ -1879,7 +1788,7 @@
     </div>
 
     <div class="pricing-note">
-      Interested in spring service? <a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20to%20ask%20about%20spring%20service.">Ask about spring service</a>. An inquiry does not reserve a route spot; pricing and scheduling are confirmed separately.
+      Interested in spring service? <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20to%20ask%20about%20spring%20service.">Ask about spring service</a>. An inquiry does not reserve a route spot; pricing and scheduling are confirmed separately.
     </div>
 
     <div class="section-hd" style="margin-top:44px">
@@ -1906,7 +1815,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
         Request My Quote
       </a>
-      <span class="cta-repeat-note">Or text photos to 423-390-9954 — fast quote, typically the same day.</span>
+      <span class="cta-repeat-note">Or text photos to {{contact.phoneDisplay}} — fast quote, typically the same day.</span>
     </div>
   </div>
 </section>
@@ -1937,7 +1846,7 @@
 
       <div class="est-body open" id="estBody">
 
-        <form id="intakeForm" action="https://formspree.io/f/mdajnnjw" method="POST" novalidate>
+        <form id="intakeForm" action="{{forms.formspree}}" method="POST">
 
           <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
@@ -1948,7 +1857,7 @@
     <div class="intake-field"><label for="if-name">Name</label><input id="if-name" name="name" autocomplete="name" placeholder="First name is fine"></div>
     <div class="intake-field"><label for="if-address">Address or ZIP</label><input id="if-address" name="address" autocomplete="street-address" placeholder="An address or ZIP is helpful, if handy."></div>
     <div class="intake-field"><label for="if-email">Email</label><input type="email" id="if-email" name="email" autocomplete="email" placeholder="you@email.com"></div>
-    <p class="detail-help">Everything here is optional. Have photos? You can <a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
+    <p class="detail-help">Everything here is optional. Have photos? You can <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
   </div>
 </details>
 
@@ -1971,7 +1880,7 @@
           </label>
 
           <div class="intake-step-actions" style="display:block; margin-top:18px;">
-            <button type="submit" class="intake-submit" id="intakeSubmit">Request My Quote</button><p class="quick-contact"><a href="sms:+14233909954?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="tel:4233909954">Call 423-390-9954</a></p>
+            <button type="submit" class="intake-submit" id="intakeSubmit">Request My Quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
           </div>
           <p style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.04em;color:var(--muted);text-align:right;margin-top:12px;line-height:1.6;">No obligation &middot; No spam &middot; Text or call if you prefer.</p>
 
@@ -1981,21 +1890,20 @@
         <div class="intake-thanks" id="intakeThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
-          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="sms:+14233909954?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="tel:4233909954">call (423) 390-9954</a>.</p>
+          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
         <div class="intake-error" id="intakeError" hidden>
           <div class="intake-thanks-eye">Something blocked the form</div>
           <h3 class="intake-thanks-h">We couldn&rsquo;t confirm delivery.</h3>
-          <p class="intake-thanks-body">Try again, text photos of your yard, or <a href="tel:4233909954">call (423) 390-9954</a> to continue.</p>
-          <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
+          <p class="intake-thanks-body">Your request may already have arrived. Please text us or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a> to continue.</p>
+          <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms" style="display:inline-flex;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
-            Text 423-390-9954
+            Text {{contact.phoneDisplay}}
           </a>
-          <button type="button" class="est-reset" id="errorRetry">Try again</button>
         </div>
 
       </div><!-- /est-body -->
@@ -2013,7 +1921,7 @@
     <div class="section-hd">
       <div class="eyebrow">Frequently asked</div>
       <h2>The questions we get <em>before</em> the first visit.</h2>
-      <p class="section-sub">Straight answers. If yours isn't here, text us at 423-390-9954 and we'll add it.</p>
+      <p class="section-sub">Straight answers. If yours isn't here, text us at {{contact.phoneDisplay}} and we'll add it.</p>
     </div>
 
     <div class="faq-list">
@@ -2086,7 +1994,7 @@
 
       <div class="faq-item">
         <h3 class="faq-q">How do I get started?</h3>
-        <div class="faq-a"><p>Text a few photos of your yard to <strong>423-390-9954</strong>, or fill out the intake form above. We come back with a real quote, usually the same day, and schedule when you're ready.</p></div>
+        <div class="faq-a"><p>Text a few photos of your yard to <strong>{{contact.phoneDisplay}}</strong>, or fill out the intake form above. We come back with a real quote, usually the same day, and schedule when you're ready.</p></div>
       </div>
 
     </div>
@@ -2110,7 +2018,7 @@
       <div class="trust-card">
         <div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.15em;color:var(--accent-ink);margin-bottom:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p style="font-family:var(--serif);font-style:italic;color:var(--bright);font-size:var(--fs-body);line-height:1.6;margin-bottom:14px;">&ldquo;Reliable and professional. Very responsive and respectful. Completed a mulching and cleanup job on 4 beds for me. Very happy with the results. Signed up for mowing services also. Great attention to detail. Fair prices. Highly recommend. Will be using for leaf services in the fall as well.&rdquo;</p>
-        <div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.1em;color:var(--muted);">Verified Google review</div>
+        <div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.1em;color:var(--muted);"><a href="https://www.google.com/maps/place/Magnolia+Gardens+Landscaping/data=!4m2!3m1!1s0x0:0xd42320a790c93e53" target="_blank" rel="noopener noreferrer">Google review</a></div>
       </div>
     </div>
   </div>
@@ -2177,17 +2085,17 @@
       Text us about your property and get a clear quote before scheduling.
     </p>
     <div class="final-btns">
-      <a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+      <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
-        Text 423-390-9954
+        Text {{contact.phoneDisplay}}
       </a>
-      <a href="tel:4233909954" class="btn-call">
+      <a href="{{contact.telHref}}" class="btn-call">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
         </svg>
-        Call 423-390-9954
+        Call {{contact.phoneDisplay}}
       </a>
     </div>
     <p class="final-area">Serving Kingsport, Johnson City, Bristol, and nearby Tri-Cities communities.</p>
@@ -2206,7 +2114,7 @@
           <img src="/assets/logo-horizontal.svg" alt="Magnolia Gardens Landscaping" width="161" height="44" decoding="async" />
         </div>
         <div class="footer-detail">
-          <a href="tel:4233909954">423-390-9954</a><br>
+          <a href="{{contact.telHref}}">{{contact.phoneDisplay}}</a><br>
           Magnolia Gardens Landscaping LLC<br>
           Kingsport, TN · Sullivan County licensed · Insured
         </div>
@@ -2235,13 +2143,13 @@
 </footer>
 
 <!-- ── Floating buttons ───────────────────────── -->
-<a href="sms:+14233909954?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote">
+<a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>
   Text for a Quote
 </a>
-<a href="tel:4233909954" id="float-call-mob" aria-label="Call Magnolia Gardens">
+<a href="{{contact.telHref}}" id="float-call-mob" aria-label="Call Magnolia Gardens">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 15.5v1.42"/>
   </svg>
@@ -2256,361 +2164,7 @@
 <!-- ════════════════════════════════════════════
      JAVASCRIPT
 ════════════════════════════════════════════ -->
-<script>
-(function () {
-
-  /* ── Analytics helper ────────────────────────────────────────────
-     Forwards events to GA4 (window.gtag, primary) and Plausible
-     (window.plausible, fallback if ever wired). Safe no-op if neither
-     is loaded. Never throws. All event and parameter names use
-     GA4-valid snake_case. */
-  function track(name, props) {
-    try {
-      if (typeof window.gtag === 'function') window.gtag('event', name, props || {});
-      if (typeof window.plausible === 'function') window.plausible(name, { props: props || {} });
-    } catch (e) {}
-  }
-
-  /* ── Helpers ─────────────────────────────── */
-  var lastPointerType = '';
-  document.addEventListener('pointerdown', function (event) { lastPointerType = event.pointerType; }, true);
-  document.addEventListener('keydown', function () { lastPointerType = ''; }, true);
-
-  /* Page-relative CTA location for text_click / call_click events.
-     Lets GA4 slice CTA performance by where the click came from. */
-  function getCtaLocation(el) {
-    if (el.id === 'float-sms' || el.id === 'float-call-mob') return 'floating';
-    if (el.closest('nav')) return 'nav';
-    if (el.closest('.hero')) return 'hero';
-    if (el.closest('.intake-error')) return 'error_panel';
-    if (el.closest('.final-cta')) return 'final_cta';
-    if (el.closest('footer')) return 'footer';
-    return 'other';
-  }
-
-  /* ── Shared: populate hidden meta fields (UTM, page_url, referrer) on a
-     given form. Scoped per-form by name attribute so the hero quick form
-     and the detailed #intakeForm never collide on element ids. Never
-     throws - hidden fields are nice-to-have, they must not block a submit. */
-  function fillMeta(form) {
-    if (!form) return;
-    try {
-      var params = new URLSearchParams(window.location.search);
-      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function (k) {
-        var el = form.querySelector('[name="' + k + '"]');
-        if (el) el.value = params.get(k) || '';
-      });
-      var pageUrl = form.querySelector('[name="page_url"]');
-      if (pageUrl) pageUrl.value = window.location.href;
-      var ref = form.querySelector('[name="referrer"]');
-      if (ref) ref.value = document.referrer || '';
-    } catch (e) { /* never block the form */ }
-  }
-
-  /* ── Shared: which part of the service area a lead came from. Buckets the
-     ZIP the visitor typed into the areas MAGNOLIA.md commits to publicly, so
-     GA4 can show where leads originate without ever receiving the ZIP. */
-  var PRIMARY_ZIPS = ['37660', '37663', '37664', '37665'];   // Kingsport
-  var ROUTED_ZIPS  = ['37620', '37625'];                      // Bristol TN route days
-  function serviceArea(form) {
-    var el = form.elements.zip || form.elements.address;
-    var z  = ((el && el.value) || '').trim();
-    if (!/^\d{5}$/.test(z)) return 'unset';
-    if (PRIMARY_ZIPS.indexOf(z) >= 0) return 'primary';
-    if (ROUTED_ZIPS.indexOf(z)  >= 0) return 'routed_secondary';
-    return 'outside_area';
-  }
-
-  /* ── Shared: the props both forms report on a lead. Only fields the form
-     really collects - a constant is worse than no dimension at all. */
-  function commonLeadProps(form) {
-    var msg = form.elements.message, mail = form.elements.email;
-    return {
-      service_area: serviceArea(form),
-      has_notes: !!(msg  && msg.value  && msg.value.trim()),
-      has_email: !!(mail && mail.value && mail.value.trim())
-    };
-  }
-
-  /* ── Shared: wire a quote form's submit pipeline. Both forms post to the
-     same Formspree endpoint with the same hidden fields, the same honeypot,
-     and the same success / error panels. cfg.leadProps() returns the
-     per-form GA4 props; cfg.formLocation ('hero' | 'detailed') tags every
-     event so the two forms can be told apart in GA4. */
-  // A timed-out request may still reach the server; show unknown delivery, never auto-retry.
-  function postWithDeadline(url, options) {
-    var controller = new AbortController(), timeout;
-    var deadline = new Promise(function (_, reject) {
-      timeout = setTimeout(function () {
-        controller.abort();
-        reject(new Error('formspree_timeout'));
-      }, 15000);
-    });
-    return Promise.race([
-      Promise.resolve().then(function () { return fetch(url, Object.assign({}, options, { signal: controller.signal })); }),
-      deadline
-    ]).finally(function () { clearTimeout(timeout); });
-  }
-
-  function wireQuoteForm(cfg) {
-    var form = cfg.form;
-    if (!form) return;
-    fillMeta(form);
-    var validation = document.createElement('p');
-    validation.className = 'field-validation';
-    validation.id = form.id + 'Validation';
-    validation.setAttribute('role','alert');
-    validation.tabIndex = -1;
-    validation.hidden = true;
-    cfg.submitBtn.before(validation);
-    ['phone','email'].forEach(function(name){
-      if(form.elements[name]) form.elements[name].setAttribute('aria-describedby',validation.id);
-    });
-    var submitting = false;
-    var stages = window.MG_FORM_METRICS && window.MG_FORM_METRICS.bind(form, cfg.formLocation);
-
-    function showResultPanel(panel) {
-      panel.hidden = false;
-      var heading = panel.querySelector('h3'), message = panel.querySelector('.intake-thanks-body');
-      if (heading) {
-        if (message) { message.id = panel.id + 'Message'; heading.setAttribute('aria-describedby', message.id); }
-        heading.tabIndex = -1;
-        heading.focus({ preventScroll: true });
-        heading.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-      }
-    }
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (submitting || form.style.display === 'none') return;
-
-      // Honeypot - if a bot filled it, drop the submission silently and pretend it worked.
-      var gotcha = form.elements._gotcha;
-      if (gotcha && gotcha.value) {
-        form.style.display = 'none';
-        showResultPanel(cfg.thanksPanel);
-        return;
-      }
-
-      var phoneField = form.elements.phone;
-      var emailField = form.elements.email;
-      var phoneInvalid = !phoneField || phoneField.value.replace(/\D/g, '').length < 10;
-      var emailInvalid = emailField && !emailField.validity.valid;
-      if(emailInvalid){ var detailPanel=emailField.closest('details'); if(detailPanel) detailPanel.open=true; }
-      if(phoneField) phoneField.setAttribute('aria-invalid', String(phoneInvalid));
-      if(emailField) emailField.setAttribute('aria-invalid', String(!!emailInvalid));
-      validation.hidden = !(phoneInvalid || emailInvalid);
-      if(phoneInvalid || emailInvalid){
-        validation.textContent = phoneInvalid
-          ? 'Please enter a phone number with at least 10 digits.'
-          : 'Please enter a valid email address, or leave email blank.';
-        track('lead_submit_invalid', { missing:phoneInvalid?'phone':'email', form_location:cfg.formLocation });
-        if(lastPointerType === 'touch' || lastPointerType === 'pen'){
-          validation.focus({preventScroll:true});
-          validation.scrollIntoView({block:'nearest'});
-        }else{
-          (phoneInvalid ? phoneField : emailField).focus();
-        }
-        return;
-      }
-
-      var ts = form.querySelector('[name="submitted_at"]');
-      if (ts) ts.value = new Date().toISOString();
-
-      var btn = cfg.submitBtn;
-      var origLabel = btn.textContent;
-      submitting = true;
-      form.setAttribute('aria-busy', 'true');
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-
-      // Lead pipeline: mirror the submission to Zapier (Jobber + CRM + auto-reply). Fire-and-forget.
-      try { fetch('https://hooks.zapier.com/hooks/catch/27365121/46gfqem/', { method: 'POST', body: new FormData(form), mode: 'no-cors', keepalive: true }).catch(function () {}); } catch (_) {}
-
-      postWithDeadline(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error('Formspree returned ' + res.status);
-          form.style.display = 'none';
-          showResultPanel(cfg.thanksPanel);
-          // Same lead_submit event for both forms; form_location distinguishes them.
-          var props = (cfg.leadProps && cfg.leadProps()) || {};
-          props.form_location = cfg.formLocation;
-          track('lead_submit', props);
-          if (stages) stages.accepted();
-          // GA4 conversion - form_id distinguishes hero vs full-intake submissions.
-          track('generate_lead', { form_id: form.id });
-        })
-        .catch(function (err) {
-          form.style.display = 'none';
-          showResultPanel(cfg.errorPanel);
-          track('form_submit_error', { reason: (err && err.message) || 'unknown', form_location: cfg.formLocation });
-        })
-        .finally(function () {
-          submitting = false;
-          form.removeAttribute('aria-busy');
-          btn.disabled = false;
-          btn.textContent = origLabel;
-        });
-    });
-
-    if (cfg.errorRetry) {
-      cfg.errorRetry.addEventListener('click', function () {
-        cfg.errorPanel.hidden = true;
-        form.style.display = '';
-        cfg.submitBtn.focus({ preventScroll: true });
-        cfg.submitBtn.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-      });
-    }
-  }
-
-  /* ── Scroll to and focus the hero quote form (repeated CTAs). */
-  function focusHeroForm(source) {
-    var hero = document.getElementById('heroIntakeForm');
-    if (!hero) return;
-    track('cta_jump', { source: source || 'cta_repeat' });
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    hero.scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth', block: 'center' });
-    var first = hero.querySelector(lastPointerType === 'touch' || lastPointerType === 'pen' ? '.hero-quote-h' : 'input[name="phone"]');
-    if (first && !first.matches('input')) first.tabIndex = -1;
-    if (first) setTimeout(function () {
-      try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); }
-    }, reduceMotion ? 0 : 420);
-  }
-
-  /* ── Accordion toggle ────────────────────── */
-  var toggle = document.getElementById('estToggle');
-  var body   = document.getElementById('estBody');
-
-  function setToggleOpen(open, source) {
-    if (!toggle || !body) return;
-    var wasOpen = toggle.classList.contains('open');
-    toggle.classList.toggle('open', open);
-    body.classList.toggle('open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    // Only fire form_open on a real closed→open transition. The form is
-    // defaulted open in markup, so most page loads never fire this - when
-    // it does fire it's a meaningful "re-engagement" signal.
-    if (open && !wasOpen) track('form_open', { source: source || 'toggle' });
-  }
-  if (toggle) {
-    toggle.addEventListener('click', function () {
-      setToggleOpen(!toggle.classList.contains('open'), 'toggle');
-    });
-    toggle.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        setToggleOpen(!toggle.classList.contains('open'), 'toggle');
-      }
-    });
-  }
-
-  /* ── Intake form ─────────────────────────── */
-  var form        = document.getElementById('intakeForm');
-  var thanksPanel = document.getElementById('intakeThanks');
-  var errorPanel  = document.getElementById('intakeError');
-  var errorRetry  = document.getElementById('errorRetry');
-  var submitBtn   = document.getElementById('intakeSubmit');
-
-  /* Funnel - form_view fires once when the form section enters the
-     viewport. Use form_view → form_start → lead_submit to compute the
-     conversion funnel in GA4 Explorations. */
-  var formSection = document.getElementById('estimate');
-  if (formSection && 'IntersectionObserver' in window) {
-    var formViewed = false;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting && !formViewed) {
-          formViewed = true;
-          track('form_view');
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.25 });
-    io.observe(formSection);
-  }
-
-  /* Funnel - form_start fires once when the visitor first interacts with
-     anything inside the form (a card, an input, or focus). The gap
-     between form_view and form_start tells you whether visitors are
-     bouncing without engaging. */
-  var formStarted = false;
-  function onFormFirstTouch() {
-    if (formStarted) return;
-    formStarted = true;
-    track('form_start');
-  }
-  if (form) {
-    form.addEventListener('click', onFormFirstTouch);
-    form.addEventListener('input', onFormFirstTouch);
-    form.addEventListener('focusin', onFormFirstTouch);
-  }
-
-  /* ── Wire both quote forms ───────────────────────────────────────
-     Detailed #intakeForm and the hero quick form share one submit
-     pipeline (wireQuoteForm above). Each posts to the same Formspree
-     endpoint and carries the same UTM / honeypot hidden fields; the
-     only difference GA4 sees is form_location and the lead props. */
-  wireQuoteForm({
-    form: form,
-    thanksPanel: thanksPanel,
-    errorPanel: errorPanel,
-    errorRetry: errorRetry,
-    submitBtn: submitBtn,
-    formLocation: 'detailed',
-    leadProps: function () { return commonLeadProps(form); }
-  });
-
-  var heroForm = document.getElementById('heroIntakeForm');
-  wireQuoteForm({
-    form: heroForm,
-    thanksPanel: document.getElementById('heroThanks'),
-    errorPanel: document.getElementById('heroError'),
-    errorRetry: document.getElementById('heroErrorRetry'),
-    submitBtn: document.getElementById('heroSubmit'),
-    formLocation: 'hero',
-    leadProps: function () { return commonLeadProps(heroForm); }
-  });
-
-  /* Keep text links native, including desktops with a messaging app. */
-  document.querySelectorAll('[href^="sms:"]').forEach(function (a) {
-    a.setAttribute('target', '_blank');
-    a.addEventListener('click', function (e) {
-      track('click_to_text', { location: getCtaLocation(a) });
-    });
-  });
-
-  /* ── tel: links: track calls ─────────────── */
-  document.querySelectorAll('[href^="tel:"]').forEach(function (a) {
-    a.addEventListener('click', function () {
-      track('click_to_call', { location: getCtaLocation(a) });
-    });
-  });
-
-  /* ── /estimate/ links: estimator entry rate (handoff §5) ──
-     beacon transport so the event survives the same-tab navigation. */
-  document.querySelectorAll('a[href^="/estimate/"]').forEach(function (a) {
-    a.addEventListener('click', function () {
-      track('estimator_entry', {
-        source: a.getAttribute('data-cta-source') || getCtaLocation(a),
-        transport_type: 'beacon'
-      });
-    });
-  });
-
-  /* ── Repeated "Request a Free Quote" CTAs → hero quick form ── */
-  document.querySelectorAll('.cta-jump').forEach(function (b) {
-    b.addEventListener('click', function (e) {
-      e.preventDefault();
-      focusHeroForm(b.getAttribute('data-cta-source') || 'cta_repeat');
-    });
-  });
-
-})();
-</script>
+<script src="/assets/home-forms.js" defer></script>
 
 <script>
 /* Rotating service icon on the "to-do" CTA. Subtle crossfade, slow cadence,

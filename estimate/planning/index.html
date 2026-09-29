@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/assets/brand.css">
+  <link rel="stylesheet" href="/assets/form-ui.css">
+  <script src="/assets/site-config.js"></script>
+  <script src="/assets/campaign-context.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#005343" />
+  <meta name="theme-color" content="{{brand.primary}}" />
   <title>Mowing Price Range · Magnolia Gardens Landscaping</title>
   <meta name="description" content="Explore a lawn mowing planning range for Kingsport and the Tri-Cities. No contact details needed. Magnolia Gardens confirms the final scope and price." />
   <link rel="canonical" href="https://magnoliagardenslandscaping.com/estimate/planning/" />
@@ -18,58 +22,11 @@
        domain, so owner self-testing on Netlify staging / localhost / Electron
        previews never pollutes Clarity, GA4, or Cloudflare data. -->
   <script>
-    window.MG_ANALYTICS_OK = (
-      location.hostname === 'magnoliagardenslandscaping.com' ||
-      location.hostname === 'www.magnoliagardenslandscaping.com'
-    );
+    window.MG_ANALYTICS_OK = !!(window.MG_SITE_CONFIG && window.MG_SITE_CONFIG.analytics.productionHosts.includes(location.hostname));
   </script>
 
-  <!-- First-party error reporting. Clarity reports THAT a session had a JS
-       error, never what it was, so route errors to GA4 as exception events.
-       Installed above the third-party tags so it also catches their failures.
-       Capped at 5 per page so a loop can't flood the property; queued because
-       gtag is defined by the tag directly below this one. -->
-  <script>
-  (function () {
-    var sent = 0, queue = [];
-    function flush() {
-      if (!window.gtag) return;
-      while (queue.length) window.gtag('event', 'exception', queue.shift());
-    }
-    function report(desc, src, line, col) {
-      if (sent >= 5) return;
-      sent++;
-      queue.push({
-        description: String(desc || 'unknown').slice(0, 300),
-        // A bare "Script error." with no source is a cross-origin script -
-        // GA4, the Pixel, Clarity, or a browser extension. The browser hides
-        // the detail on purpose; knowing that much still narrows it down.
-        script: String(src || '(cross-origin or inline)').slice(0, 300),
-        line_col: (line || 0) + ':' + (col || 0),
-        page_path: location.pathname,
-        fatal: false
-      });
-      flush();
-    }
-    // Capture phase: resource load failures do not bubble, and a pricing.js or
-    // image that fails to load is exactly the kind of silent break worth seeing.
-    window.addEventListener('error', function (e) {
-      if (e.target && e.target !== window && e.target.tagName) {
-        // An element with an empty src resolves to the page URL and fires a
-        // load error; that is markup noise, not a broken asset. Skip it.
-        var url = e.target.src || e.target.href || '';
-        if (url && url !== location.href) report('resource failed: ' + e.target.tagName, url, 0, 0);
-      } else {
-        report(e.message, e.filename, e.lineno, e.colno);
-      }
-    }, true);
-    window.addEventListener('unhandledrejection', function (e) {
-      report('unhandledrejection: ' + ((e.reason && e.reason.message) || e.reason), '', 0, 0);
-    });
-    var t = setInterval(function () { if (window.gtag) { flush(); clearInterval(t); } }, 500);
-    setTimeout(function () { clearInterval(t); }, 10000);
-  })();
-  </script>
+  <!-- Diagnostics contain fixed reason codes only. -->
+  <script src="/assets/error-reporting.js"></script>
 
   <!-- Google tag (gtag.js) - GA4 property G-V93YBHW1PJ -->
   <script>
@@ -126,7 +83,8 @@
   </script>
 
   <link rel="stylesheet" href="/assets/request.css?v=20260929">
-  <script src="/assets/form-metrics.js?v=2"></script>
+  <script src="/assets/form-metrics.js"></script>
+<script src="/assets/form-core.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>

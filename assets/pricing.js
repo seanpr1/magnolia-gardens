@@ -103,10 +103,11 @@
     // entry is the compact-lot Full-service anchor ($75); the card keeps a
     // trailing "+" for estate lots, which are quoted higher.
     fullServiceBand: '$75–$190',
-    phoneDisplay: '423-390-9954',
-    telHref: 'tel:4233909954',
-    smsHref: 'sms:+14233909954',
-    formspree: 'https://formspree.io/f/mdajnnjw'
+    // Compatibility accessors; edit public destinations in config/site.json.
+    get phoneDisplay(){return window.MG_SITE_CONFIG?.contact.phoneDisplay;},
+    get telHref(){return window.MG_SITE_CONFIG?.contact.telHref;},
+    get smsHref(){return window.MG_SITE_CONFIG?.contact.smsHref;},
+    get formspree(){return window.MG_SITE_CONFIG?.forms.formspree;}
   };
 
   window.MG_PRICING = { ENGINE, MINUTES, SIZE_LABEL, SIZE_ACRE, SERVICE_LABEL, PROJECT_SERVICES,

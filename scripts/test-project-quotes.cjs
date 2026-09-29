@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
-const root = path.resolve(__dirname, '..');
+const root = process.env.SITE_ROOT || path.resolve(__dirname, '..', 'dist');
 const context = {window:{}};
 vm.runInNewContext(fs.readFileSync(path.join(root,'assets/pricing.js'),'utf8'),context);
 const p = context.window.MG_PRICING;

@@ -3,3 +3,11 @@
 
 # Local Claude Code scaffolding (preview servers, etc.)
 .claude/
+
+# Installed tools and generated public output
+node_modules/
+dist/
+.site-build-*/
+.netlify/
+__pycache__/
+*.pyc
