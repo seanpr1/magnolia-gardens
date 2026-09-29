@@ -40,11 +40,11 @@
   function render(C){
 
     var box = document.createElement('div');
-    box.className = 'mgqb';
+    box.className = 'mgqb request-surface';
     box.innerHTML =
       '<div class="mgqb-eye">Quick request</div>' +
       '<p class="mgqb-sub">Leave your number. We’ll follow up about your yard.</p>' +
-      '<form novalidate>' +
+      '<form class="request-form" novalidate>' +
         '<label for="mgqb-phone" style="display:block;font-size:15px;margin-bottom:6px">Phone number</label>' +
         '<div class="mgqb-row">' +
           '<input id="mgqb-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" aria-describedby="mgqb-error" placeholder="(423) 555-0123" required>' +
@@ -58,7 +58,7 @@
         '</div></details>' +
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
         '<p class="mgqb-err" id="mgqb-error" role="alert" tabindex="-1">Add a phone number so we can follow up about your request.</p>' +
-        '<button type="submit" style="width:100%">Request My Quote</button>' +
+        '<button class="request-action" type="submit" style="width:100%">Request my quote</button>' +
         '<p class="mgqb-alt">No obligation. Reply STOP to opt out of texts.</p>' +
       '</form>' +
       '<p class="quick-contact"><a href="'+smsHref()+'">Text us</a><span>or</span><a href="'+C.contact.telHref+'">Call '+C.contact.phoneDisplay+'</a></p>' +
@@ -110,7 +110,7 @@
         var target=touch?err:info.field;
         if(target){target.focus({preventScroll:true});target.scrollIntoView({block:'nearest'});}
       },
-      onBusy:function(busy){err.classList.remove('show');btn.textContent=busy?'Sending…':'Request My Quote';},
+      onBusy:function(busy){err.classList.remove('show');btn.textContent=busy?'Sending…':'Request my quote';},
       onResult:function(status){if(status==='accepted')showThanks();else showError(status);}
     });
     // Use a fixed topic only. Typed addresses/notes never enter clicked URLs.
@@ -120,8 +120,8 @@
     function showThanks(){
       form.style.display = 'none';
       var p = document.createElement('div');
-      p.className = 'mgqb-panel';
-      p.innerHTML = '<p><b>Your request was sent.</b> To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
+      p.className = 'mgqb-panel request-status';
+      p.innerHTML = '<h2>Your request was sent.</h2><p>To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
       p.tabIndex = -1;
@@ -132,8 +132,8 @@
     function showError(status){
       form.style.display = 'none';
       var p = document.createElement('div');
-      p.className = 'mgqb-panel';
-      p.innerHTML = '<p>' + (status==='http_rejected'?'We couldn’t send your request.':'We couldn’t confirm delivery. Your request may already have arrived.') + ' Text us at <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a> ' +
+      p.className = 'mgqb-panel request-status';
+      p.innerHTML = '<h2>' + (status==='http_rejected'?'We couldn’t send your request.':'We couldn’t confirm delivery.') + '</h2><p>' + (status==='http_rejected'?'':'Your request may already have arrived. ') + 'Text us at <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a> ' +
         'or call <a href="' + C.contact.telHref + '">' + C.contact.phoneDisplay + '</a> and we’ll quote from there.</p>';
       p.appendChild(core.recoveryDetails(form));
       form.parentNode.insertBefore(p, form);

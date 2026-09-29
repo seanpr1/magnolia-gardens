@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="/assets/brand.css">
-  <link rel="stylesheet" href="/assets/form-ui.css">
   <script src="/assets/site-config.js"></script>
   <script src="/assets/campaign-context.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -738,7 +737,7 @@
     .est-toggle {
       display: flex; align-items: center; justify-content: space-between;
       padding: 18px 22px; cursor: pointer; user-select: none;
-      background: var(--surface); border: 1px solid var(--edge);
+      background: transparent; border: 0; border-bottom: 1px solid var(--edge);
       border-radius: var(--r); transition: border-color .2s;
     }
     .est-toggle:hover { border-color: var(--muted); }
@@ -754,8 +753,8 @@
 
     .est-body {
       display: none;
-      border: 1px solid var(--edge); border-top: none;
-      background: var(--deep); padding: var(--space-6) var(--space-5);
+      border: 0;
+      background: transparent; padding: var(--space-6) var(--space-5);
     }
     .est-body.open { display: block; }
 
@@ -1256,6 +1255,7 @@
 <script src="/assets/site-nav.js?v=20260928" defer></script>
 <script src="/assets/form-metrics.js"></script>
 <script src="/assets/form-core.js"></script>
+  <link rel="stylesheet" href="/assets/form-ui.css">
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -1349,8 +1349,8 @@
         </p>
       </div><!-- /hero-copy -->
 
-      <div class="hero-quote">
-        <form id="heroIntakeForm" action="{{forms.formspree}}" method="POST">
+      <div class="hero-quote request-surface">
+        <form class="request-form" id="heroIntakeForm" action="{{forms.formspree}}" method="POST">
           <div class="hero-quote-eye">Quick request</div>
           <div class="hero-quote-h" role="heading" aria-level="2">Request a Free Quote</div>
           <p class="hero-quote-sub">Just your phone number to get started. Add details only if you want to.</p>
@@ -1388,7 +1388,7 @@
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
           </label>
 
-          <button type="submit" class="intake-submit" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Request My Quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
+          <button type="submit" class="intake-submit request-action" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Request my quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
 
           <div class="hero-offer">
             <p class="hero-offer-line">
@@ -1400,14 +1400,14 @@
         </form>
 
         <!-- Success state (revealed by JS after a clean Formspree POST) -->
-        <div class="intake-thanks" id="heroThanks" hidden>
+        <div class="intake-thanks request-status" id="heroThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
           <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
-        <div class="intake-error" id="heroError" hidden>
+        <div class="intake-error request-status" id="heroError" hidden>
           <div class="intake-thanks-eye">Something blocked the form</div>
           <h3 class="intake-thanks-h">We couldn&rsquo;t confirm delivery.</h3>
           <p class="intake-thanks-body">Your request may already have arrived. Please text us or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a> to continue.</p>
@@ -1834,7 +1834,7 @@
       <p class="section-sub">Leave your number, or add details if you already know what you need.</p>
     </div>
 
-    <div class="est-wrap">
+    <div class="est-wrap request-surface">
       <div class="est-toggle open" id="estToggle" role="button" aria-expanded="true" tabindex="0">
         <div>
           <div class="est-toggle-label">Quick request</div>
@@ -1847,7 +1847,7 @@
 
       <div class="est-body open" id="estBody">
 
-        <form id="intakeForm" action="{{forms.formspree}}" method="POST">
+        <form class="request-form" id="intakeForm" action="{{forms.formspree}}" method="POST">
 
           <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
@@ -1881,21 +1881,21 @@
           </label>
 
           <div class="intake-step-actions" style="display:block; margin-top:18px;">
-            <button type="submit" class="intake-submit" id="intakeSubmit">Request My Quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
+            <button type="submit" class="intake-submit request-action" id="intakeSubmit">Request my quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
           </div>
           <p style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.04em;color:var(--muted);text-align:right;margin-top:12px;line-height:1.6;">No obligation &middot; No spam &middot; Text or call if you prefer.</p>
 
         </form>
 
         <!-- Success state (revealed by JS after a clean Formspree POST) -->
-        <div class="intake-thanks" id="intakeThanks" hidden>
+        <div class="intake-thanks request-status" id="intakeThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
           <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
-        <div class="intake-error" id="intakeError" hidden>
+        <div class="intake-error request-status" id="intakeError" hidden>
           <div class="intake-thanks-eye">Something blocked the form</div>
           <h3 class="intake-thanks-h">We couldn&rsquo;t confirm delivery.</h3>
           <p class="intake-thanks-body">Your request may already have arrived. Please text us or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a> to continue.</p>

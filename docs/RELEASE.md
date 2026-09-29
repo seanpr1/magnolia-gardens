@@ -33,6 +33,12 @@ The new source contains contact placeholders and requires rendering. Before an a
 - Live submissions, customer messages, Zap changes and production release: outside this draft implementation.
 - Remaining checks: physical iPhone/Android keyboard and native call/text behavior; assistive technology; production analytics configuration/receipt; observable downstream handling of phone-only inquiries. Mocked acceptance is not live delivery proof.
 
+## Request-form finish verified September 29, 2026
+
+The draft now shares a restrained card treatment, native optional-details rows, clearer field boundaries and validation, consistent request buttons and neutral result typography. Shared CSS and brand tokens own the finish; no package was added. Keyboard focus remains visible; pointer-triggered results avoid an extra focus frame. The phone-only path, transport, analytics and prices are unchanged by this refinement.
+
+`npm test` passed again: build checks, 51 static checks, 54 pricing combinations, 79 adapter checks and 18 shared-form contracts. A separate intercepted-browser pass passed 311 checks across 320, 390, 768 and 1440px widths, including native disclosures, input/invalid focus, reduced motion, forced colors and JavaScript-disabled native forms. All 16 narrow-screen accepted/uncertain results remained visible; keyboard result rings and touch result styling were checked separately. No live requests were sent. These screenshots/checks use fallback fonts because external requests are blocked; hosted typography is a separate preview visual check. Physical-device and downstream-delivery requirements above remain open.
+
 ## Identify a deployed revision
 
 1. Read `/version.json` on the exact production or preview hostname. The build generates revision, source date, hosting context/deploy ID and local-change status from Git/hosting metadata. Local dirty builds identify themselves; they are not production evidence.

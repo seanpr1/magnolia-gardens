@@ -16,6 +16,10 @@
 
 Keep page-specific layout rules in their existing stylesheets. Reuse brand variables instead of adding another palette. Logo/image artwork has its own colors; a brand change that includes artwork needs a separate asset edit and visual review.
 
+Request cards use `request-surface`, forms use `request-form`, submit buttons use `request-action`, and delivery panels use `request-status`. Their shared finish lives in `assets/form-ui.css`, loaded **after** page/layout styles. Keep these classes in static HTML and in the service/area renderer; do not duplicate the polish in each page or attach it to generated IDs. Field, border and error colors live in `brand.css`.
+
+The finish uses native controls and CSS, with no package or icon dependency. Preserve native disclosure markers, visible focus, 16px inputs, 48px targets, reduced-motion and forced-colors support. Avoid animated layout or result transforms: result focus and scroll positioning are part of delivery usability. After visual edits, check the home, quick-request and service/area forms at narrow and wide widths, including optional details and accepted/uncertain results.
+
 ## Contact and public configuration
 
 Edit **`config/site.json`** for public phone formats, existing email destinations, form endpoints, timeout, and production analytics host names. The contact fields preserve separate purposes: `email` is public information, `ownerEmail` is the published direct contact, and `hiringEmail` is applications. Keep phone formats consistent when changing the number; the build rejects mismatches. These values are public and must never contain credentials.

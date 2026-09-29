@@ -9,6 +9,9 @@
   --surface:  #FAF6EA;  /* cream-100 · card background */
   --panel:    #EDE5D2;  /* cream-300 · hover / selected fill */
   --edge:     #D6CFC0;  /* stone-300 · hairline border */
+  --field:    #FFFFFF;  /* input paper */
+  --field-edge: #8A8478; /* visible input boundary on cream and white */
+  --error:    #8B3028;  /* field errors, paired with explanatory text */
   --muted:    #5C574E;  /* charcoal-500 · muted metadata (darkened for WCAG AA on cream) */
   --mid:      #5C574E;  /* charcoal-500 */
   --dim:      #5C574E;  /* charcoal-500 · secondary body, captions */
