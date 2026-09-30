@@ -20,6 +20,8 @@ Request cards use `request-surface`, forms use `request-form`, submit buttons us
 
 The finish uses native controls and CSS, with no package or icon dependency. Preserve native disclosure markers, visible focus, 16px inputs, 48px targets, reduced-motion and forced-colors support. Avoid animated layout or result transforms: result focus and scroll positioning are part of delivery usability. After visual edits, check the home, quick-request and service/area forms at narrow and wide widths, including optional details and accepted/uncertain results.
 
+The homepage's `request-focus-surface`, `request-start-field` and `request-start-cue` classes make the desktop CTA destination visible through native `:focus-within`. The card gets an outline and the phone label shows a visual-only “Start here” cue; reserved label space prevents a jump. The 881px breakpoint matches the two-column hero. Keep it aligned if that layout breakpoint changes. No timer or animation is used, and the stacked mobile layout keeps its existing behavior.
+
 ## Contact and public configuration
 
 Edit **`config/site.json`** for public phone formats, existing email destinations, form endpoints, timeout, and production analytics host names. The contact fields preserve separate purposes: `email` is public information, `ownerEmail` is the published direct contact, and `hiringEmail` is applications. Keep phone formats consistent when changing the number; the build rejects mismatches. These values are public and must never contain credentials.
