@@ -40,3 +40,91 @@ PR #6 is merged and published; hosting revision and critical-page checks passed 
 3. Hosting revision and critical pages were verified after publication. Next compare complete periods with counts and denominators for starts, attempts, acceptances, observable inquiries, qualified inquiries and bookings. Production analytics receipt remains unverified. Investigate acquisition/collection changes separately from conversion changes. September 20–26 predates this redesign.
 
 No new CRM integration, dashboard or traffic campaign is introduced by this work.
+
+## September 30 lead-intake investigation
+
+This is verification work, not a production fix. PR #6 and PR #7 are merged;
+the live revision marker read on September 30 reports clean production `main`
+at `613aab8533ad4c7ab106b40fb9d5bc50a6d32182`.
+Fresh page/asset byte-comparison requests returned HTTP 403 from this execution
+client, so this session verifies the marker, not fresh full deployed-byte parity.
+The PR #7 release record remains the earlier served-content evidence.
+
+### Source and parsing boundary
+
+| Form | Browser delivery | Receipt evidence |
+|---|---|---|
+| Homepage hero and detailed | Same FormData snapshot POSTed to Formspree and the unconfirmed Zapier mirror | A populated hero request on September 30 has a Formspree notification, matching Jobber notification and sent acknowledgment. This is not phone-only evidence. |
+| `/estimate/` | Same two destinations; adapter adds service description and project scope | Historical populated requests; fully phone-only production receipt remains unverified. |
+| Service/area quote block | Formspree only; no browser Zapier mirror | Do not assume automatic Jobber creation. Phone-only production receipt remains unverified. |
+| Static homepage/request form without JavaScript | Native POST to the Formspree form action | Shared JavaScript and its Zapier mirror do not run. Service/area forms themselves require JavaScript; their static call/text links remain. |
+
+`assets/form-core.js` validates phone, builds FormData **before** disabling
+controls, then sends the same snapshot to both configured destinations when
+the adapter enables the mirror. No custom multipart Content-Type is set; the
+transport creates the boundary. Empty/invalid phone fails validation without
+a request. Provider acceptance is still only Formspree HTTP success.
+
+The saved September 9 Zap v6 deployment record documents this downstream path:
+Catch Hook parsed output → Code step with mapped name/email/address and the
+complete trigger-output JSON → existing name/email gate or fallback alert.
+The classifier reads top-level phone from that complete object. Phone-only
+data goes to `manual_review` with the phone preserved, not `empty_webhook`;
+automatic intake still requires valid name/email. This is historical saved
+configuration, not a fresh confirmation of the current published Zap.
+
+Catch Hook returns parsed data. The alert's serialized `Raw Output` therefore
+does not establish the original HTTP body, method, sender or Content-Type.
+Zapier documents the distinction between [Catch Hook and Catch Raw Hook](https://help.zapier.com/hc/en-us/articles/8496288690317-Trigger-Zap-workflows-from-webhooks).
+Do not change the production trigger type to obtain diagnostics: that changes
+the data contract. Never GET a production catch-hook URL as a health check.
+
+### What the alerts establish
+
+Both September 29 alerts contain exactly `{"querystring": {}}`. The first
+email was sent at 19:52:24 Eastern, before PR #6 production publication at
+19:54:28. The second was sent at 20:53:56, after PR #7 publication at
+20:38:36. Email send times are not original request times. Matching empty
+alerts also predate the release. Neither timing nor this parsed payload proves
+that the source was a customer, test, bot, GET request or lost lead.
+
+A newer, populated homepage submission arrived at 10:12:43 Eastern on
+September 30. Matching Jobber and acknowledgment emails followed within
+13 seconds. This rules out a universal post-release failure for that
+populated route. Customer identities and private message IDs are intentionally
+kept out of this public repository.
+
+### Safe verification and decision
+
+- `npm test` passes: build/publish checks, 51 static checks, 54 pricing
+  combinations, 89 adapter checks and 18 shared-form contracts.
+- The adapter suite now includes 10 field/encoding cases: phone-only and
+  populated requests through hero, detailed, quick-request, service and area
+  forms. It inspects in-memory multipart serialization, decoded fields,
+  destinations, unchanged optional values, metadata and duplicate protection.
+  jsdom FormData is bridged to Node's native FormData for Request/Response
+  encoding. This is not a real-browser transport or provider-parser test.
+- Six local fixtures executed the exact classifier recovered from the saved
+  v6 deployment record: empty alert, phone-only, complete mapped request,
+  mapping mismatch, unavailable raw payload and malformed raw payload. All
+  returned the documented classifications. No live Zap execution was made.
+
+No website runtime defect was reproduced that explains these alerts. Keep the
+phone-only flow and existing transport; do not roll back or invent mandatory
+name/email fields. The remaining risk is unverified minimal-request receipt
+and manual follow-up, plus the unknown source/parsing of the empty events.
+This work changes tests/documentation only, with no production publication,
+live test inquiries, Zap changes, customer messages or record writes.
+
+### Remaining read-only check
+
+Zapier redirected to sign-in during this investigation. With authorized access,
+inspect the existing two runs near the alert email times, record their actual
+trigger timestamps and versions, compare the hook URL to `config/site.json`,
+inspect any child-key selection and complete Step 1 output, and compare the
+Code-step inputs/outputs and fallback mappings with saved v6. Compare an
+existing populated run and any existing phone-only run. Do not replay, test
+actions, create a draft Zap or publish changes. If the original request method,
+headers and unparsed body are unavailable, preserve that limit; do not infer
+them from `querystring`. A live test would require separately authorized,
+controlled downstream effects and should only follow this read-only check.

@@ -12,7 +12,7 @@ let assertions=0;
 function setup(file,query='',mode='ok'){
  const dom=new JSDOM(read(file),{url:'https://example.invalid/'+file.replace('index.html','')+query,runScripts:'outside-only'});
  const w=dom.window,posts=[],events=[],errors=[];
- w.fetch=async(url,opts)=>{posts.push({url,data:Object.fromEntries(opts.body.entries())});if(mode==='network')throw Error('offline');if(mode==='timeout')return new Promise(()=>{});return{ok:mode==='ok',status:mode==='ok'?200:422};};
+ w.fetch=async(url,opts)=>{posts.push({url,options:opts,data:Object.fromEntries(opts.body.entries())});if(mode==='network')throw Error('offline');if(mode==='timeout')return new Promise(()=>{});return{ok:mode==='ok',status:mode==='ok'?200:422};};
  const set=w.setTimeout.bind(w);w.setTimeout=(fn,ms)=>set(fn,ms===15000?(mode==='timeout'?5:100):0);
  w.AbortController=AbortController;w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=()=>{};
  w.matchMedia=()=>({matches:true,addEventListener(){}});w.gtag=(...a)=>events.push(a);w.MG_ANALYTICS_OK=true;
@@ -122,5 +122,53 @@ function oneRequired(form){
   for(const a of h.w.document.querySelectorAll('a[href^="sms:"]'))assert.doesNotMatch(decodeURIComponent(a.href),/4235550100|Test Street|Private note/);
   h.dom.window.close();assertions++;
  }
- console.log('PASS '+assertions+' quick-request, validation, delivery, homepage/service-form and calculator checks; 0 live requests.');
+ // Inspect encoded multipart bytes, not just FormData.entries(). Request and
+ // Response serialize/parse in memory; neither sends a network request. Bridge
+ // jsdom's FormData into Node's native FormData for its Request implementation.
+ // This is a field/encoding contract, not a browser or provider receipt test.
+ const wireVariants=[...variants,{
+  page:'areas/kingsport/index.html',script:'quote-block',form:'.mgqb form',posts:1
+ }];
+ for(const v of wireVariants)for(const populated of [false,true]){
+  const h=setup(v.page);
+  try{
+   if(v.script==='quote-block')Object.defineProperty(h.w.document,'currentScript',{value:h.$('script[src^="/assets/quote-block.js"]')});
+   h.w.eval(read('assets/'+v.script+'.js'));
+   const f=h.$(v.form);
+   h.submit(f);await h.settle();assert.equal(h.posts.length,0,'blank phone sends nothing');
+   f.elements.phone.value='(423) 555-0100';
+   if(populated){
+    f.elements.name.value='Synthetic Example';f.elements.email.value='example@example.invalid';
+    f.elements.address.value='Synthetic address';f.elements.message.value='Beds & path = mulch + edging';
+   }
+   h.submit(f);await h.settle();assert.equal(h.posts.length,v.posts);
+   const endpoints=h.w.MG_SITE_CONFIG.forms;
+   assert.deepEqual(h.posts.map(p=>p.url),v.posts===2?[endpoints.zapierMirror,endpoints.formspree]:[endpoints.formspree]);
+   const decoded=[];
+   for(const p of h.posts){
+    assert.equal(p.options.method,'POST');
+    assert.equal(new URL(p.url).search,'','contact fields belong in the request body');
+    assert.ok(p.options.body instanceof h.w.FormData);
+    const body=new FormData();
+    for(const [key,value] of p.options.body){assert.equal(typeof value,'string');body.append(key,value);}
+    const request=new Request(p.url,{...p.options,body});
+    const type=request.headers.get('content-type');
+    assert.match(type,/^multipart\/form-data; boundary=.+/);
+    const bytes=await request.arrayBuffer();
+    const fields=Object.fromEntries(await new Response(bytes,{headers:{'content-type':type}}).formData());
+    assert.equal(fields.phone,'(423) 555-0100');
+    for(const name of ['name','email','address','message'])assert.equal(fields[name],f.elements[name].value);
+    assert.ok(fields.source);assert.ok(fields.submitted_at);
+    assert.equal(fields.submitting_path,'/'+v.page.replace('index.html',''));
+    assert.equal(fields._gotcha,'');
+    assert.deepEqual(fields,p.data,'serialization preserves every field');
+    if(p.url===endpoints.zapierMirror){assert.equal(p.options.mode,'no-cors');assert.equal(p.options.keepalive,true);}
+    decoded.push(fields);
+   }
+   if(decoded.length===2)assert.deepEqual(decoded[0],decoded[1],'both destinations receive the same field snapshot');
+   h.submit(f);await h.settle();assert.equal(h.posts.length,v.posts,'no duplicate send');
+   assertions++;
+  }finally{h.dom.window.close();}
+ }
+ console.log('PASS '+assertions+' quick-request, validation, delivery, homepage/service-form and calculator checks (including 10 encoded-payload cases); 0 live requests.');
 })().catch(e=>{console.error(e);process.exit(1);});
