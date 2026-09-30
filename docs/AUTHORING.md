@@ -20,6 +20,8 @@ Request cards use `request-surface`, forms use `request-form`, submit buttons us
 
 The finish uses native controls and CSS, with no package or icon dependency. Preserve native disclosure markers, visible focus, 16px inputs, 48px targets, reduced-motion and forced-colors support. Avoid animated layout or result transforms: result focus and scroll positioning are part of delivery usability. After visual edits, check the home, quick-request and service/area forms at narrow and wide widths, including optional details and accepted/uncertain results.
 
+The homepage's `request-focus-surface`, `request-start-field` and `request-start-cue` classes make the desktop CTA destination visible through native `:focus-within`. The card gets an outline and the phone label shows a visual-only “Start here” cue; reserved label space prevents a jump. The 881px breakpoint matches the two-column hero. Keep it aligned if that layout breakpoint changes. No timer or animation is used, and the stacked mobile layout keeps its existing behavior.
+
 ## Contact and public configuration
 
 Edit **`config/site.json`** for public phone formats, existing email destinations, form endpoints, timeout, and production analytics host names. The contact fields preserve separate purposes: `email` is public information, `ownerEmail` is the published direct contact, and `hiringEmail` is applications. Keep phone formats consistent when changing the number; the build rejects mismatches. These values are public and must never contain credentials.
@@ -55,7 +57,7 @@ See [verification evidence](VERIFICATION.md) for event definitions, delivery obs
 - `scripts/site_check.py` checks `dist/` by default; `SITE_ROOT` or `--root` can override it. Dependency, scratch and generated directories are excluded from source-mode scans. `npm test` supplies the rendered root to all checks.
 - `netlify.toml` selects the Netlify draft-preview build command and `dist/` folder. `wrangler.jsonc` restricts Cloudflare Pages output to `dist/` while preserving the verified compatibility date. Cloudflare project settings were authorized, applied and read back on September 29, 2026: `npm run build`, output `dist`, empty root directory. The existing `.nvmrc` selects Node 24.19.0. The PR #6 preview built, deployed and passed the served-content checks recorded in [the release record](RELEASE.md). That record also defines authorization boundaries. `.github/workflows/site-check.yml` owns CI and scheduled seasonal verification.
 
-Cloudflare's build settings apply project-wide. Current production `main` predates this build system and lacks `package.json` and the new build script. Do not rebuild that old revision with the new settings. The setting fix and preview retry do not authorize a merge or production release.
+Cloudflare's build settings apply project-wide. Sean subsequently approved publication, and PR #6 is now merged and deployed with this build system. Only the legacy revision `1c392f6` lacks the new build files; rebuilding that old source requires legacy settings. The [release record](RELEASE.md) identifies the verified deployment, existing rollback artifact and remaining verification limits.
 
 The build is deterministic for identical source, configuration and hosting metadata. `version.json` records the commit's date, not a fabricated release time. Release verification date is recorded separately in `docs/RELEASE.md`.
 
