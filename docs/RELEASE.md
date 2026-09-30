@@ -1,6 +1,16 @@
 # Website release record
 
-## Verified production baseline — September 29, 2026
+## Published release — September 29, 2026
+
+Sean approved publication after the Cloudflare setting fix. [PR #6](https://github.com/seanpr1/magnolia-gardens/pull/6) merged into `main` as `ac429d2c69f4864449dcb7ebd3dab53adf38b259`. Cloudflare production deployment `21d32458-2d96-4b38-a376-9166eea97faf` succeeded at `2026-09-29T23:54:28.003533Z`.
+
+GET-only production verification passed: the clean `main`/`production` version marker matched that revision and carried `no-store`; five critical pages matched the tested build after separately excluding one observed 367-byte Cloudflare Insights script per page; all 16 referenced JS/CSS assets matched exactly. Both www routes served the release with apex canonical links. No preview `noindex` header leaked into production. Cloudflare and repository checks passed.
+
+Physical iPhone/Android behavior, assistive technology, production analytics receipt and actual phone-only downstream receipt remain unverified. Publication does not certify those outcomes. No live test submissions, customer messages, CRM writes or Zap changes were made during the release.
+
+The rollback artifact is deployment `cd1ce52d-e9bf-43f9-96cf-87daba0d9996`, revision `1c392f6edd8ee24ca8686a28074fcbfc03aae7fb`. Restore that existing artifact if an authorized rollback is needed; rebuilding its legacy source requires legacy build settings. No rollback was performed. Later documentation-only commits may advance the served revision; read `/version.json` and the hosting deployment for the current head. The application release verified above remains the reference for unchanged application bytes.
+
+## Previous production baseline and draft history — September 29, 2026
 
 The implementation coordinator inspected Cloudflare Pages metadata on September 29. The production deployment and revision below remained unchanged after the authorized build-setting update and PR #6 preview retry recorded below.
 
@@ -29,18 +39,18 @@ The existing `.nvmrc` selects Node 24.19.0. Source and runtime configuration wer
 
 The retry log verified Node 24.19.0 and npm 12.1.0, a clean install of 37 packages, and `npm run build` producing 79 public files with the `branch-deploy` version context. Build and deployment succeeded at the time recorded above. Read-only verification confirmed the expected revision, `branch-deploy` context and clean working-tree marker, a `no-store` header on `/version.json`, five of five critical pages matching the local build exactly, and all 16 referenced JS/CSS assets matching their content hashes and local bytes. Later documentation commits trigger new previews; the version marker identifies their actual deployed revision.
 
-These settings apply project-wide. Production `main` at `1c392f6edd8ee24ca8686a28074fcbfc03aae7fb` lacks `package.json` and the new build script; do not rebuild that old revision with the new settings. The existing production deployment remains unchanged and remains an existing artifact that can be restored if a rollback is separately authorized. Rebuilding that old source would require its legacy build settings; restoring the deployment artifact does not rebuild it. No rollback was performed. This authorization does not include a merge, production release, live lead submission or customer message.
+These settings apply project-wide. The former production revision `1c392f6edd8ee24ca8686a28074fcbfc03aae7fb` lacks `package.json` and the new build script; do not rebuild that old revision with the new settings. At the time of the setting fix, its deployment remained unchanged. It is now the retained rollback artifact. Rebuilding that old source requires its legacy settings; restoring its deployment artifact does not rebuild it. No rollback was performed. The initial setting-fix authorization excluded publication; Sean subsequently approved the release recorded above.
 
-The new source contains contact placeholders and requires rendering. Publish only `dist/`, never the repository root. Before any separately authorized release, verify a successful Cloudflare preview of the approved revision and complete the remaining release checks below.
+The source contains contact placeholders and requires rendering. Publish only `dist/`, never the repository root. For future releases, verify a successful Cloudflare preview of the approved revision and record the checks and remaining limits below.
 
 ### Historical evidence before the setting fix
 
 The initial read-only inspection found empty Cloudflare build command, destination directory and root directory. `wrangler.jsonc` selected only `dist/` and preserved the compatibility date. Its output guard was verified on September 29 for application revision `f3a0a2e7bda0cdd223df4d20b7f979cb9419e1ea`: Cloudflare preview `554e1cc2-3fd4-4f24-ac97-146a6df4daa1` skipped the unspecified build command and failed because `dist` did not exist. It did not publish source templates. Netlify successfully built the rendered preview. This failure predates the authorized settings above.
 
-## Current draft validation
+## Pre-release validation history
 
 - Source validation date: September 29, 2026. Current draft commit and preview deployment ID are generated in the marker linked above; the PR records the observed deployment and check results.
-- Keep the draft open and unmerged. A merge or production release requires separate authorization and completion of the remaining verification.
+- The earlier draft-only restriction was superseded by Sean's publication approval and the release recorded above. Verification limits remain explicit.
 - Offline setup/check: `npm ci --ignore-scripts`, then `npm test`.
 - Actual offline result: a clean clone of application revision `f3a0a2e7bda0cdd223df4d20b7f979cb9419e1ea` with fresh locked dependencies passed on Node 24.19.0/npm 12.1.0/Python 3.14: build/failed-build preservation, 51 static checks, 54 pricing combinations, 79 adapter checks, and 18 shared-form/attribution/privacy contracts. No live requests.
 - Browser evidence: 278 responsive checks across five widths/five pages; then 99 input/recovery/SMS checks and 87 homepage checks on the final application revision. The final checks verify visible result focus and no sideways hero scrolling. Twenty browser transport/throwing-tracker cases and campaign navigation/storage-fallback checks also passed. Physical-device limits below remain open.
@@ -69,4 +79,4 @@ Before release, record the current production deployment/revision as the rollbac
 
 | Verification date/time | Production revision / deploy ID | Release checks | Rollback revision / deploy ID |
 |---|---|---|---|
-| No release from this draft recorded | — | — | — |
+| September 29, 2026, after `23:54:28Z` | `ac429d2c69f4864449dcb7ebd3dab53adf38b259` / `21d32458-2d96-4b38-a376-9166eea97faf` | Correct production marker; 5 pages and 16 assets; www canonicals and indexing headers verified. Physical-device, assistive-technology, analytics receipt and actual phone-only receipt remain unverified. | `1c392f6edd8ee24ca8686a28074fcbfc03aae7fb` / `cd1ce52d-e9bf-43f9-96cf-87daba0d9996` |
