@@ -70,8 +70,9 @@ Catch Hook parsed output → Code step with mapped name/email/address and the
 complete trigger-output JSON → existing name/email gate or fallback alert.
 The classifier reads top-level phone from that complete object. Phone-only
 data goes to `manual_review` with the phone preserved, not `empty_webhook`;
-automatic intake still requires valid name/email. This is historical saved
-configuration, not a fresh confirmation of the current published Zap.
+automatic intake still requires valid name/email. Authenticated read-only
+inspection on September 30 confirmed published v6 and the same executed
+classifier in both empty runs and the newer populated run.
 
 Catch Hook returns parsed data. The alert's serialized `Raw Output` therefore
 does not establish the original HTTP body, method, sender or Content-Type.
@@ -89,8 +90,10 @@ alerts also predate the release. Neither timing nor this parsed payload proves
 that the source was a customer, test, bot, GET request or lost lead.
 
 A newer, populated homepage submission arrived at 10:12:43 Eastern on
-September 30. Matching Jobber and acknowledgment emails followed within
-13 seconds. This rules out a universal post-release failure for that
+September 30. Its live run contains the populated top-level contact fields,
+classifies them as `ready`, and successfully executes Jobber client lookup,
+request creation and the Gmail acknowledgment. Matching Formspree, Jobber
+and acknowledgment emails corroborate the same submission. This rules out a universal post-release failure for that
 populated route. Customer identities and private message IDs are intentionally
 kept out of this public repository.
 
@@ -116,15 +119,35 @@ and manual follow-up, plus the unknown source/parsing of the empty events.
 This work changes tests/documentation only, with no production publication,
 live test inquiries, Zap changes, customer messages or record writes.
 
-### Remaining read-only check
+### Completed live read-only inspection
 
-Zapier redirected to sign-in during this investigation. With authorized access,
-inspect the existing two runs near the alert email times, record their actual
-trigger timestamps and versions, compare the hook URL to `config/site.json`,
-inspect any child-key selection and complete Step 1 output, and compare the
-Code-step inputs/outputs and fallback mappings with saved v6. Compare an
-existing populated run and any existing phone-only run. Do not replay, test
-actions, create a draft Zap or publish changes. If the original request method,
-headers and unparsed body are unavailable, preserve that limit; do not infer
-them from `querystring`. A live test would require separately authorized,
-controlled downstream effects and should only follow this read-only check.
+After authentication, the two existing alert runs were traced through Catch
+Hook, Code, fallback and Gmail. Gmail-step output IDs match the two supplied
+messages exactly. Both ran published v6; the enabled Zap still uses v6.
+An existing unpublished draft was left untouched.
+
+| Event | Actual trigger time (Eastern) | Observed path |
+|---|---|---|
+| First alert | September 29, 19:52:08 | Catch Hook contains only empty querystring; Code receives exactly `{"querystring": {}}`; `empty_webhook`; fallback email |
+| Second alert | September 29, 20:53:49 | Same parsed output, Code input and classification; fallback email |
+| Populated homepage request | September 30, 10:12:43 | Top-level contact/body fields; `ready`; automatic Jobber and acknowledgment path |
+
+Times use the editor's explicit GMT-07:00 timestamps converted to Eastern,
+corroborated by message timestamps. The legacy history table labels those
+same displayed clock values UTC; that inconsistent label is not used here.
+
+The configured hook URL matches `config/site.json`; Pick off a Child Key
+is empty. No contact fields disappeared between the captured trigger output
+and the classifier. The inspected history does not expose the original HTTP
+method, headers, sender or unparsed body. Therefore it cannot determine why
+those requests were empty or whether data was lost before parsed capture.
+A populated run also has an empty querystring alongside its populated body
+fields: an empty querystring by itself is not evidence of a failed POST.
+
+The source-to-alert trace is now verified, but there is still no observed
+fully phone-only production receipt in the inspected evidence. Phone-only
+submissions depend on manual review; Formspree-only routes must not be assumed
+to enter Jobber. Closing that specific delivery gap requires an existing
+qualifying receipt or a separately authorized controlled live test with
+downstream effects understood. No replay, test action, Zap edit or publication
+was performed.
