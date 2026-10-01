@@ -151,3 +151,66 @@ to enter Jobber. Closing that specific delivery gap requires an existing
 qualifying receipt or a separately authorized controlled live test with
 downstream effects understood. No replay, test action, Zap edit or publication
 was performed.
+
+## October 1 follow-up: September 30 evening alerts
+
+The September 30 PR update at 21:33:40 UTC predates three additional alert
+emails: two at 22:10:30 UTC and one at 23:01:15 UTC. All three contain exactly
+`{"querystring": {}}` and `Classification: empty_webhook`.
+
+### Message identity and source-run limits
+
+The simultaneous emails have different Gmail message IDs, thread IDs and
+RFC Message-ID headers. They are two distinct email artifacts, each carrying
+both SENT and INBOX labels; those labels are not separate notifications.
+Their bodies and second-level timestamps match. Neither their bodies nor
+their available MIME headers contain a Zapier run or source-request ID.
+This does **not** establish whether one source run sent twice or two source
+runs sent once each. Do not deduplicate source events by timestamp/body alone.
+
+The later email has a third distinct message identity, 50 minutes 45 seconds
+after the simultaneous pair. It establishes later alert recurrence; without
+the run-to-Gmail-output mapping it does not establish a distinct source run
+or identify its original request.
+
+### Later populated submissions
+
+Connected Gmail searches completed by October 1, 13:18 UTC covered messages after the
+PR update, after the simultaneous pair and after the later alert. Searches
+included spam/trash and Formspree, submission, manual-review, quote-request,
+webhook and business-quotes sender/recipient terms. All result pages were
+exhausted; no later populated submission notification was found. This is a
+bounded mailbox finding, not proof that no submission reached a provider or
+another destination.
+
+The populated September 30 14:12:43 UTC Formspree receipt was reread. It
+predates both the PR update and these alerts, so it is earlier corroborating
+evidence, not a subsequent successful submission. Its successful populated
+route remains the separately verified September 30 finding above; it does
+not close current-release fully phone-only delivery or manual-follow-up gaps.
+
+### Repository decision and remaining check
+
+Fresh remote inspection found PR #8 still draft/unmerged at
+`3fdced19bc5991e8ea73e19a63d10eaf5bfbdfc3`, with base/main at
+`613aab8533ad4c7ab106b40fb9d5bc50a6d32182`, before this documentation
+update. Its only existing changes were this record and the adapter test file.
+The current shared controller still validates phone, snapshots FormData
+before disabling controls, and sends that snapshot once to each configured
+destination. No runtime defect or regression was demonstrated.
+
+The assessment therefore remains unchanged: preserve the current website
+behavior and investigate source identity/parsing separately. These emails
+alone do not justify a transport change, mandatory contact fields, retry,
+alert suppression or pricing change. Catch Hook's parsed empty object is
+not the original HTTP request.
+
+Live run-history inspection in this follow-up stopped at sign-in pending
+account confirmation. Source-run deduplication remains unresolved. Once
+authorized access is restored, match each email ID against saved Gmail-step
+outputs and compare trigger/run IDs and timestamps; inspect later existing
+runs for populated fields. Do not test, replay or edit the Zap.
+
+This follow-up updates evidence only. Earlier test results above remain
+dated results; no new local test pass, live Zap version check, production
+deployment or fresh served-byte verification is claimed.
