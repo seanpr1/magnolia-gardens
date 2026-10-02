@@ -154,6 +154,9 @@ was performed.
 
 ## October 1 follow-up: September 30 evening alerts
 
+This initial mailbox-only pass is retained as dated evidence. The completed
+authenticated follow-up below supersedes its run-identity and access gaps.
+
 The September 30 PR update at 21:33:40 UTC predates three additional alert
 emails: two at 22:10:30 UTC and one at 23:01:15 UTC. All three contain exactly
 `{"querystring": {}}` and `Classification: empty_webhook`.
@@ -214,3 +217,55 @@ runs for populated fields. Do not test, replay or edit the Zap.
 This follow-up updates evidence only. Earlier test results above remain
 dated results; no new local test pass, live Zap version check, production
 deployment or fresh served-byte verification is claimed.
+
+## Completed authenticated follow-up — October 2, 00:35 UTC
+
+After the owner confirmed the Magnolia account, authenticated read-only
+inspection matched **each of the three Gmail message IDs to a different Zap
+run's saved step 12 output**. The simultaneous emails therefore came from
+two separate Zap executions, each producing its own email. They were not
+two sends from one Zap run.
+
+| Alert email time, September 30 (UTC) | Catch Hook execution time (UTC) | Verified trace |
+|---|---|---|
+| 22:10:30, first message | 22:10:23 | Separate v6 run; empty trigger output; `empty_webhook`; fallback; matching Gmail output |
+| 22:10:30, second message | 22:10:23 | Different v6 run; empty trigger output; `empty_webhook`; fallback; matching Gmail output |
+| 23:01:15 | 23:00:52 | Third v6 run; empty trigger output; `empty_webhook`; fallback; matching Gmail output |
+
+All three Code inputs contain exactly `{"querystring": {}}`; their outputs
+have `intake_ready=no` and `submission_state=empty_webhook`. Each history
+entry reports two tasks; path B ran and automatic-intake path A did not.
+Private run/message identifiers and direct evidence links are retained in
+the existing private intake record, not this public repository.
+
+Two executions can still be upstream duplicates of the same original
+request. The inspected parsed trigger data does not expose an original
+request/event identifier, HTTP method, headers, sender or unparsed body.
+Thus the single-run duplicate-email question is resolved, while upstream
+request deduplication and the cause of the empty requests remain unknown.
+Trigger timestamps come from the editor's explicit America/New_York
+GMT-04:00 display. The legacy history table misleadingly labels the same
+clock values UTC; that label was not used for conversion.
+
+The enabled published Zap remains v6, "Website payload classification and
+accurate alerts." Its existing unpublished draft was left untouched.
+Refreshed all-status Last 30 days history showed 18 runs on one page, with
+both pagination directions disabled and the 23:00:52 UTC run newest. No
+subsequent run, including a populated one, was visible through this
+inspection. Connected Gmail searches through October 2, 00:31 UTC likewise
+found no later intake notification. These are bounded observations of this
+Zap and mailbox, not proof of no provider submissions elsewhere.
+
+The latest populated notification in this evidence remains September 30
+14:12:43 UTC, before the PR update and all three evening alerts. Its
+previously verified successful route does not establish post-alert recovery
+or fully phone-only current-release delivery.
+
+The later run confirms recurrence under the same v6 logic and does not
+change the evidence-only assessment. No website runtime defect was
+established. Remote main remains
+`613aab8533ad4c7ab106b40fb9d5bc50a6d32182`; PR #8 was still open/draft at
+`af5c26e8aea26ffd7cee0bf1ad0122200d641ad9` before this follow-up.
+No code fix, suppression, pricing change, runtime behavior change, replay,
+test event, Zap edit or production publication was made. Local test suites
+were not rerun for this documentation-only update.
