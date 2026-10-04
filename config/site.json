@@ -13,6 +13,7 @@
   "forms": {
     "formspree": "https://formspree.io/f/mdajnnjw",
     "zapierMirror": "https://hooks.zapier.com/hooks/catch/27365121/46gfqem/",
+    "rawHookDiagnostic": { "url": "", "expiresAt": 0 },
     "timeoutMs": 15000
   },
   "analytics": {

@@ -1,5 +1,128 @@
 # Form measurement and delivery verification
 
+## October 4: separate raw-hook diagnostic prepared, disabled
+
+Zapier Support's October 4 reply was read directly and supersedes the earlier
+unresolved diagnostic-path question. Catch Hook and Catch Raw Hook are separate
+triggers. The existing Catch Hook endpoint cannot retain its current parsed
+output and also expose future raw requests. For multipart FormData, Catch Raw
+Hook retains the unparsed body and headers, with a **2 MB body limit**; it does
+not produce the production Zap's normalized fields. A parser would be needed
+for field extraction, but is unnecessary for the first raw-body screenshot.
+The [official webhook guide](https://help.zapier.com/hc/en-us/articles/8496288690317-Trigger-Zap-workflows-from-webhooks)
+also documents the trigger distinction and limit. The private investigation
+record retains the support message identity and exact receipt time.
+
+Support recommends preserving the production Zap and using a separate Catch
+Raw Hook diagnostic Zap for a small number of future mirrored submissions.
+An unpublished Zap can receive controlled editor test samples during setup;
+it is not a reliable passive collector for an extended production window.
+Support requested a screenshot of one mirrored Catch Raw Hook test result.
+No diagnostic Zap, webhook URL, sample, screenshot or support reply has been
+created/sent in this draft update.
+
+This resolves the supported **future diagnostic method**, not the cause of the
+old empty runs. Support says `{"querystring": {}}` only establishes that no
+parsed body fields were retained; it cannot identify the original sender or
+distinguish absent fields from an unparsed body format. Historical source
+identity, possible duplicate upstream requests and current-release phone-only
+receipt/manual follow-up remain unverified.
+
+### Draft implementation and bounds
+
+`config/site.json` leaves `forms.rawHookDiagnostic` at
+`{"url":"","expiresAt":0}`. **The new diagnostic webhook URL is unset and is
+the missing external configuration.** No production endpoint is reused or
+invented. The normal Formspree request and existing Catch Hook copy retain
+their destinations, fields and behavior.
+
+The optional branch in `assets/form-core.js` applies only to forms already
+using the production mirror: homepage hero/detailed and `/estimate/`.
+Service/area forms, hiring and native no-JavaScript submissions are unchanged.
+It reuses the completed FormData snapshot captured before controls are
+disabled, including adapter and campaign fields. It adds no payload fields,
+custom multipart header, telemetry, storage or customer-facing UI.
+
+The diagnostic is armed only in a selected page's in-memory configuration,
+with an expiry no more than five minutes away. It attempts at most **one** raw
+POST across that page's forms, even if that POST fails. Invalid configuration,
+expired/missing expiry, a non-Zapier URL or either existing destination is
+ignored. Normal validation and honeypot handling still send nothing.
+The primary Formspree request starts before the diagnostic fetch. The extra
+`no-cors` request is never awaited or retried; thrown errors, rejected or
+pending requests and opaque responses cannot control customer results or
+conversion metrics. It omits `keepalive` to avoid competing with the existing
+mirror's shared keepalive body quota; navigation can cancel the diagnostic.
+
+This is a one-page controlled test, not a global sampling system. Reloading
+clears the arm and resets the attempt allowance; another sample requires
+explicitly arming again. Do not commit a real URL/expiry or broadcast this
+configuration to visitors. Keep the test page open while collecting evidence.
+The 2 MB limit is enforced by Zapier, not measured by this helper; choose one
+small text-only sample well below that limit.
+
+### Offline validation on October 4
+
+The updated draft passed `npm test` with Node 24.21.0 (within the declared
+24.x engine range), npm 12.1.0 and Python 3.14.5: deterministic build/publish
+checks, 51 static checks, 54 pricing combinations, 89 adapter checks (including
+the existing 10 multipart-encoding cases) and 70 shared-form contracts.
+The latter include disabled/invalid/expired/colliding configuration, one
+attempt across forms, payload preservation, dispatch order and all four
+primary outcomes crossed with diagnostic success/rejection/failure/throw/hang.
+The committed configuration is also checked to remain blank and disarmed.
+All transport and telemetry were mocked; no provider or analytics requests
+were made. These results do not prove actual browser transport, Zapier raw
+capture, downstream receipt or the requested screenshot.
+
+### Smallest later test and cleanup
+
+These steps are prepared for a separately authorized live test; none has run.
+
+1. Create a **separate** diagnostic Zap with Webhooks by Zapier → Catch Raw
+   Hook. Do not change the production Zap's trigger, mappings, version,
+   alerts or downstream steps. Keep the diagnostic free of Jobber, email,
+   conversion and other downstream actions. Open its trigger Test tab and
+   copy its new URL. Do not probe either hook with GET.
+2. Use a page running this reviewed draft only after preview/release or local
+   live-test execution is authorized. Ordinary local previews still contain
+   real production intake endpoints. Decide the single sample and account
+   for its normal Formspree/production-Zap effects before submission; a
+   synthetic sample can still create real records or messages.
+3. In that page's browser console, fill the empty string below with the new
+   diagnostic URL and run it once. This does not submit the form. The empty
+   default stays disabled. Do not change `formspree` or `zapierMirror`.
+
+   ```js
+   window.MG_SITE_CONFIG.forms.rawHookDiagnostic = {
+     url: '', // UNSET: separate Catch Raw Hook URL supplied by its Test tab
+     expiresAt: Date.now() + 5 * 60 * 1000
+   };
+   ```
+
+4. Submit one authorized small sample through an eligible form. Use the
+   existing `submitted_at`, form `source` and submitting path to correlate
+   the three copies and capture times; add no special customer fields. In
+   the diagnostic Zap's Test tab, retrieve that sample and inspect the raw
+   multipart body and headers, including Content-Type/boundary and expected
+   fields/optional blanks. A `no-cors` browser response is not proof of
+   receipt. Reusing FormData preserves field content, not byte-identical
+   multipart boundaries or headers across separate requests.
+5. Capture the requested screenshot showing the **separate diagnostic**
+   trigger, matched sample, raw body and relevant headers. Keep customer
+   data, hook URLs and private account details out of the public PR. Store
+   the original privately; review/redact unrelated sensitive content before
+   an authorized reply in the existing support case. Record actual capture
+   and provider results; do not fabricate a screenshot from local mocks.
+6. Disarm immediately by setting the object back to
+   `{url: '', expiresAt: 0}` or closing/reloading the page. Disable/remove
+   the separate diagnostic Zap after its authorized window, leaving the
+   production Zap alone. Never automatically resend a failed/unknown
+   sample; any further sample needs an explicit decision about duplicates.
+
+A later passive traffic window would need separately reviewed collection and
+deployment choices; this one-page test does not silently enable one.
+
 ## What each outcome means
 
 | Signal | Definition | Counting rule |

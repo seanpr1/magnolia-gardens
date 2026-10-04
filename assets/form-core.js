@@ -3,6 +3,24 @@
 (function () {
   'use strict';
   var bindings = new WeakMap();
+  var rawDiagnosticAttempted = false;
+  // One explicitly armed sample per page, across all forms; never persisted.
+  function mirrorRawDiagnostic(payload, cfg, config) {
+    try {
+      var diagnostic = config.rawHookDiagnostic, now = Date.now();
+      if (rawDiagnosticAttempted || !cfg.mirror || !config.zapierMirror || !diagnostic) return;
+      if (!Number.isFinite(diagnostic.expiresAt) || diagnostic.expiresAt <= now || diagnostic.expiresAt > now + 300000) return;
+      if (typeof diagnostic.url !== 'string' || !/^https:\/\/hooks\.zapier\.com\/hooks\/catch\/\d+\/[A-Za-z0-9_-]+\/?$/.test(diagnostic.url)) return;
+      if ([config.zapierMirror, config.formspree].some(function (url) { return diagnostic.url.replace(/\/$/, '') === url.replace(/\/$/, ''); })) return;
+      rawDiagnosticAttempted = true;
+      var url = diagnostic.url;
+      // No keepalive: do not consume the existing mirror's shared body quota.
+      // An opaque response proves no receipt. Failure never affects intake.
+      Promise.resolve().then(function () {
+        return fetch(url, { method: 'POST', body: payload, mode: 'no-cors' });
+      }).catch(function () {});
+    } catch (_) {}
+  }
   function call(fn, value) { try { if (typeof fn === 'function') return fn(value); } catch (_) {} }
   function track(name, props) {
     try { if (window.MG_FORM_METRICS) window.MG_FORM_METRICS.track(name, props); } catch (_) {}
@@ -75,7 +93,9 @@
           try { Promise.resolve(fetch(config.zapierMirror, { method: 'POST', body: payload, mode: 'no-cors', keepalive: true })).catch(function () {}); } catch (_) {}
         }
         var timeout = Number.isFinite(config.timeoutMs) && config.timeoutMs > 0 ? config.timeoutMs : 15000;
-        var outcome = await post(config.formspree, payload, timeout);
+        var request = post(config.formspree, payload, timeout);
+        mirrorRawDiagnostic(payload, cfg, config);
+        var outcome = await request;
         finish(outcome, controls);
       } catch (_) { finish('network_failure', controls); }
       return state;
