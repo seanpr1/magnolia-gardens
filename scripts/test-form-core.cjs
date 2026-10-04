@@ -56,10 +56,30 @@ function close(h) { h.dom.window.close(); }
       const form = dom.window.document.getElementById(id);
       assert.equal(form.noValidate, false, 'native browser validation remains when JavaScript is unavailable');
       assert.equal(form.checkValidity(), false, 'phone is still required without JavaScript');
+      for (const phone of ['abc', '423555010', '(423) 555-010']) {
+        form.elements.phone.value = phone;
+        assert.equal(form.checkValidity(), false, 'native phone validation must reject fewer than ten digits: ' + phone);
+      }
+      for (const phone of ['4235550100', '(423) 555-0100', '+1 423-555-0100', '+44 20 7946 0958']) {
+        form.elements.phone.value = phone;
+        assert.equal(form.checkValidity(), true, 'native phone validation must preserve formatted/international numbers: ' + phone);
+      }
       form.elements.phone.value = '4235550100'; form.elements.email.value = 'broken';
       assert.equal(form.checkValidity(), false, 'invalid optional email is rejected without JavaScript');
       form.elements.email.value = '';
       assert.equal(form.checkValidity(), true, 'phone only is valid without JavaScript');
+    }
+    dom.window.close(); checks++;
+  }
+  // Every homepage quote CTA has a native destination when its enhancement cannot load.
+  {
+    const dom = new JSDOM(read('index.html'));
+    const links = [...dom.window.document.querySelectorAll('.cta-jump')];
+    assert.ok(links.length > 0);
+    for (const link of links) {
+      assert.equal(link.tagName, 'A', 'quote navigation must work without a click handler');
+      assert.equal(link.getAttribute('href'), '#heroIntakeForm');
+      assert.ok(dom.window.document.getElementById(link.hash.slice(1)), 'the native quote destination exists');
     }
     dom.window.close(); checks++;
   }

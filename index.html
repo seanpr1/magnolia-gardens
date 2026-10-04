@@ -1355,7 +1355,7 @@
           <div class="hero-quote-h" role="heading" aria-level="2">Request a Free Quote</div>
           <p class="hero-quote-sub">Just your phone number to get started. Add details only if you want to.</p>
 
-          <div class="intake-field request-start-field"><label for="hf2-phone">Phone number <span class="request-start-cue" aria-hidden="true">Start here ↓</span></label><input type="tel" id="hf2-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+          <div class="intake-field request-start-field"><label for="hf2-phone">Phone number <span class="request-start-cue" aria-hidden="true">Start here ↓</span></label><input type="tel" id="hf2-phone" name="phone" required pattern="(?:\D*\d){10,}\D*" title="Please enter a phone number with at least 10 digits." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
   <div class="optional-fields">
@@ -1575,12 +1575,12 @@
     </div>
 
     <div class="cta-repeat">
-      <button type="button" class="btn-sms cta-jump">
+      <a href="#heroIntakeForm" class="btn-sms cta-jump">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
         Request a Free Quote
-      </button>
+      </a>
       <span class="cta-repeat-note">Free, no obligation. Most quotes the same day.</span>
     </div>
   </div>
@@ -1733,12 +1733,12 @@
     </div>
 
     <div class="cta-repeat">
-      <button type="button" class="btn-sms cta-jump">
+      <a href="#heroIntakeForm" class="btn-sms cta-jump">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
         Request a Free Quote
-      </button>
+      </a>
       <span class="cta-repeat-note">Free quote, usually the same day.</span>
     </div>
   </div>
@@ -1849,7 +1849,7 @@
 
         <form class="request-form" id="intakeForm" action="{{forms.formspree}}" method="POST">
 
-          <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+          <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required pattern="(?:\D*\d){10,}\D*" title="Please enter a phone number with at least 10 digits." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
   <div class="optional-fields">

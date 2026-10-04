@@ -95,7 +95,7 @@
 <p class="intro">Leave your number. We’ll follow up about your yard.</p>
 <section class="request-card request-surface" aria-label="Quote request">
 <form class="request-form" id="quickRequest" action="{{forms.formspree}}" method="POST">
-<div class="field"><label for="qr-phone">Phone number</label><input type="tel" id="qr-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+<div class="field"><label for="qr-phone">Phone number</label><input type="tel" id="qr-phone" name="phone" required pattern="(?:\D*\d){10,}\D*" title="Please enter a phone number with at least 10 digits." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
   <div class="optional-fields">

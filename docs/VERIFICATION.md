@@ -1,5 +1,100 @@
 # Form measurement and delivery verification
 
+## October 4: customer submission audit and native fallback fixes
+
+The deployed revision was read from `/version.json` as clean production
+`613aab8533ad4c7ab106b40fb9d5bc50a6d32182`. Tests used those public page and
+asset bytes in real Chromium at desktop (1440 × 1000) and mobile (390 × 844)
+sizes. Every provider POST and analytics request was intercepted before page
+navigation. Synthetic details never reached Formspree, Zapier, Jobber or a
+mailbox. These tests verify browser behavior and payload construction; they
+do not establish provider acceptance or downstream delivery.
+
+### Coverage and routing
+
+| Customer option | Browser coverage | Delivery boundary |
+|---|---|---|
+| Homepage hero and detailed form; `/estimate/` quick request | Each form with phone only and all optional details, at both sizes | Formspree primary plus the existing separate Catch Hook copy; matching decoded multipart fields at both destinations |
+| `/services/mowing/`, `/services/maintenance/`, `/services/cleanup/`, `/services/mulch/`, `/services/brush-clearing/` | Each form with phone only and all optional details, at both sizes | Formspree only; no direct Zapier mirror |
+| `/areas/kingsport/`, `/areas/bristol/`, `/areas/johnson-city/` | Each form with phone only and all optional details, at both sizes | Formspree only; no direct Zapier mirror |
+| `/estimate/planning/` | Every service/size/frequency combination at both sizes, followed through into a quick-request payload | Planner carries context to `/estimate/`; it is not a separate submission or a numeric-price payload |
+| Call, text and text-photos links | Destination/link inspection, including the no-JavaScript fallbacks | Opens the device's phone/message app; no call, text or photo was sent |
+
+All **44** normal browser cases passed. Phone-only optional blanks, formatted
+phone numbers, full details/Unicode, context fields, one request per configured
+destination, confirmation/focus and duplicate-submit protection were checked.
+Two mobile optional-details clicks initially timed out in the test harness;
+both passed with the control centered in the viewport, without force-clicking
+or changing website code. All **44** validation/honeypot cases also passed.
+All **66** failure cases (each form × both sizes × HTTP rejection, network
+failure and the actual 15-second timeout) preserved recovery details and
+call/text options, emitted no acceptance, and did not automatically resend.
+Two failure cases needed the same centered-scroll harness retry. Planner
+checks covered its 24 combinations at each size (48 in total).
+
+The eight service/area forms are JavaScript enhancements. Without JavaScript,
+their existing call/text and quick-request links remain available. The two
+homepage forms and quick-request form retain native Formspree POSTs, without
+the JavaScript-only mirror, timestamp or campaign fields. Hiring and the
+internal quote tool are separate from these customer inquiry routes.
+
+### Confirmed defects and draft repairs
+
+The deployed site has two fallback defects when JavaScript is unavailable:
+two repeated homepage quote buttons have no native destination, and the three
+native phone inputs accept non-phone text such as `abc`. PR #8 changes those
+two buttons into links to the existing hero form and adds native phone
+patterns matching the existing JavaScript minimum of ten digits. Formatted
+and international numbers remain accepted. These repairs are **draft only**;
+the deployed site still has the defects until a later authorized release.
+Normal JavaScript intake, optional-field requirements, endpoints, prices and
+the production Zap are unchanged.
+
+All ten focused browser checks of the draft passed: six native-form cases
+reject letters/short numbers and accept a valid phone with optional email
+blank; two no-JavaScript CTA checks navigate to the form; two JavaScript CTA
+checks retain phone focus. The audit also exercised 22 production
+no-JavaScript route cases and reproduced both inert CTA locations. Those
+defect reproductions are evidence of the deployed problems, not claims that
+every production fallback works.
+
+The full repository suite passed after these repairs: deterministic
+build/publish checks, 51 static checks, 54 pricing combinations, 89 adapter
+checks and **71** shared-form contracts. Regression checks cover native
+phone validation and each quote link's real destination. Provider/analytics
+transport in that suite is mocked, and remote CI is intentionally skipped
+by the draft's deployment-suppression markers.
+
+### Actual receipt evidence and remaining delivery checks
+
+Fresh read-only Gmail and Jobber inspection matched the latest visible
+populated website receipt (September 30) to its existing Jobber request,
+including phone, contact details and project message, plus a SENT
+acknowledgment. This establishes preservation of that specific inquiry;
+SENT does not establish customer receipt or reading. Private identifiers and
+follow-up details remain in the existing private investigation record.
+
+The production Zap remains enabled on published v6. Its published classifier
+and fallback email mapping were read again. Sixteen offline cases using that
+classifier preserve phone-only details for manual review; automatic intake
+requires a name and valid email. The fallback is configured to send the state
+and complete captured payload to the quotes inbox. This is configuration and
+offline evidence, not a new phone-only receipt. Service/area forms have no
+direct automatic Jobber route in the website and must also be reconciled
+against Formspree and the inbox.
+
+**No all-clear for lost submissions is claimed.** Formspree requires sign-in
+before its current Inbox, Spam, Over Limit, quota and delivery/workflow
+settings can be inspected. Its [over-limit documentation](https://help.formspree.io/articles/form-and-project-settings/over-limit-submissions)
+explains that forms can keep accepting stored submissions while notifications
+and plugins stop at the account limit. No quota failure was established in
+this audit; mailbox and Zap-history absence cannot exclude that condition.
+Current-release fully phone-only and service/area provider receipt, physical
+iPhone/Android handoff, and actual call/SMS delivery remain unverified.
+No live test, replay, customer contact, Zap change, deployment or merge was
+performed. Preserve existing records and inspect those provider folders before
+choosing any recovery or controlled live test.
+
 ## October 4: separate raw-hook diagnostic prepared, disabled
 
 Zapier Support's October 4 reply was read directly and supersedes the earlier
