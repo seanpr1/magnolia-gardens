@@ -17,7 +17,7 @@ do not establish provider acceptance or downstream delivery.
 | Homepage hero and detailed form; `/estimate/` quick request | Each form with phone only and all optional details, at both sizes | Formspree primary plus the existing separate Catch Hook copy; matching decoded multipart fields at both destinations |
 | `/services/mowing/`, `/services/maintenance/`, `/services/cleanup/`, `/services/mulch/`, `/services/brush-clearing/` | Each form with phone only and all optional details, at both sizes | Formspree only; no direct Zapier mirror |
 | `/areas/kingsport/`, `/areas/bristol/`, `/areas/johnson-city/` | Each form with phone only and all optional details, at both sizes | Formspree only; no direct Zapier mirror |
-| `/estimate/planning/` | Every service/size/frequency combination at both sizes, followed through into a quick-request payload | Planner carries context to `/estimate/`; it is not a separate submission or a numeric-price payload |
+| `/estimate/planning/` | All 24 service/size/frequency links at both sizes; one complete planner-to-quick-request submission at each size | Planner carries context to `/estimate/`; it is not a separate submission or a numeric-price payload |
 | Call, text and text-photos links | Destination/link inspection, including the no-JavaScript fallbacks | Opens the device's phone/message app; no call, text or photo was sent |
 
 All **44** normal browser cases passed. Phone-only optional blanks, formatted
