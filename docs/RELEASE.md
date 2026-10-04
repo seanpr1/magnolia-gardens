@@ -1,5 +1,28 @@
 # Website release record
 
+## Unreleased customer intake checks and diagnostic — October 4, 2026
+
+PR #8 now prepares a separate optional Catch Raw Hook mirror based on the
+verified October 4 support reply. The URL is blank, expiry is zero, and the
+one-page diagnostic is disabled. A subsequent customer submission audit
+tested all 11 customer forms in a real browser at desktop/mobile sizes with
+provider requests intercepted. It found two no-JavaScript fallback defects:
+two homepage quote buttons lacked native destinations and three phone inputs
+accepted non-phone text. The draft repairs those fallbacks with links and
+the existing ten-digit validation rule; normal JavaScript intake, production
+Zap, destinations and pricing are unchanged. The repairs are not deployed.
+See [the audit and delivery limits](VERIFICATION.md#october-4-customer-submission-audit-and-native-fallback-fixes)
+and [the raw-hook test procedure](VERIFICATION.md#october-4-separate-raw-hook-diagnostic-prepared-disabled).
+
+Keep the PR draft and unmerged. Do not deploy or submit a live sample for this
+update. To prevent automatic previews during this draft push, retain
+`[skip netlify]` in the PR title and prefix the commit with `[skip ci]`, per
+[Netlify's PR-preview controls](https://docs.netlify.com/deploy/manage-deploys/manage-deploys-overview/#skip-a-deploy)
+and [Cloudflare's commit controls](https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/).
+GitHub's push/PR checks also skip that commit; local test results must not be
+represented as remote CI success. These markers must remain until a later
+deployment is authorized. No hosting settings are changed.
+
 ## Published release — September 29, 2026
 
 Sean approved publication after the Cloudflare setting fix. [PR #6](https://github.com/seanpr1/magnolia-gardens/pull/6) merged into `main` as `ac429d2c69f4864449dcb7ebd3dab53adf38b259`. Cloudflare production deployment `21d32458-2d96-4b38-a376-9166eea97faf` succeeded at `2026-09-29T23:54:28.003533Z`.

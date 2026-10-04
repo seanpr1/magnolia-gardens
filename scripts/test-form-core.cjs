@@ -8,15 +8,23 @@ const assert = require('node:assert/strict');
 const root = process.env.SITE_ROOT ? path.resolve(process.env.SITE_ROOT) : path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 let checks = 0;
-function setup({ mode = 'accepted', mirror = true, trackerThrows = false, readThrows = false, resultThrows = false, resultMutates = false } = {}) {
+const rawUrl = 'https://hooks.zapier.com/hooks/catch/123456/offline-diagnostic/';
+const armedDiagnostic = () => ({ url: rawUrl, expiresAt: Date.now() + 60000 });
+function setup({ mode = 'accepted', mirror = true, rawDiagnostic, rawMode = 'accepted', trackerThrows = false, readThrows = false, resultThrows = false, resultMutates = false } = {}) {
   const dom = new JSDOM('<form id="quickRequest"><input name="phone" type="tel" required><details><input name="email" type="email"><select name="service"><option value="cleanup">Cleanup</option></select><textarea name="message"></textarea></details><input name="_gotcha"><input name="disabledField" value="do not send" disabled><button>Send</button></form>', { url: 'https://example.invalid/estimate/?utm_source=flyer&utm_campaign=fall-2026', runScripts: 'outside-only' });
   const w = dom.window, form = w.document.querySelector('form'), posts = [], events = [], invalid = [], results = [], busy = [];
-  w.MG_SITE_CONFIG = { forms: { formspree: 'https://provider.invalid/', zapierMirror: 'https://mirror.invalid/', timeoutMs: 5 }, contact: { smsHref: 'sms:+14233909954' } };
+  w.MG_SITE_CONFIG = { forms: { formspree: 'https://provider.invalid/', zapierMirror: 'https://mirror.invalid/', timeoutMs: 5, rawHookDiagnostic: rawDiagnostic }, contact: { smsHref: 'sms:+14233909954' } };
   w.MG_ANALYTICS_OK = true;
   w.gtag = (...args) => { events.push(args); if (trackerThrows) throw Error('tracker unavailable'); };
   w.fetch = (url, options) => {
     posts.push({ url, options, entries: Object.fromEntries(options.body.entries()) });
     assert.ok([...form.querySelectorAll('input,textarea,select,button')].every(el => el.disabled));
+    if (url.replace(/\/$/, '') === rawUrl.slice(0, -1) && options.mode === 'no-cors' && !options.keepalive) {
+      if (rawMode === 'sync_throw') throw Error('raw fetch unavailable');
+      if (rawMode === 'network_failure') return Promise.reject(Error('raw offline'));
+      if (rawMode === 'pending') return new Promise(() => {});
+      return Promise.resolve({ ok: rawMode === 'accepted', status: rawMode === 'accepted' ? 200 : 422 });
+    }
     if (url.includes('mirror')) return Promise.reject(Error('mirror unknown'));
     if (mode === 'network_failure') return Promise.reject(Error('simulated offline'));
     if (mode === 'timeout') return new Promise((resolve, reject) => options.signal.addEventListener('abort', () => reject(Error('aborted'))));
@@ -36,18 +44,42 @@ function setup({ mode = 'accepted', mirror = true, trackerThrows = false, readTh
   return { dom, w, form, posts, events, invalid, results, busy, api, options };
 }
 function count(h, name) { return h.events.filter(e => e[1] === name).length; }
+function rawPosts(h) { return h.posts.filter(p => p.url.replace(/\/$/, '') === rawUrl.slice(0, -1) && p.options.mode === 'no-cors' && !p.options.keepalive); }
 function close(h) { h.dom.window.close(); }
 (async () => {
+  const sourceConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../config/site.json'), 'utf8'));
+  assert.deepEqual(sourceConfig.forms.rawHookDiagnostic, { url: '', expiresAt: 0 }, 'the committed diagnostic must remain disarmed');
+  checks++;
   for (const [file, ids] of [['index.html', ['heroIntakeForm', 'intakeForm']], ['estimate/index.html', ['quickRequest']]]) {
     const dom = new JSDOM(read(file));
     for (const id of ids) {
       const form = dom.window.document.getElementById(id);
       assert.equal(form.noValidate, false, 'native browser validation remains when JavaScript is unavailable');
       assert.equal(form.checkValidity(), false, 'phone is still required without JavaScript');
+      for (const phone of ['abc', '423555010', '(423) 555-010']) {
+        form.elements.phone.value = phone;
+        assert.equal(form.checkValidity(), false, 'native phone validation must reject fewer than ten digits: ' + phone);
+      }
+      for (const phone of ['4235550100', '(423) 555-0100', '+1 423-555-0100', '+44 20 7946 0958']) {
+        form.elements.phone.value = phone;
+        assert.equal(form.checkValidity(), true, 'native phone validation must preserve formatted/international numbers: ' + phone);
+      }
       form.elements.phone.value = '4235550100'; form.elements.email.value = 'broken';
       assert.equal(form.checkValidity(), false, 'invalid optional email is rejected without JavaScript');
       form.elements.email.value = '';
       assert.equal(form.checkValidity(), true, 'phone only is valid without JavaScript');
+    }
+    dom.window.close(); checks++;
+  }
+  // Every homepage quote CTA has a native destination when its enhancement cannot load.
+  {
+    const dom = new JSDOM(read('index.html'));
+    const links = [...dom.window.document.querySelectorAll('.cta-jump')];
+    assert.ok(links.length > 0);
+    for (const link of links) {
+      assert.equal(link.tagName, 'A', 'quote navigation must work without a click handler');
+      assert.equal(link.getAttribute('href'), '#heroIntakeForm');
+      assert.ok(dom.window.document.getElementById(link.hash.slice(1)), 'the native quote destination exists');
     }
     dom.window.close(); checks++;
   }
@@ -103,6 +135,81 @@ function close(h) { h.dom.window.close(); }
   {
     const h = setup(); h.form.elements.phone.value = '4235550100'; delete h.w.MG_SITE_CONFIG.forms.formspree;
     await h.api.submit(); assert.equal(h.posts.length, 0); assert.deepEqual(h.results, ['network_failure']); close(h); checks++;
+  }
+  // Diagnostic configuration must be explicit, short-lived, and a separate Catch Hook URL.
+  for (const diagnostic of [undefined, null, {}, { url: '', expiresAt: Date.now() + 60000 },
+    { url: rawUrl }, { url: null, expiresAt: Date.now() + 60000 },
+    { url: rawUrl, expiresAt: 0 }, { url: rawUrl, expiresAt: Date.now() - 1 },
+    { url: rawUrl, expiresAt: Date.now() + 600000 }, { url: rawUrl, expiresAt: 'tomorrow' },
+    { url: rawUrl, expiresAt: Infinity }, { url: rawUrl, expiresAt: NaN },
+    ...['http://hooks.zapier.com/hooks/catch/123456/sample/', 'https://elsewhere.invalid/hooks/catch/123456/sample/',
+      rawUrl + '?extra=1', rawUrl + '#fragment', rawUrl.replace('/catch/', '/other/'), 'malformed'].map(url => ({ ...armedDiagnostic(), url }))]) {
+    const h = setup({ rawDiagnostic: diagnostic }); h.form.elements.phone.value = '4235550100';
+    await h.api.submit(); assert.equal(h.posts.length, 2); assert.deepEqual(h.results, ['accepted']); close(h); checks++;
+  }
+  for (const [key, url] of [['formspree', rawUrl], ['formspree', rawUrl.slice(0, -1)], ['zapierMirror', rawUrl], ['zapierMirror', rawUrl.slice(0, -1)]]) {
+    const h = setup({ rawDiagnostic: armedDiagnostic() }); h.w.MG_SITE_CONFIG.forms[key] = url;
+    h.form.elements.phone.value = '4235550100'; await h.api.submit();
+    assert.equal(h.posts.length, 2, 'a normal intake endpoint cannot also receive a diagnostic copy');
+    assert.equal(rawPosts(h).length, 0); assert.deepEqual(h.results, ['accepted']); close(h); checks++;
+  }
+  {
+    const h = setup({ rawDiagnostic: { ...armedDiagnostic(), url: rawUrl.slice(0, -1) } }); h.form.elements.phone.value = '4235550100';
+    await h.api.submit(); assert.equal(rawPosts(h).length, 1); assert.deepEqual(h.results, ['accepted']); close(h); checks++;
+  }
+  // Opting out of the existing mirror or failing normal intake gates also suppresses diagnostics.
+  for (const gate of ['mirror_disabled', 'mirror_missing', 'honeypot', 'invalid_phone', 'invalid_email', 'formspree_missing']) {
+    const h = setup({ mirror: gate !== 'mirror_disabled', rawDiagnostic: armedDiagnostic() });
+    h.form.elements.phone.value = '4235550100';
+    if (gate === 'mirror_missing') delete h.w.MG_SITE_CONFIG.forms.zapierMirror;
+    if (gate === 'honeypot') h.form.elements._gotcha.value = 'bot';
+    if (gate === 'invalid_phone') h.form.elements.phone.value = '';
+    if (gate === 'invalid_email') h.form.elements.email.value = 'broken';
+    if (gate === 'formspree_missing') delete h.w.MG_SITE_CONFIG.forms.formspree;
+    await h.api.submit(); assert.equal(rawPosts(h).length, 0);
+    assert.equal(h.posts.length, gate.startsWith('mirror_') ? 1 : 0); close(h); checks++;
+  }
+  // The optional raw copy gets the original multipart snapshot, after normal dispatch starts.
+  {
+    const h = setup({ rawDiagnostic: armedDiagnostic() });
+    h.form.elements.phone.value = '4235550100'; h.form.elements.message.value = 'Synthetic: café 🌿 & blanks';
+    h.options.preparePayload = fd => { fd.set('project_scope', h.form.elements.message.value); fd.set('source', 'offline-contract'); };
+    await h.api.submit();
+    assert.deepEqual(h.posts.map(p => p.url), ['https://mirror.invalid/', 'https://provider.invalid/', rawUrl]);
+    const raw = rawPosts(h)[0];
+    assert.equal(raw.options.body, h.posts[0].options.body); assert.equal(raw.options.body, h.posts[1].options.body);
+    assert.ok(raw.options.body instanceof h.w.FormData, 'the browser must supply multipart encoding and its boundary');
+    assert.deepEqual(Object.keys(raw.options).sort(), ['body', 'method', 'mode']);
+    assert.equal(raw.options.method, 'POST'); assert.equal(raw.options.mode, 'no-cors');
+    assert.equal(raw.entries.phone, '4235550100'); assert.equal(raw.entries.email, ''); assert.equal(raw.entries._gotcha, '');
+    assert.equal(raw.entries.message, 'Synthetic: café 🌿 & blanks'); assert.equal(raw.entries.project_scope, raw.entries.message);
+    assert.equal(raw.entries.source, 'offline-contract'); assert.ok(raw.entries.submitted_at); assert.equal(raw.entries.disabledField, undefined);
+    assert.equal(raw.entries.utm_source, 'flyer'); assert.equal(raw.entries.submitting_path, '/estimate/');
+    assert.equal(JSON.stringify(h.events).includes('Synthetic:'), false); close(h); checks++;
+  }
+  // A diagnostic result cannot change delivery, UI, analytics, or trigger a retry, even when it hangs.
+  for (const mode of ['accepted', 'http_rejected', 'network_failure', 'timeout']) {
+    const baseline = setup({ mode }); baseline.form.elements.phone.value = '4235550100'; await baseline.api.submit();
+    for (const rawMode of ['accepted', 'http_rejected', 'network_failure', 'sync_throw', 'pending']) {
+      const h = setup({ mode, rawMode, rawDiagnostic: armedDiagnostic() }); h.form.elements.phone.value = '4235550100';
+      const first = h.api.submit(); await h.api.submit(); await first; await h.api.submit();
+      assert.equal(h.api.getState(), baseline.api.getState()); assert.deepEqual(h.results, baseline.results); assert.deepEqual(h.busy, baseline.busy);
+      assert.equal(rawPosts(h).length, 1); assert.equal(h.posts.length, 3);
+      assert.equal(JSON.stringify(h.events), JSON.stringify(baseline.events));
+      close(h); checks++;
+    }
+    close(baseline);
+  }
+  // The one-sample budget is shared by every form on the page and consumed even by a synchronous failure.
+  {
+    const h = setup({ rawMode: 'sync_throw', rawDiagnostic: armedDiagnostic() }); h.form.elements.phone.value = '4235550100';
+    await h.api.submit();
+    const secondForm = h.form.cloneNode(true); secondForm.id = 'secondRequest'; h.w.document.body.appendChild(secondForm);
+    const second = h.w.MG_FORM_CORE.bind(secondForm, { mirror: true, location: 'footer' });
+    h.w.fetch = (url, options) => { h.posts.push({ url, options }); return Promise.resolve({ ok: true }); };
+    await second.submit(); await second.submit(); await h.api.submit();
+    assert.equal(second.getState(), 'accepted'); assert.equal(rawPosts(h).length, 1); assert.equal(h.posts.length, 5);
+    close(h); checks++;
   }
   // Focus and synthetic interactions never count as genuine starts; malicious props are bounded.
   {
