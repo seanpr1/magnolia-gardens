@@ -1,0 +1,15 @@
+{
+  "name": "magnolia-gardens",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Magnolia Gardens public website and offline checks",
+  "engines": { "node": ">=24.19.0 <25" },
+  "packageManager": "npm@12.1.0",
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "test": "node scripts/check.cjs",
+    "serve": "python3 -m http.server 8080 --directory dist",
+    "fix:faq": "python3 scripts/site_check.py --root . --fix-faq --fix-only"
+  },
+  "devDependencies": { "jsdom": "30.1.1" }
+}

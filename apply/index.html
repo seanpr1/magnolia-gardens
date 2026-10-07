@@ -230,14 +230,14 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
     <p class="foot">This is outdoor work in all kinds of weather. Expect to be on your feet all day, lift up to 50 pounds, and handle mowers, trimmers and blowers. We will talk through anything you need to do the job well.</p>
   </section>
 
-  <noscript><div class="fallback"><h2>Apply by email</h2><p>This online form needs JavaScript to check your answers and send them. Please <a href="mailto:apply@magnoliagardenslandscaping.com">email apply@magnoliagardenslandscaping.com</a> with your name and a way to contact you, or enable JavaScript to use the form.</p></div><style>#app{display:none}</style></noscript>
+  <noscript><div class="fallback"><h2>Apply by email</h2><p>This online form needs JavaScript to check your answers and send them. Please <a href="mailto:{{contact.hiringEmail}}">email {{contact.hiringEmail}}</a> with your name and a way to contact you, or enable JavaScript to use the form.</p></div><style>#app{display:none}</style></noscript>
   <div class="alert" id="alert" tabindex="-1" aria-labelledby="error-title"></div>
 
   <div class="done-card" id="done" tabindex="-1" aria-labelledby="success-title">
     <div class="done-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
     <h2 id="success-title">Application received</h2>
     <p>Thanks — your application was received. We’ll review your information and contact you if there’s a fit.</p>
-    <p>If you have a resume, send it to <a href="mailto:apply@magnoliagardenslandscaping.com">apply@magnoliagardenslandscaping.com</a> and include your name so we can match it to your application.</p>
+    <p>If you have a resume, send it to <a href="mailto:{{contact.hiringEmail}}">{{contact.hiringEmail}}</a> and include your name so we can match it to your application.</p>
   </div>
 
 <form id="app" action="https://formspree.io/f/mgaewkjg" method="POST" novalidate>
@@ -478,13 +478,13 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
 <p class="hint" id="reference-status" role="status"></p>
 </div></details>
 <section class="section confirm"><header><h2>Ready to apply?</h2></header>
-<p class="resume-note">You can apply without a résumé. If you want to include one, <a href="mailto:apply@magnoliagardenslandscaping.com">email your résumé</a> and include your name so we can match it to your application.</p>
+<p class="resume-note">You can apply without a résumé. If you want to include one, <a href="mailto:{{contact.hiringEmail}}">email your résumé</a> and include your name so we can match it to your application.</p>
 <div class="terms">
 <p>I understand that filling this out is not a job offer, that employment with Magnolia Gardens Landscaping LLC is at will, and that either of us can end it at any time.</p>
 <p>I understand a job offer may depend on a driving record check or a background check, and that I would sign a separate form for that first.</p>
 </div>
 <div class="field" id="accuracy-group"><label class="check"><input id="accuracy" type="checkbox" name="Certified true and accurate" value="Yes" required><span>The information I chose to provide is accurate to the best of my knowledge. <span class="req">*</span></span></label></div>
-<p class="hint">To discuss a reasonable accommodation or get help applying, <a href="mailto:apply@magnoliagardenslandscaping.com">email us</a>.</p>
+<p class="hint">To discuss a reasonable accommodation or get help applying, <a href="mailto:{{contact.hiringEmail}}">email us</a>.</p>
 <button class="send" type="submit" id="send">Send application</button>
 <p class="hint" id="send-status" role="status"></p>
 </section>
@@ -632,7 +632,7 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
         message.textContent = serviceMessage;
         alertBox.appendChild(message);
         const contact = document.createElement('a');
-        contact.href = 'mailto:apply@magnoliagardenslandscaping.com';
+        contact.href = 'mailto:{{contact.hiringEmail}}';
         contact.textContent = 'Email us for help with your application';
         alertBox.appendChild(contact);
       }

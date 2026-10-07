@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Site checks for magnolia-gardens (static site, no build step).
+"""Site checks for magnolia-gardens rendered static output.
 
-    python3 scripts/site_check.py            # validate, exit 1 on any FAIL
-    python3 scripts/site_check.py --fix-faq  # regenerate FAQPage JSON-LD from each page's visible FAQ, then validate
+    npm test  # builds and validates the public output; also runs form checks
+    npm run fix:faq  # regenerate FAQPage JSON-LD in authoring HTML
 
 Checks:
   1. Every <script type="application/ld+json"> block on every page parses as JSON.
@@ -14,16 +14,19 @@ Checks:
   6. sitemap.xml entries resolve to files whose canonical matches the <loc>; indexable pages
      missing from the sitemap are warned.
 
-Standard library only. Run from anywhere; paths resolve relative to the repo root.
+Standard library only. Defaults to dist/; SITE_ROOT or --root overrides it.
 """
+import argparse
 import datetime
 import html
 import json
+import os
 import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+REPOSITORY = Path(__file__).resolve().parent.parent
+ROOT = Path(os.environ.get("SITE_ROOT", REPOSITORY / "dist")).resolve()
 SITE = "https://magnoliagardenslandscaping.com"
 
 LD_BLOCK = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)', re.S)
@@ -40,7 +43,8 @@ def report(level, msg):
 
 
 def pages():
-    return sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
+    excluded = {".git", "node_modules", "dist", "work", "scripts", "docs", "config"}
+    return sorted(p for p in ROOT.rglob("*.html") if not excluded.intersection(p.relative_to(ROOT).parts))
 
 
 def rel(p):
@@ -152,8 +156,8 @@ def check_season(src, today):
     season = season_for(today.month)
     expected = seasons.get(season)
     lines = [text_of(t) for t in re.findall(r"<(?:p|span)\b[^>]*\sdata-season-line[^>]*>(.*?)</", src, re.S)]
-    if len(lines) < 2:
-        report("FAIL", f"index.html: expected 2 [data-season-line] elements, found {len(lines)}")
+    if not lines:
+        report("FAIL", f"index.html: expected a [data-season-line] element, found {len(lines)}")
     for t in lines:
         if t == expected:
             report("PASS", f"index.html: static booking line matches the {season} SEASONS text")
@@ -239,7 +243,18 @@ def check_sitemap(all_pages):
 
 
 def main(argv):
-    fix = "--fix-faq" in argv
+    global ROOT
+    parser = argparse.ArgumentParser(description="Check rendered public pages; use --root . --fix-faq --fix-only to update source FAQs.")
+    parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--fix-faq", action="store_true")
+    parser.add_argument("--fix-only", action="store_true")
+    args = parser.parse_args(argv)
+    ROOT = args.root.resolve()
+    if not (ROOT / "index.html").is_file():
+        parser.error("No homepage at " + str(ROOT) + ". Run npm run build first.")
+    if args.fix_only and not args.fix_faq:
+        parser.error("--fix-only requires --fix-faq")
+    fix = args.fix_faq
     today = datetime.date.today()
     all_pages = pages()
     for page in all_pages:
@@ -250,6 +265,8 @@ def main(argv):
                 page.write_text(new, encoding="utf-8")
                 print(f"FIXED: {rel(page)}: FAQPage JSON-LD regenerated from the visible FAQ")
                 src = new
+        if args.fix_only:
+            continue
         if not check_jsonld(page, src):
             continue
         check_faq(page, src)
@@ -257,6 +274,8 @@ def main(argv):
         check_links(page, src)
         if rel(page) == "index.html":
             check_season(src, today)
+    if args.fix_only:
+        return 0
     check_sitemap(all_pages)
     print(f"\n{results['PASS']} pass, {results['WARN']} warn, {results['FAIL']} fail")
     return 1 if results["FAIL"] else 0

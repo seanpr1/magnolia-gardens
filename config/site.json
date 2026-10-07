@@ -1,0 +1,21 @@
+{
+  "contact": {
+    "phoneDisplay": "423-390-9954",
+    "phoneE164": "+14233909954",
+    "phoneParenthesized": "(423) 390-9954",
+    "phoneSchema": "+1-423-390-9954",
+    "telHref": "tel:4233909954",
+    "smsHref": "sms:+14233909954",
+    "email": "info@magnoliagardenslandscaping.com",
+    "ownerEmail": "sean@magnoliagardenslandscaping.com",
+    "hiringEmail": "apply@magnoliagardenslandscaping.com"
+  },
+  "forms": {
+    "formspree": "https://formspree.io/f/mdajnnjw",
+    "zapierMirror": "https://hooks.zapier.com/hooks/catch/27365121/46gfqem/",
+    "timeoutMs": 15000
+  },
+  "analytics": {
+    "productionHosts": ["magnoliagardenslandscaping.com", "www.magnoliagardenslandscaping.com"]
+  }
+}
