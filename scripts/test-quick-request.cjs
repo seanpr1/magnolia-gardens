@@ -33,6 +33,34 @@ function oneRequired(form){
  assertions++;
 }
 (async()=>{
+ // Legacy initial/reset contracts become idle/submitting visibility checks.
+ // Each controller is terminal; there is no old estimator screen to reset.
+ {
+  const h=setup('estimate/index.html');
+  try{
+   const result=h.$('#requestResult'),f=h.$('#quickRequest');
+   assert.equal(result.hidden,true,'static markup cannot claim delivery');
+   assert.equal(result.textContent.trim(),'');
+   h.w.eval(read('assets/quick-request.js'));
+   assert.equal(result.hidden,true,'binding cannot claim delivery');
+   const deadlines=[];
+   h.w.setTimeout=(fn,ms)=>{deadlines.push({fn,ms});return deadlines.length;};
+   h.w.clearTimeout=()=>{};
+   h.w.fetch=(url,opts)=>{h.posts.push({url,data:Object.fromEntries(opts.body.entries())});return new Promise(()=>{});};
+   f.elements.phone.value='4235550100';
+   h.submit(f);await Promise.resolve();
+   assert.equal(f.getAttribute('aria-busy'),'true');
+   assert.equal(f.hidden,false);
+   assert.equal(result.hidden,true,'pending delivery cannot show a success panel');
+   assert.equal(result.textContent.trim(),'');
+   assert.equal(h.events.some(e=>e[1]==='mg_form_accepted'),false);
+   assert.equal(deadlines.length,1);assert.equal(deadlines[0].ms,15000);
+   // Complete the mocked attempt so no controller is left pending at teardown.
+   deadlines[0].fn();await h.settle();
+   assert.match(result.textContent,/couldn’t confirm/);
+   assertions++;
+  }finally{h.dom.window.close();}
+ }
  for(const query of ['', '?service=cleanup','?service=mulch','?service=brush','?service=mowing&size=midsize&freq=biweekly']){
   const h=setup('estimate/index.html',query);h.w.eval(read('assets/quick-request.js'));const f=h.$('#quickRequest');oneRequired(f);
   f.elements.phone.value='(423) 555-0100';h.submit(f);h.submit(f);await h.settle();
@@ -104,6 +132,22 @@ function oneRequired(form){
   const result=h.$(mode==='ok'?v.success:v.error);
   assert.equal(visible(result),true);
   assert.match(result.textContent,mode==='ok'?/request was sent/:mode==='http'&&v.posts===1?/couldn’t send/:/couldn’t confirm/);
+  if(v.location==='estimator'){
+   // Assert rendered copy, not obsolete submissionStatus/checkmark source text.
+   assert.doesNotMatch(result.textContent,/automatically|texted shortly|visit is booked|jobber/i);
+   if(mode==='ok'){
+    assert.match(result.textContent,/can text us/i);
+    assert.doesNotMatch(result.textContent,/saved|confirmed|booked/i);
+   }else{
+    assert.doesNotMatch(result.querySelector('h2').textContent,/request was sent|success/i);
+    assert.match(result.textContent,/may already have arrived/i);
+    assert.match(result.textContent,/text or call/i);
+    for(const [kind,scheme] of [['text','sms:'],['call','tel:']]){
+     const link=h.$('[data-contact='+kind+']');
+     assert.equal(visible(link),true);assert.ok(link.href.startsWith(scheme));
+    }
+   }
+  }
   if(v.success!==v.error)assert.equal(visible(h.$(mode==='ok'?v.error:v.success)),false);
   const accepted=h.events.filter(e=>e[1]==='mg_form_accepted');
   assert.equal(accepted.length,mode==='ok'?1:0);

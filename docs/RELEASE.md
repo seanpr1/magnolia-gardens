@@ -1,5 +1,11 @@
 # Website release record
 
+## Unreleased PR #5 test reconciliation — October 7, 2026
+
+PR #5 is reconciled with main `613aab8533ad4c7ab106b40fb9d5bc50a6d32182` as a test/documentation-only draft. Its obsolete inline-estimator test and excerpt README are removed; unique applicable assertions now run in the existing quick-request and form-core suites. The [12-case coverage map](PR5-REGRESSION-COVERAGE.md) records retained, already-covered and retired contracts, current local test results and verification limits.
+
+The complete offline suite passed: deterministic build/publish checks, 51 static checks, 54 pricing combinations, 80 adapter checks and 26 shared-form contracts. Current customer-facing source and configuration are unchanged. This draft is not merged or released; PR #8 and the live Zap investigation remain separate. No production deployment, live request, customer message or account change is part of this reconciliation.
+
 ## Published release — September 29, 2026
 
 Sean approved publication after the Cloudflare setting fix. [PR #6](https://github.com/seanpr1/magnolia-gardens/pull/6) merged into `main` as `ac429d2c69f4864449dcb7ebd3dab53adf38b259`. Cloudflare production deployment `21d32458-2d96-4b38-a376-9166eea97faf` succeeded at `2026-09-29T23:54:28.003533Z`.
