@@ -33,6 +33,33 @@ function oneRequired(form){
  assertions++;
 }
 (async()=>{
+ // Native forms stay usable when scripts cannot load. Never submit these DOMs.
+ for(const [page, ids] of [['index.html',['heroIntakeForm','intakeForm']],['estimate/index.html',['quickRequest']]]){
+  const dom=new JSDOM(read(page));
+  for(const id of ids){
+   const form=dom.window.document.getElementById(id), phone=form.elements.phone;
+   assert.equal(form.noValidate,false);
+   for(const value of ['', '12345', 'abc']){phone.value=value;assert.equal(form.checkValidity(),false);}
+   for(const value of ['4235550100', '(423) 555-0100', '+1 423 555 0100']){phone.value=value;assert.equal(form.checkValidity(),true);}
+   assertions++;
+  }
+  if(page==='index.html')for(const cta of dom.window.document.querySelectorAll('.cta-repeat .cta-jump')){
+   assert.equal(cta.tagName,'A');assert.ok(dom.window.document.querySelector(cta.getAttribute('href')));assertions++;
+  }
+  dom.window.close();
+ }
+ // Adding privacy beside a form must not count as entering the price planner.
+ for(const page of ['areas/kingsport/index.html','services/cleanup/index.html']){
+  const h=setup(page);
+  Object.defineProperty(h.w.document,'currentScript',{value:h.$('script[src^="/assets/quote-block.js"]')});
+  h.w.eval(read('assets/quote-block.js'));
+  const privacy=h.$('.mgqb a[href="/privacy/"]');
+  privacy.addEventListener('click',e=>e.preventDefault());privacy.click();
+  assert.equal(h.events.filter(e=>e[1]==='estimator_entry').length,0);
+  const planner=h.$('.mgqb a[href="/estimate/planning/"]');
+  if(planner){planner.addEventListener('click',e=>e.preventDefault());planner.click();assert.equal(h.events.filter(e=>e[1]==='estimator_entry').length,1);}
+  assert.equal(h.posts.length,0);h.dom.window.close();assertions++;
+ }
  for(const query of ['', '?service=cleanup','?service=mulch','?service=brush','?service=mowing&size=midsize&freq=biweekly']){
   const h=setup('estimate/index.html',query);h.w.eval(read('assets/quick-request.js'));const f=h.$('#quickRequest');oneRequired(f);
   f.elements.phone.value='(423) 555-0100';h.submit(f);h.submit(f);await h.settle();
