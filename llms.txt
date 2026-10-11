@@ -1,20 +1,20 @@
 # Magnolia Gardens Landscaping
 
-> Residential lawn care and landscaping in Kingsport, Tennessee, serving the Tri-Cities. Licensed and insured. Text a photo of your yard to {{contact.phoneDisplay}} for a fast quote (typically the same day), or request a quote with just a phone number at https://magnoliagardenslandscaping.com/estimate/
+> Residential lawn care and landscaping in Kingsport, Tennessee, serving the Tri-Cities. Licensed and insured. Text a photo of your yard to {{contact.phoneDisplay}} to start a quote, or request one with just a phone number at https://magnoliagardenslandscaping.com/estimate/. Scope and price are confirmed before booking.
 
 Owner-operated by Sean Price. Sullivan County business license, general liability insured. Take the lawn off your to-do list.
 
 ## Services
 
 - [Recurring mowing](https://magnoliagardenslandscaping.com/services/mowing/): weekly or biweekly visits with mow, trim, edge, and blow-off
-- [Cleanups](https://magnoliagardenslandscaping.com/services/cleanup/): seasonal and overgrowth cleanups, quoted from photos, typically the same day
+- [Cleanups](https://magnoliagardenslandscaping.com/services/cleanup/): seasonal and overgrowth cleanups, quoted after reviewing photos or visiting the property
 - [Maintenance](https://magnoliagardenslandscaping.com/services/maintenance/): ongoing property upkeep beyond the mow
 - [Mulch and beds](https://magnoliagardenslandscaping.com/services/mulch/): bed refresh, mulch installs, and plantings
 - [Brush clearing](https://magnoliagardenslandscaping.com/services/brush-clearing/): heavy growth cut back to usable yard
 
 ## Fall 2026
 
-- [Leaf removal](https://magnoliagardenslandscaping.com/services/cleanup/): single pass or a 3-visit season package depending on your trees, quoted from photos, typically the same day
+- [Leaf removal](https://magnoliagardenslandscaping.com/services/cleanup/): single pass or a 3-visit season package depending on your trees, quoted after reviewing photos or visiting the property
 - [Fall cleanup](https://magnoliagardenslandscaping.com/services/cleanup/): leaves, beds, overgrowth, and the last tall mow of the year, finished to before-and-after proof photos
 - [Aeration and overseeding](https://magnoliagardenslandscaping.com/services/cleanup/#aeration): September through mid-October, the one window that matters for fescue lawns in Northeast Tennessee
 - Bed renovation, edging, and pre-spring mulch
@@ -37,9 +37,9 @@ Owner-operated by Sean Price. Sullivan County business license, general liabilit
 
 ## Frequently asked
 
-- What does lawn care cost in Kingsport? Standard mowing starts at a $50 minimum and typically runs about $50–$190 per visit weekly, set by lot size and how often we come. Cleanups, leaf removal, and overgrown lawns are quoted from photos, typically the same day.
+- What does lawn care cost in Kingsport? Standard mowing starts at a $50 minimum and typically runs about $50–$190 per visit weekly, set by lot size and how often we come. Cleanups, leaf removal, and overgrown lawns are quoted after reviewing photos or visiting the property.
 - When should I aerate and overseed in Kingsport? September through mid-October, the fescue window for Northeast Tennessee. Spring seeding fights heat and weeds.
-- How does leaf removal pricing work? Quoted from photos, typically the same day. One pass or a 3-visit season package depending on your trees.
+- How does leaf removal pricing work? Quoted after reviewing photos or visiting the property. One pass or a 3-visit season package depending on your trees.
 - Do you apply chemicals or fertilizer? No. We also don't fell trees, grind stumps, repair irrigation or hardscape, clean gutters, or remove snow. We'll point you to a local pro who does.
 - Do I have to be home? No. If we can access the yard, we work whether you're home or not, and text photos and a summary when the visit is done.
 
