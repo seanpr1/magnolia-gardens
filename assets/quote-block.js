@@ -117,6 +117,16 @@
     function smsHref(){ return core.smsHref(service); }
     wireLinks(box);
 
+    function revealResult(panel){
+      panel.tabIndex = -1;
+      panel.focus({preventScroll:true});
+      // Hiding the form changes page height. Keep the result heading clear of
+      // the fixed navigation after layout settles, as on the homepage.
+      function reveal(){panel.scrollIntoView({block:'center',behavior:'instant'});}
+      reveal();
+      if(window.requestAnimationFrame)window.requestAnimationFrame(reveal);
+    }
+
     function showThanks(){
       form.style.display = 'none';
       var p = document.createElement('div');
@@ -124,9 +134,7 @@
       p.innerHTML = '<h2>Your request was sent.</h2><p>To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
-      p.tabIndex = -1;
-      p.focus({preventScroll:true});
-      p.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+      revealResult(p);
     }
 
     function showError(status){
@@ -138,9 +146,7 @@
       p.appendChild(core.recoveryDetails(form));
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
-      p.tabIndex = -1;
-      p.focus({preventScroll:true});
-      p.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+      revealResult(p);
     }
 
     /* Result links are added after the page's existing click handlers. */
