@@ -59,7 +59,7 @@
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
         '<p class="mgqb-err" id="mgqb-error" role="alert" tabindex="-1">Add a phone number so we can follow up about your request.</p>' +
         '<button class="request-action" type="submit" style="width:100%">Request my quote</button>' +
-        '<p class="mgqb-alt">No obligation. Reply STOP to opt out of texts.</p>' +
+        '<p class="mgqb-alt">No obligation. Reply STOP to opt out of texts. <a href="/privacy/">Privacy</a>.</p>' +
       '</form>' +
       '<p class="quick-contact"><a href="'+smsHref()+'">Text us</a><span>or</span><a href="'+C.contact.telHref+'">Call '+C.contact.phoneDisplay+'</a></p>' +
       (!isProject ? '<p class="mgqb-alt"><a href="/estimate/planning/">Explore a mowing price range</a></p>' : '');
@@ -74,7 +74,7 @@
     var touch=false;
     form.addEventListener('pointerdown',function(e){touch=e.pointerType==='touch'||e.pointerType==='pen';});
     form.addEventListener('keydown',function(){touch=false;});
-    var altLink = box.querySelector('.mgqb-alt a');
+    var altLink = box.querySelector('.mgqb-alt a[href="/estimate/planning/"]');
     if (altLink) altLink.addEventListener('click', function(){
       track('estimator_entry', { source:'quote_block', page_path:pagePath, transport_type:'beacon' });
     });

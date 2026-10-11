@@ -107,7 +107,7 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Blowing and Cleanup", "description": "Clippings cleared from driveways, walkways, and patios so the property looks finished, not just mowed." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brush and Overgrowth Control", "description": "Tall grass, heavy growth, fence lines, banks, and areas that have gotten out of hand. Quoted individually." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seasonal Cleanup", "description": "Leaf removal, spring cleanup after winter, fall prep before the cold." } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Leaf Removal", "description": "Single-visit leaf removal or a 3-visit season package, quoted from photos, typically the same day." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Leaf Removal", "description": "Single-visit leaf removal or a 3-visit season package, quoted after reviewing photos or visiting the property." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fall Cleanup", "description": "Leaves, beds, overgrowth, and the last tall mow of the year, finished to before-and-after proof photos." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Aeration and Overseeding", "description": "Core aeration and overseeding for fescue lawns in Northeast Tennessee. September through mid-October is the window." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Recurring Maintenance", "description": "Weekly, biweekly, or monthly service plans that keep the property consistently maintained throughout the season." } }
@@ -189,7 +189,7 @@
         "name": "When should I aerate and overseed my lawn in Kingsport?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "September through mid-October. That’s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we’ll quote it, usually the same day."
+          "text": "September through mid-October. That’s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we’ll quote it after we review the details."
         }
       },
       {
@@ -197,7 +197,7 @@
         "name": "How does leaf removal pricing work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Quoted from photos, typically the same day. One pass or a 3-visit season package depending on your trees. Every visit finishes to before-and-after proof photos. Leaf slots fill before the leaves do, so book early."
+          "text": "We review photos and arrange a site visit if needed before quoting. One pass or a 3-visit season package depending on your trees. Every visit finishes to before-and-after proof photos. Leaf slots fill before the leaves do, so book early."
         }
       },
       {
@@ -253,7 +253,7 @@
         "name": "How do I get started?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Text a few photos of your yard to {{contact.phoneDisplay}}, or fill out the intake form above. We come back with a real quote, usually the same day, and schedule when you’re ready."
+          "text": "Text a few photos of your yard to {{contact.phoneDisplay}}, or fill out the intake form above. We review the details, confirm the scope and price, and agree on a date with you."
         }
       }
     ]
@@ -1084,6 +1084,8 @@
     }
 
     /* ── FOOTER ─────────────────────────────── */
+    .privacy-note { font-size:14px; line-height:1.6; margin:12px 0; }
+    .privacy-note a { color:var(--gold); text-decoration:underline; }
     footer {
       position: relative; z-index: 1; padding: 28px 0;
       border-top: 1px solid var(--edge);
@@ -1355,7 +1357,7 @@
           <div class="hero-quote-h" role="heading" aria-level="2">Request a Free Quote</div>
           <p class="hero-quote-sub">Just your phone number to get started. Add details only if you want to.</p>
 
-          <div class="intake-field request-start-field"><label for="hf2-phone">Phone number <span class="request-start-cue" aria-hidden="true">Start here ↓</span></label><input type="tel" id="hf2-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+          <div class="intake-field request-start-field"><label for="hf2-phone">Phone number <span class="request-start-cue" aria-hidden="true">Start here ↓</span></label><input type="tel" id="hf2-phone" name="phone" required pattern="(?:\D*\d){10,}\D*" title="Please enter a phone number with at least 10 digits." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
   <div class="optional-fields">
@@ -1390,6 +1392,7 @@
 
           <button type="submit" class="intake-submit request-action" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Request my quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
 
+          <p class="privacy-note"><a href="/privacy/">How we use your information</a></p>
           <div class="hero-offer">
             <p class="hero-offer-line">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1575,13 +1578,13 @@
     </div>
 
     <div class="cta-repeat">
-      <button type="button" class="btn-sms cta-jump">
+      <a href="#heroIntakeForm" class="btn-sms cta-jump">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
         Request a Free Quote
-      </button>
-      <span class="cta-repeat-note">Free, no obligation. Most quotes the same day.</span>
+      </a>
+      <span class="cta-repeat-note">Free, no obligation. Scope and price confirmed before scheduling.</span>
     </div>
   </div>
 </section>
@@ -1715,7 +1718,7 @@
       <div class="how-step">
         <span class="how-num">02</span>
         <div class="how-title">Get a quote</div>
-        <div class="how-body">You get a clear, flat price based on your actual property. Usually the same day.</div>
+        <div class="how-body">We review your property details, ask for photos or a site visit if needed, and confirm a clear price before scheduling.</div>
       </div>
 
       <div class="how-step">
@@ -1733,13 +1736,13 @@
     </div>
 
     <div class="cta-repeat">
-      <button type="button" class="btn-sms cta-jump">
+      <a href="#heroIntakeForm" class="btn-sms cta-jump">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
         Request a Free Quote
-      </button>
-      <span class="cta-repeat-note">Free quote, usually the same day.</span>
+      </a>
+      <span class="cta-repeat-note">Free quote. We confirm the details before scheduling.</span>
     </div>
   </div>
 </section>
@@ -1760,7 +1763,7 @@
     <div class="section-hd">
       <div class="eyebrow">Booking now for fall</div>
       <h2>Fall cleanup, <em>off your list</em>.</h2>
-      <p class="section-sub">Leaves, beds, overgrowth, the last tall mow of the year. We quote from photos fast — typically the same day — and finish to proof-photo standard: you get before-and-after pictures with every visit. Cleanup slots run out before the leaves do.</p>
+      <p class="section-sub">Leaves, beds, overgrowth, the last tall mow of the year. We review photos or visit the property to confirm the quote and finish to proof-photo standard: you get before-and-after pictures with every visit. Cleanup slots run out before the leaves do.</p>
     </div>
 
     <div class="pricing-grid">
@@ -1795,7 +1798,7 @@
     <div class="section-hd" style="margin-top:44px">
       <div class="eyebrow">The winter list</div>
       <h2>The yard work doesn't stop in November. <em>Neither do we.</em></h2>
-      <p class="section-sub">Winter is when next year's lawn gets made. Same standard as summer: quoted from photos fast — typically the same day — and finished to before-and-after proof photos.</p>
+      <p class="section-sub">Winter is when next year's lawn gets made. Same standard as summer: quoted after reviewing photos or visiting the property and finished to before-and-after proof photos.</p>
     </div>
 
     <ul class="winter-list">
@@ -1816,7 +1819,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
         Request My Quote
       </a>
-      <span class="cta-repeat-note">Or text photos to {{contact.phoneDisplay}} — fast quote, typically the same day.</span>
+      <span class="cta-repeat-note">Or text photos to {{contact.phoneDisplay}} — we’ll review the details and follow up.</span>
     </div>
   </div>
 </section>
@@ -1849,7 +1852,7 @@
 
         <form class="request-form" id="intakeForm" action="{{forms.formspree}}" method="POST">
 
-          <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+          <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required pattern="(?:\D*\d){10,}\D*" title="Please enter a phone number with at least 10 digits." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
   <div class="optional-fields">
@@ -1883,7 +1886,7 @@
           <div class="intake-step-actions" style="display:block; margin-top:18px;">
             <button type="submit" class="intake-submit request-action" id="intakeSubmit">Request my quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
           </div>
-          <p style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.04em;color:var(--muted);text-align:right;margin-top:12px;line-height:1.6;">No obligation &middot; No spam &middot; Text or call if you prefer.</p>
+          <p style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.04em;color:var(--muted);text-align:right;margin-top:12px;line-height:1.6;">No obligation &middot; No spam &middot; Text or call if you prefer. <a href="/privacy/">Privacy</a>.</p>
 
         </form>
 
@@ -1955,12 +1958,12 @@
 
       <div class="faq-item">
         <h3 class="faq-q">When should I aerate and overseed my lawn in Kingsport?</h3>
-        <div class="faq-a"><p>September through mid-October. That&rsquo;s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we&rsquo;ll quote it, usually the same day.</p></div>
+        <div class="faq-a"><p>September through mid-October. That&rsquo;s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we&rsquo;ll quote it after we review the details.</p></div>
       </div>
 
       <div class="faq-item">
         <h3 class="faq-q">How does leaf removal pricing work?</h3>
-        <div class="faq-a"><p>Quoted from photos, typically the same day. One pass or a <a href="/services/cleanup/">3-visit season package</a> depending on your trees. Every visit finishes to before-and-after proof photos. Leaf slots fill before the leaves do, so book early.</p></div>
+        <div class="faq-a"><p>We review photos and arrange a site visit if needed before quoting. One pass or a <a href="/services/cleanup/">3-visit season package</a> depending on your trees. Every visit finishes to before-and-after proof photos. Leaf slots fill before the leaves do, so book early.</p></div>
       </div>
 
       <div class="faq-item">
@@ -1995,7 +1998,7 @@
 
       <div class="faq-item">
         <h3 class="faq-q">How do I get started?</h3>
-        <div class="faq-a"><p>Text a few photos of your yard to <strong>{{contact.phoneDisplay}}</strong>, or fill out the intake form above. We come back with a real quote, usually the same day, and schedule when you're ready.</p></div>
+        <div class="faq-a"><p>Text a few photos of your yard to <strong>{{contact.phoneDisplay}}</strong>, or fill out the intake form above. We review the details, confirm the scope and price, and agree on a date with you.</p></div>
       </div>
 
     </div>
@@ -2137,6 +2140,8 @@
       <div class="footer-detail">
         Serving Kingsport, Johnson City,<br>
         Bristol, and the Tri-Cities area<br>
+        <a href="/apply/">Join our crew</a><br>
+        <a href="/privacy/">Privacy</a><br>
         <span style="color:var(--muted);opacity:.5;">© 2026 Magnolia Gardens Landscaping</span>
       </div>
     </div>

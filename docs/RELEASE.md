@@ -1,5 +1,19 @@
 # Website release record
 
+## Draft for review — October 11, 2026
+
+Branch `codex/growth-readiness-2026-10-11` starts from production/main revision `613aab8533ad4c7ab106b40fb9d5bc50a6d32182`. It prepares customer-request fallback repairs, hiring discovery, privacy information and proposed quote-response wording. It has not been approved for merge or production deployment.
+
+The homepage's two repeated quote buttons now use native links to the request form. Three static phone inputs reject fewer than ten digits when JavaScript cannot load. The new `/privacy/` page is linked from customer forms, the application page and public footers; homepage and service/area footers expose the existing application page. Privacy clicks in the shared quote block do not count as entry into the price planner. Proposed copy replaces same-day quote promises with scope review and confirmation before scheduling. Visible FAQ and JSON-LD remain synchronized.
+
+Validation on October 11: `npm test` passed the deterministic build checks, 54 static checks, 54 project-pricing combinations, 88 request/adapter checks and 18 shared-form contracts. Added cases cover native phone validation, native CTA destinations and privacy-versus-planner analytics. All form/analytics tests use mocks. Local Chrome inspection verified privacy at desktop and 390px widths, the 390px request and service form layout, privacy navigation and the homepage hiring link. No live form submissions were made.
+
+This draft overlaps only the native fallback repairs proposed in PR #8. It neither modifies that shared branch nor enables its raw-hook diagnostic. Existing prices, delivery endpoints, Zap configuration and analytics settings are unchanged. Keep PR #8 separate and reconcile its overlapping hunks before either branch is merged.
+
+Before publication, review the proposed privacy and response-time wording, including the existing application page's one-year retention statement against actual handling. The notice is a disclosure draft, not verification of provider retention, consent configuration or legal compliance. Refresh the production revision and obtain release authorization. Physical iPhone/Android behavior, assistive technology, production analytics receipt and downstream lead handling remain unverified. Commit/PR skip markers request suppression of automatic previews; inspect actual provider status rather than treating those markers as deployment proof.
+
+Provider references checked October 11: [Microsoft Clarity disclosure guidance](https://learn.microsoft.com/en-us/clarity/setup-and-installation/privacy-disclosure), [Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/about/), [Formspree privacy](https://formspree.io/legal/privacy-policy/) and [Google partner-site data use](https://policies.google.com/technologies/partner-sites).
+
 ## Published release — September 29, 2026
 
 Sean approved publication after the Cloudflare setting fix. [PR #6](https://github.com/seanpr1/magnolia-gardens/pull/6) merged into `main` as `ac429d2c69f4864449dcb7ebd3dab53adf38b259`. Cloudflare production deployment `21d32458-2d96-4b38-a376-9166eea97faf` succeeded at `2026-09-29T23:54:28.003533Z`.
