@@ -57,7 +57,6 @@
     }
     core.bind(form, {
       location: cfg.formLocation,
-      mirror: true,
       readValues: function() { return {service:form.elements.service.value}; },
       onInvalid: function(info) {
         validation.hidden = false;

@@ -57,7 +57,8 @@ function close(h) { h.dom.window.close(); }
     assert.equal(h.w.MG_FORM_CORE.bind(h.form, h.options), h.api);
     const first = h.api.submit(); await h.api.submit(); await first; await h.api.submit();
     assert.equal(h.api.getState(), 'accepted'); assert.deepEqual(h.results, ['accepted']); assert.deepEqual(h.busy, [true, false]);
-    assert.equal(h.posts.length, 2); assert.equal(h.posts[0].options.body, h.posts[1].options.body);
+    assert.equal(h.posts.length, 1); assert.equal(h.posts[0].url, 'https://provider.invalid/');
+    assert.ok(h.posts[0].entries.submission_id);
     assert.equal(h.posts[0].entries.phone, '(423) 555-0100'); assert.equal(h.posts[0].entries.message, 'Cleanup details');
     assert.equal(h.posts[0].entries.project_scope, 'Cleanup details'); assert.equal(h.posts[0].entries.disabledField, undefined);
     assert.equal(h.posts[0].entries.utm_source, 'flyer'); assert.equal(h.posts[0].entries.submitting_path, '/estimate/');
@@ -79,14 +80,14 @@ function close(h) { h.dom.window.close(); }
   }
   for (const mode of ['http_rejected', 'network_failure', 'timeout']) {
     const h = setup({ mode }); h.form.elements.phone.value = '4235550100'; await h.api.submit(); await h.api.submit();
-    assert.deepEqual(h.results, [mode]); assert.equal(h.api.getState(), mode); assert.equal(h.posts.length, 2);
+    assert.deepEqual(h.results, [mode]); assert.equal(h.api.getState(), mode); assert.equal(h.posts.length, 1);
     assert.equal(count(h, 'mg_form_accepted'), 0); assert.equal(count(h, 'generate_lead'), 0);
     assert.equal(h.events.find(e => e[1] === 'mg_form_error')[2].reason, mode);
     close(h); checks++;
   }
   for (const fault of [{ trackerThrows: true }, { readThrows: true }, { resultThrows: true }]) {
     const h = setup(fault); h.form.elements.phone.value = '4235550100'; await h.api.submit(); await h.api.submit();
-    assert.equal(h.api.getState(), 'accepted'); assert.deepEqual(h.results, ['accepted']); assert.equal(h.posts.length, 2);
+    assert.equal(h.api.getState(), 'accepted'); assert.deepEqual(h.results, ['accepted']); assert.equal(h.posts.length, 1);
     assert.equal(count(h, 'mg_form_error'), 0); close(h); checks++;
   }
   {
