@@ -94,11 +94,11 @@
 
     core.bind(form, {
       location:'quote_block',
-      mirror:false,
       readValues:function(){return {service:service,frequency:isProject?'one_off':'unknown'};},
       preparePayload:function(fd){
         fd.set('service', topic);
         fd.set('source', 'quote-block');
+        if (area) fd.set('area', area);
         fd.set('_subject', 'Lawn quote request (quote block: ' + (service || area || pagePath) + ') - magnoliagardenslandscaping.com');
       },
       onInvalid:function(info){
@@ -141,7 +141,8 @@
       form.style.display = 'none';
       var p = document.createElement('div');
       p.className = 'mgqb-panel request-status';
-      p.innerHTML = '<h2>' + (status==='http_rejected'?'We couldn’t send your request.':'We couldn’t confirm delivery.') + '</h2><p>' + (status==='http_rejected'?'':'Your request may already have arrived. ') + 'Text us at <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a> ' +
+      // Preserve entered details and avoid automatic resubmission after an uncertain outcome.
+      p.innerHTML = '<h2>We couldn’t confirm delivery.</h2><p>Your request may already have arrived. Text us at <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a> ' +
         'or call <a href="' + C.contact.telHref + '">' + C.contact.phoneDisplay + '</a> and we’ll quote from there.</p>';
       p.appendChild(core.recoveryDetails(form));
       form.parentNode.insertBefore(p, form);

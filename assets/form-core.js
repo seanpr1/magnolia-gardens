@@ -61,6 +61,11 @@
       try {
         payload = new FormData(form);
         payload.set('submitted_at', new Date().toISOString());
+        // An opaque reference helps reconcile delivery without exposing contact details.
+        var requestId = window.crypto && typeof window.crypto.randomUUID === 'function'
+          ? window.crypto.randomUUID()
+          : Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+        payload.set('submission_id', requestId);
         if (cfg.preparePayload) cfg.preparePayload(payload);
         metric('capture');
         // Apply last so legacy adapter metadata cannot reintroduce raw URLs.
@@ -70,10 +75,7 @@
         controls.forEach(function (record) { record.element.disabled = true; });
         call(cfg.onBusy, true);
         if (!config.formspree) { finish('network_failure', controls); return state; }
-        // Preserve the existing mirror. Its no-cors response proves no receipt.
-        if (cfg.mirror && config.zapierMirror) {
-          try { Promise.resolve(fetch(config.zapierMirror, { method: 'POST', body: payload, mode: 'no-cors', keepalive: true })).catch(function () {}); } catch (_) {}
-        }
+        // Formspree saves the request and forwards it to the private server-side Zap.
         var timeout = Number.isFinite(config.timeoutMs) && config.timeoutMs > 0 ? config.timeoutMs : 15000;
         var outcome = await post(config.formspree, payload, timeout);
         finish(outcome, controls);

@@ -1,5 +1,13 @@
 # Website release record
 
+## Website-owned intake repair, October 12–13, 2026
+
+This repair keeps Magnolia's own website forms and analytics. A replacement automation is being prepared for Formspree server-side delivery. The previous live automation remains the rollback route during validation. Merge and deployment depend on completing that backend cutover.
+
+All customer forms submit once to Formspree, which stores the request and forwards it to the server-side Zap. The public browser webhook is removed. Form styling, phone-only entry, optional fields, original customer message, service/area context, and privacy-safe analytics remain. JavaScript submissions include an opaque submission reference for reconciliation. Native HTML forms still submit to Formspree without JavaScript. The privacy notice describes this operational routing.
+
+The frontend acknowledges Formspree acceptance, not confirmed downstream Jobber delivery. Offline verification passed: 54 site checks, 54 pricing combinations, 116 request/validation/delivery checks, and 18 shared form/telemetry/privacy contracts, with no live submissions. Provider spam handling, automatic phone-only CRM capture, duplicate delivery handling, and the cutover are recorded below only after verification. No new live submission has been made for this release. Live validation and publication remain in progress.
+
 ## Published PR #9 release, October 11, 2026
 
 Sean authorized review, fixes, tests, commits, PR updates, merge, production publication and a narrowly scoped rollback after successful checks. This supersedes the earlier draft-only restriction for [PR #9](https://github.com/seanpr1/magnolia-gardens/pull/9).
