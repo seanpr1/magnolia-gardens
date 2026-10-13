@@ -1,12 +1,23 @@
 # Website release record
 
-## Website-owned intake repair, October 12–13, 2026
+## Website-owned intake repair, published October 13, 2026
 
-This repair keeps Magnolia's own website forms and analytics. A replacement automation is being prepared for Formspree server-side delivery. The previous live automation remains the rollback route during validation. Merge and deployment depend on completing that backend cutover.
+Sean explicitly approved merge and live deployment. [PR #10](https://github.com/seanpr1/magnolia-gardens/pull/10) merged as `1db481514733ef56ab355261517423ba166ffedb` at `2026-10-13T04:20:37Z`. The public production `/assets/form-core.js` matched the approved source exactly after deployment. This verifies the repaired transport asset and the two live routes below; it is not a new whole-site deployment comparison.
 
-All customer forms submit once to Formspree, which stores the request and forwards it to the server-side Zap. The public browser webhook is removed. Form styling, phone-only entry, optional fields, original customer message, service/area context, and privacy-safe analytics remain. JavaScript submissions include an opaque submission reference for reconciliation. Native HTML forms still submit to Formspree without JavaScript. The privacy notice describes this operational routing.
+Magnolia keeps its own website forms and analytics. Customer forms submit once to Formspree, which stores accepted inquiries and forwards them through its enabled server webhook to the published replacement automation. The former browser-triggered automation is disabled. The public browser webhook was removed. Form styling, optional fields, phone-only entry, original message, service/area context and privacy-safe analytics remain. JavaScript submissions include an opaque reference; native HTML forms still submit to Formspree without JavaScript. The privacy notice describes this routing.
 
-The frontend acknowledges Formspree acceptance, not confirmed downstream Jobber delivery. Offline verification passed: 54 site checks, 54 pricing combinations, 116 request/validation/delivery checks, and 18 shared form/telemetry/privacy contracts, with no live submissions. Provider spam handling, automatic phone-only CRM capture, duplicate delivery handling, and the cutover are recorded below only after verification. No new live submission has been made for this release. Live validation and publication remain in progress.
+The frontend acknowledges Formspree acceptance, not confirmed downstream Jobber delivery. The backend preserves the original inquiry in request Notes, checks the contact match and uses a bounded duplicate counter. Phone-only requests produce an owner notice. Invalid-contact records use an owner-review branch. Service property must be confirmed before quoting or scheduling; native questionnaire answers are separate from Notes.
+
+Verification completed:
+- Offline build/publish checks, 54 site checks, 54 pricing combinations, 116 request/validation/delivery checks and 18 shared form/telemetry/privacy contracts passed without live submissions.
+- Site check and preview checks passed before merge.
+- Two separately authorized public tests at approximately 00:24 and 00:25 Eastern on October 13 exercised the Bristol area form with full details and the cleanup service form with only a phone contact and labeled test message.
+- Each produced one request with the original details in Notes, a Formspree receipt and the appropriate professional acknowledgment or owner notice. Both automation runs succeeded. The phone-only run visibly reported a Meta lead event sent.
+- Both test requests were archived after record and Inbox verification. No quote, job, assessment or invoice was requested or created by these tests.
+
+The two replacement tests matched an existing test contact; fresh-client creation on the replacement route was not separately tested. Isolated duplicate-counter and exact-contact-guard checks passed, but indefinite exactly-once delivery is not claimed. Spam reconciliation, failure-alert delivery, every live form, physical-device behavior, no-JavaScript downstream behavior and ad attribution remain outside complete verification. Account-side details and private record identifiers are retained in the private operations audit.
+
+Recovery must coordinate the website and backend. Do not re-enable the former automation alongside the replacement or replay entire submissions after partial success without reconciling existing records, messages and events. This documentation follow-up changes no application bytes.
 
 ## Published PR #9 release, October 11, 2026
 
