@@ -1,5 +1,18 @@
 # Website release record
 
+## Customer follow-through polish, draft October 17, 2026
+
+Prepared from `main` revision `3c4fc9bb57dbde53a62754a6cdc8c117ae78fe76` for Sean's request to complete the professionalism improvements. This is an unreleased draft; merge and production publication remain a later decision.
+
+- All 11 customer form success presentations now explain that Magnolia will review the request and contact the customer to discuss the work and next steps. They state the usual response time of 24 hours, confirmed by Sean on October 16, rather than a guaranteed deadline.
+- The nine full public footers (home, five services and three areas) add direct email and the existing Facebook profile. `contact.facebookUrl` centralizes that profile for these links and the existing LocalBusiness social references.
+- The public Client Hub entry remains a follow-up: no verified generic company sign-in URL was available. A customer-specific secure quote/invoice link must not be published as a portal.
+- Existing same-crew, weather-notification and per-visit-photo promises were reviewed and retained for owner confirmation. This draft does not reinterpret commercial or operating commitments.
+
+Local `npm test` passed the deterministic build/publish checks, 55 static checks, 54 pricing combinations, 116 request/validation/delivery checks and 18 shared form/telemetry/privacy contracts. `git diff --check` passed. Locked dependencies were installed with scripts disabled. Runtime was Node 24.19.0, npm 11.9.0 and Python 3.12.14; npm/Python differ from the documented CI pins. No new remote CI pass or browser/physical-device visual verification is claimed.
+
+The draft commit and PR use skip flags to suppress automatic CI/previews. Only local offline mocks were exercised: no live form submission, automation test, customer message, integration edit, merge or production deployment was performed. After review and explicit release authorization, remove skip flags for the release workflow, inspect the homepage/quick-request/service success states and footer at narrow and wide widths using mocked transport, and verify the deployed revision and critical pages.
+
 ## Website-owned intake repair, published October 13, 2026
 
 Sean explicitly approved merge and live deployment. [PR #10](https://github.com/seanpr1/magnolia-gardens/pull/10) merged as `1db481514733ef56ab355261517423ba166ffedb` at `2026-10-13T04:20:37Z`. The public production `/assets/form-core.js` matched the approved source exactly after deployment. This verifies the repaired transport asset and the two live routes below; it is not a new whole-site deployment comparison.

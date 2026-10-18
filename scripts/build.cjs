@@ -9,7 +9,7 @@ const ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIRS = ['assets', 'areas', 'services', 'estimate', 'apply', 'hiring', 'quote', 'privacy'];
 const PUBLIC_FILES = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME', 'site.webmanifest']);
 const ASSET_TYPES = new Set(['.html', '.css', '.js', '.json', '.webmanifest', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff', '.woff2', '.txt', '.xml']);
-const CONTACT_KEYS = ['phoneDisplay', 'phoneE164', 'phoneParenthesized', 'phoneSchema', 'telHref', 'smsHref', 'email', 'ownerEmail', 'hiringEmail'];
+const CONTACT_KEYS = ['phoneDisplay', 'phoneE164', 'phoneParenthesized', 'phoneSchema', 'telHref', 'smsHref', 'email', 'ownerEmail', 'hiringEmail', 'facebookUrl'];
 
 function readConfig(root = ROOT) {
   const config = JSON.parse(fs.readFileSync(path.join(root, 'config/site.json'), 'utf8'));

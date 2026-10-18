@@ -131,7 +131,7 @@
       form.style.display = 'none';
       var p = document.createElement('div');
       p.className = 'mgqb-panel request-status';
-      p.innerHTML = '<h2>Your request was sent.</h2><p>To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
+      p.innerHTML = '<h2>Your request was sent.</h2><p>We’ll review your request and contact you to discuss the work and next steps. We usually respond within 24 hours.</p><p>To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
       revealResult(p);

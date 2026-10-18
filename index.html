@@ -124,7 +124,7 @@
       "areaServed": "US-TN",
       "availableLanguage": "English"
     },
-    "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt", "https://www.facebook.com/MagnoliaGardensLandscaping"]
+    "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt", "{{contact.facebookUrl}}"]
   }
   </script>
   <!-- No aggregateRating/review here on purpose: Google treats reviews a business publishes about itself as
@@ -1406,7 +1406,8 @@
         <div class="intake-thanks request-status" id="heroThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
-          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
+          <p class="intake-thanks-body">Your request was sent. We’ll review it and contact you to discuss the work and next steps. We usually respond within 24 hours.</p>
+          <p class="intake-thanks-body">Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
@@ -1894,7 +1895,8 @@
         <div class="intake-thanks request-status" id="intakeThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
-          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
+          <p class="intake-thanks-body">Your request was sent. We’ll review it and contact you to discuss the work and next steps. We usually respond within 24 hours.</p>
+          <p class="intake-thanks-body">Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
@@ -2119,6 +2121,7 @@
         </div>
         <div class="footer-detail">
           <a href="{{contact.telHref}}">{{contact.phoneDisplay}}</a><br>
+          <a href="mailto:{{contact.ownerEmail}}">Email Sean</a> · <a href="{{contact.facebookUrl}}">Facebook</a><br>
           Magnolia Gardens Landscaping LLC<br>
           Kingsport, TN · Sullivan County licensed · Insured
         </div>
