@@ -59,7 +59,7 @@
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
         '<p class="mgqb-err" id="mgqb-error" role="alert" tabindex="-1">Add a phone number so we can follow up about your request.</p>' +
         '<button class="request-action" type="submit" style="width:100%">Request my quote</button>' +
-        '<p class="mgqb-alt">No obligation. Reply STOP to opt out of texts.</p>' +
+        '<p class="mgqb-alt">No obligation. Reply STOP to opt out of texts. <a href="/privacy/">Privacy</a>.</p>' +
       '</form>' +
       '<p class="quick-contact"><a href="'+smsHref()+'">Text us</a><span>or</span><a href="'+C.contact.telHref+'">Call '+C.contact.phoneDisplay+'</a></p>' +
       (!isProject ? '<p class="mgqb-alt"><a href="/estimate/planning/">Explore a mowing price range</a></p>' : '');
@@ -74,7 +74,7 @@
     var touch=false;
     form.addEventListener('pointerdown',function(e){touch=e.pointerType==='touch'||e.pointerType==='pen';});
     form.addEventListener('keydown',function(){touch=false;});
-    var altLink = box.querySelector('.mgqb-alt a');
+    var altLink = box.querySelector('.mgqb-alt a[href="/estimate/planning/"]');
     if (altLink) altLink.addEventListener('click', function(){
       track('estimator_entry', { source:'quote_block', page_path:pagePath, transport_type:'beacon' });
     });
@@ -94,11 +94,11 @@
 
     core.bind(form, {
       location:'quote_block',
-      mirror:false,
       readValues:function(){return {service:service,frequency:isProject?'one_off':'unknown'};},
       preparePayload:function(fd){
         fd.set('service', topic);
         fd.set('source', 'quote-block');
+        if (area) fd.set('area', area);
         fd.set('_subject', 'Lawn quote request (quote block: ' + (service || area || pagePath) + ') - magnoliagardenslandscaping.com');
       },
       onInvalid:function(info){
@@ -117,6 +117,16 @@
     function smsHref(){ return core.smsHref(service); }
     wireLinks(box);
 
+    function revealResult(panel){
+      panel.tabIndex = -1;
+      panel.focus({preventScroll:true});
+      // Hiding the form changes page height. Keep the result heading clear of
+      // the fixed navigation after layout settles, as on the homepage.
+      function reveal(){panel.scrollIntoView({block:'center',behavior:'instant'});}
+      reveal();
+      if(window.requestAnimationFrame)window.requestAnimationFrame(reveal);
+    }
+
     function showThanks(){
       form.style.display = 'none';
       var p = document.createElement('div');
@@ -124,23 +134,20 @@
       p.innerHTML = '<h2>Your request was sent.</h2><p>To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
-      p.tabIndex = -1;
-      p.focus({preventScroll:true});
-      p.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+      revealResult(p);
     }
 
     function showError(status){
       form.style.display = 'none';
       var p = document.createElement('div');
       p.className = 'mgqb-panel request-status';
-      p.innerHTML = '<h2>' + (status==='http_rejected'?'We couldn’t send your request.':'We couldn’t confirm delivery.') + '</h2><p>' + (status==='http_rejected'?'':'Your request may already have arrived. ') + 'Text us at <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a> ' +
+      // Preserve entered details and avoid automatic resubmission after an uncertain outcome.
+      p.innerHTML = '<h2>We couldn’t confirm delivery.</h2><p>Your request may already have arrived. Text us at <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a> ' +
         'or call <a href="' + C.contact.telHref + '">' + C.contact.phoneDisplay + '</a> and we’ll quote from there.</p>';
       p.appendChild(core.recoveryDetails(form));
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
-      p.tabIndex = -1;
-      p.focus({preventScroll:true});
-      p.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+      revealResult(p);
     }
 
     /* Result links are added after the page's existing click handlers. */

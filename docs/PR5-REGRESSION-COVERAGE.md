@@ -1,40 +1,44 @@
 # PR #5 regression reconciliation
 
-Reviewed October 7, 2026 against `main` at `613aab8533ad4c7ab106b40fb9d5bc50a6d32182` and the original PR #5 head `dd6e38c4d95a81bf3358b27733d7b82484f16ff6`.
+Reviewed October 18, 2026 against `main` at `3c4fc9bb57dbde53a62754a6cdc8c117ae78fe76` and the existing PR #5 head `924aec56755d1fdf52aa36ba2a2190ebaaa79ff9`.
 
-The original test fails on the complete current checkout with `Missing or changed postWithDeadline function`. PR #6 replaced the inline estimator with the quick-request adapter and shared form controller. Restoring the obsolete functions, checkmark, wizard screen or repeat-attempt reset would test the wrong behavior.
+## Decision and integration
 
-Keep PR #5 as an updated, unmerged draft: useful gaps remain. Merge current main into its existing branch without rewriting history, remove the obsolete test and excerpt-based README, and put the applicable assertions in the two suites already run by `scripts/check.cjs` and `npm test`. No new test runner is needed.
+Keep PR #5 as an updated draft. The October 7 reconciliation already removed the obsolete inline-estimator test and ported its useful assertions to the shared controller and request-page suites. Current main has since shipped native phone/CTA validation, privacy checks and one Formspree submission with server-side routing. It still lacks the deadline, late-settlement and result-state protections retained here.
+
+This update merges current main into the existing PR branch without rewriting history. It resolves conflicts in the two test suites and release record, preserves main's one-request and `submission_id` assertions, and uses the current uncertainty wording for HTTP rejection. The current native-form, privacy, service/area and duplicate-submission tests stay intact. Only two test files and two documentation files differ from current main; no production source or configuration is changed by this draft.
 
 ## All 12 original cases
 
-`core` below means `scripts/test-form-core.cjs`; `adapter` means `scripts/test-quick-request.cjs`. Both execute the full current modules in isolated JSDOM windows with mocked transport.
+`core` means `scripts/test-form-core.cjs`; `adapter` means `scripts/test-quick-request.cjs`. Both run through `npm test`, executing the complete current modules in isolated JSDOM windows with mocked transport.
 
-| # | Original case | Coverage on current main | Reconciliation in this draft |
+| # | Original case | Coverage on current main | Useful protection retained in PR #5 |
 |---|---|---|---|
-| 1 | HTTP acceptance and cleared deadline | Core and adapter cover acceptance, one conversion and no repeat submission. | Add manual-clock deadline cancellation assertions after acceptance. |
-| 2 | HTTP rejection remains rejection | Core and adapter already distinguish rejection and emit no acceptance. | Add deadline cancellation after rejection; reuse existing outcome tests. |
-| 3 | Network rejection clears deadline without retry | Core and adapter already cover network failure and terminal no-retry behavior. | Add deadline cancellation after rejected fetch. |
-| 4 | Synchronous transport failure cleanup | Main's core mock returns rejected promises; adapter fetch is async. Neither tests a synchronous provider throw. | Add a synchronous provider throw, cleanup, restored controls/busy state, failure metric and no resend. |
-| 5 | 15-second timeout even if abort is ignored | Adapter has a pending fetch, but accelerates the timer and does not assert abort or timer cleanup. Core's timeout mock cooperates with abort. | Use manual timers through the public core API; assert configured and fallback 15,000 ms, abort, cleanup and terminal failure even with an indefinitely pending fetch. A real watchdog rejects a broken/hanging controller. |
-| 6 | Late response cannot reverse timeout | Not directly covered. | Settle mocked fetch with late success or rejection after timeout; assert state, result callback, busy transitions and telemetry remain unchanged, with no resend. |
-| 7 | Request options/body preserved without mutating caller | Core already checks a single shared payload snapshot and field preservation. The old generic options parameter no longer exists. | Strengthen the existing payload case with provider POST, FormData, Accept header, abort signal and browser-owned multipart Content-Type assertions. Retire the obsolete caller-options identity/keepalive contract; the existing mirror has its own options. |
-| 8 | Unknown delivery hides success and offers fallback | Adapter already checks uncertain delivery, masked recovery, no conversion and terminal state. The old checkmark is gone. | Extend existing estimator failure cases to reject a success heading and verify uncertainty copy plus visible native text/call fallbacks. |
-| 9 | Acceptance does not promise booking or automatic SMS | Adapter already asserts that the request was sent; forbidden promises are not explicitly checked. | Extend its accepted result assertions to keep texting optional and reject saved/confirmed/booked, automatic-SMS and Jobber claims. Do not restore the old visit wording. |
-| 10 | Initial markup has no unearned success indicator | No explicit initial result visibility check. | Assert the actual result panel is empty and hidden in static markup, after binding and while transport is pending. |
-| 11 | Each submission resets delivery before awaiting | Current controllers are terminal per form; old `leadSent` reset and repeat-attempt flow no longer apply. Existing core tests enforce terminal state. | Retire the reset source pattern. The initial/pending adapter case protects the remaining applicable invariant: no result or acceptance before delivery finishes. |
-| 12 | Duplicate/inactive-screen guard | Core and adapter already test in-flight and terminal duplicate suppression. The `q3` wizard screen no longer exists. | Reuse existing behavioral coverage; retire the source-level screen guard. |
+| 1 | HTTP acceptance and cleared deadline | Acceptance, one conversion and terminal no-resend are covered. | Assert that acceptance cancels the one scheduled deadline. |
+| 2 | HTTP rejection remains rejection | Core and adapters distinguish rejection and emit no acceptance. | Assert deadline cancellation after HTTP rejection. |
+| 3 | Network rejection clears deadline without retry | Network failure and terminal no-retry behavior are covered. | Assert deadline cancellation after rejected fetch. |
+| 4 | Synchronous transport failure cleanup | Existing transport mocks reject promises; they do not throw synchronously. | Assert cleanup, restored controls/busy state, failure metric and no resend after a synchronous provider throw. |
+| 5 | 15-second timeout even if abort is ignored | Adapter accelerates the timer; core's pending fetch cooperates with abort. Neither asserts deadline cleanup or abort. | Use manual timers through the public core API to assert configured and fallback 15,000 ms, transport abort, cleanup and terminal failure even if fetch stays pending. A real watchdog fails a hanging controller. |
+| 6 | Late response cannot reverse timeout | No direct late-settlement case. | Resolve or reject fetch after timeout and assert unchanged state, result, busy transitions and telemetry, with no resend. |
+| 7 | Request options/body preserved | Main covers the single provider request, opaque submission reference and payload fields. The old generic caller-options API no longer exists. | Assert provider POST, FormData, Accept header and AbortSignal, with browser-owned multipart Content-Type. Retire the old caller-options identity/keepalive and removed browser-mirror assumptions. |
+| 8 | Unknown delivery hides success and offers fallback | Uncertainty, masked recovery, no conversion and terminal state are covered. | Reject a success heading; assert uncertainty wording and visible native text/call destinations. |
+| 9 | Acceptance does not promise booking or automatic SMS | Adapter checks that the request was sent. It does not reject unsupported follow-up promises. | Keep texting optional and reject saved/confirmed/booked, automatic-SMS and Jobber claims in the accepted result. |
+| 10 | Initial markup has no unearned success indicator | No explicit initial result-visibility assertion. | Assert an empty, hidden result in static markup, after binding and while delivery is pending. |
+| 11 | Each submission resets delivery before awaiting | Current controllers are terminal per form; the old repeat-attempt reset does not apply. | Reuse terminal-state coverage and the initial/pending invariant. Retire the old reset source pattern. |
+| 12 | Duplicate/inactive-screen guard | Main covers in-flight and terminal duplicate suppression across shared forms. | Reuse those behavioral checks. Retire the removed wizard-screen source guard. |
 
-## Other work checked
+The current-main tests introduced by PRs #9 and #10 are the integration baseline. PR #8's old raw-hook diagnostics and browser-mirror repair are not dependencies of this test reconciliation; none of that code is imported or enabled.
 
-PR #8 at `3181867f7249a1dc94c5a5bb89d5a3e6493ed1b4` separately adds multipart wire-format tests, native fallback repairs and disabled raw-hook diagnostic coverage. Its test changes were inspected; this draft does not copy those cases, alter that branch, enable diagnostics or modify the live Zap. Both drafts edit the same test files and will need the usual integration check when either later merges.
+## Verification — October 18, 2026
 
-## Verification
+- A complete checkout of main `3c4fc9b` passed `npm test`: deterministic build/publish checks, 55 static checks, 54 pricing combinations, 116 adapter checks and 18 shared-form contracts.
+- The reconciled complete checkout passed the same command: 55 static checks, 54 pricing combinations, 117 adapter checks and 26 shared-form contracts. Every test used mocked transport; zero live requests were sent.
+- Five temporary rendered-source mutations were each tested with both current-main and draft suites. Main passed all five; this draft rejected all five at the intended assertion: missing deadline cleanup, missing transport abort, fallback deadline changed to 16 seconds, exposed initial result and a false booking/automatic-SMS promise. The temporary copies were removed; production files were not edited.
+- Locked dependencies were installed with `npm ci --ignore-scripts --no-audit --no-fund`; jsdom is 30.1.1. Runtime: Node 24.19.0, npm 11.9.0 and Python 3.12.14. The local npm/Python versions differ from documented CI pins 12.1.0/3.14. These results are local evidence, not a claim of a new CI or hosted-preview pass.
+- `git diff --check` passed. The branch preserves current main as a merge parent and keeps the net diff limited to the two suites, this map and the release record.
 
-- Full current-main baseline: `npm test` passed (deterministic build/publish checks, 51 static checks, 54 pricing combinations, 79 adapter checks and 18 core contracts).
-- Updated complete checkout: `npm test` passed (same build/static/pricing checks, 80 adapter checks and 26 core contracts).
-- Five deliberately damaged temporary build copies failed the appropriate suite: missing deadline cleanup, missing abort, changed deadline, exposed initial result and a false booking/SMS promise. The repository's production files were not edited for these checks.
-- Environment: Node 24.19.0, npm 11.9.0, Python 3.12.14; all 37 locked dependencies installed with `npm ci --ignore-scripts --no-audit --no-fund`. The local npm/Python versions differ from the documented CI pins (12.1.0/3.14); this is not a claim of a new CI run.
-- The legacy test and README are deleted. Only the two existing test files and documentation differ from current main. No production HTML, CSS, JS, configuration, endpoints, pricing or customer behavior changes.
+These offline checks establish the tested browser contracts. Physical-device behavior, provider receipt, downstream Jobber creation, SMS delivery, booking and the production deployment require separate evidence. This draft update does not perform a production release, live form submission, account change or customer message.
 
-These are offline full-source DOM/unit checks. They do not certify physical-device behavior, browser/provider receipt, Jobber creation, SMS delivery, booking or the production deployment. No live lead, webhook, customer message or analytics event is sent by the tests.
+## Earlier draft history
+
+The original September 23 head was `dd6e38c4d95a81bf3358b27733d7b82484f16ff6`. PR #6 removed the inline functions that its excerpt-based test extracted. The October 7 reconciliation against `613aab8533ad4c7ab106b40fb9d5bc50a6d32182` removed that obsolete test and README, producing draft head `924aec56755d1fdf52aa36ba2a2190ebaaa79ff9`. The October 18 results above supersede that earlier draft's baseline and verification counts.

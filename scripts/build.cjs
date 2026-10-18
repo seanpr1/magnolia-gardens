@@ -6,7 +6,7 @@ const path = require('node:path');
 const cp = require('node:child_process');
 const crypto = require('node:crypto');
 const ROOT = path.resolve(__dirname, '..');
-const PUBLIC_DIRS = ['assets', 'areas', 'services', 'estimate', 'apply', 'hiring', 'quote'];
+const PUBLIC_DIRS = ['assets', 'areas', 'services', 'estimate', 'apply', 'hiring', 'quote', 'privacy'];
 const PUBLIC_FILES = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME', 'site.webmanifest']);
 const ASSET_TYPES = new Set(['.html', '.css', '.js', '.json', '.webmanifest', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff', '.woff2', '.txt', '.xml']);
 const CONTACT_KEYS = ['phoneDisplay', 'phoneE164', 'phoneParenthesized', 'phoneSchema', 'telHref', 'smsHref', 'email', 'ownerEmail', 'hiringEmail'];
@@ -27,7 +27,7 @@ function readConfig(root = ROOT) {
     const digits = config.contact[key].replace(/\D/g, '');
     if (digits !== number && '1' + digits !== number) throw new Error('Contact phone formats disagree: ' + key);
   }
-  for (const key of ['formspree', 'zapierMirror']) {
+  for (const key of ['formspree']) {
     const value = config.forms && config.forms[key];
     if (typeof value !== 'string' || !/^https:\/\/[a-z0-9.-]+\/[a-zA-Z0-9/_-]+$/.test(value)) throw new Error('Invalid HTTPS form endpoint: ' + key);
   }
@@ -38,7 +38,7 @@ function readConfig(root = ROOT) {
 
 function render(text, config, filename = 'source') {
   const result = text.replace(/\{\{(contact|forms|brand)\.([A-Za-z]+)\}\}/g, (_, section, key) => {
-    if (!(section === 'contact' ? CONTACT_KEYS.includes(key) : section === 'brand' ? key === 'primary' : ['formspree', 'zapierMirror'].includes(key))) throw new Error('Unknown site placeholder in ' + filename + ': ' + section + '.' + key);
+    if (!(section === 'contact' ? CONTACT_KEYS.includes(key) : section === 'brand' ? key === 'primary' : ['formspree'].includes(key))) throw new Error('Unknown site placeholder in ' + filename + ': ' + section + '.' + key);
     return config[section][key];
   });
   if (/\{\{[^}]+\}\}/.test(result)) throw new Error('Unresolved placeholder in ' + filename);

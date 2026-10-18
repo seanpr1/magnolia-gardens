@@ -79,7 +79,8 @@ function controlledTransport(h, implementation) {
     assert.equal(h.w.MG_FORM_CORE.bind(h.form, h.options), h.api);
     const first = h.api.submit(); await h.api.submit(); await first; await h.api.submit();
     assert.equal(h.api.getState(), 'accepted'); assert.deepEqual(h.results, ['accepted']); assert.deepEqual(h.busy, [true, false]);
-    assert.equal(h.posts.length, 2); assert.equal(h.posts[0].options.body, h.posts[1].options.body);
+    assert.equal(h.posts.length, 1); assert.equal(h.posts[0].url, 'https://provider.invalid/');
+    assert.ok(h.posts[0].entries.submission_id);
     const provider = h.posts.find(post => post.url === h.w.MG_SITE_CONFIG.forms.formspree);
     assert.equal(provider.options.method, 'POST');
     assert.ok(provider.options.body instanceof h.w.FormData);
@@ -107,7 +108,7 @@ function controlledTransport(h, implementation) {
   }
   for (const mode of ['http_rejected', 'network_failure', 'timeout']) {
     const h = setup({ mode }); h.form.elements.phone.value = '4235550100'; await h.api.submit(); await h.api.submit();
-    assert.deepEqual(h.results, [mode]); assert.equal(h.api.getState(), mode); assert.equal(h.posts.length, 2);
+    assert.deepEqual(h.results, [mode]); assert.equal(h.api.getState(), mode); assert.equal(h.posts.length, 1);
     assert.equal(count(h, 'mg_form_accepted'), 0); assert.equal(count(h, 'generate_lead'), 0);
     assert.equal(h.events.find(e => e[1] === 'mg_form_error')[2].reason, mode);
     close(h); checks++;
@@ -115,7 +116,7 @@ function controlledTransport(h, implementation) {
   // Legacy cases 1–4: prompt outcomes cancel their deadline; a synchronous
   // fetch throw follows the same cleanup contract as a rejected promise.
   for (const mode of ['accepted', 'http_rejected', 'network_failure', 'sync_throw']) {
-    const h = setup({ mirror: false });
+    const h = setup();
     try {
       const clock = controlledTransport(h, () => {
         if (mode === 'sync_throw') throw Error('synthetic blocked fetch');
@@ -147,7 +148,7 @@ function controlledTransport(h, implementation) {
   const productionTimeout = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../config/site.json'), 'utf8')).forms.timeoutMs;
   assert.equal(productionTimeout, 15000);
   for (const scenario of ['configured_pending', 'default_pending', 'late_success', 'late_rejection']) {
-    const h = setup({ mirror: false });
+    const h = setup();
     try {
       let resolveFetch, rejectFetch;
       const clock = controlledTransport(h, () => new Promise((resolve, reject) => { resolveFetch = resolve; rejectFetch = reject; }));
@@ -186,7 +187,7 @@ function controlledTransport(h, implementation) {
   }
   for (const fault of [{ trackerThrows: true }, { readThrows: true }, { resultThrows: true }]) {
     const h = setup(fault); h.form.elements.phone.value = '4235550100'; await h.api.submit(); await h.api.submit();
-    assert.equal(h.api.getState(), 'accepted'); assert.deepEqual(h.results, ['accepted']); assert.equal(h.posts.length, 2);
+    assert.equal(h.api.getState(), 'accepted'); assert.deepEqual(h.results, ['accepted']); assert.equal(h.posts.length, 1);
     assert.equal(count(h, 'mg_form_error'), 0); close(h); checks++;
   }
   {

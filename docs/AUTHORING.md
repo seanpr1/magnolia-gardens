@@ -9,6 +9,7 @@
 | Quick-request page | `estimate/index.html`, `assets/request.css` |
 | Optional planning page | `estimate/planning/index.html`, `assets/planning-range.js` |
 | Hiring/application pages | `hiring/index.html`, `apply/index.html` |
+| Privacy notice and application-retention disclosure | `privacy/index.html`, `apply/index.html` |
 | Existing field quote tool | `quote/index.html`, `quote/sw.js` |
 | Shared public palette, fonts and spacing/type tokens | `assets/brand.css` |
 | Navigation behavior/styles | `assets/site-nav.js`, `assets/site-nav.css` |

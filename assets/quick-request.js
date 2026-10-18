@@ -29,7 +29,7 @@
     core.track(text?'click_to_text':'click_to_call',{location:'quick_request'});
   }));
   core.bind(form,{
-    location:'estimator',mirror:true,
+    location:'estimator',
     readValues:()=>({service:service.value,lawn_size:form.elements.lawn_size.value,frequency:form.elements.frequency.value}),
     preparePayload:payload=>{
       payload.set('service',services[service.value]||'Not specified');
