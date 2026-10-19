@@ -124,7 +124,7 @@
       "areaServed": "US-TN",
       "availableLanguage": "English"
     },
-    "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt", "https://www.facebook.com/MagnoliaGardensLandscaping"]
+    "sameAs": ["https://share.google/IH4NaCCXL1xP8eOtt", "{{contact.facebookUrl}}"]
   }
   </script>
   <!-- No aggregateRating/review here on purpose: Google treats reviews a business publishes about itself as
@@ -1018,10 +1018,19 @@
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: var(--gap-grid); margin-top: var(--space-7);
     }
+    .work-item { margin: 0; min-width: 0; background: var(--surface); border: 1px solid var(--edge); }
+    .work-item figcaption { padding: 18px 20px 22px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+    .work-item figcaption strong { display: block; color: var(--gold); font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .work-item figcaption span { display: block; }
+    .work-tile .stone-detail { object-position: 50% 75%; }
+    .hero-project figcaption, .owner-photo figcaption { padding: 12px 16px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+    .hero-project figcaption a { color: var(--gold); text-underline-offset: 3px; }
+    .owner-photo { max-width: 360px; }
     .work-tile {
       background: var(--surface); border: 1px solid var(--edge);
       overflow: hidden; aspect-ratio: 4 / 3;
     }
+    .work-tile picture { display: block; width: 100%; height: 100%; }
     .work-tile img {
       display: block; width: 100%; height: 100%; object-fit: cover;
     }
@@ -1041,7 +1050,9 @@
       align-items: center; justify-content: center;
     }
     .lightbox.open { display: flex; }
-    .lightbox img { max-width: 100%; max-height: 86vh; object-fit: contain; display: block; }
+    .lightbox figure { display: flex; flex-direction: column; align-items: center; margin: 0; max-width: calc(100vw - 88px); max-height: calc(100svh - 88px); text-align: center; }
+    .lightbox img { flex: 0 1 auto; min-height: 0; max-width: 100%; max-height: 78vh; object-fit: contain; display: block; margin: auto; }
+    .lightbox figcaption { flex: 0 0 auto; max-width: 760px; margin: 12px auto 0; color: #f4ecd8; font-size: 14px; line-height: 1.45; }
     .lightbox button {
       position: absolute; background: none; border: 0; color: #fff;
       cursor: pointer; padding: 12px; line-height: 1; opacity: .85; font-size: 32px;
@@ -1328,17 +1339,15 @@
         </div>
 
 <figure class="photo-frame hero-project">
-     <button class="photo-zoom" type="button">
-      <picture>
-        <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.webp 1600w" sizes="(max-width: 660px) 100vw, 520px">
-        <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg"
-             srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg 1600w"
-             sizes="(max-width: 660px) 100vw, 520px"
-             alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN"
-             width="1600" height="1200" loading="eager" fetchpriority="high">
-      </picture>
-     </button>
-    <figcaption>Bed maintenance · Kingsport, TN. <a href="#work">See more of our work</a></figcaption>
+      <button class="photo-zoom" type="button" aria-label="Enlarge the finished mulched island bed">
+        <picture>
+          <source type="image/avif" srcset="/assets/projects/curated-20261019-island-bed-480w.avif 480w, /assets/projects/curated-20261019-island-bed-800w.avif 800w, /assets/projects/curated-20261019-island-bed-1200w.avif 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px">
+          <source type="image/webp" srcset="/assets/projects/curated-20261019-island-bed-480w.webp 480w, /assets/projects/curated-20261019-island-bed-800w.webp 800w, /assets/projects/curated-20261019-island-bed-1200w.webp 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px">
+          <img src="/assets/projects/curated-20261019-island-bed-800w.jpg" srcset="/assets/projects/curated-20261019-island-bed-480w.jpg 480w, /assets/projects/curated-20261019-island-bed-800w.jpg 800w, /assets/projects/curated-20261019-island-bed-1200w.jpg 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px"
+               alt="Dark mulch and a defined curved edge around established golden shrubs beside a driveway." width="800" height="600" loading="eager" fetchpriority="high" decoding="async" data-full-src="/assets/projects/curated-20261019-island-bed-1200w.jpg">
+        </picture>
+      </button>
+      <figcaption>Fresh mulch and a defined bed edge. <a href="/projects/#mulch">View this project</a></figcaption>
     </figure>
 
         <div class="hero-proof" aria-label="Included on every visit">
@@ -1407,7 +1416,8 @@
         <div class="intake-thanks request-status" id="heroThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
-          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
+          <p class="intake-thanks-body">Your request was sent. We’ll review it and contact you to discuss the work and next steps. We usually respond within 24 hours.</p>
+          <p class="intake-thanks-body">Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
@@ -1593,53 +1603,50 @@
 <div class="rule"></div>
 
 <!-- ════════════════════════════════════════════
-     4b. WORK GALLERY - real job photos (assets/work/)
+     4b. WORK GALLERY - reviewed finished-work photographs
 ════════════════════════════════════════════ -->
 <section class="section" id="work">
   <div class="wrap">
     <div class="section-hd">
-      <div class="eyebrow">Recent work</div>
+      <div class="eyebrow">Work by Magnolia</div>
       <h2>The work, <em>up close</em>.</h2>
-      <p class="section-sub">Recent beds, mulch, and lawns around Kingsport and the Tri-Cities, every visit documented.</p>
-      <p><a href="/projects/">See cleanup, mulch and mowing project photos</a> · <a href="/customers/">Already a customer? Get service help</a></p>
+      <p class="section-sub">A closer look at our lawn and landscape work. Tap a photo to see the details.</p>
+      <p><a href="/projects/">Explore our projects</a> · <a href="/customers/">Already a customer? Get service help</a></p>
     </div>
     <div class="work-grid">
-      <button class="work-tile" type="button">
-        <picture>
-          <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp">
-          <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg" alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN" loading="lazy" width="1000" height="750">
+      <figure class="work-item">
+        <button class="work-tile" type="button" aria-label="Enlarge: Lawn mowing &amp; edging">
+          <picture>
+          <source type="image/avif" srcset="/assets/projects/curated-20261019-lawn-and-walk-480w.avif 480w, /assets/projects/curated-20261019-lawn-and-walk-800w.avif 800w, /assets/projects/curated-20261019-lawn-and-walk-1200w.avif 1200w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px">
+          <source type="image/webp" srcset="/assets/projects/curated-20261019-lawn-and-walk-480w.webp 480w, /assets/projects/curated-20261019-lawn-and-walk-800w.webp 800w, /assets/projects/curated-20261019-lawn-and-walk-1200w.webp 1200w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px">
+          <img src="/assets/projects/curated-20261019-lawn-and-walk-800w.jpg" srcset="/assets/projects/curated-20261019-lawn-and-walk-480w.jpg 480w, /assets/projects/curated-20261019-lawn-and-walk-800w.jpg 800w, /assets/projects/curated-20261019-lawn-and-walk-1200w.jpg 1200w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px"
+               alt="Mowed grass and a clean sidewalk edge beside established foundation beds." width="800" height="600" loading="lazy" decoding="async" data-full-src="/assets/projects/curated-20261019-lawn-and-walk-1200w.jpg">
         </picture>
-      </button>
-      <button class="work-tile" type="button">
-        <picture>
-          <source type="image/webp" srcset="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.webp">
-          <img src="/assets/work/mulch-installation-landscaping-kingsport-tn-1000w.jpg" alt="Freshly mulched landscaping beds with mixed shrubs at a Tri-Cities TN home" loading="lazy" width="1000" height="750">
+        </button>
+        <figcaption><strong>Lawn mowing &amp; edging</strong><span>An even cut and a tidy edge along the walk.</span></figcaption>
+      </figure>
+      <figure class="work-item">
+        <button class="work-tile" type="button" aria-label="Enlarge: Decorative stone beds">
+          <picture>
+          <source type="image/avif" srcset="/assets/projects/curated-20261019-patio-stone-480w.avif 480w, /assets/projects/curated-20261019-patio-stone-800w.avif 800w, /assets/projects/curated-20261019-patio-stone-1080w.avif 1080w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px">
+          <source type="image/webp" srcset="/assets/projects/curated-20261019-patio-stone-480w.webp 480w, /assets/projects/curated-20261019-patio-stone-800w.webp 800w, /assets/projects/curated-20261019-patio-stone-1080w.webp 1080w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px">
+          <img src="/assets/projects/curated-20261019-patio-stone-800w.jpg" srcset="/assets/projects/curated-20261019-patio-stone-480w.jpg 480w, /assets/projects/curated-20261019-patio-stone-800w.jpg 800w, /assets/projects/curated-20261019-patio-stone-1080w.jpg 1080w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px"
+               alt="Decorative red stone around a patio, with stepping stones and a curved block border." width="800" height="1000" loading="lazy" decoding="async" class="stone-detail" data-full-src="/assets/projects/curated-20261019-patio-stone-1080w.jpg">
         </picture>
-      </button>
-      <button class="work-tile" type="button">
-        <picture>
-          <source type="image/webp" srcset="/assets/work/lawn-mowing-hillside-kingsport-tn-1000w.webp">
-          <img src="/assets/work/lawn-mowing-hillside-kingsport-tn-1000w.jpg" alt="Freshly mowed hillside lawn under a blue sky - Magnolia Gardens Landscaping, Kingsport TN" loading="lazy" width="1000" height="750">
+        </button>
+        <figcaption><strong>Decorative stone beds</strong><span>A neat finish around an outdoor sitting area.</span></figcaption>
+      </figure>
+      <figure class="work-item">
+        <button class="work-tile" type="button" aria-label="Enlarge: Planting &amp; bed care">
+          <picture>
+          <source type="image/avif" srcset="/assets/projects/curated-20261019-fence-bed-480w.avif 480w, /assets/projects/curated-20261019-fence-bed-800w.avif 800w, /assets/projects/curated-20261019-fence-bed-1200w.avif 1200w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px">
+          <source type="image/webp" srcset="/assets/projects/curated-20261019-fence-bed-480w.webp 480w, /assets/projects/curated-20261019-fence-bed-800w.webp 800w, /assets/projects/curated-20261019-fence-bed-1200w.webp 1200w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px">
+          <img src="/assets/projects/curated-20261019-fence-bed-800w.jpg" srcset="/assets/projects/curated-20261019-fence-bed-480w.jpg 480w, /assets/projects/curated-20261019-fence-bed-800w.jpg 800w, /assets/projects/curated-20261019-fence-bed-1200w.jpg 1200w" sizes="(max-width: 480px) calc(100vw - 48px), (max-width: 720px) 45vw, (max-width: 1200px) 31vw, 370px"
+               alt="A fence-side bed with upright shrubs, low foliage, flowers and pine straw beside a gravel strip." width="800" height="600" loading="lazy" decoding="async" data-full-src="/assets/projects/curated-20261019-fence-bed-1200w.jpg">
         </picture>
-      </button>
-      <button class="work-tile" type="button">
-        <picture>
-          <source type="image/webp" srcset="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.webp">
-          <img src="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.jpg" alt="Foundation planting bed with boxwoods, liriope and roses freshly mulched against brick" loading="lazy" width="1000" height="750">
-        </picture>
-      </button>
-      <button class="work-tile" type="button">
-        <picture>
-          <source type="image/webp" srcset="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.webp">
-          <img src="/assets/work/flower-bed-mulch-after-kingsport-tn-1000w.jpg" alt="The same garden bed after cleanup and fresh mulch installation by Magnolia Gardens Landscaping" loading="lazy" width="1000" height="750">
-        </picture>
-      </button>
-      <button class="work-tile" type="button">
-        <picture>
-          <source type="image/webp" srcset="/assets/work/laceleaf-japanese-maple-kingsport-tn-1000w.webp">
-          <img src="/assets/work/laceleaf-japanese-maple-kingsport-tn-1000w.jpg" alt="Close-up of a red laceleaf Japanese maple ornamental accent planting" loading="lazy" width="1000" height="1333">
-        </picture>
-      </button>
+        </button>
+        <figcaption><strong>Planting &amp; bed care</strong><span>Color and structure in a compact garden bed.</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -1896,7 +1903,8 @@
         <div class="intake-thanks request-status" id="intakeThanks" hidden>
           <div class="intake-thanks-eye">Got it</div>
           <h3 class="intake-thanks-h">Thanks for reaching out.</h3>
-          <p class="intake-thanks-body">Your request was sent. Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
+          <p class="intake-thanks-body">Your request was sent. We’ll review it and contact you to discuss the work and next steps. We usually respond within 24 hours.</p>
+          <p class="intake-thanks-body">Want to add photos or details? <a href="{{contact.smsHref}}?body=Hi%2C%20I%20just%20sent%20a%20quote%20request.">Text us</a> or <a href="{{contact.telHref}}">call {{contact.phoneParenthesized}}</a>.</p>
         </div>
 
         <!-- Failure state (network error, Formspree non-200, etc.) -->
@@ -2047,15 +2055,16 @@
         <p>Magnolia Gardens runs on one idea - lawn care should be predictable. Clear schedules, written quotes, and work that holds up to a close look, every visit.</p>
         <p>Every job is documented, every quote is in writing, and every customer is reached directly by text. As the company grows and brings on crew, that's the standard each new team member is trained into and held to on every property. If we ever fall short of it, we want to hear about it.</p>
         <p style="font-size:var(--fs-label);color:var(--muted);margin-top:18px;">Magnolia Gardens was founded by Sean Price, who brings a decade of corporate quality-control and process-design discipline to how the company runs.</p>
-        <figure class="photo-frame photo-inline">
-         <button class="photo-zoom" type="button">
-          <picture>
-            <source type="image/webp" srcset="/assets/work/flower-bed-cleanup-before-kingsport-tn-1000w.webp">
-            <img src="/assets/work/flower-bed-cleanup-before-kingsport-tn-1000w.jpg"
-                 alt="A Magnolia Gardens pro clearing an overgrown bed with a string trimmer before mulching"
-                 width="1000" height="750" loading="lazy">
-          </picture>
-         </button>
+        <figure class="photo-frame photo-inline owner-photo">
+          <button class="photo-zoom" type="button" aria-label="Enlarge Sean on a Magnolia job">
+            <picture>
+          <source type="image/avif" srcset="/assets/projects/curated-20261019-sean-on-site-480w.avif 480w, /assets/projects/curated-20261019-sean-on-site-800w.avif 800w, /assets/projects/curated-20261019-sean-on-site-1080w.avif 1080w" sizes="(max-width: 420px) calc(100vw - 48px), 360px">
+          <source type="image/webp" srcset="/assets/projects/curated-20261019-sean-on-site-480w.webp 480w, /assets/projects/curated-20261019-sean-on-site-800w.webp 800w, /assets/projects/curated-20261019-sean-on-site-1080w.webp 1080w" sizes="(max-width: 420px) calc(100vw - 48px), 360px">
+          <img src="/assets/projects/curated-20261019-sean-on-site-800w.jpg" srcset="/assets/projects/curated-20261019-sean-on-site-480w.jpg 480w, /assets/projects/curated-20261019-sean-on-site-800w.jpg 800w, /assets/projects/curated-20261019-sean-on-site-1080w.jpg 1080w" sizes="(max-width: 420px) calc(100vw - 48px), 360px"
+               alt="Sean Price on a Magnolia job, standing beside a mulched bed with a rake." width="800" height="1000" loading="lazy" decoding="async" data-full-src="/assets/projects/curated-20261019-sean-on-site-1080w.jpg">
+        </picture>
+          </button>
+          <figcaption>Sean on a Magnolia job.</figcaption>
         </figure>
       </div>
 
@@ -2121,6 +2130,7 @@
         </div>
         <div class="footer-detail">
           <a href="{{contact.telHref}}">{{contact.phoneDisplay}}</a><br>
+          <a href="mailto:{{contact.ownerEmail}}">Email Sean</a> · <a href="{{contact.facebookUrl}}">Facebook</a><br>
           Magnolia Gardens Landscaping LLC<br>
           Kingsport, TN · Sullivan County licensed · Insured
         </div>
@@ -2144,7 +2154,7 @@
         Bristol, and the Tri-Cities area<br>
         <a href="/apply/">Join our crew</a><br>
         <a href="/privacy/">Privacy</a><br>
-        <span style="color:var(--muted);opacity:.5;">© 2026 Magnolia Gardens Landscaping</span>
+        <span style="color:var(--muted);">© 2026 Magnolia Gardens Landscaping</span>
       </div>
     </div>
   </div>
@@ -2236,10 +2246,10 @@
 
 
 <!-- Recent-work lightbox (dead-click fix, Clarity Aug 16-22 2026) -->
-<div class="lightbox" id="workLightbox" role="dialog" aria-modal="true" aria-label="Recent work photo">
+<div class="lightbox" id="workLightbox" role="dialog" aria-modal="true" aria-label="Magnolia work photo" aria-describedby="lbCaption">
   <button class="lb-close" type="button" id="lbClose" aria-label="Close">&times;</button>
   <button class="lb-prev"  type="button" id="lbPrev"  aria-label="Previous photo">&#8249;</button>
-  <img id="lbImg" alt="">
+  <figure><img id="lbImg" alt=""><figcaption id="lbCaption"></figcaption></figure>
   <button class="lb-next"  type="button" id="lbNext"  aria-label="Next photo">&#8250;</button>
 </div>
 <script>
@@ -2249,10 +2259,8 @@
   if (!tiles.length || !box) return;
   var img = document.getElementById('lbImg'),
       i = 0, lastFocus = null;
-  // One slide per distinct photo. The hero photo and the first work tile are
-  // the same picture at different widths, so they share a slide rather than
-  // showing up twice in the carousel. Keyed on the src attribute, which is
-  // stable, minus the width suffix.
+  // Keep one slide per source scene, even when a future layout reuses a
+  // responsive photo. The visible gallery currently has three distinct jobs.
   var shots = [], slideOf = [], seen = {};
   tiles.forEach(function (t) {
     var im  = t.querySelector('img');
@@ -2263,12 +2271,14 @@
   function show(n) {
     i = (n + shots.length) % shots.length;
     var im = shots[i];
-    // Resolved here, not at page load: the grid photos are loading="lazy", so
-    // currentSrc is still empty while they are below the fold. By the time a
-    // photo is opened it has loaded, and currentSrc is the WebP the browser
-    // already has - reading src instead would re-fetch the JPEG fallback.
-    img.src = im.currentSrc || im.getAttribute('src');
+    // Load the larger image only when someone opens it. Match the format
+    // already selected by <picture>, with a universally supported JPEG fallback.
+    var selected = im.currentSrc || im.getAttribute('src');
+    var full = im.getAttribute('data-full-src');
+    var format = selected.match(/\.(avif|webp)(?:[?#]|$)/);
+    img.src = full ? (format ? full.replace(/\.jpg$/, '.' + format[1]) : full) : selected;
     img.alt = im.getAttribute('alt') || '';
+    document.getElementById('lbCaption').textContent = img.alt;
   }
   function open(n) {
     lastFocus = document.activeElement;

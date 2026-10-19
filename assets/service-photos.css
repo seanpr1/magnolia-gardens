@@ -1,0 +1,69 @@
+/* Real project photographs on service pages. Preserve each photograph's framing. */
+.service-media {
+  padding: var(--space-6) 0 var(--space-5);
+}
+
+.service-photo {
+  max-width: 880px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  border-radius: var(--r);
+  background: var(--surface);
+}
+
+.service-photo picture,
+.service-photo img {
+  display: block;
+  width: 100%;
+}
+
+.service-photo img {
+  height: auto;
+}
+
+.service-photo figcaption {
+  padding: var(--space-3) var(--space-4);
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+.service-photo figcaption a {
+  color: var(--bright);
+  text-underline-offset: .18em;
+}
+
+.service-photo--detail {
+  max-width: 680px;
+  margin: var(--space-6) 0 0;
+}
+
+.service-photo--support {
+  max-width: 640px;
+  margin: var(--space-6) 0 0;
+}
+
+.service-process {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.service-process .service-photo {
+  width: 100%;
+  margin: 0;
+}
+
+.service-process figcaption strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--bright);
+}
+
+@media (max-width: 560px) {
+  .service-process {
+    grid-template-columns: 1fr;
+  }
+}

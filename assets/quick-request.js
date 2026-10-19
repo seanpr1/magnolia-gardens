@@ -47,7 +47,7 @@
       form.hidden=true;result.hidden=false;
       const title=status==='accepted'?'Your request was sent.':'We couldn’t confirm delivery.';
       const message=status==='accepted'
-        ? 'Want to add photos or details? You can text us below.'
+        ? 'We’ll review your request and contact you to discuss the work and next steps. We usually respond within 24 hours. Want to add photos or details? You can text us below.'
         : 'Your request may already have arrived. Please text or call us below to continue.';
       result.replaceChildren();
       const heading=document.createElement('h2');heading.textContent=title;

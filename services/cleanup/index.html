@@ -793,6 +793,7 @@
 <script src="/assets/site-nav.js?v=20260928" defer></script>
 <script src="/assets/form-metrics.js"></script>
 <script src="/assets/form-core.js"></script>
+  <link rel="stylesheet" href="/assets/service-photos.css">
   <link rel="stylesheet" href="/assets/form-ui.css">
 </head>
 <body>
@@ -879,6 +880,18 @@
   <div class="wrap">
     <h2>What we clear</h2>
     <p>Leaves, fallen sticks and limbs, accumulated bed debris, and overgrowth along edges and fence lines. We tidy beds, cut back what's crept out of bounds, and blow down the hard surfaces before we go. If a cleanup turns up bigger brush or a drainage issue, we'll flag it and quote it separately rather than surprise you.</p>
+    <figure class="service-photo service-photo--support">
+      <picture>
+        <source type="image/avif" srcset="/assets/projects/curated-20261019-island-bed-480w.avif 480w, /assets/projects/curated-20261019-island-bed-800w.avif 800w, /assets/projects/curated-20261019-island-bed-1200w.avif 1200w" sizes="(max-width: 696px) calc(100vw - 56px), 640px">
+        <source type="image/webp" srcset="/assets/projects/curated-20261019-island-bed-480w.webp 480w, /assets/projects/curated-20261019-island-bed-800w.webp 800w, /assets/projects/curated-20261019-island-bed-1200w.webp 1200w" sizes="(max-width: 696px) calc(100vw - 56px), 640px">
+        <img src="/assets/projects/curated-20261019-island-bed-800w.jpg"
+             srcset="/assets/projects/curated-20261019-island-bed-480w.jpg 480w, /assets/projects/curated-20261019-island-bed-800w.jpg 800w, /assets/projects/curated-20261019-island-bed-1200w.jpg 1200w"
+             sizes="(max-width: 696px) calc(100vw - 56px), 640px"
+             alt="Finished island bed with dark mulch and a defined lawn edge around established golden shrubs"
+             width="1200" height="900" loading="lazy" decoding="async">
+      </picture>
+      <figcaption>Bed cleanup and mulch refresh: a finished island bed around established shrubs. <a href="/projects/#mulch">View the mulch project</a>.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -987,7 +1000,7 @@
 <!-- ════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════ -->
-<section class="section"><div class="wrap"><h2>See our work.</h2><p><a href="/projects/#cleanup">See a before-and-after cleanup</a></p><p>Already a customer? <a href="/customers/">Open Client Hub or get service help</a>.</p></div></section>
+<section class="section"><div class="wrap"><h2>See our work.</h2><p><a href="/projects/#mulch">See a finished bed and mulch refresh</a></p><p>Already a customer? <a href="/customers/">Open Client Hub or get service help</a>.</p></div></section>
 </main>
 <footer>
   <div class="wrap">
@@ -998,6 +1011,7 @@
         </div>
         <div class="footer-detail">
           <a href="{{contact.telHref}}">{{contact.phoneDisplay}}</a><br>
+          <a href="mailto:{{contact.ownerEmail}}">Email Sean</a> · <a href="{{contact.facebookUrl}}">Facebook</a><br>
           Magnolia Gardens Landscaping LLC<br>
           Kingsport, TN · Sullivan County licensed · Insured
         </div>
@@ -1021,7 +1035,7 @@
         Bristol, and the Tri-Cities area<br>
         <a href="/apply/">Join our crew</a><br>
         <a href="/privacy/">Privacy</a><br>
-        <span style="color:var(--muted);opacity:.5;">© 2026 Magnolia Gardens Landscaping</span>
+        <span style="color:var(--muted);">© 2026 Magnolia Gardens Landscaping</span>
       </div>
     </div>
   </div>

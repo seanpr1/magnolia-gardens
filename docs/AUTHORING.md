@@ -25,7 +25,7 @@ The homepage's `request-focus-surface`, `request-start-field` and `request-start
 
 ## Contact and public configuration
 
-Edit **`config/site.json`** for public phone formats, existing email destinations, form endpoints, timeout, and production analytics host names. The contact fields preserve separate purposes: `email` is public information, `ownerEmail` is the published direct contact, and `hiringEmail` is applications. Keep phone formats consistent when changing the number; the build rejects mismatches. These values are public and must never contain credentials.
+Edit **`config/site.json`** for public phone formats, existing email destinations, form endpoints, timeout, and production analytics host names. The contact fields preserve separate purposes: `email` is public information, `ownerEmail` is the published direct contact, and `hiringEmail` is applications. `facebookUrl` is the existing public company profile and is shared by footer links and LocalBusiness social references. Keep phone formats consistent when changing the number; the build rejects mismatches. These values are public and must never contain credentials.
 
 HTML and `llms.txt` can reference `{{contact.phoneDisplay}}`, `{{contact.telHref}}`, and the other contact keys in that file. Static form actions can use `{{forms.formspree}}`. `{{brand.primary}}` reads `--gold` directly from `assets/brand.css`. Do not maintain a second theme-color value. Unknown placeholders fail the build.
 
