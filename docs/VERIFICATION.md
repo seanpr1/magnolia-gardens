@@ -15,13 +15,25 @@
 
 Funnel properties use measurement version `3`, a fixed form location, and allowed service/size/frequency values. Missing values remain `unknown`. `lead_submit` and `generate_lead` are compatibility aliases for the same acceptance; never add all three together. Text/call clicks are intent, not completed calls, texts or leads. Preview hosts keep analytics disabled.
 
-Every transport result closes that form instance to repeat submissions. Timeout/network failure cannot establish whether the request arrived. Homepage and quick-request also preserve the existing unconfirmed Zapier copy, so even a Formspree rejection uses uncertain-delivery recovery. Recovery provides native call/text links and a masked, read-only copy of entered details. It does not resend either route. Analytics exceptions cannot change the displayed result or reopen submission.
+Every transport result closes that form instance to repeat submissions. Timeout/network failure cannot establish whether the request arrived. Customer quote forms send once to Formspree; its server-side webhook forwards accepted submissions to Zapier. The former browser-to-Zapier mirror is retired. Recovery provides native call/text links and a masked, read-only copy of entered details. It does not automatically resend a submission. Analytics exceptions cannot change the displayed result or reopen submission.
 
 ## Attribution and privacy
 
 `assets/campaign-context.js` retains the original marketing path, external referrer origin and bounded campaign tags in session storage for a 30-minute visit. Internal navigation renews the expiry without replacing the original campaign. The submitting page is recorded separately. Service selection belongs to form context and does not overwrite campaign attribution. Storage failure falls back to the current page's in-memory context; cross-page retention cannot be guaranteed when browser storage is blocked.
 
 Never put customer contact values in campaign tags. Arbitrary queries, referrer paths, email-shaped values and long phone-like values are excluded. Browser events have an allowlist of properties and values; diagnostic events contain fixed error categories, not error messages/URLs. Text links carry generic copy, not typed addresses or notes. Detailed input remains in the provider payload and masked form controls only.
+
+## Current phone-only intake evidence — October 18, 2026
+
+The published intake automation was verified ON at version 4 after the authorized phone-only repair. A custom Jobber action handles normalized valid-phone inquiries without a valid email: it checks for an exact phone match, creates a client without inventing an email when no match exists, and creates an unscheduled request with the original inquiry in Notes. An intake reference in the request title provides a repeat-processing check. Ambiguous or archived matches and processing failures return an owner-review result. Submitted property details remain in the inquiry; a service property must be confirmed before quoting or scheduling.
+
+The valid-email path and its server-side Meta inquiry sharing are unchanged. The phone-only branch does not send that Meta inquiry event or a customer email acknowledgment. The owner-notification mapping now uses the custom action's result. Browser measurement remains separate from the server-side inquiry event.
+
+An isolated custom-action test created a fresh client without email and one request; repeating the same input returned the existing request rather than creating another. The test client and request were archived in Jobber afterward. The standard connector's missing-email failure was also reproduced before the custom action was used. No real customer record was changed by these tests. Exact account-side identifiers and cleanup status belong in the private operations record.
+
+This is component evidence, not a new end-to-end website submission test. The production step mapping was tested with an existing non-phone-only sample to verify the guard; the owner email test was skipped. A new website submission through Formspree, the complete phone-only branch and receipt of its owner notice was not exercised in this repair. Repeated-input testing does not prove concurrent or indefinite exactly-once processing. Physical-device behavior, analytics receipt and advertising attribution remain separate verification work.
+
+The historical observations below remain dated evidence. Their manual-only or unverified-routing statements do not describe the current phone-only action.
 
 ## September 29 read-only evidence
 

@@ -38,7 +38,7 @@
     onInvalid:info=>{
       if(info.field&&info.field.closest('details'))info.field.closest('details').open=true;
       error.hidden=false;
-      error.textContent=info.reason==='invalid_phone'?'Please enter a phone number with at least 10 digits.':'Please enter a valid email address, or leave email blank.';
+      error.textContent=info.reason==='invalid_phone'?'Please enter a valid 10-digit phone number, with +1 if needed.':'Please enter a valid email address, or leave email blank.';
       const target=touch?error:info.field;
       if(target){target.focus({preventScroll:true});target.scrollIntoView({block:'nearest'});}
     },

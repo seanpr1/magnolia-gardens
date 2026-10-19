@@ -10,6 +10,7 @@ const checks = [
   [process.env.PYTHON || 'python3', ['scripts/site_check.py']],
   [process.execPath, ['scripts/test-project-quotes.cjs']],
   [process.execPath, ['scripts/test-quick-request.cjs']],
+  [process.execPath, ['scripts/test-contact-links.cjs']],
   [process.execPath, ['scripts/test-form-core.cjs']]
 ];
 for (const [command, args] of checks) {

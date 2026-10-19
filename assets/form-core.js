@@ -44,7 +44,11 @@
       if (form.elements._gotcha && form.elements._gotcha.value) { finish('accepted', [], true); return state; }
       metric('attempt');
       var phone = form.elements.phone, email = form.elements.email;
-      var phoneInvalid = !phone || phone.value.replace(/\D/g, '').length < 10;
+      // Match the intake normalizer: ten North American digits, optionally prefixed by 1.
+      // Validate a copy so Formspree retains the visitor's original formatting.
+      var phoneDigits = phone ? phone.value.replace(/\D/g, '') : '';
+      var nationalPhone = phoneDigits.length === 11 && phoneDigits[0] === '1' ? phoneDigits.slice(1) : phoneDigits;
+      var phoneInvalid = !/^[2-9]\d{2}[2-9]\d{6}$/.test(nationalPhone);
       var emailInvalid = !!(email && !email.validity.valid);
       if (phone) phone.setAttribute('aria-invalid', String(phoneInvalid));
       if (email) email.setAttribute('aria-invalid', String(emailInvalid));

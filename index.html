@@ -109,7 +109,7 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seasonal Cleanup", "description": "Leaf removal, spring cleanup after winter, fall prep before the cold." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Leaf Removal", "description": "Single-visit leaf removal or a 3-visit season package, quoted after reviewing photos or visiting the property." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fall Cleanup", "description": "Leaves, beds, overgrowth, and the last tall mow of the year, finished to before-and-after proof photos." } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Aeration and Overseeding", "description": "Core aeration and overseeding for fescue lawns in Northeast Tennessee. September through mid-October is the window." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Aeration and Overseeding", "description": "Core aeration and overseeding for fescue lawns in Northeast Tennessee. Suitability, scope and timing are confirmed after reviewing the lawn." } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Recurring Maintenance", "description": "Weekly, biweekly, or monthly service plans that keep the property consistently maintained throughout the season." } }
       ]
     },
@@ -189,7 +189,7 @@
         "name": "When should I aerate and overseed my lawn in Kingsport?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "September through mid-October. That’s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we’ll quote it after we review the details."
+          "text": "Fall is generally the preferred season to seed tall fescue, but timing depends on location, weather, and lawn conditions. Send photos and your address so we can review whether the work is suitable and confirm timing before booking. See our aeration and overseeding guidance."
         }
       },
       {
@@ -1284,6 +1284,7 @@
     <div class="mobile-nav-panel">
       <a href="/#services">Services</a>
       <a href="/#work">Our work</a>
+      <a href="/customers/">Existing customers</a>
       <a href="/#pricing">Pricing</a>
       <a href="/#areas">Service areas</a>
       <a href="/#faq">Questions</a>
@@ -1357,7 +1358,7 @@
           <div class="hero-quote-h" role="heading" aria-level="2">Request a Free Quote</div>
           <p class="hero-quote-sub">Just your phone number to get started. Add details only if you want to.</p>
 
-          <div class="intake-field request-start-field"><label for="hf2-phone">Phone number <span class="request-start-cue" aria-hidden="true">Start here ↓</span></label><input type="tel" id="hf2-phone" name="phone" required pattern="(?:\D*\d){10,}\D*" title="Please enter a phone number with at least 10 digits." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+          <div class="intake-field request-start-field"><label for="hf2-phone">Phone number <span class="request-start-cue" aria-hidden="true">Start here ↓</span></label><input type="tel" id="hf2-phone" name="phone" required pattern="(?:\D*1)?\D*[2-9](?:\D*\d){2}\D*[2-9](?:\D*\d){6}\D*" title="Please enter a valid 10-digit phone number, with +1 if needed." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
   <div class="optional-fields">
@@ -1392,7 +1393,7 @@
 
           <button type="submit" class="intake-submit request-action" id="heroSubmit" style="width:100%; justify-content:center; margin-top:4px;">Request my quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
 
-          <p class="privacy-note">We use your details to respond. If you include an email, we may also share your email and phone with Meta to measure our advertising. <a href="/privacy/#inquiry-advertising">Privacy</a>.</p>
+          <p class="privacy-note">We use your details to respond. We may also share contact information with Meta to measure our advertising. <a href="/privacy/#inquiry-advertising">Privacy</a>.</p>
           <div class="hero-offer">
             <p class="hero-offer-line">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1600,6 +1601,7 @@
       <div class="eyebrow">Recent work</div>
       <h2>The work, <em>up close</em>.</h2>
       <p class="section-sub">Recent beds, mulch, and lawns around Kingsport and the Tri-Cities, every visit documented.</p>
+      <p><a href="/projects/">See cleanup, mulch and mowing project photos</a> · <a href="/customers/">Already a customer? Get service help</a></p>
     </div>
     <div class="work-grid">
       <button class="work-tile" type="button">
@@ -1802,7 +1804,7 @@
     </div>
 
     <ul class="winter-list">
-      <li><strong><a href="/services/cleanup/#aeration">Aeration + overseeding</a></strong> — September through mid-October, the one window that matters for fescue</li>
+      <li><strong><a href="/services/cleanup/#aeration">Aeration + overseeding</a></strong> — ask about suitability and timing for your lawn</li>
       <li><strong><a href="/services/cleanup/">Leaf cleanup rounds</a></strong> — one pass or the full 3-visit season package</li>
       <li><strong><a href="/services/brush-clearing/">Brush, overgrowth &amp; fence-line clearing</a></strong></li>
       <li><strong>Pressure washing</strong> — driveways, walks, patios</li>
@@ -1852,7 +1854,7 @@
 
         <form class="request-form" id="intakeForm" action="{{forms.formspree}}" method="POST">
 
-          <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required pattern="(?:\D*\d){10,}\D*" title="Please enter a phone number with at least 10 digits." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+          <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required pattern="(?:\D*1)?\D*[2-9](?:\D*\d){2}\D*[2-9](?:\D*\d){6}\D*" title="Please enter a valid 10-digit phone number, with +1 if needed." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
 <details class="optional-details">
   <summary>Add details <span>(optional)</span></summary>
   <div class="optional-fields">
@@ -1886,7 +1888,7 @@
           <div class="intake-step-actions" style="display:block; margin-top:18px;">
             <button type="submit" class="intake-submit request-action" id="intakeSubmit">Request my quote</button><p class="quick-contact"><a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">Text us</a><span>or</span><a href="{{contact.telHref}}">Call {{contact.phoneDisplay}}</a></p>
           </div>
-          <p class="privacy-note">No obligation. We use your details to respond. If you include an email, we may also share your email and phone with Meta to measure our advertising. <a href="/privacy/#inquiry-advertising">Privacy</a>.</p>
+          <p class="privacy-note">No obligation. We use your details to respond. We may also share contact information with Meta to measure our advertising. <a href="/privacy/#inquiry-advertising">Privacy</a>.</p>
 
         </form>
 
@@ -1958,7 +1960,7 @@
 
       <div class="faq-item">
         <h3 class="faq-q">When should I aerate and overseed my lawn in Kingsport?</h3>
-        <div class="faq-a"><p>September through mid-October. That&rsquo;s the one window that matters for fescue in Northeast Tennessee. Soil is still warm, nights are cooling, and new grass gets established before frost. Spring seeding fights heat and weeds. Text photos of your lawn and we&rsquo;ll quote it after we review the details.</p></div>
+        <div class="faq-a"><p>Fall is generally the preferred season to seed tall fescue, but timing depends on location, weather, and lawn conditions. Send photos and your address so we can review whether the work is suitable and confirm timing before booking. See our <a href="/services/cleanup/#aeration">aeration and overseeding guidance</a>.</p></div>
       </div>
 
       <div class="faq-item">
