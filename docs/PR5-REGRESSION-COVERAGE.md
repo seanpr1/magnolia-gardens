@@ -1,5 +1,11 @@
 # PR #5 regression reconciliation
 
+## Current revalidation — October 19, 2026
+
+Refreshed existing head `63faa2342e6701e0633f41dad6f802ba41a9d310` against main `0f68f0fa921fe4700ad43f5c686a233d3ec90855`. The source patch still affects only the two test suites and two documentation files. The inquiry-disclosure selector change is preserved. All 12 cases below remain applicable; no obsolete estimator or mirror code was restored. Fresh `npm test` passed build/publish checks plus 55 static, 54 pricing, 117 adapter and 26 shared-form checks with zero live requests. The earlier mutation-test evidence below is historical, not rerun or claimed as new. Keep draft and unmerged pending review and release authorization.
+
+## Prior reconciliation — October 18, 2026
+
 Reviewed October 18, 2026 against `main` at `3c4fc9bb57dbde53a62754a6cdc8c117ae78fe76` and the existing PR #5 head `924aec56755d1fdf52aa36ba2a2190ebaaa79ff9`.
 
 ## Decision and integration
