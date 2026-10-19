@@ -53,7 +53,7 @@ function oneRequired(form){
   const h=setup(page);
   Object.defineProperty(h.w.document,'currentScript',{value:h.$('script[src^="/assets/quote-block.js"]')});
   h.w.eval(read('assets/quote-block.js'));
-  const privacy=h.$('.mgqb a[href="/privacy/"]');
+  const privacy=h.$('.mgqb a[href^="/privacy/"]');
   privacy.addEventListener('click',e=>e.preventDefault());privacy.click();
   assert.equal(h.events.filter(e=>e[1]==='estimator_entry').length,0);
   const planner=h.$('.mgqb a[href="/estimate/planning/"]');
