@@ -1,5 +1,23 @@
 # Website release record
 
+## October 20, 2026: crew-leader terms and publication authorized
+
+Sean confirmed the crew-leader offer as "$15–$30/hour plus bonus" and "Part-time seasonal" and authorized publication and the prepared recruiting follow-ups after those terms were confirmed. The leader brief now states "$15–$30 per hour, based on experience, plus bonus" and "Part-time seasonal." No weekly-hour guarantee, exact employment dates, bonus formula or other employment commitment has been added. The general crew path and its existing terms remain available.
+
+The application regression checks now also assert the approved leader terms. This entry records the approved release candidate; production revision and hosted verification will be recorded after deployment. The October 20 draft entry below is the earlier preparation snapshot, superseded by this authorization and the confirmed terms.
+
+## October 20, 2026: crew-leader recruiting draft
+
+Prepared from main `e1e0dbeef97a59a018888ae365a15b3df41e8066`. This is a draft for owner review, not a production release or approval of employment terms.
+
+The existing `/apply/` page now describes the working crew-leader priority: independently running bed, mulch and cleanup projects, guiding helpers, communicating with customers and the owner, and checking workmanship. The general crew opportunity remains available with its existing $15-$30/hour plus bonus and part-time/seasonal wording. Leader pay and schedule are explicitly left for discussion and agreement; no new wage, guaranteed hours, benefits or employment duration are promised. The shared early-start question now asks about availability without assigning the general crew's former typical 7am start to the new leader role.
+
+Role selection separates applications. `/apply/?role=crew-leader` and `/apply/?role=crew-member` preselect only recognized values. Leaders answer three brief experience questions; switching to general crew disables and excludes those answers from delivery while retaining them locally if the applicant switches back. Leader submissions have a distinct subject. Existing contact alternatives, optional resume/references, email fallback, Formspree destination and delivery safeguards remain. Referral-source options include the existing recruiting channels. No applicant information is added to analytics or this repository.
+
+Fresh `npm ci --ignore-scripts` and `npm test` passed on Node 24.19.0, npm 11.9.0 and Python 3.12.14 (npm/Python differ from documented pins). The existing 295 counted checks pass, alongside 13 new application scenarios and deterministic build/publish checks. Application scenarios cover both roles, missing experience answers, hidden-field exclusion, role restoration, invalid role parameters, phone-only/email-only input, repeated days, validation focus, provider rejection, uncertain/redirected responses, interrupted transport, duplicate submits and no-JavaScript fallback markup. All transport is mocked; zero live applications or analytics events were sent.
+
+Hosted visual review and pinned-toolchain CI are recorded with the draft PR when available. Physical-device, assistive-technology and new end-to-end mailbox receipt remain unverified. Publication requires the owner's decision on the leader opportunity and a separately authorized release. Recruiting-provider listings and outreach messages are unchanged by this website draft.
+
 ## Published October 19, 2026 Eastern / October 20 UTC: corrected photos and completed website follow-through
 
 Sean explicitly approved publication. [PR #13](https://github.com/seanpr1/magnolia-gardens/pull/13) merged normally into `main` at `2026-10-20T00:20:17Z` (October 19, 8:20:17 PM Eastern), guarded against the approved head `cb67e006d7d67cf3cc39eb4b363071f7c1dbc215`. The resulting merge is `387e1346dadc2ab9431c1ea19933aeb58db2e285`; its source tree matches the approved candidate. PR #11 and PR #5 also became closed/merged at `00:20:19Z`, with their work and ancestry included through `8df238370717dace7fe4020b8f8a96f704cbd957`. They require no separate application or release.
