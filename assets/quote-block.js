@@ -59,7 +59,7 @@
         '<label class="mgqb-hp" aria-hidden="true">Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>' +
         '<p class="mgqb-err" id="mgqb-error" role="alert" tabindex="-1">Add a phone number so we can follow up about your request.</p>' +
         '<button class="request-action" type="submit" style="width:100%">Request my quote</button>' +
-        '<p class="mgqb-alt">No obligation. We use your details to respond. If you include an email, we may also share your email and phone with Meta to measure our advertising. Reply STOP to opt out of texts. <a href="/privacy/#inquiry-advertising">Privacy</a>.</p>' +
+        '<p class="mgqb-alt">No obligation. We use your details to respond. We may also share contact information with Meta to measure our advertising. Reply STOP to opt out of texts. <a href="/privacy/#inquiry-advertising">Privacy</a>.</p>' +
       '</form>' +
       '<p class="quick-contact"><a href="'+smsHref()+'">Text us</a><span>or</span><a href="'+C.contact.telHref+'">Call '+C.contact.phoneDisplay+'</a></p>' +
       (!isProject ? '<p class="mgqb-alt"><a href="/estimate/planning/">Explore a mowing price range</a></p>' : '');
@@ -103,7 +103,7 @@
       },
       onInvalid:function(info){
         err.textContent=info.reason==='invalid_phone'
-          ? 'Please enter a phone number with at least 10 digits.'
+          ? 'Please enter a valid 10-digit phone number, with +1 if needed.'
           : 'Please enter a valid email address, or leave email blank.';
         err.classList.add('show');
         if(info.field && info.field.closest('details')) info.field.closest('details').open=true;
@@ -131,7 +131,7 @@
       form.style.display = 'none';
       var p = document.createElement('div');
       p.className = 'mgqb-panel request-status';
-      p.innerHTML = '<h2>Your request was sent.</h2><p>To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
+      p.innerHTML = '<h2>Your request was sent.</h2><p>We’ll review your request and contact you to discuss the work and next steps. We usually respond within 24 hours.</p><p>To add photos or details, text <a href="' + smsHref() + '">' + C.contact.phoneDisplay + '</a>.</p>';
       form.parentNode.insertBefore(p, form);
       wireLinks(p);
       revealResult(p);

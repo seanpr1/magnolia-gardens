@@ -802,6 +802,7 @@
 <script src="/assets/site-nav.js?v=20260928" defer></script>
 <script src="/assets/form-metrics.js"></script>
 <script src="/assets/form-core.js"></script>
+  <link rel="stylesheet" href="/assets/service-photos.css">
   <link rel="stylesheet" href="/assets/form-ui.css">
 </head>
 <body>
@@ -820,7 +821,7 @@
     <a href="/#how"         class="nav-link">Our process</a>
     <a href="/#about"       class="nav-link">About</a>
     <a href="/#faq"         class="nav-link">FAQ</a>
-    <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
+    <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20a%20quote%20for%20full%20grounds%20care." data-sms-service="maintenance" class="nav-cta">Text for a Quote</a>
   </div>
   <details class="mobile-nav">
     <summary>Menu</summary>
@@ -852,7 +853,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
         Request My Quote
       </a>
-      <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+      <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20a%20quote%20for%20full%20grounds%20care." data-sms-service="maintenance" class="btn-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Text Us for a Quote
       </a>
@@ -866,18 +867,20 @@
   </div>
 </section>
 
-<!-- ── Hero photo · real job (eager / fetchpriority - primary hero image) ── -->
-<section class="media-band" aria-label="Maintained mulched flower bed in Kingsport, TN">
+<!-- Finished lawn care with the walk and lawn edges in view. -->
+<section class="service-media" aria-label="Lawn maintenance example">
   <div class="wrap">
-    <figure class="photo-frame">
+    <figure class="service-photo">
       <picture>
-        <source type="image/webp" srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.webp 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.webp 1600w" sizes="(max-width: 1040px) 100vw, 1040px">
-        <img src="/assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg"
-             srcset="/assets/work/landscaping-bed-maintenance-kingsport-tn-1000w.jpg 1000w, /assets/work/landscaping-bed-maintenance-kingsport-tn-1600w.jpg 1600w"
-             sizes="(max-width: 1040px) 100vw, 1040px"
-             alt="Curved mulched flower bed with golden threadleaf cypress maintained by Magnolia Gardens Landscaping in Kingsport, TN"
-             width="1600" height="1200" loading="eager" fetchpriority="high">
+        <source type="image/avif" srcset="/assets/projects/curated-20261019-lawn-and-walk-480w.avif 480w, /assets/projects/curated-20261019-lawn-and-walk-800w.avif 800w, /assets/projects/curated-20261019-lawn-and-walk-1200w.avif 1200w" sizes="(max-width: 936px) calc(100vw - 56px), 880px">
+        <source type="image/webp" srcset="/assets/projects/curated-20261019-lawn-and-walk-480w.webp 480w, /assets/projects/curated-20261019-lawn-and-walk-800w.webp 800w, /assets/projects/curated-20261019-lawn-and-walk-1200w.webp 1200w" sizes="(max-width: 936px) calc(100vw - 56px), 880px">
+        <img src="/assets/projects/curated-20261019-lawn-and-walk-800w.jpg"
+             srcset="/assets/projects/curated-20261019-lawn-and-walk-480w.jpg 480w, /assets/projects/curated-20261019-lawn-and-walk-800w.jpg 800w, /assets/projects/curated-20261019-lawn-and-walk-1200w.jpg 1200w"
+             sizes="(max-width: 936px) calc(100vw - 56px), 880px"
+             alt="Mowed lawn and a clearly defined grass edge along a concrete walk beside a brick building"
+             width="1200" height="900" loading="lazy" decoding="async">
       </picture>
+      <figcaption>Lawn care by Magnolia Gardens: a mowed lawn, defined edges, and a clear walk.</figcaption>
     </figure>
   </div>
 </section>
@@ -904,13 +907,17 @@
   <div class="wrap">
     <h2>Approve once, then forget it</h2>
     <p>Pick a frequency - weekly, biweekly, or monthly - and we handle the rest, billed simply. We adjust through the season as growth speeds up and slows down, and roll seasonal cleanups in when you want them. It's the take-it-off-your-list option: you stop scheduling lawn care and just come home to a finished yard.</p>
-    <figure class="photo-frame photo-inline">
+    <figure class="service-photo service-photo--detail">
       <picture>
-        <source type="image/webp" srcset="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.webp">
-        <img src="/assets/work/foundation-planting-flower-bed-kingsport-tn-1000w.jpg"
-             alt="Foundation planting bed with boxwoods, liriope and roses freshly mulched against brick"
-             width="1000" height="750" loading="lazy">
+        <source type="image/avif" srcset="/assets/projects/curated-20261019-fence-bed-480w.avif 480w, /assets/projects/curated-20261019-fence-bed-800w.avif 800w, /assets/projects/curated-20261019-fence-bed-1200w.avif 1200w" sizes="(max-width: 736px) calc(100vw - 56px), 680px">
+        <source type="image/webp" srcset="/assets/projects/curated-20261019-fence-bed-480w.webp 480w, /assets/projects/curated-20261019-fence-bed-800w.webp 800w, /assets/projects/curated-20261019-fence-bed-1200w.webp 1200w" sizes="(max-width: 736px) calc(100vw - 56px), 680px">
+        <img src="/assets/projects/curated-20261019-fence-bed-800w.jpg"
+             srcset="/assets/projects/curated-20261019-fence-bed-480w.jpg 480w, /assets/projects/curated-20261019-fence-bed-800w.jpg 800w, /assets/projects/curated-20261019-fence-bed-1200w.jpg 1200w"
+             sizes="(max-width: 736px) calc(100vw - 56px), 680px"
+             alt="Narrow planting bed with upright evergreens and flowering plants beside a wooden fence and gravel path"
+             width="1200" height="900" loading="lazy" decoding="async">
       </picture>
+      <figcaption>A closer look at a fence-side planting bed. <a href="/projects/">See more of our work</a>.</figcaption>
     </figure>
   </div>
 </section>
@@ -962,7 +969,7 @@
     <h2>Get a quote</h2>
     <script src="/assets/quote-block.js" data-service="maintenance" defer></script>
     <div class="hero-ctas" style="margin-top:18px;margin-bottom:4px;">
-      <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="btn-sms">
+      <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20a%20quote%20for%20full%20grounds%20care." data-sms-service="maintenance" class="btn-sms">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Text Us for a Quote
       </a>
@@ -972,7 +979,7 @@
       </a>
     </div>
     <p>
-      Text <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care.">{{contact.phoneDisplay}}</a> with a few photos of your yard, or <a href="/#estimate">open the intake form</a>. We also serve <a href="/areas/johnson-city/">Johnson City</a> and <a href="/areas/bristol/">Bristol</a>.
+      Text <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20a%20quote%20for%20full%20grounds%20care." data-sms-service="maintenance">{{contact.phoneDisplay}}</a> with a few photos of your yard, or <a href="/estimate/?service=maintenance">open the intake form</a>. We also serve <a href="/areas/johnson-city/">Johnson City</a> and <a href="/areas/bristol/">Bristol</a>.
     </p>
   </div>
 </section>
@@ -999,6 +1006,7 @@
         </div>
         <div class="footer-detail">
           <a href="{{contact.telHref}}">{{contact.phoneDisplay}}</a><br>
+          <a href="mailto:{{contact.ownerEmail}}">Email Sean</a> · <a href="{{contact.facebookUrl}}">Facebook</a><br>
           Magnolia Gardens Landscaping LLC<br>
           Kingsport, TN · Sullivan County licensed · Insured
         </div>
@@ -1022,14 +1030,14 @@
         Bristol, and the Tri-Cities area<br>
         <a href="/apply/">Join our crew</a><br>
         <a href="/privacy/">Privacy</a><br>
-        <span style="color:var(--muted);opacity:.5;">© 2026 Magnolia Gardens Landscaping</span>
+        <span style="color:var(--muted);">© 2026 Magnolia Gardens Landscaping</span>
       </div>
     </div>
   </div>
 </footer>
 
 <!-- ── Floating buttons ───────────────────────── -->
-<a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." id="float-sms" aria-label="Text for a Quote">
+<a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20a%20quote%20for%20full%20grounds%20care." data-sms-service="maintenance" id="float-sms" aria-label="Text for a Quote">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>

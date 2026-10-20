@@ -38,7 +38,7 @@
     onInvalid:info=>{
       if(info.field&&info.field.closest('details'))info.field.closest('details').open=true;
       error.hidden=false;
-      error.textContent=info.reason==='invalid_phone'?'Please enter a phone number with at least 10 digits.':'Please enter a valid email address, or leave email blank.';
+      error.textContent=info.reason==='invalid_phone'?'Please enter a valid 10-digit phone number, with +1 if needed.':'Please enter a valid email address, or leave email blank.';
       const target=touch?error:info.field;
       if(target){target.focus({preventScroll:true});target.scrollIntoView({block:'nearest'});}
     },
@@ -47,7 +47,7 @@
       form.hidden=true;result.hidden=false;
       const title=status==='accepted'?'Your request was sent.':'We couldn’t confirm delivery.';
       const message=status==='accepted'
-        ? 'Want to add photos or details? You can text us below.'
+        ? 'We’ll review your request and contact you to discuss the work and next steps. We usually respond within 24 hours. Want to add photos or details? You can text us below.'
         : 'Your request may already have arrived. Please text or call us below to continue.';
       result.replaceChildren();
       const heading=document.createElement('h2');heading.textContent=title;

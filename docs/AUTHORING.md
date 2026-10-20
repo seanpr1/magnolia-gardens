@@ -25,11 +25,13 @@ The homepage's `request-focus-surface`, `request-start-field` and `request-start
 
 ## Contact and public configuration
 
-Edit **`config/site.json`** for public phone formats, existing email destinations, form endpoints, timeout, and production analytics host names. The contact fields preserve separate purposes: `email` is public information, `ownerEmail` is the published direct contact, and `hiringEmail` is applications. Keep phone formats consistent when changing the number; the build rejects mismatches. These values are public and must never contain credentials.
+Edit **`config/site.json`** for public phone formats, existing email destinations, form endpoints, timeout, and production analytics host names. The contact fields preserve separate purposes: `email` is public information, `ownerEmail` is the published direct contact, and `hiringEmail` is applications. `facebookUrl` is the existing public company profile and is shared by footer links and LocalBusiness social references. Keep phone formats consistent when changing the number; the build rejects mismatches. These values are public and must never contain credentials.
 
-HTML and `llms.txt` can reference `{{contact.phoneDisplay}}`, `{{contact.telHref}}`, and the other contact keys in that file. Static form actions can use `{{forms.formspree}}`; `{{forms.zapierMirror}}` is also supported. `{{brand.primary}}` reads `--gold` directly from `assets/brand.css`. Do not maintain a second theme-color value. Unknown placeholders fail the build.
+HTML and `llms.txt` can reference `{{contact.phoneDisplay}}`, `{{contact.telHref}}`, and the other contact keys in that file. Static form actions can use `{{forms.formspree}}`. `{{brand.primary}}` reads `--gold` directly from `assets/brand.css`. Do not maintain a second theme-color value. Unknown placeholders fail the build.
 
 The build resolves placeholders into static, crawlable output and generates `dist/assets/site-config.js`, exposing `window.MG_SITE_CONFIG` for scripts. Do not add a source copy of that generated file. Contact values are restricted to plain text safe for HTML attributes and JSON-LD strings; this is not a general template language.
+
+Service-page static text links use `data-sms-service` (`mowing`, `maintenance`, `cleanup`, `mulch`, or `brush`) and a matching encoded message in the HTML fallback. `assets/site-nav.js` resolves those marked links through `MG_FORM_CORE.smsHref`, which supplies the same fixed service topic and Apple/non-Apple URI separator as the request forms. Keep typed customer details out of URL parameters. `scripts/test-contact-links.cjs` checks all service pages and the fallback when shared form code is missing; actual messaging-app behavior remains a physical-device check.
 
 ## Forms and measurement
 

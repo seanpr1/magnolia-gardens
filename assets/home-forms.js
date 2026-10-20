@@ -61,7 +61,7 @@
       onInvalid: function(info) {
         validation.hidden = false;
         validation.textContent = info.reason === 'invalid_phone'
-          ? 'Please enter a phone number with at least 10 digits.'
+          ? 'Please enter a valid 10-digit phone number, with +1 if needed.'
           : 'Please enter a valid email address, or leave email blank.';
         var field = info.field;
         if (field && field.closest('details')) field.closest('details').open = true;

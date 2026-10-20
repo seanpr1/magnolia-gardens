@@ -17,8 +17,15 @@
   });
 })();
 
-// Apple's Messages app uses an ampersand before the body parameter.
+// Service-page text links share the form's fixed topic and native SMS behavior.
+// Keep meaningful static links when shared form code is unavailable.
 (function(){
   var apple=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-  if(apple)document.querySelectorAll('a[href^="sms:"]').forEach(function(a){a.href=a.href.replace('?body=','&body=');});
+  document.querySelectorAll('a[href^="sms:"]').forEach(function(a){
+    var service=a.getAttribute('data-sms-service');
+    var core=window.MG_FORM_CORE;
+    var href=service && core && typeof core.smsHref==='function' ? core.smsHref(service) : '';
+    if(href) a.href=href;
+    else a.href=a.href.replace(/[?&]body=/, (apple?'&':'?')+'body=');
+  });
 })();

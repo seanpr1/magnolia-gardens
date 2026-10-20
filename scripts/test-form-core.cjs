@@ -8,6 +8,10 @@ const assert = require('node:assert/strict');
 const root = process.env.SITE_ROOT ? path.resolve(process.env.SITE_ROOT) : path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 let checks = 0;
+// Contract shared with intake's North American phone normalization. Fictional fixtures only.
+// This checks syntax, not whether a number is assigned or reachable.
+const validPhones = ['4235550100', '(423) 555-0100', '423.555.0100', '+1 (423) 555-0100', '1-423-555-0100', '14235550100'];
+const invalidPhones = ['', '12345', 'abc', '0000000000', '1234567890', '4231550100', '4230550100', '142355501000', '24235550100', '+44 20 7123 4567', '4235550100 ext 42'];
 function setup({ mode = 'accepted', mirror = true, trackerThrows = false, readThrows = false, resultThrows = false, resultMutates = false } = {}) {
   const dom = new JSDOM('<form id="quickRequest"><input name="phone" type="tel" required><details><input name="email" type="email"><select name="service"><option value="cleanup">Cleanup</option></select><textarea name="message"></textarea></details><input name="_gotcha"><input name="disabledField" value="do not send" disabled><button>Send</button></form>', { url: 'https://example.invalid/estimate/?utm_source=flyer&utm_campaign=fall-2026', runScripts: 'outside-only' });
   const w = dom.window, form = w.document.querySelector('form'), posts = [], events = [], invalid = [], results = [], busy = [];
@@ -37,6 +41,28 @@ function setup({ mode = 'accepted', mirror = true, trackerThrows = false, readTh
 }
 function count(h, name) { return h.events.filter(e => e[1] === name).length; }
 function close(h) { h.dom.window.close(); }
+// Exercise the public controller with manual deadlines, never extracted source.
+// The real watchdog makes a broken deadline fail instead of leaving an unresolved
+// promise that Node could silently exit without checking.
+async function settled(promise) {
+  let watchdog;
+  try {
+    return await Promise.race([promise, new Promise((_, reject) => {
+      watchdog = setTimeout(() => reject(Error('controller did not settle after transport/deadline')), 1000);
+    })]);
+  } finally { clearTimeout(watchdog); }
+}
+function controlledTransport(h, implementation) {
+  const timers = new Map(), cleared = [];
+  let nextId = 0;
+  h.w.setTimeout = (run, ms) => { const id = ++nextId; timers.set(id, { run, ms }); return id; };
+  h.w.clearTimeout = id => { cleared.push(id); timers.delete(id); };
+  h.w.fetch = (url, options) => {
+    h.posts.push({ url, options });
+    return implementation(url, options);
+  };
+  return { timers, cleared };
+}
 (async () => {
   for (const [file, ids] of [['index.html', ['heroIntakeForm', 'intakeForm']], ['estimate/index.html', ['quickRequest']]]) {
     const dom = new JSDOM(read(file));
@@ -48,8 +74,36 @@ function close(h) { h.dom.window.close(); }
       assert.equal(form.checkValidity(), false, 'invalid optional email is rejected without JavaScript');
       form.elements.email.value = '';
       assert.equal(form.checkValidity(), true, 'phone only is valid without JavaScript');
+      for (const value of validPhones) {
+        form.elements.phone.value = value;
+        assert.equal(form.checkValidity(), true, 'native accepts formatted phone: ' + value);
+      }
+      for (const value of invalidPhones) {
+        form.elements.phone.value = value;
+        assert.equal(form.checkValidity(), false, 'native rejects unusable phone: ' + value);
+      }
     }
     dom.window.close(); checks++;
+  }
+  // Invalid phones are stopped before transport; a corrected phone may still submit.
+  for (const value of invalidPhones) {
+    const h = setup(); h.form.elements.phone.value = value;
+    assert.equal(await h.api.submit(), 'invalid', 'shared validator rejects ' + value);
+    assert.equal(h.api.getState(), 'idle'); assert.equal(h.posts.length, 0);
+    assert.equal(h.form.elements.phone.getAttribute('aria-invalid'), 'true');
+    assert.equal(h.invalid[0].reason, 'invalid_phone'); assert.equal(count(h, 'mg_form_accepted'), 0);
+    h.form.elements.phone.value = '+1 (423) 555-0100';
+    assert.equal(await h.api.submit(), 'accepted'); assert.equal(h.posts.length, 1);
+    assert.equal(h.form.elements.phone.getAttribute('aria-invalid'), 'false');
+    close(h); checks++;
+  }
+  for (const value of validPhones) {
+    const h = setup(); h.form.elements.phone.value = value;
+    assert.equal(await h.api.submit(), 'accepted', 'shared validator accepts ' + value);
+    assert.equal(h.posts.length, 1); assert.equal(h.posts[0].entries.phone, value);
+    assert.equal(h.posts[0].entries.email, ''); assert.equal(h.posts[0].entries.service, 'cleanup');
+    assert.equal(JSON.stringify(h.events).includes('555'), false);
+    close(h); checks++;
   }
   // Snapshot payload first, lock every input, single flight, terminal result and one canonical acceptance.
   {
@@ -59,6 +113,12 @@ function close(h) { h.dom.window.close(); }
     assert.equal(h.api.getState(), 'accepted'); assert.deepEqual(h.results, ['accepted']); assert.deepEqual(h.busy, [true, false]);
     assert.equal(h.posts.length, 1); assert.equal(h.posts[0].url, 'https://provider.invalid/');
     assert.ok(h.posts[0].entries.submission_id);
+    const provider = h.posts.find(post => post.url === h.w.MG_SITE_CONFIG.forms.formspree);
+    assert.equal(provider.options.method, 'POST');
+    assert.ok(provider.options.body instanceof h.w.FormData);
+    assert.equal(provider.options.headers.Accept, 'application/json');
+    assert.equal(Object.keys(provider.options.headers).some(key => key.toLowerCase() === 'content-type'), false, 'FormData owns its multipart boundary');
+    assert.ok(provider.options.signal instanceof h.w.AbortSignal);
     assert.equal(h.posts[0].entries.phone, '(423) 555-0100'); assert.equal(h.posts[0].entries.message, 'Cleanup details');
     assert.equal(h.posts[0].entries.project_scope, 'Cleanup details'); assert.equal(h.posts[0].entries.disabledField, undefined);
     assert.equal(h.posts[0].entries.utm_source, 'flyer'); assert.equal(h.posts[0].entries.submitting_path, '/estimate/');
@@ -84,6 +144,78 @@ function close(h) { h.dom.window.close(); }
     assert.equal(count(h, 'mg_form_accepted'), 0); assert.equal(count(h, 'generate_lead'), 0);
     assert.equal(h.events.find(e => e[1] === 'mg_form_error')[2].reason, mode);
     close(h); checks++;
+  }
+  // Legacy cases 1–4: prompt outcomes cancel their deadline; a synchronous
+  // fetch throw follows the same cleanup contract as a rejected promise.
+  for (const mode of ['accepted', 'http_rejected', 'network_failure', 'sync_throw']) {
+    const h = setup();
+    try {
+      const clock = controlledTransport(h, () => {
+        if (mode === 'sync_throw') throw Error('synthetic blocked fetch');
+        if (mode === 'network_failure') return Promise.reject(Error('synthetic offline'));
+        return Promise.resolve({ ok: mode === 'accepted', status: mode === 'accepted' ? 200 : 422 });
+      });
+      h.form.elements.phone.value = '4235550100';
+      const pending = h.api.submit();
+      assert.equal(clock.timers.size, 1, mode + ' starts one deadline');
+      const timerId = [...clock.timers.keys()][0];
+      const expected = mode === 'sync_throw' ? 'network_failure' : mode;
+      assert.equal(await settled(pending), expected);
+      assert.deepEqual(clock.cleared, [timerId], mode + ' clears its deadline');
+      assert.equal(clock.timers.size, 0);
+      assert.equal(h.posts.length, 1);
+      assert.equal(h.posts[0].options.signal.aborted, false);
+      if (mode === 'sync_throw') {
+        assert.deepEqual(h.results, ['network_failure']);
+        assert.deepEqual(h.busy, [true, false]);
+        assert.equal(count(h, 'mg_form_accepted'), 0);
+        assert.equal(h.events.find(e => e[1] === 'mg_form_error')[2].reason, 'network_failure');
+        await h.api.submit(); assert.equal(h.posts.length, 1, 'synchronous failure cannot resend');
+      }
+      checks++;
+    } finally { close(h); }
+  }
+  // Legacy cases 5–6: the configured/default 15-second deadline works even
+  // when fetch ignores abort, and late success/failure cannot change the result.
+  const productionTimeout = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../config/site.json'), 'utf8')).forms.timeoutMs;
+  assert.equal(productionTimeout, 15000);
+  for (const scenario of ['configured_pending', 'default_pending', 'late_success', 'late_rejection']) {
+    const h = setup();
+    try {
+      let resolveFetch, rejectFetch;
+      const clock = controlledTransport(h, () => new Promise((resolve, reject) => { resolveFetch = resolve; rejectFetch = reject; }));
+      if (scenario === 'default_pending') delete h.w.MG_SITE_CONFIG.forms.timeoutMs;
+      else h.w.MG_SITE_CONFIG.forms.timeoutMs = productionTimeout;
+      h.form.elements.phone.value = '4235550100';
+      const pending = h.api.submit();
+      await Promise.resolve();
+      assert.equal(h.api.getState(), 'submitting');
+      assert.deepEqual(h.results, []);
+      assert.equal(clock.timers.size, 1);
+      const [timerId, timer] = [...clock.timers.entries()][0];
+      assert.equal(timer.ms, 15000);
+      assert.equal(h.posts.length, 1);
+      const signal = h.posts[0].options.signal;
+      assert.equal(signal.aborted, false);
+      timer.run();
+      assert.equal(await settled(pending), 'timeout');
+      assert.equal(signal.aborted, true, 'deadline aborts the transport');
+      assert.deepEqual(clock.cleared, [timerId]);
+      assert.equal(clock.timers.size, 0);
+      const terminalEvents = JSON.stringify(h.events);
+      if (scenario === 'late_success') resolveFetch({ ok: true, status: 200 });
+      if (scenario === 'late_rejection') rejectFetch(Error('synthetic late network failure'));
+      await new Promise(resolve => setImmediate(resolve));
+      assert.equal(h.api.getState(), 'timeout');
+      assert.deepEqual(h.results, ['timeout']);
+      assert.deepEqual(h.busy, [true, false]);
+      assert.equal(JSON.stringify(h.events), terminalEvents, 'late settlement emits no second result or conversion');
+      assert.equal(count(h, 'mg_form_accepted'), 0);
+      assert.equal(count(h, 'mg_form_error'), 1);
+      assert.equal(h.events.find(e => e[1] === 'mg_form_error')[2].reason, 'timeout');
+      await h.api.submit(); assert.equal(h.posts.length, 1);
+      checks++;
+    } finally { close(h); }
   }
   for (const fault of [{ trackerThrows: true }, { readThrows: true }, { resultThrows: true }]) {
     const h = setup(fault); h.form.elements.phone.value = '4235550100'; await h.api.submit(); await h.api.submit();
