@@ -1,5 +1,11 @@
 # Website release record
 
+## October 20, 2026: crew-leader terms and publication authorized
+
+Sean confirmed the crew-leader offer as "$15–$30/hour plus bonus" and "Part-time seasonal" and authorized publication and the prepared recruiting follow-ups after those terms were confirmed. The leader brief now states "$15–$30 per hour, based on experience, plus bonus" and "Part-time seasonal." No weekly-hour guarantee, exact employment dates, bonus formula or other employment commitment has been added. The general crew path and its existing terms remain available.
+
+The application regression checks now also assert the approved leader terms. This entry records the approved release candidate; production revision and hosted verification will be recorded after deployment. The October 20 draft entry below is the earlier preparation snapshot, superseded by this authorization and the confirmed terms.
+
 ## October 20, 2026: crew-leader recruiting draft
 
 Prepared from main `e1e0dbeef97a59a018888ae365a15b3df41e8066`. This is a draft for owner review, not a production release or approval of employment terms.

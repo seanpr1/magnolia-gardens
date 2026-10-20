@@ -100,9 +100,11 @@ function withArgs(args,fn){fn.args=args;return fn;}
   h.basics();h.leader();h.submit();h.submit();assert.equal(h.posts.length,1);
   assert.equal(h.$('#send').disabled,true);assert.equal(h.$('#role').disabled,true);
  }));
- // Markup remains honest without JS, including the email fallback and separate terms.
+ // Markup remains honest without JS, including the email fallback and approved terms.
  const dom=new JSDOM(html);
  assert.match(dom.window.document.querySelector('noscript').textContent,/Apply by email/);
+ assert.match(dom.window.document.querySelector('#leader-terms').textContent,/\$15–\$30 per hour, based on experience, plus bonus/);
+ assert.match(dom.window.document.querySelector('#leader-terms').textContent,/Part-time seasonal/);
  assert.match(dom.window.document.querySelector('#general-opportunity').textContent,/\$15–\$30 per hour/);
  assert.match(dom.window.document.querySelector('#general-opportunity').textContent,/Part time and seasonal/);
  assert.match(dom.window.document.querySelector('#role-hint').textContent,/three short questions/);
