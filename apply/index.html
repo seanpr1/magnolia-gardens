@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Employment Application | Magnolia Gardens Landscaping LLC</title>
-<meta name="description" content="Apply to join Magnolia Gardens Landscaping in Kingsport and the Tri-Cities. Start with the basics; résumé, work history, and references are optional.">
+<title>Crew Leader &amp; Crew Applications | Magnolia Gardens</title>
+<meta name="description" content="Apply for landscape crew leader or general crew work with Magnolia Gardens in Kingsport and the Tri-Cities. Lead bed, mulch and cleanup projects.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://magnoliagardenslandscaping.com/apply/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,6 +76,11 @@ body{
   margin:18px -22px 0;padding:12px 22px;border-top:1px solid var(--line);
   font-size:13px;color:var(--muted)
 }
+.brief ul{padding-left:20px;margin:12px 0 18px}
+.brief li{margin:8px 0}
+.brief details{border-top:1px solid var(--line);padding-bottom:14px}
+.brief summary{font-size:16px}
+.role-link{display:inline-block;min-height:44px;padding:10px 0;font-weight:600}
 @media(min-width:520px){
   .brief dl{grid-template-columns:1fr 1fr;column-gap:24px}
 }
@@ -208,15 +213,28 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
 <header class="masthead">
   <div class="wrap">
     <p class="eyebrow">Now hiring &middot; Kingsport &amp; the Tri-Cities</p>
-    <h1>Take the <span class="strike">job hunt</span> off your to&#8209;do list.</h1>
-    <p>Magnolia Gardens Landscaping LLC is taking applications for lawn and landscape crew. Start with the basics. A résumé, work history, and references are optional.</p>
+    <h1>Lead the work.<br>Be proud of the finish.</h1>
+    <p>Our priority is an experienced working landscape crew leader for bed projects, mulch installations and cleanups in Kingsport and the Tri-Cities. General crew applications are welcome, too.</p>
   </div>
 </header>
 
 <main class="wrap">
 
   <section class="brief" aria-label="About the work">
-    <h2>About the work</h2>
+    <h2>Working landscape crew leader</h2>
+    <p>Bring your field experience to Magnolia Gardens Landscaping LLC. Work alongside helpers, organize the job and take responsibility for the finished result.</p>
+    <ul>
+      <li><strong>Run the project:</strong> work from the agreed scope, plan the sequence, check materials and equipment, and flag problems early.</li>
+      <li><strong>Know bed and mulch work:</strong> protect existing plants and property, prepare and edge beds, install mulch to the agreed depth, and leave a clean site.</li>
+      <li><strong>Lead while working:</strong> give helpers clear tasks, demonstrate the standard and check their work throughout the day.</li>
+      <li><strong>Keep people informed:</strong> communicate professionally with customers, send progress and completion updates to the owner, and refer extra-work requests for approval.</li>
+      <li><strong>Work safely:</strong> use and care for tools correctly, recognize hazards and stop to ask when a task is outside your training.</li>
+    </ul>
+    <p>Relevant hands-on experience and the ability to finish work independently matter more than a previous job title. Tell us about a project you personally ran. A résumé is optional.</p>
+    <p><strong>Crew-leader pay and schedule:</strong> to be discussed and agreed before any work is scheduled. The general crew terms below are for that separate opportunity.</p>
+    <a class="role-link" href="?role=crew-leader#role">Apply as a crew leader</a>
+    <details id="general-opportunity"><summary>General lawn &amp; landscape crew opportunity</summary>
+    <p>New to landscaping or looking for a crew-member role? Choose general crew in the application. Beginners are welcome.</p>
     <dl>
       <dt>Pay</dt>
       <dd>$15–$30 per hour, based on experience, plus bonus</dd>
@@ -227,6 +245,8 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
       <dt>Where</dt>
       <dd>Kingsport and the surrounding Tri-Cities area</dd>
     </dl>
+    <a class="role-link" href="?role=crew-member#role">Apply for general crew</a>
+    </details>
     <p class="foot">This is outdoor work in all kinds of weather. Expect to be on your feet all day, lift up to 50 pounds, and handle mowers, trimmers and blowers. We will talk through anything you need to do the job well.</p>
   </section>
 
@@ -245,6 +265,12 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
 <div class="hp" aria-hidden="true"><label>Leave this blank<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
 <section class="section"><header><h2>Start with the basics</h2></header>
 <p>A résumé, work history, and references are optional. Questions marked <span class="req">*</span> need an answer.</p>
+<div class="field"><label for="role">Which opportunity interests you? <span class="req">*</span></label>
+<select id="role" name="Role applied for" required aria-controls="leader-details" aria-describedby="role-hint">
+<option value="">Choose one</option>
+<option value="Working landscape crew leader">Working landscape crew leader</option>
+<option value="General lawn and landscape crew">General lawn and landscape crew</option>
+</select><p class="hint" id="role-hint">Crew leaders answer three short questions about running projects and guiding helpers. General crew applicants can be new to landscaping.</p></div>
 <div class="field"><label for="full-name">Full name <span class="req">*</span></label><input id="full-name" name="Full name" type="text" autocomplete="name" required></div>
 <fieldset id="contact-group"><legend>How can we reach you? <span class="req">*</span></legend>
 <p class="hint" id="contact-hint">Add a phone number or email address. Phone is preferred; either one is enough.</p>
@@ -300,11 +326,25 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
         </div>
       </fieldset>
 </section>
+<section class="section" id="leader-details" hidden><header><h2>Your project and leadership experience</h2></header>
+<p>Short, practical answers are fine. Please leave out customer names and private addresses.</p>
+<div class="field"><label for="leader-ownership">What best describes your bed, mulch or cleanup experience? <span class="req">*</span></label>
+<select id="leader-ownership" name="Leader - project ownership" data-leader-required disabled>
+<option value="">Choose one</option><option>Ran projects and directed helpers</option><option>Completed projects independently, without helpers</option><option>Worked on projects under someone else's direction</option><option>Other relevant experience - explain below</option>
+</select></div>
+<div class="field"><label for="leader-project">Tell us about one project you personally ran. <span class="req">*</span></label>
+<p class="hint">What was the work, what did you handle yourself, and how did you check the finished result?</p>
+<textarea id="leader-project" name="Leader - project example" data-leader-required disabled></textarea></div>
+<div class="field"><label for="leader-helpers">How have you guided helpers and checked their work? <span class="req">*</span></label>
+<p class="hint">Include how many people you guided and how you handled a mistake or delay. If you have not led helpers yet, say so and describe how you would approach it.</p>
+<textarea id="leader-helpers" name="Leader - guiding helpers" data-leader-required disabled></textarea></div>
+<p class="hint">Work photos, a résumé or references are welcome in the optional sections below. Share only material you have permission to share.</p>
+</section>
 <details class="section optional" id="experience-details"><summary>Optional: Experience and work history</summary><div class="details-body">
 <p class="hint">Share as much or as little as you like. You can leave any part blank.</p>
 <fieldset>
         <legend>Check anything you have real hands-on experience with</legend>
-        <span class="hint">No experience is fine. We train. Check only what you have actually done.</span>
+        <span class="hint">Check only what you have actually done. Beginners are welcome for the general crew opportunity.</span>
         <div class="grid-checks">
           <label class="check"><input type="checkbox" name="Experience" value="Push and self-propelled mowing"><span>Push and self-propelled mowing</span></label>
           <label class="check"><input type="checkbox" name="Experience" value="Zero-turn / riding mowers"><span>Zero-turn or riding mowers</span></label>
@@ -387,7 +427,8 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
           </select>
         </div>
 <fieldset>
-        <legend>Crews start early, usually around 7am. Does that work for you?</legend>
+        <legend>Are early starts workable for you?</legend>
+        <span class="hint">We will discuss start times and your availability before scheduling work.</span>
         <div class="choices">
           <label class="choice"><input type="radio" name="Early starts" value="Yes"><span>Yes</span></label>
           <label class="choice"><input type="radio" name="Early starts" value="Sometimes"><span>Sometimes</span></label>
@@ -427,6 +468,11 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
           <option value="">Choose one</option>
           <option>Facebook</option>
           <option>Indeed</option>
+          <option>Northeast State / Handshake</option>
+          <option>ETSU</option>
+          <option>TCAT Elizabethton</option>
+          <option>American Job Center / Jobs4TN</option>
+          <option>Local supplier or professional referral</option>
           <option>Someone who works here</option>
           <option>Saw a truck, sign or shirt</option>
           <option>A customer told me</option>
@@ -509,6 +555,9 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
   const timeframe = document.getElementById('start-timeframe');
   const phone = document.getElementById('phone');
   const email = document.getElementById('email');
+  const role = document.getElementById('role');
+  const leaderDetails = document.getElementById('leader-details');
+  const leaderControls = Array.from(leaderDetails.querySelectorAll('input, select, textarea'));
   const days = Array.from(form.querySelectorAll('[name="Days available"]'));
   const controls = Array.from(form.querySelectorAll('input, select, textarea'));
   let attempted = false;
@@ -543,6 +592,23 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
   }
   syncDate();
 
+  function syncRole(){
+    const leader = role.value === 'Working landscape crew leader';
+    leaderDetails.hidden = !leader;
+    leaderControls.forEach(function(control){
+      control.disabled = !leader;
+      control.required = leader && control.hasAttribute('data-leader-required');
+    });
+    form.elements._subject.value = leader ? 'Crew leader application - Magnolia Gardens' : 'New job application - Magnolia Gardens';
+    document.getElementById('general-opportunity').open = role.value === 'General lawn and landscape crew';
+    // Keep answers when switching roles, but never submit hidden leader answers.
+    serverErrors = serverErrors.filter(function(error){return !error.control.disabled;});
+  }
+  const requestedRole = new URLSearchParams(window.location.search).get('role');
+  if(requestedRole === 'crew-leader') role.value = 'Working landscape crew leader';
+  else if(requestedRole === 'crew-member') role.value = 'General lawn and landscape crew';
+  syncRole();
+
   function errorFor(control, message, kind, container, members){
     return {control: control, message: message, kind: kind,
       container: container || control.closest('.field, fieldset'), controls: members || [control]};
@@ -572,7 +638,7 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
           errors.push(errorFor(control, 'Choose an answer to this question.', 'missing', control.closest('fieldset'), members));
         }
       } else if(control.required && (control.type === 'checkbox' ? !control.checked : !value)){
-        const messages = {'full-name':'Enter your name.', city:'Enter your town or city.', years:'Choose your experience level. No experience is welcome.', 'start-timeframe':'Choose when you could start.', start:'Choose the specific date you could start.', accuracy:'Confirm that the information you chose to provide is accurate.'};
+        const messages = {role:'Choose the opportunity that interests you.', 'leader-ownership':'Choose the experience that best describes your work.', 'leader-project':'Describe one project you personally ran.', 'leader-helpers':'Tell us about guiding helpers, or how you would approach it.', 'full-name':'Enter your name.', city:'Enter your town or city.', years:'Choose your experience level.', 'start-timeframe':'Choose when you could start.', start:'Choose the specific date you could start.', accuracy:'Confirm that the information you chose to provide is accurate.'};
         errors.push(errorFor(control, messages[control.id] || 'Enter an answer.', 'missing'));
       } else if(value && control.type === 'email' && control.validity.typeMismatch){
         errors.push(errorFor(control, 'Check the email address, or clear it and use your phone number.', 'format'));
@@ -653,6 +719,7 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
   function edited(event){
     if(pending) return;
     if(event.target === timeframe) syncDate();
+    if(event.target === role) syncRole();
     if(days.includes(event.target) && event.target.checked){
       if(event.target.id === 'flexible') days.forEach(function(day){if(day !== event.target) day.checked = false;});
       else document.getElementById('flexible').checked = false;
@@ -705,6 +772,7 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true],.
     serviceMessage = '';
     controls.forEach(function(control){if(['text','tel','email','url'].includes(control.type) || control.tagName === 'TEXTAREA') control.value = control.value.trim();});
     syncDate();
+    syncRole();
     // A retry may resolve a transient provider rejection without an answer change.
     serverErrors = [];
     const errors = validate();
