@@ -1,5 +1,17 @@
 # Website release record
 
+## Published October 19, 2026 Eastern / October 20 UTC: corrected photos and completed website follow-through
+
+Sean explicitly approved publication. [PR #13](https://github.com/seanpr1/magnolia-gardens/pull/13) merged normally into `main` at `2026-10-20T00:20:17Z` (October 19, 8:20:17 PM Eastern), guarded against the approved head `cb67e006d7d67cf3cc39eb4b363071f7c1dbc215`. The resulting merge is `387e1346dadc2ab9431c1ea19933aeb58db2e285`; its source tree matches the approved candidate. PR #11 and PR #5 also became closed/merged at `00:20:19Z`, with their work and ancestry included through `8df238370717dace7fe4020b8f8a96f704cbd957`. They require no separate application or release.
+
+Cloudflare Pages and the GitHub Site check succeeded for the merge revision. The live site's `/version.json` reported `387e1346dadc2ab9431c1ea19933aeb58db2e285`, context `production`, branch `main`, a clean working tree and deployment [172e9b2a](https://172e9b2a.magnolia-gardens.pages.dev/). This establishes publication of the approved application.
+
+Production review confirmed that the homepage feature and all three gallery AVIFs loaded. The lightbox loaded the stone photograph's 1080w source, ArrowRight changed the photograph and caption, and Escape restored focus to the correct gallery button. The projects page displayed four finished-work captions with the rejected comparison absent. [Production gallery screenshot](review/gallery-production-387e134.jpg).
+
+Live route checks also confirmed the mulch page's A121 1200w AVIF feature and woodland-bed captions “During preparation” / “Completed mulch finish”; the returning-customer page's account-wide Client Hub link; and the quick-request page's required telephone field, expected North American phone pattern and Formspree action. Those three routes had no horizontal overflow at the available browser viewport. No form was submitted and no portal sign-in was opened.
+
+The dated entries below remain preparation and verification snapshots; their unreleased or separate-draft status is superseded by this publication record. New mobile-viewport and narrow-screen result-state visuals, physical iPhone/Android and assistive-technology behavior, and complete downstream lead delivery remain unverified. The ensuing release-record/screenshot commit is documentation only: `docs/` is excluded from the public build, and application files are unchanged. Before this documentation commit, the repository-required `npm test` again passed all 295 counted checks plus deterministic build/publish and release-identity checks, with zero live form or analytics requests.
+
 ## October 19, 2026: owner-corrected photographs and completed draft integration
 
 The owner confirmed that the A29/A50 comparison depicts different properties and rejected the finished view as a showcase. This continuation removes the comparison and all six superseded project derivatives. It replaces the homepage's older feature, gallery and owner images with five visually reviewed graded photographs already present in the public collection: A121, R777, R22, R919 and A100. The projects page now presents four honestly described finished-work examples. Mulch, mowing, maintenance and cleanup pages use relevant supporting pictures; only the verified woodland-bed process pair remains, labeled preparation and completed mulch finish. [The photo selection record](PHOTO-CURATION.md) records placement, source references and reuse exclusions.
