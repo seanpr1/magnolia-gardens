@@ -1045,7 +1045,8 @@
     button.work-tile:focus-visible { outline: 2px solid var(--gold, #005343); outline-offset: 3px; }
 
     .lightbox {
-      position: fixed; inset: 0; z-index: 9000; display: none;
+      /* Cover the mobile quote bar (9500) while the modal owns interaction. */
+      position: fixed; inset: 0; z-index: 10000; display: none;
       background: rgba(12,20,16,.93); padding: 24px;
       align-items: center; justify-content: center;
     }
