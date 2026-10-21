@@ -1,5 +1,11 @@
 # Website release record
 
+## October 21, 2026: mobile/intake verification and modal stacking draft
+
+Reviewed current production `ab2ecdc4e0e176c4d06eedf63f18c7fb722f0017` after PRs #13/#14. The [verification record](MOBILE-INTAKE-REVIEW-2026-10-21.md) separates live desktop checks, two current mobile Lighthouse audits, existing delivery evidence and access/device gaps. Both audited pages scored 100 for automated accessibility; the homepage's 7.9 s simulated mobile LCP still needs attention. A current Cloudflare RUM CORS error is recorded separately from the historical Clarity digest.
+
+The sole application change prepared here raises the homepage photo modal above the mobile quote bar (10000 versus 9500), correcting their confirmed source/computed-style ordering. This is a draft, not an authorized production release. Interactive mobile result states, physical devices and complete repaired phone-only/application delivery remain unverified. No production form submission, customer/CRM write, message or automation/tracking change was made.
+
 ## Published October 20, 2026: experienced working crew-leader application
 
 With the owner's confirmed compensation, schedule and explicit publication approval, [PR #14](https://github.com/seanpr1/magnolia-gardens/pull/14) merged normally at `2026-10-20T20:55:01Z`. The merge was guarded against approved head `93988bab2f504cf6ccc5471f1bc88fd8c4b82205`; the production merge is `fc6ee0054f236a1ea492b910315312658b318344`, tree `034cef8255013345ec1bd7d07b9fb8c5258cafca`. Both GitHub checks and the Cloudflare/Netlify previews passed before merge. Fresh local `npm test` passed all existing 295 counted checks, 13 application scenarios and build/publish checks, with zero live submissions or analytics requests.
