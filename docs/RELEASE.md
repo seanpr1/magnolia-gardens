@@ -1,5 +1,13 @@
 # Website release record
 
+## Published October 20, 2026: experienced working crew-leader application
+
+With the owner's confirmed compensation, schedule and explicit publication approval, [PR #14](https://github.com/seanpr1/magnolia-gardens/pull/14) merged normally at `2026-10-20T20:55:01Z`. The merge was guarded against approved head `93988bab2f504cf6ccc5471f1bc88fd8c4b82205`; the production merge is `fc6ee0054f236a1ea492b910315312658b318344`, tree `034cef8255013345ec1bd7d07b9fb8c5258cafca`. Both GitHub checks and the Cloudflare/Netlify previews passed before merge. Fresh local `npm test` passed all existing 295 counted checks, 13 application scenarios and build/publish checks, with zero live submissions or analytics requests.
+
+The production `/version.json` returned the merge revision above, `production`, `main`, a clean working tree and deployment `https://8db6af54.magnolia-gardens.pages.dev`. Live browser review confirmed the crew-leader link preselects the role, displays the three experience questions and advertises the approved "$15–$30 per hour, based on experience, plus bonus" and "Part-time seasonal" terms. The separate general crew option and contact alternatives remain available. No live application was submitted; fresh downstream mailbox receipt, mobile-viewport, physical-device and assistive-technology checks remain unverified.
+
+The pre-release rollback target is revision `e1e0dbeef97a59a018888ae365a15b3df41e8066`, verified on production before merge at `https://b699d9a5.magnolia-gardens.pages.dev`. This follow-up entry is documentation only; `docs/` is excluded from the public build. The preparation and approval entries below are historical snapshots, superseded by this publication record.
+
 ## October 20, 2026: crew-leader terms and publication authorized
 
 Sean confirmed the crew-leader offer as "$15–$30/hour plus bonus" and "Part-time seasonal" and authorized publication and the prepared recruiting follow-ups after those terms were confirmed. The leader brief now states "$15–$30 per hour, based on experience, plus bonus" and "Part-time seasonal." No weekly-hour guarantee, exact employment dates, bonus formula or other employment commitment has been added. The general crew path and its existing terms remain available.
