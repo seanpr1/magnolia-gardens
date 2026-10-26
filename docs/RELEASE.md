@@ -1,5 +1,11 @@
 # Website release record
 
+## October 25, 2026: email-link indexing correction prepared
+
+Draft only, based on current production/main `ab2ecdc4e0e176c4d06eedf63f18c7fb722f0017`; owner publication approval is still required. Search Console's single 404 is Cloudflare's `/cdn-cgi/l/email-protection` helper, discovered via the privacy page, not a missing customer-facing page. All 15 sitemap routes load with matching canonicals. Seventeen static email links on 14 HTML pages now have Cloudflare's targeted `email_off` comments; original markup/scripts, forms, routes and contact values are unchanged. This reduces obfuscation for the existing public email links without changing zone-wide settings.
+
+`npm test` passed all 308 counted checks plus build/publish/failure-preservation checks on Node 24.21.0, npm 11.19.0 and Python 3.14.5; dependencies unchanged and zero live submissions. Production-edge verification and successful Google indexing submission remain pending. See [the indexing review](INDEXING-REVIEW-2026-10-25.md) for exact excluded URLs, source/live evidence, the failed reCAPTCHA-dependent indexing request and release steps. Rollback baseline: `ab2ecdc4e0e176c4d06eedf63f18c7fb722f0017`, deployment `https://1bad46b6.magnolia-gardens.pages.dev`. Existing PR #15 remains separate.
+
 ## Published October 20, 2026: experienced working crew-leader application
 
 With the owner's confirmed compensation, schedule and explicit publication approval, [PR #14](https://github.com/seanpr1/magnolia-gardens/pull/14) merged normally at `2026-10-20T20:55:01Z`. The merge was guarded against approved head `93988bab2f504cf6ccc5471f1bc88fd8c4b82205`; the production merge is `fc6ee0054f236a1ea492b910315312658b318344`, tree `034cef8255013345ec1bd7d07b9fb8c5258cafca`. Both GitHub checks and the Cloudflare/Netlify previews passed before merge. Fresh local `npm test` passed all existing 295 counted checks, 13 application scenarios and build/publish checks, with zero live submissions or analytics requests.

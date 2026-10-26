@@ -65,3 +65,7 @@ Cloudflare's build settings apply project-wide. Sean subsequently approved publi
 The build is deterministic for identical source, configuration and hosting metadata. `version.json` records the commit's date, not a fabricated release time. Release verification date is recorded separately in `docs/RELEASE.md`.
 
 Builds render into an ignored sibling staging directory and replace `dist/` only after rendering succeeds. Failed rendering leaves the previous output intact. Run one build at a time, and check its exit status before using the preview as current evidence.
+
+## Public email links
+
+Keep public `mailto:` anchors inside `<!--email_off-->` and `<!--/email_off-->`. Cloudflare otherwise rewrites them to `/cdn-cgi/l/email-protection#...`, which Google discovered as a 404 through `/privacy/`. Preserve the existing contact placeholders, addresses and link labels. These comments opt only those already-public links out of email obfuscation; do not disable zone-wide protection or create a website page/redirect at Cloudflare's `/cdn-cgi/` endpoint. See [the indexing review](INDEXING-REVIEW-2026-10-25.md).
