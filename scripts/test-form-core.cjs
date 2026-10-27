@@ -271,6 +271,20 @@ function controlledTransport(h, implementation) {
     assert.equal(next.window.MG_CAMPAIGN.get().utm_source, 'internal');
     next.window.close(); close(h); checks++;
   }
+  // Proof/customer landing pages survive a later request; unknown paths stay private.
+  for (const landing of ['/projects/', '/customers/', '/projects', '/customers', '/private/person@example.com']) {
+    const first = new JSDOM('', { url: 'https://example.invalid' + landing + '?email=person@example.com', referrer: 'https://www.google.com/search?q=private', runScripts: 'outside-only' });
+    first.window.eval(read('assets/campaign-context.js'));
+    const next = new JSDOM('', { url: 'https://example.invalid/estimate/?service=cleanup', runScripts: 'outside-only' });
+    next.window.sessionStorage.setItem('mg_campaign_v1', first.window.sessionStorage.getItem('mg_campaign_v1'));
+    next.window.eval(read('assets/campaign-context.js'));
+    const data = new next.window.FormData(); next.window.MG_CAMPAIGN.apply(data);
+    assert.equal(data.get('landing_path'), landing.startsWith('/private/') ? '/' : landing);
+    assert.equal(data.get('submitting_path'), '/estimate/');
+    assert.equal(data.get('landing_referrer'), 'https://www.google.com');
+    assert.equal(JSON.stringify(Object.fromEntries(data)).includes('person'), false);
+    first.window.close(); next.window.close(); checks++;
+  }
   // Storage failure cannot break payload creation; referrer query/path and unsafe UTMs are dropped.
   {
     const dom = new JSDOM('', { url: 'https://example.invalid/?utm_source=fall&utm_campaign=person%40example.com&utm_term=423-555-0100&utm_content=' + 'x'.repeat(101), referrer: 'https://search.example/private/person?email=person@example.com', runScripts: 'outside-only' });

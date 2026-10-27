@@ -259,10 +259,7 @@
     ]
   }
   </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/fonts.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -510,15 +507,21 @@
     .hero-grid {
       display: grid;
       grid-template-columns: 1.04fr 0.96fr;
-      gap: var(--space-8);
-      align-items: center;
+      grid-template-areas: "copy quote" "proof quote";
+      gap: 0 var(--space-8);
+      align-items: start;
       width: 100%;
     }
+    .hero-copy { grid-area: copy; }
+    .hero-evidence { grid-area: proof; min-width: 0; }
+    .hero-service-links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0 0 18px; }
+    .hero-service-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--gold); font-size: 15px; text-underline-offset: 4px; }
     @media (max-width: 880px) {
-      .hero-grid { grid-template-columns: 1fr; gap: var(--space-6); }
+      .hero-grid { grid-template-columns: 1fr; grid-template-areas: "copy" "quote" "proof"; gap: var(--space-6); }
     }
 
     .hero-quote {
+      grid-area: quote;
       align-self: start;
       background: var(--surface);
       border: 1px solid var(--edge);
@@ -1045,7 +1048,7 @@
     button.work-tile:focus-visible { outline: 2px solid var(--gold, #005343); outline-offset: 3px; }
 
     .lightbox {
-      position: fixed; inset: 0; z-index: 9000; display: none;
+      position: fixed; inset: 0; z-index: 10000; display: none;
       background: rgba(12,20,16,.93); padding: 24px;
       align-items: center; justify-content: center;
     }
@@ -1318,12 +1321,12 @@
         <!-- Static default: update at each season change (Mar 1, May 1, Sep 1, Dec 1) to match SEASONS in the seasonal script. The JS swap only helps humans; crawlers read this line. -->
         <p class="hero-booking" data-season-line>Now booking fall cleanups and leaf removal, plus recurring routes through the season.</p>
 
-        <h1 class="hero-h1">Take the lawn off <em>your</em> <span class="nowrap">to-do list.</span></h1>
+        <h1 class="hero-h1">Lawn care &amp; cleanups in <em>Kingsport.</em></h1>
 
         <p class="hero-sub">
-          Reliable mowing, trimming, edging, cleanup, and seasonal property care for homes
-          in Kingsport and the Tri-Cities. Text photos of your yard, or fill out the quick
-          form. Either way you get a clear quote fast.
+          Leaf removal, bed cleanup, brush clearing, and reliable mowing for homes
+          in Kingsport and the Tri-Cities. Tell us what your property needs.
+          We’ll confirm scope and price before scheduling.
         </p>
 
         <div class="hero-ctas">
@@ -1338,27 +1341,12 @@
           </a>
         </div>
 
-<figure class="photo-frame hero-project">
-      <button class="photo-zoom" type="button" aria-label="Enlarge the finished mulched island bed">
-        <picture>
-          <source type="image/avif" srcset="/assets/projects/curated-20261019-island-bed-480w.avif 480w, /assets/projects/curated-20261019-island-bed-800w.avif 800w, /assets/projects/curated-20261019-island-bed-1200w.avif 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px">
-          <source type="image/webp" srcset="/assets/projects/curated-20261019-island-bed-480w.webp 480w, /assets/projects/curated-20261019-island-bed-800w.webp 800w, /assets/projects/curated-20261019-island-bed-1200w.webp 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px">
-          <img src="/assets/projects/curated-20261019-island-bed-800w.jpg" srcset="/assets/projects/curated-20261019-island-bed-480w.jpg 480w, /assets/projects/curated-20261019-island-bed-800w.jpg 800w, /assets/projects/curated-20261019-island-bed-1200w.jpg 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px"
-               alt="Dark mulch and a defined curved edge around established golden shrubs beside a driveway." width="800" height="600" loading="eager" fetchpriority="high" decoding="async" data-full-src="/assets/projects/curated-20261019-island-bed-1200w.jpg">
-        </picture>
-      </button>
-      <figcaption>Fresh mulch and a defined bed edge. <a href="/projects/#mulch">View this project</a></figcaption>
-    </figure>
+        <nav class="hero-service-links" aria-label="Find the service you need">
+          <a href="/services/cleanup/">Leaf &amp; fall cleanup</a>
+          <a href="/services/mowing/">Mowing</a>
+          <a href="/services/mulch/">Mulch &amp; beds</a>
+        </nav>
 
-        <div class="hero-proof" aria-label="Included on every visit">
-          <span class="hero-proof-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mowed</span>
-          <span class="hero-proof-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Edged</span>
-          <span class="hero-proof-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Blown</span>
-        </div>
-
-        <p class="hero-trust">
-          Sullivan County licensed &amp; insured<span>·</span>Locally owned<span>·</span>Built on a decade of corporate quality-control discipline<span>·</span><a href="{{contact.telHref}}" class="hero-trust-call">Call {{contact.phoneDisplay}}</a>
-        </p>
       </div><!-- /hero-copy -->
 
       <div class="hero-quote request-surface request-focus-surface">
@@ -1433,6 +1421,30 @@
           </a>
         </div>
       </div><!-- /hero-quote -->
+
+      <div class="hero-evidence">
+<figure class="photo-frame hero-project">
+      <button class="photo-zoom" type="button" aria-label="Enlarge the finished mulched island bed">
+        <picture>
+          <source type="image/avif" srcset="/assets/projects/curated-20261019-island-bed-480w.avif 480w, /assets/projects/curated-20261019-island-bed-800w.avif 800w, /assets/projects/curated-20261019-island-bed-1200w.avif 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px">
+          <source type="image/webp" srcset="/assets/projects/curated-20261019-island-bed-480w.webp 480w, /assets/projects/curated-20261019-island-bed-800w.webp 800w, /assets/projects/curated-20261019-island-bed-1200w.webp 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px">
+          <img src="/assets/projects/curated-20261019-island-bed-800w.jpg" srcset="/assets/projects/curated-20261019-island-bed-480w.jpg 480w, /assets/projects/curated-20261019-island-bed-800w.jpg 800w, /assets/projects/curated-20261019-island-bed-1200w.jpg 1200w" sizes="(max-width: 880px) calc(100vw - 48px), (max-width: 1240px) 46vw, 520px"
+               alt="Dark mulch and a defined curved edge around established golden shrubs beside a driveway." width="800" height="600" loading="eager" fetchpriority="high" decoding="async" data-full-src="/assets/projects/curated-20261019-island-bed-1200w.jpg">
+        </picture>
+      </button>
+      <figcaption>Fresh mulch and a defined bed edge. <a href="/projects/#mulch">View this project</a></figcaption>
+    </figure>
+
+        <div class="hero-proof" aria-label="Included on every visit">
+          <span class="hero-proof-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mowed</span>
+          <span class="hero-proof-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Edged</span>
+          <span class="hero-proof-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Blown</span>
+        </div>
+
+        <p class="hero-trust">
+          Sullivan County licensed &amp; insured<span>·</span>Locally owned<span>·</span>Built on a decade of corporate quality-control discipline<span>·</span><a href="{{contact.telHref}}" class="hero-trust-call">Call {{contact.phoneDisplay}}</a>
+        </p>
+      </div><!-- /hero-evidence -->
 
     </div><!-- /hero-grid -->
   </div>
