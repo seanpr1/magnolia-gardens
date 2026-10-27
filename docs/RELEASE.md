@@ -298,3 +298,5 @@ Remaining verification: rendered preview visual review and physical iPhone/Andro
 # October 26, 2026 — acquisition draft
 
 An unpublished draft based on main `f42812d1a317571dd6fd951ab1a0011fe3cb7150` prepares a clearer homepage, earlier mobile quote form, self-hosted fonts, proof-page attribution and local cleanup information. It incorporates the one-rule modal stacking fix from PR #15; that historical draft remains open and should not be merged independently as a second copy. See [the implementation and verification record](ACQUISITION-IMPROVEMENTS-2026-10-26.md). Production, prices and delivery infrastructure are unchanged. Publication approval and remaining preview/device checks are outstanding.
+
+October 27 follow-up: the draft now emits internal CTA labels as `cta_source` instead of `source`, without changing event names, campaign capture or form payloads. All 316 counted offline checks and build/release checks pass. Historical reporting is unchanged; post-release attribution validation remains necessary. No production release or Analytics setting change is included.

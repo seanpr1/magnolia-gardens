@@ -247,6 +247,19 @@ function controlledTransport(h, implementation) {
     assert.equal(decodeURIComponent(h.w.MG_FORM_CORE.smsHref('private details')).includes('private details'), false);
     close(h); checks++;
   }
+  // Internal CTA labels cannot masquerade as acquisition sources or leak details.
+  for (const [input, expected] of [['hero_primary', 'hero_primary'], ['cta_repeat', 'cta_repeat'], ['person@example.com', 'unknown']]) {
+    const h = setup();
+    h.w.MG_FORM_CORE.track('cta_jump', { source: input, campaign_source: 'override', utm_source: 'override' });
+    const payload = h.events.find(e => e[1] === 'cta_jump')[2];
+    assert.equal(payload.cta_source, expected);
+    assert.equal(Object.hasOwn(payload, 'source'), false);
+    assert.equal(Object.hasOwn(payload, 'campaign_source'), false);
+    assert.equal(Object.hasOwn(payload, 'utm_source'), false);
+    assert.equal(JSON.stringify(payload).includes('@'), false);
+    assert.equal(h.w.MG_CAMPAIGN.get().utm_source, 'flyer');
+    close(h); checks++;
+  }
   // Failure recovery keeps entered values in a masked, read-only input only.
   {
     const h = setup();

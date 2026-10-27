@@ -30,3 +30,11 @@ Before release: inspect the exact hosted preview; check desktop and 320/390 px l
 ## Hosted preview follow-up
 
 Netlify successfully built [PR #17's preview](https://deploy-preview-17--heartfelt-halva-7fa350.netlify.app/); the initial version marker matched commit `12589fa5ba95c35830bb38772c6fac1ccbea80ec`. GitHub's Site check also passed. At 1363 px, the preview had no horizontal overflow; the quote CTA focused the phone field, optional details expanded, and the photo dialog opened at z-index 10000 and closed with Escape. No submission was made. Visual inspection caught a new service-link navigation landmark inheriting the site's fixed-header styling; the follow-up changes that wrapper to a div with the same navigation role so it remains in the hero flow. The full test suite was rerun after that correction. Narrow viewport/device and fresh PageSpeed checks remain release gates.
+
+## October 27: separate CTA labels from campaign attribution
+
+The shared metrics adapter now emits internal button locations as `cta_source`, rather than the generic `source` parameter. Existing adapters can still pass their fixed `source` label internally; the boundary renames and sanitizes it before calling Analytics. Campaign UTM capture, event names, form payload fields and customer delivery are unchanged. Three mocked regression cases check normal CTA labels, unsafe input, absence of campaign/source overrides and preservation of first-touch UTM context.
+
+This removes an ambiguous use of the traffic-source vocabulary. It does not retroactively repair historical Analytics reports or prove that this parameter caused every attribution anomaly. After an authorized release, inspect new acquisition data and optionally register `cta_source` as an event-scoped custom dimension if button-level reporting is needed. No GA4 settings or production scripts were changed by preparing this draft. Private account observations remain outside this public repository.
+
+Validation: `npm test` passed 316 counted checks (61 static, 54 pricing/project, 117 request/adapter, 20 contact-link, 13 application and 51 shared-form/privacy), plus the existing deterministic build and release checks. Every transport and telemetry call in these tests is mocked. This follow-up changes no visible layout; the previously recorded physical-device and performance limits remain.
