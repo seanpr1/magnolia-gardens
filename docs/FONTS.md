@@ -1,6 +1,8 @@
 # Font provenance
 
-The site retains Fraunces (normal/italic 400–700) and Inter (normal 300–600), self-hosted as WOFF2 with `font-display: swap`. The CSS preserves the Google Fonts Unicode ranges. No analytics scripts or delivery dependencies are rescheduled.
+The site retains Fraunces (normal/italic 400–700) and Inter (normal 300–600), self-hosted as WOFF2 with `font-display: optional`. The homepage preloads the three Latin fonts used above the fold. On a slow first visit, the browser may retain the existing system fallback for that page view instead of swapping fonts and moving the quote card. The CSS preserves the Google Fonts Unicode ranges. No analytics scripts or delivery dependencies are rescheduled.
+
+October 29 release checks identified font-related quote-card movement (CLS 0.121 in two of three production mobile runs). Preloading optional fonts follows [Chrome's documented layout-stability approach](https://web.dev/articles/preload-optional-fonts). Font files, licensing, families, weights and customer-facing copy are unchanged.
 
 Retrieved October 26, 2026 (Eastern) from the Google Fonts CSS API:
 
