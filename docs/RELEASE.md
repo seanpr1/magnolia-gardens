@@ -1,5 +1,32 @@
 # Website release record
 
+## Published October 29, 2026: PR #18 font stability correction
+
+Sean explicitly approved merging the reviewed `298ba37142e778daad7b117606c60439b039cd94` revision and publishing it after the separate release review. [PR #18](https://github.com/seanpr1/magnolia-gardens/pull/18) merged at **17:56:06 Eastern** as `b8942cea8291b3c90352febbde56be5df1745161`. This publication supersedes the pending-approval status in the earlier October 29 entry below.
+
+- Production: [magnoliagardenslandscaping.com](https://magnoliagardenslandscaping.com/), Cloudflare deployment [9dbd6a40](https://9dbd6a40.magnolia-gardens.pages.dev), full deployment ID `9dbd6a40-c95a-4c75-bd1c-ae16ec404e2a`. Cloudflare completed successfully at 17:56:49 Eastern. The public marker returned the exact merge revision, production/main, clean source, and this deployment URL. The marker has `Cache-Control: no-store`.
+- Rollback target immediately before this release: revision `b17c3f588550270723346505294fbda15649d6ef`, existing Cloudflare deployment [0dc6c8fc](https://0dc6c8fc.magnolia-gardens.pages.dev). This is PR #17's application with documentation updates. No rollback was performed.
+- Fresh `npm test` on the actual merge passed all **316 counted checks**, plus deterministic rendering, failed-build preservation, publication allowlist and release identity checks. [Post-merge GitHub Site check](https://github.com/seanpr1/magnolia-gardens/actions/runs/40961880077) also passed. Transport and analytics tests were mocked; no live test lead or customer message was sent.
+- Public checks completed at 17:58:39 Eastern: all **15 sitemap pages, 32 scripts/styles/font assets, sitemap and robots** returned HTTP 200 and matched the merged build after normalizing Cloudflare's email-protection control comments. All pages retained their expected production canonical, one H1, and no noindex directive. The 32 assets include all 13 self-hosted font files.
+- Hosted production interaction checks passed at the available 1363px viewport: quote CTA focuses the phone field; phone remains the only required input; homepage and estimate optional details expand; cleanup links reach the estimate with Cleanup selected; section navigation scrolls to the intended section; the work-photo dialog focuses Close, closes with Escape and restores focus; no horizontal overflow was observed on checked views.
+- GA4, Clarity and Meta script loaders initialize. The form, navigation, campaign and analytics application files are unchanged by this release. Loader checks do not certify provider-side analytics receipt or downstream Jobber delivery.
+
+### Repeated production mobile measurements
+
+These are independent PageSpeed Insights/Lighthouse 13.5 slow-4G, emulated Moto G Power, initial-load lab samples captured after the new production marker was verified. They are not field data or physical-phone interaction tests.
+
+| Report (Eastern) | Performance | FCP | LCP | TBT | CLS | Speed Index |
+|---|---:|---:|---:|---:|---:|---:|
+| [17:57 run](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/gzhz6inywu?form_factor=mobile) | 70 | 1.7 s | 8.0 s | 150 ms | 0 | 4.8 s |
+| [17:58 run](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/gr0aejuvgg?form_factor=mobile) | 69 | 1.7 s | 7.2 s | 250 ms | 0 | 4.0 s |
+| [17:59 run](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/gr8vayoeof?form_factor=mobile) | 65 | 1.7 s | 7.7 s | 350 ms | 0 | 3.9 s |
+
+All three scored 100 for automated accessibility and SEO, and 96 for best practices. **The observed 0.121 font-related shift did not recur: CLS was zero in all three production samples.** Slow first visits may retain the system fallback font. Overall loading performance is still unresolved; these results do not support claiming the preview's 95–97 scores on production.
+
+The third report identified the hero description paragraph as the LCP element and reported render delay. It also measured main-thread work from Facebook, Google Tag Manager and Clarity; their presence is a follow-up investigation lead, not proof of a single cause. Its console diagnostic reports a Cloudflare Insights RUM request blocked by CORS. No analytics configuration or script scheduling was changed in this release. Investigate render delay and measurement overhead separately while preserving intake independence and conversion attribution.
+
+**Remaining verification:** interactive 320/390px checks; physical iPhone/Android keyboard, autofill, menu and native call/SMS behavior; assistive technology; provider-side analytics receipt and any newly authorized end-to-end intake test. No physical-device pass or new real-submission delivery proof is claimed. These limits were disclosed before publication approval. A documentation-only follow-up may advance the production marker without changing the published application.
+
 ## Published October 25, 2026 Eastern / October 26 UTC: indexing email links
 
 Sean explicitly approved publication in this session. [PR #16](https://github.com/seanpr1/magnolia-gardens/pull/16) merged normally at `2026-10-26T00:38:49Z`, guarded against approved head `9b9af534ca3e143b90c710d3ad50b5790cb40471`. Production merge `7160d5051cbdb1b4d69c4bef2c65dcabadacbd7c` has the same Git tree as that candidate. Its GitHub check and Cloudflare deployment passed.
