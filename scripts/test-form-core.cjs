@@ -247,6 +247,19 @@ function controlledTransport(h, implementation) {
     assert.equal(decodeURIComponent(h.w.MG_FORM_CORE.smsHref('private details')).includes('private details'), false);
     close(h); checks++;
   }
+  // Internal CTA labels cannot masquerade as acquisition sources or leak details.
+  for (const [input, expected] of [['hero_primary', 'hero_primary'], ['cta_repeat', 'cta_repeat'], ['person@example.com', 'unknown']]) {
+    const h = setup();
+    h.w.MG_FORM_CORE.track('cta_jump', { source: input, campaign_source: 'override', utm_source: 'override' });
+    const payload = h.events.find(e => e[1] === 'cta_jump')[2];
+    assert.equal(payload.cta_source, expected);
+    assert.equal(Object.hasOwn(payload, 'source'), false);
+    assert.equal(Object.hasOwn(payload, 'campaign_source'), false);
+    assert.equal(Object.hasOwn(payload, 'utm_source'), false);
+    assert.equal(JSON.stringify(payload).includes('@'), false);
+    assert.equal(h.w.MG_CAMPAIGN.get().utm_source, 'flyer');
+    close(h); checks++;
+  }
   // Failure recovery keeps entered values in a masked, read-only input only.
   {
     const h = setup();
@@ -270,6 +283,20 @@ function controlledTransport(h, implementation) {
     next.window.sessionStorage.setItem('mg_campaign_v1', JSON.stringify(expired)); next.window.eval(read('assets/campaign-context.js'));
     assert.equal(next.window.MG_CAMPAIGN.get().utm_source, 'internal');
     next.window.close(); close(h); checks++;
+  }
+  // Proof/customer landing pages survive a later request; unknown paths stay private.
+  for (const landing of ['/projects/', '/customers/', '/projects', '/customers', '/private/person@example.com']) {
+    const first = new JSDOM('', { url: 'https://example.invalid' + landing + '?email=person@example.com', referrer: 'https://www.google.com/search?q=private', runScripts: 'outside-only' });
+    first.window.eval(read('assets/campaign-context.js'));
+    const next = new JSDOM('', { url: 'https://example.invalid/estimate/?service=cleanup', runScripts: 'outside-only' });
+    next.window.sessionStorage.setItem('mg_campaign_v1', first.window.sessionStorage.getItem('mg_campaign_v1'));
+    next.window.eval(read('assets/campaign-context.js'));
+    const data = new next.window.FormData(); next.window.MG_CAMPAIGN.apply(data);
+    assert.equal(data.get('landing_path'), landing.startsWith('/private/') ? '/' : landing);
+    assert.equal(data.get('submitting_path'), '/estimate/');
+    assert.equal(data.get('landing_referrer'), 'https://www.google.com');
+    assert.equal(JSON.stringify(Object.fromEntries(data)).includes('person'), false);
+    first.window.close(); next.window.close(); checks++;
   }
   // Storage failure cannot break payload creation; referrer query/path and unsafe UTMs are dropped.
   {

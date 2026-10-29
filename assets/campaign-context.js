@@ -11,7 +11,7 @@
   }
   function pagePath(value) {
     // Only public marketing paths are useful attribution. Drop arbitrary paths.
-    return /^\/(?:|(?:estimate(?:\/planning)?|quote|hiring|apply|services\/(?:mowing|maintenance|cleanup|mulch|brush-clearing)|areas\/(?:kingsport|bristol|johnson-city))\/?)$/.test(value || '') ? value : '/';
+    return /^\/(?:|(?:estimate(?:\/planning)?|quote|hiring|apply|projects|customers|services\/(?:mowing|maintenance|cleanup|mulch|brush-clearing)|areas\/(?:kingsport|bristol|johnson-city))\/?)$/.test(value || '') ? value : '/';
   }
   function referrer(value) {
     try {

@@ -19,7 +19,9 @@
       if ('reason' in p) safe.reason = allowed(p.reason, REASONS);
       if ('form_id' in p) safe.form_id = allowed(p.form_id, ['heroIntakeForm', 'intakeForm', 'quickRequest', 'quoteBlockForm']);
       ['location', 'source'].forEach(function (key) {
-        if (key in p) safe[key] = allowed(p[key], LOCATIONS.concat(['quick_request', 'nav', 'footer', 'floating', 'error_panel', 'final_cta', 'other', 'sticky_mobile', 'hero_primary', 'pricing_section', 'fall_section', 'cta_repeat', 'toggle']));
+        // Adapter "source" identifies a button, never an acquisition campaign.
+        // Keep it separate from Analytics' traffic-source vocabulary.
+        if (key in p) safe[key === 'source' ? 'cta_source' : key] = allowed(p[key], LOCATIONS.concat(['quick_request', 'nav', 'footer', 'floating', 'error_panel', 'final_cta', 'other', 'sticky_mobile', 'hero_primary', 'pricing_section', 'fall_section', 'cta_repeat', 'toggle']));
       });
       if (p.transport_type === 'beacon') safe.transport_type = 'beacon';
       if (name.indexOf('mg_form_') === 0) {
