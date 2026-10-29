@@ -300,3 +300,26 @@ Remaining verification: rendered preview visual review and physical iPhone/Andro
 An unpublished draft based on main `f42812d1a317571dd6fd951ab1a0011fe3cb7150` prepares a clearer homepage, earlier mobile quote form, self-hosted fonts, proof-page attribution and local cleanup information. It incorporates the one-rule modal stacking fix from PR #15; that historical draft remains open and should not be merged independently as a second copy. See [the implementation and verification record](ACQUISITION-IMPROVEMENTS-2026-10-26.md). Production, prices and delivery infrastructure are unchanged. Publication approval and remaining preview/device checks are outstanding.
 
 October 27 follow-up: the draft now emits internal CTA labels as `cta_source` instead of `source`, without changing event names, campaign capture or form payloads. All 316 counted offline checks and build/release checks pass. Historical reporting is unchanged; post-release attribution validation remains necessary. No production release or Analytics setting change is included.
+
+## October 29, 2026 — PR #17 published; font-stability follow-up prepared
+
+Sean explicitly approved merging and publishing PR #17 with the disclosed mobile/device testing limits. PR #17 merged at 10:01:03 Eastern as `dfdb5fcb9074f4ea723dcc8485dd0c397eda5dde`. The production marker and critical pages were verified between approximately 10:03 and 10:10 Eastern, separately from the commit timestamp. This entry supersedes the unpublished status in the October 26/27 entries above.
+
+- Production: [magnoliagardenslandscaping.com](https://magnoliagardenslandscaping.com/), application merge `dfdb5fcb9074f4ea723dcc8485dd0c397eda5dde`, Cloudflare deployment [fb0c6af3](https://fb0c6af3.magnolia-gardens.pages.dev).
+- Rollback before PR #17: `f42812d1a317571dd6fd951ab1a0011fe3cb7150`, existing Cloudflare deployment [e95512ec](https://e95512ec.magnolia-gardens.pages.dev). Preserve this deployed artifact.
+- All 15 sitemap pages returned HTTP 200, retained their production canonical and one H1, and matched the tested HTML after normalizing Cloudflare's email-protection control comments. All 21 checked form/navigation/attribution scripts, font stylesheet and font files matched exact bytes. Sitemap and robots matched the build. Homepage, estimate and cleanup responses had no noindex header; the version marker was no-store. The www homepage returned HTTP 200.
+- Live desktop interactions confirmed quote-button focus on the phone field, phone-only required input with tel keyboard/autocomplete hints, optional details, cleanup-to-estimate service selection, and photo-dialog Close focus, Escape dismissal and focus restoration. No horizontal overflow was observed at the available desktop width.
+- GA4, Clarity and Meta loaders initialized on production. The mocked event/payload/privacy tests pass. Provider-side receipt and eventual conversion attribution are separate observations and are not certified by script loading.
+- Existing completed Formspree-to-Jobber delivery evidence was reconciled read-only before release. No new live submission, customer message or integration edit was performed.
+
+Post-release mobile Lighthouse 13.5 / Moto G Power / slow 4G samples:
+
+| Report | Performance | FCP | LCP | TBT | CLS | Speed Index |
+|---|---:|---:|---:|---:|---:|---:|
+| [Run 1](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/kgtuwg1zl0?form_factor=mobile) | 91 | 1.7 s | 2.3 s | 170 ms | 0.121 | 2.4 s |
+| [Run 2](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/lwno670bam?form_factor=mobile) | 64 | 2.4 s | 7.9 s | 260 ms | 0 | 5.0 s |
+| [Run 3](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/zw0u3giif7?form_factor=mobile) | 61 | 2.4 s | 7.6 s | 210 ms | 0.121 | 5.3 s |
+
+All three scored 100 on automated accessibility and SEO, and 96 on best practices. Results vary materially; the preview improvement does not establish a stable production speed gain. Lighthouse attributed the two 0.121 layout shifts to the hero quote card and web fonts. [PR #18](https://github.com/seanpr1/magnolia-gardens/pull/18) prepares the narrowly scoped correction: preload the three homepage Latin fonts and avoid late swaps with `font-display: optional`. Its 316 offline checks and GitHub Site check #106 pass. It is a separate follow-up, not part of the already approved PR #17 revision.
+
+Remaining limits: interactive 320/390 px checks, physical iPhone/Android keyboard/autofill and native call/SMS behavior, mobile-menu interaction and assistive technology. The available browser does not expose viewport resizing or a connected physical device; Lighthouse mobile rendering does not replace those interactions. Further publication of the new PR #18 change requires owner approval; documentation-only commits may advance production's revision marker without changing the released application.
