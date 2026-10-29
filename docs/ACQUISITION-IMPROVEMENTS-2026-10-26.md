@@ -1,6 +1,6 @@
 # Acquisition improvements — October 26, 2026 (Eastern)
 
-Status: draft implementation, not published. Baseline is main `f42812d1a317571dd6fd951ab1a0011fe3cb7150`, verified against the live production version marker. Private traffic, lead and customer evidence is intentionally kept out of this public repository.
+Status: PR #17 was approved, merged and verified in production on October 29, 2026. See [the release record](RELEASE.md#october-29-2026--pr-17-published-font-stability-follow-up-prepared) for live checks and the separate PR #18 font-stability follow-up. The draft notes below are historical. Baseline is main `f42812d1a317571dd6fd951ab1a0011fe3cb7150`, verified against the live production version marker. Private traffic, lead and customer evidence is intentionally kept out of this public repository.
 
 ## Changes
 
