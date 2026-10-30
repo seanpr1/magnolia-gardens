@@ -1,5 +1,64 @@
 # Website release record
 
+## October 29, 2026 Pacific — homepage parser correction, PR #19 (unpublished)
+
+[PR #19](https://github.com/seanpr1/magnolia-gardens/pull/19) contains application revision `0020729f4eec30e094e8e8772e0aa9eeb56b9b5f`, based on clean main `454b6067e160ba0d713da9ea0dd763d5ab242298`. Subsequent commits in this PR document the same application. This is a review candidate, **not a demonstrated resolution of production's 7–8-second LCP**. No production merge or publication occurred. PR #18 remains released; its three font preloads and `font-display: optional` are unchanged. Historical PR #15 is untouched; its modal stacking fix is already in main.
+
+### Diagnosis and targeted change
+
+Five synchronous head modules stopped HTML parsing before `p.hero-sub`: configuration, campaign context, diagnostics, metrics and form core. Local Lighthouse identified these as render-blocking, alongside the stylesheets. A controlled Chromium experiment held only `form-core.js` for three seconds: 500ms into navigation, baseline had neither parsed the hero paragraph nor painted content; the candidate had parsed the paragraph and painted at 224ms. This isolates a real parser dependency. It does **not** establish that it accounts for the entire production delay.
+
+The homepage now uses ordered `defer`: configuration → original campaign capture → analytics startup → diagnostics → metrics → form core → navigation → homepage adapter. `assets/home-analytics.js` contains the existing production-host guard and all four provider loaders. GA4 configuration queues before its download; Clarity and Meta retain their queues and IDs; Meta still queues exactly one initialization and PageView. No user-interaction gate, arbitrary analytics delay, user-agent/Lighthouse detection or analytics removal was added. Navigation's initializer still has its shared form helper available. Other page families retain their existing loading behavior.
+
+Transport, terminal delivery states, forms, optional details, service context, original landing attribution, fixed telemetry labels, privacy notices, URLs, prices, promises, artwork and font settings are unchanged. The new loading contracts reject blocking head scripts, missing dependency startup, lost campaign values, changed production provider startup, off-production tracking, or loss of mocked acceptance/acceptance-event privacy. Tests mock transport and providers; they send no real lead.
+
+### Controlled measurements
+
+Collected October 30, 2026 UTC (October 29 Pacific), using Chromium 154.0.8037.57. Baseline is the rendered clean `454b606` tree; candidate application is `0020729`. Cold contexts/cache reset, same machine, no concurrent browser tests, interleaved baseline/candidate ordering. **All measurements here are local lab emulation, not hosted preview, production, field data or physical phones.**
+
+Lighthouse **13.5.0**, default simulated mobile Moto G Power (412×823, DPR 1.75), slow 4G (150ms RTT, 1638.4Kbps, CPU ×4). Final comparable runs used loopback HTTP/1.1 with gzip for HTML/JS/CSS, closer to hosting compression; this still omits CDN/TLS/HTTP2 and real provider work. Production-host guards correctly suppress analytics on these local runs.
+
+| Local compressed run | Performance | FCP | LCP | TBT | CLS | Speed Index |
+|---|---:|---:|---:|---:|---:|---:|
+| Baseline 1 | 95 | 1.253s | 2.940s | 1ms | 0 | 1.253s |
+| Baseline 2 | 94 | 1.247s | 3.081s | 73ms | 0 | 1.247s |
+| Baseline 3 | 94 | 1.250s | 3.080s | 0ms | 0 | 1.250s |
+| Candidate 1 | 94 | 1.059s | 3.014s | 8ms | 0 | 1.059s |
+| Candidate 2 | 95 | 1.056s | 3.008s | 59ms | 0 | 1.056s |
+| Candidate 3 | 94 | 1.054s | 3.081s | 78ms | 0 | 1.196s |
+
+Median first paint improves about 194ms (16%); median performance remains 94. **There is no material Lighthouse LCP improvement established** (3.080s → 3.014s). The identified LCP remains the hero paragraph. Preliminary uncompressed HTTP/1.0 runs of the baseline and in-progress candidate likewise showed no material LCP gain: baseline scores 86/88/88 with LCP 3.756/3.769/3.758s; candidate 89/87/87 with 3.753/4.054/3.758s. They are retained as diagnostic evidence, not compared to gzip or production as equivalent conditions.
+
+A separate **Chromium CDP applied-throttling** comparison used 390×844, fresh contexts/cache disabled, 150ms latency, 204800 bytes/s download, 84375 bytes/s upload, CPU ×4, the same uncompressed local first-party server, and a two-mode analytics test. The production-like mode enables the normal production guard in test memory only and intercepts all four external loaders with one fixed 150ms main-thread task each. All four mock provider scripts executed on every enabled run; no provider call left the browser. This represents loader/queue ordering plus controlled contention, **not the full real GA4/Meta/Clarity/Cloudflare runtimes or their network behavior**. Preview mode performs zero provider requests. Its results cannot be numerically compared with Lighthouse's simulated timing.
+
+| CDP local mode | LCP, runs 1 / 2 / 3 | Median | CLS, all runs |
+|---|---|---:|---:|
+| Baseline, preview guard | 1.928 / 1.932 / 1.928s | 1.928s | 0 |
+| Candidate, preview guard | 1.588 / 1.740 / 1.752s | 1.740s | 0 |
+| Baseline, four mocked providers | 1.964 / 1.924 / 1.944s | 1.944s | 0 |
+| Candidate, four mocked providers | 1.724 / 1.572 / 1.764s | 1.724s | 0 |
+
+Every CDP run identified `p.hero-sub` and painted it at FCP. The mock-provider median improves 220ms (11%). These runs support removing the parser dependency with analytics retained; they do not reproduce the 7–8s production LCP or prove a real-provider speed gain. Facebook/GTM/Clarity work and the reported Cloudflare RUM CORS error remain unproven contributors; no provider or zone configuration was changed.
+
+### Intake, mobile interaction and preview evidence
+
+- Baseline `npm test`: 316 counted checks plus deterministic build, failure-preservation, publish-allowlist and release-identity checks. Candidate: **324 counted checks**, including eight added startup contracts, plus the same build/publish checks. Node 24.19.0, npm 11.9.0, Python 3.12.14 locally; npm/Python differ from repository pins. No lockfile/dependency changes. Pinned-toolchain GitHub checks remain the exact-head validation source.
+- **72 intercepted Chromium interaction checks**: 36 each at actual 320×844 and 390×844 browser viewports. Keyboard CTA focuses the phone; touch CTA focuses the form heading without forcing a keyboard. Empty/malformed phones do not send. Phone-only and expanded homepage requests reach mocked acceptance. Cleanup links preselect Cleanup on the estimate page. First-touch campaign data survives internal navigation and later UTM links. The estimate's mocked network failure displays uncertain-delivery recovery; neither accepted nor unknown submissions automatically resend. Fixed events omit the entered phone.
+- Menu opens from keyboard, Escape returns focus, and section links close it and scroll correctly. Photo viewer focuses Close, wraps Tab/Shift+Tab, changes image with ArrowRight, closes on Escape and restores trigger focus. No horizontal overflow on checked home, expanded form, cleanup, estimate, viewer or result states. No page errors in either viewport. Narrow homepage/quote/recovery screenshots were captured for visual review. These are browser interactions, not native-device accessibility certification.
+- Initial application preview: [Cloudflare d5718bc3](https://d5718bc3.magnolia-gardens.pages.dev/), deployment `d5718bc3-de77-4ab9-a51b-2d92c0d99f09`; Netlify `6ae3ede661f161dad1a6e827`. Both public `/version.json` markers returned exact clean application revision `0020729`, with preview contexts. Read-only extraction confirmed homepage/estimate/cleanup content, production canonicals and the cleanup-to-estimate service URL. Extraction is **not** byte/hash verification or hosted mobile interaction testing.
+- Documentation commits advance the PR preview revision without changing application bytes. The final exact PR-head SHA, current check conclusions and matching public preview markers are recorded in [PR #19](https://github.com/seanpr1/magnolia-gardens/pull/19) after the final push. Do not substitute the initial preview marker above for a later head.
+
+### Uncertainty, release gate and rollback
+
+A fresh read-only connected fetch confirmed production revision `454b6067e160ba0d713da9ea0dd763d5ab242298`, clean production/main at [c894b264](https://c894b264.magnolia-gardens.pages.dev/). The measurement shell's production request received an explicit network-policy 403; the hosted interactive-browser attempt could not start because its TinyFish wallet was out of credit. The connected read-only extractor can retrieve markers/content, but cannot supply the needed controlled performance trace or interactive mobile viewport. No workaround bypassed that policy. GitHub and package access worked after enabling the shell's required socket permissions. No automatic approval rejection blocked implementation.
+
+**Still required before claiming production correction:** a current, comparable real-provider production trace and at least three matched hosted/production-like candidate runs, with live-provider analytics behavior visible and CLS checked. Reconcile request discovery, rendering and long tasks against the baseline before assigning the remaining 7–8s delay to a provider. Successful preview scores and mocked provider work are not production proof. This PR can be reviewed for the bounded parser improvement; it is not a recommendation to publish on the strength of these local LCP results.
+
+Sean's separate publication approval is required for any new merge/deployment; the PR #18 approval does not apply. If later approved, recheck current production's marker and retain its existing deployment artifact before release, then verify exact deployed revision, critical assets/pages and three production mobile runs. Roll back this candidate by reverting its homepage loading change and removing `home-analytics.js` in one reviewed revert, or restore the retained approved hosting artifact under separate authorization. No endpoint/backend migration is involved. Restoring an older artifact does not require replaying submissions. Do not re-enable/replay accepted or unknown requests.
+
+**Sean's phone checklist:** on an iPhone and an Android, check tel keyboard and autofill; optional details and correction after validation; touch quote CTA/menu/photo viewer; native call/SMS destinations without sending a message; zoom, VoiceOver/TalkBack and external-keyboard focus/Escape. Do not submit a live test without separate authorization. Provider-side analytics receipt and any new Formspree-to-downstream receipt are not certified by mocks. No live lead, customer message, production Zap/provider configuration change, new secret, merge or production deployment was performed.
+
+
 ## Published October 29, 2026: PR #18 font stability correction
 
 Sean explicitly approved merging the reviewed `298ba37142e778daad7b117606c60439b039cd94` revision and publishing it after the separate release review. [PR #18](https://github.com/seanpr1/magnolia-gardens/pull/18) merged at **17:56:06 Eastern** as `b8942cea8291b3c90352febbde56be5df1745161`. This publication supersedes the pending-approval status in the earlier October 29 entry below.

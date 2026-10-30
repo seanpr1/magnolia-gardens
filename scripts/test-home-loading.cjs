@@ -11,7 +11,7 @@ const pause = () => new Promise(resolve => setTimeout(resolve, 30));
 let checks = 0;
 async function scenario(host) {
   let payload, sends = 0;
-  const providers = [], errors = [];
+  const providers = [], beaconTokens = [], errors = [];
   const console = new VirtualConsole();
   console.on('jsdomError', error => { if (error.type !== 'css-parsing') errors.push(error.message); });
   const dom = new JSDOM(html, {
@@ -33,7 +33,9 @@ async function scenario(host) {
       const original = w.Node.prototype[method];
       w.Node.prototype[method] = function (node, ...args) {
         if (node.tagName === 'SCRIPT' && node.src && new URL(node.src).hostname !== host) {
-          providers.push(node.src); return node;
+          providers.push(node.src);
+          if (node.hasAttribute('data-cf-beacon')) beaconTokens.push(JSON.parse(node.getAttribute('data-cf-beacon')).token);
+          return node;
         }
         return original.call(this, node, ...args);
       };
@@ -55,7 +57,13 @@ async function scenario(host) {
     checks++;
     if (host === 'magnoliagardenslandscaping.com') {
       assert.equal(w.MG_ANALYTICS_OK, true);
-      assert.deepEqual(providers.map(url => new URL(url).hostname).sort(), ['connect.facebook.net', 'static.cloudflareinsights.com', 'www.clarity.ms', 'www.googletagmanager.com']);
+      assert.deepEqual(providers.sort(), [
+        'https://connect.facebook.net/en_US/fbevents.js',
+        'https://static.cloudflareinsights.com/beacon.min.js',
+        'https://www.clarity.ms/tag/xiib0yey5e',
+        'https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ'
+      ]);
+      assert.deepEqual(beaconTokens, ['5168b9dfab9f4dd390f2447100a6e3db']);
       assert.equal(Array.from(w.dataLayer).filter(args => args[0] === 'config' && args[1] === 'G-V93YBHW1PJ').length, 1);
       assert.deepEqual(Array.from(w.fbq.queue, args => Array.from(args)), [['init', '1529884685261202'], ['track', 'PageView']]);
       assert.equal(typeof w.clarity, 'function');
