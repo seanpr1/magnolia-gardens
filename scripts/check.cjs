@@ -12,7 +12,8 @@ const checks = [
   [process.execPath, ['scripts/test-quick-request.cjs']],
   [process.execPath, ['scripts/test-contact-links.cjs']],
   [process.execPath, ['scripts/test-application.cjs']],
-  [process.execPath, ['scripts/test-form-core.cjs']]
+  [process.execPath, ['scripts/test-form-core.cjs']],
+  [process.execPath, ['scripts/test-home-loading.cjs']]
 ];
 for (const [command, args] of checks) {
   const result = spawnSync(command, args, { cwd: root, env, stdio: 'inherit' });

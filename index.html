@@ -6,8 +6,8 @@
   <link rel="preload" href="/assets/fonts/fraunces-7234ed860a9c.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/fraunces-066710ce7ed2.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/brand.css">
-  <script src="/assets/site-config.js"></script>
-  <script src="/assets/campaign-context.js"></script>
+  <script src="/assets/site-config.js" defer></script>
+  <script src="/assets/campaign-context.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Fall (Sep–Nov) title. Revert on Dec 1 to the year-round title:
        "Landscaping &amp; Lawn Care in Kingsport, TN | Magnolia Gardens"
@@ -1201,69 +1201,10 @@
     button.photo-zoom:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   </style>
 
-  <!-- Analytics production guard: only initialize on the real production
-       domain, so owner self-testing on Netlify staging / localhost / Electron
-       previews never pollutes Clarity, GA4, or Cloudflare data. -->
-  <script>
-    window.MG_ANALYTICS_OK = !!(window.MG_SITE_CONFIG && window.MG_SITE_CONFIG.analytics.productionHosts.includes(location.hostname));
-  </script>
-
-  <!-- Diagnostics contain fixed reason codes only. -->
-  <script src="/assets/error-reporting.js"></script>
-
-  <!-- Google tag (gtag.js) - GA4 property G-V93YBHW1PJ -->
-  <script>
-    if (window.MG_ANALYTICS_OK) {
-      var gaLoader = document.createElement('script');
-      gaLoader.async = true;
-      gaLoader.src = 'https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ';
-      document.head.appendChild(gaLoader);
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function(){ dataLayer.push(arguments); };
-      gtag('js', new Date());
-      gtag('config', 'G-V93YBHW1PJ');
-    }
-  </script>
-
-  <!-- Cloudflare Web Analytics - privacy-respecting, cookieless pageview tracking. -->
-  <script>
-    if (window.MG_ANALYTICS_OK) {
-      var cfBeacon = document.createElement('script');
-      cfBeacon.defer = true;
-      cfBeacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-      cfBeacon.setAttribute('data-cf-beacon', '{"token": "5168b9dfab9f4dd390f2447100a6e3db"}');
-      document.head.appendChild(cfBeacon);
-    }
-  </script>
-
-  <!-- Microsoft Clarity - free heatmaps, session recordings, scroll & rage-click maps. -->
-  <script>
-    if (window.MG_ANALYTICS_OK) {
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "xiib0yey5e");
-    }
-  </script>
-
-  <!-- Meta Pixel (id 1529884685261202) - guarded to production only, same
-       allowlist as GA4/Clarity/Cloudflare. noscript <img> fallback omitted on
-       purpose: it can't check the hostname and would fire off-prod. -->
-  <script>
-    if (window.MG_ANALYTICS_OK) {
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1529884685261202');
-      fbq('track', 'PageView');
-    }
-  </script>
+  <!-- Ordered defer keeps transport, attribution and analytics off the HTML
+       parser's critical path. Analytics still initializes on production. -->
+  <script src="/assets/home-analytics.js" defer></script>
+  <script src="/assets/error-reporting.js" defer></script>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -1271,9 +1212,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/assets/site-nav.css?v=20260928">
+<script src="/assets/form-metrics.js" defer></script>
+<script src="/assets/form-core.js" defer></script>
 <script src="/assets/site-nav.js?v=20260928" defer></script>
-<script src="/assets/form-metrics.js"></script>
-<script src="/assets/form-core.js"></script>
   <link rel="stylesheet" href="/assets/form-ui.css">
 </head>
 <body>
