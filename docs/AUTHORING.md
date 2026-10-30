@@ -44,10 +44,11 @@ Service-page static text links use `data-sms-service` (`mowing`, `maintenance`, 
 | Quick-request presentation adapter | `assets/quick-request.js` |
 | Service/area quote-block presentation adapter | `assets/quote-block.js` |
 | Shared form/quote-block presentation | `assets/form-ui.css`, `assets/quote-block.css` |
+| Homepage production analytics startup | `assets/home-analytics.js` |
 | Browser error reports with fixed labels | `assets/error-reporting.js` |
 | Offline behavior regressions | `scripts/test-form-core.cjs`, `scripts/test-quick-request.cjs` |
 
-Load generated configuration and shared modules before adapters. Provider HTTP acceptance, observable receipt by Magnolia and later booking are separate outcomes. Browser tests establish only their mocked browser behavior.
+Load generated configuration and shared modules before adapters. On the homepage, keep external head scripts deferred in dependency order: configuration, campaign capture, analytics startup, diagnostics, metrics, form core, then navigation and the homepage adapter. Moving an inline consumer ahead of its deferred dependency can silently lose tracking or attribution. Provider HTTP acceptance, observable receipt by Magnolia and later booking are separate outcomes. Browser tests establish only their mocked browser behavior.
 
 See [verification evidence](VERIFICATION.md) for event definitions, delivery observations and replay review limits.
 
