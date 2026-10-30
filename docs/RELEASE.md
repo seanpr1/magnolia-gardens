@@ -496,3 +496,9 @@ Prepared against main `4647a1b37ea1f1027cbacbf02562acc3ee7ac53d` under Sean's ap
 The social recommendation index also excludes seven additional exports with known identifying details or unverified comparison pairing. Existing asset URLs remain stable; external-post cleanup remains separate. See `PHOTO-CURATION.md` for the reuse boundary.
 
 The combined revision passed all 329 counted offline checks and deterministic build/publish guards. Production status is pending PR merge and live verification. No live lead submission or customer message is part of this release.
+
+### PR #21 publication verified — October 30, 2026
+
+PR #21 merged at 3:03 PM Eastern as `6c470716ec7bf983fe4c510dad40ebd60e25b602`, superseding the pending status above. Both pinned-toolchain GitHub Site checks passed on head `fe8ae55d5bf00112225213395be0950781482496`, and the immutable Cloudflare preview succeeded. The production marker at 3:04:46 PM Eastern matched the clean merge revision and deployment `https://dff94c74.magnolia-gardens.pages.dev`.
+
+The mowing and Kingsport pages, social index and social manifest returned HTTP 200 and matched the tested build, normalizing only Cloudflare's email-protection control comments and injected analytics tag for HTML. The index/manifest agree on 38 listed and eight excluded files. Source files retained for link compatibility and already-published external social media are not erased by this release. Rollback application baseline is `4647a1b37ea1f1027cbacbf02562acc3ee7ac53d`. No new live inquiry, customer message or automation change was used for verification.
