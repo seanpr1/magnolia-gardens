@@ -488,3 +488,11 @@ Post-release mobile Lighthouse 13.5 / Moto G Power / slow 4G samples:
 All three scored 100 on automated accessibility and SEO, and 96 on best practices. Results vary materially; the preview improvement does not establish a stable production speed gain. Lighthouse attributed the two 0.121 layout shifts to the hero quote card and web fonts. [PR #18](https://github.com/seanpr1/magnolia-gardens/pull/18) prepares the narrowly scoped correction: preload the three homepage Latin fonts and avoid late swaps with `font-display: optional`. Its 316 offline checks and GitHub Site check #106 pass. It is a separate follow-up, not part of the already approved PR #17 revision.
 
 Remaining limits: interactive 320/390 px checks, physical iPhone/Android keyboard/autofill and native call/SMS behavior, mobile-menu interaction and assistive technology. The available browser does not expose viewport resizing or a connected physical device; Lighthouse mobile rendering does not replace those interactions. Further publication of the new PR #18 change requires owner approval; documentation-only commits may advance production's revision marker without changing the released application.
+
+## October 30, 2026 — search descriptions and social reuse hold prepared
+
+Prepared against main `4647a1b37ea1f1027cbacbf02562acc3ee7ac53d` under Sean's approval for verified audit fixes. The mowing and Kingsport search/share descriptions now describe requesting a quote and confirming scope and price before scheduling, replacing an obsolete promise of an instant online price. Titles, customer pricing, forms and delivery behavior are unchanged.
+
+The social recommendation index also excludes seven additional exports with known identifying details or unverified comparison pairing. Existing asset URLs remain stable; external-post cleanup remains separate. See `PHOTO-CURATION.md` for the reuse boundary.
+
+The combined revision passed all 329 counted offline checks and deterministic build/publish guards. Production status is pending PR merge and live verification. No live lead submission or customer message is part of this release.
