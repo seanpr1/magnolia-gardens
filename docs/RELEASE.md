@@ -1,12 +1,22 @@
 # Website release record
 
-## Cloudflare analytics correction — October 29, 2026 Eastern
+## Published Cloudflare analytics correction — October 29, 2026 Eastern — PR #20
 
 Sean requested resolution of the live Cloudflare analytics warning. The site loaded a manual beacon on the homepage and ten estimate, service and area pages in addition to Cloudflare's automatically injected beacon. Both used the same public token. The manual loader selected `https://cloudflareinsights.com/cdn-cgi/rum`, which failed CORS in the browser and PageSpeed Insights.
 
-This correction removes the eleven manual loaders and leaves automatic edge injection as the single owner. GA4, Meta, Clarity, form behavior and security headers are unchanged. The loading regression now checks every rendered HTML page for duplicate source markup, models an existing edge-injected script, and verifies that other providers and mocked form acceptance still work.
+[PR #20](https://github.com/seanpr1/magnolia-gardens/pull/20) removes the eleven manual loaders and leaves automatic edge injection as the single owner. GA4, Meta, Clarity, form behavior and security headers are unchanged. The loading regression checks every rendered HTML page for duplicate source markup, models an existing edge-injected script, and verifies other providers and mocked form acceptance.
 
-A browser-local response override of the corrected homepage loader produced exactly one injected beacon, a successful HTTP **204** response from the same-origin `/cdn-cgi/rum`, and no Cloudflare CORS error. This is pre-publication evidence; it is not yet proof of the deployed revision. All **329 counted offline checks**, plus deterministic build and failed-build preservation checks, passed with `npm test`; `git diff --check` passed. Production receipt and checks will be recorded after release. No live inquiry was submitted.
+The PR merged with an expected-head safeguard for `1fb601dd96d10500f0dc7fea412eeb09a8b7c825`; merge revision **`d19d96cac15c238ef67ea671c1525d353ec4fe71`** has the identical tested file tree. Cloudflare Pages deployment **`e3019ff0-87ad-46e0-9602-662e5a1454d6`** succeeded. The production marker confirmed that exact clean main revision. The [post-merge Site check](https://github.com/seanpr1/magnolia-gardens/actions/runs/40999398942) also passed.
+
+### Verification
+
+- `npm test` passed all **329 counted offline checks**, plus deterministic build and failed-build preservation checks; `git diff --check` passed. Both branch and pull-request CI checks passed before merge.
+- All **15 public sitemap pages, 33 JavaScript/CSS/font assets, sitemap and robots** returned HTTP 200 and matched the built release. HTML normalization removes only Cloudflare email-protection control comments and the injected beacon tag with its added newline. Every public sitemap page had exactly **one** injected beacon and no manual loader.
+- A browser-local response override first proved the corrected loader. The override was then cleared. Fresh production navigation on the homepage, estimate, cleanup service and Kingsport area pages each showed one beacon, a successful same-origin `/cdn-cgi/rum` HTTP **204**, and no Cloudflare CORS error. This confirms browser-side delivery to the collector, not dashboard aggregation or advertising attribution.
+- The [fresh mobile PageSpeed report at 23:49 Eastern](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/ka1qxandis?form_factor=mobile) scored **97 performance / 100 accessibility / 100 best practices / 100 SEO**. The earlier Cloudflare error is absent and best practices increased from 96 to 100. Lighthouse 13.6.0, emulated Moto G Power, slow 4G: FCP/LCP 0.9s, TBT 140ms, CLS 0, Speed Index 3.7s. This is one lab sample, not field-performance evidence.
+- No live inquiry, call or message was submitted. Physical iPhone/Android keyboard, autofill, touch, native text/call handoff and screen-reader checks remain manual. The phone checklist covers layout, quote navigation and optional details, menu/gallery controls, retained service selection, and the 423-390-9954 contact destination.
+
+This documentation-only receipt does not change application bytes; a later production marker may identify this receipt's commit. The Cloudflare warning listed as unresolved in the historical PR #19 record below is resolved by this release.
 
 ## Published October 29, 2026 Eastern — PR #19
 
