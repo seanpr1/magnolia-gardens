@@ -35,3 +35,9 @@ New website derivatives use neutral `curated-20261019-*` filenames under `assets
 Only the lead photograph loads eagerly. Supporting photographs load lazily with explicit aspect-ratio dimensions, responsive `sizes` and `srcset`. The homepage lightbox requests the larger image when opened and supplies a descriptive caption. AVIF is included in the build's public-asset allowlist.
 
 This record covers website selection and its public recommendation index. Existing external posts or schedules require their own usage check; removal from these pages does not establish that a social post was removed. Measure actual hosted performance before claiming faster page loading from the new delivery formats.
+
+## October 30 social reuse review
+
+The reuse index and manifest now exclude all three R676 exports, the R811/R814 porch composite with identifying detail, and the unverified A44/A52, R818/R861 and R826/R858 comparisons. Together with the prior owner-rejected A29/A50 composite, eight assets are recorded in `excluded_images`; 38 remain in the index. This is a reuse hold, not an assertion that all other images have client consent or a verified project sequence.
+
+The affected future Metricool posts were reviewed separately and now use existing single photographs with captions limited to visible work. Existing social asset URLs remain stable under the earlier compatibility decision. Published external posts and platform copies require their own removal or replacement; this source change does not erase them. Private usage and provider evidence belongs in the operations audit, not this public repository.
