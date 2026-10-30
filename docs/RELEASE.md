@@ -1,5 +1,34 @@
 # Website release record
 
+## Published October 29, 2026 Eastern — PR #19
+
+Sean explicitly approved merging and publishing the reviewed PR in this chat. [PR #19](https://github.com/seanpr1/magnolia-gardens/pull/19) merged at **22:38:43 Eastern** with an expected-head safeguard for `9d1067d65cf8d4f051b66b5f6eda20cf4ede1ab6`. Merge revision: `a47b9bf85b58953e5d976d200335c486519fe6d3`. GitHub comparison confirms the merge has the same file tree as the approved head. This publication supersedes the pending-approval entries below.
+
+Cloudflare Pages deployment **`76ba19c2-905e-49b5-b27e-02058eeade8f`** completed successfully at **22:39:18 Eastern**. The [production marker](https://magnoliagardenslandscaping.com/version.json) returned the exact merge revision, production/main, clean tree and [deployment 76ba19c2](https://76ba19c2.magnolia-gardens.pages.dev/). The [post-merge Site check](https://github.com/seanpr1/magnolia-gardens/actions/runs/40992889110) passed. This release-record follow-up changes documentation only; a subsequent marker may identify that documentation commit without changing application bytes.
+
+### Release verification
+
+- The approved application passed all **324 counted offline checks** before merge, with mocked transport and analytics. The actual merge tree was compared to that tested head and has no file differences. A fresh local build of the merge also succeeded; the post-merge CI passed the repository check workflow. No redundant local full-suite rerun is claimed for this release turn.
+- All **15 public sitemap pages, 33 checked JavaScript/CSS/font assets, sitemap and robots** returned HTTP 200. The 33 assets match build bytes exactly. HTML matches after removing only Cloudflare's email-protection control comments and its injected beacon tag with its added newline. The initial strict comparison identified that hosting-added newline; the corrected narrow normalization then passed every page. No content difference was ignored.
+- Live homepage inspection confirmed every first-party external head module is deferred and the expected GA4, Clarity, Meta and Cloudflare loaders are present. Loader presence is not provider-side receipt certification.
+- Live quote navigation, optional details, phone-only requirement, desktop photo Close focus/Escape/trigger restoration, and measured 390px mobile menu Escape/focus restoration passed. No horizontal overflow was observed in the checked views. The cleanup page's quote link reached `/estimate/?service=cleanup` with Cleanup selected and only phone required. The deployed narrow homepage was visually inspected and captured. No live form, call or message was submitted.
+
+### Post-release production mobile results
+
+PageSpeed Insights: Lighthouse **13.6.0**, HeadlessChromium 153.0.8010.36, emulated Moto G Power, initial-load slow-4G simulation, normal production analytics. These are lab samples; field data was unavailable.
+
+| Report (Eastern) | Performance | FCP | LCP | TBT | CLS | Speed Index |
+|---|---:|---:|---:|---:|---:|---:|
+| [22:39](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/msmvvtxzxi?form_factor=mobile) | 98 | 0.9s | 0.9s | 40ms | 0 | 3.8s |
+| [22:41](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/sc8x9tvyx8?form_factor=mobile) | 98 | 0.9s | 0.9s | 70ms | 0 | 3.8s |
+| [23:23](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/e0nvxrsqi8?form_factor=mobile) | 96 | 0.9s | 0.9s | 100ms | 0 | 4.7s |
+
+Automated accessibility and SEO were 100 in all three, best practices 96. Pre-release Lighthouse 13.6 samples on the previous production were 98/97/99, FCP/LCP 1.1s, CLS 0. The new samples are consistent with a modest earlier content paint, not a demonstrated large overall speedup; median performance remains 98 and other metrics vary. Do not compare the older Lighthouse 13.5 7–8s simulated LCP directly to these as a website improvement.
+
+**Remaining limits:** physical iPhone/Android keyboard, autofill, touch behavior, native call/SMS and VoiceOver/TalkBack are not certified. No new downstream intake delivery or provider-side analytics receipt was tested. The existing Cloudflare RUM CORS warning remains an analytics follow-up; provider/zone/Zap settings were not changed.
+
+**Rollback:** the pre-release production revision is `454b6067e160ba0d713da9ea0dd763d5ab242298`, retained Cloudflare deployment [c894b264](https://c894b264.magnolia-gardens.pages.dev/). Restore that approved artifact or revert the PR's homepage scheduling/new analytics asset as one reviewed change if a regression requires rollback. Do not replay accepted or unknown form requests. No rollback was needed.
+
 ## October 29, 2026 Eastern — independent review and fresh hosted measurements
 
 **PR #19 is ready for a publication decision as a bounded parser improvement. It is not the cause of the high production scores below.** The independent review found no actionable regression in the six-file application/test/documentation diff at `e9864a898d68e9ce97082a4c26d9b1d0ba0e6b15`. No application change was needed in this continuation. This update changes release evidence only; production remains unmodified.
