@@ -1,5 +1,5 @@
 /* Deferred after configuration and campaign capture, before form metrics.
-   Load every production provider without blocking HTML parsing. Previews stay
+   Load site-managed production providers without blocking HTML parsing. Previews stay
    untracked; provider receipt is separate from loader initialization. */
 (function () {
   'use strict';
@@ -16,12 +16,9 @@
   gaLoader.src = 'https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ';
   document.head.appendChild(gaLoader);
 
-  // Cloudflare Web Analytics: retain the existing public beacon token.
-  var cfBeacon = document.createElement('script');
-  cfBeacon.defer = true;
-  cfBeacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-  cfBeacon.setAttribute('data-cf-beacon', '{"token": "5168b9dfab9f4dd390f2447100a6e3db"}');
-  document.head.appendChild(cfBeacon);
+  // Cloudflare injects its Web Analytics beacon at the production edge. Do not
+  // add a second copy here: the manual loader can win startup and select the
+  // cross-origin collector instead of the injected same-origin /cdn-cgi/rum.
 
   // Clarity: preserve the early-call queue until the provider loads.
   (function (c,l,a,r,i,t,y) {

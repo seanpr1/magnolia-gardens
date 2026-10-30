@@ -1,5 +1,13 @@
 # Website release record
 
+## Cloudflare analytics correction — October 29, 2026 Eastern
+
+Sean requested resolution of the live Cloudflare analytics warning. The site loaded a manual beacon on the homepage and ten estimate, service and area pages in addition to Cloudflare's automatically injected beacon. Both used the same public token. The manual loader selected `https://cloudflareinsights.com/cdn-cgi/rum`, which failed CORS in the browser and PageSpeed Insights.
+
+This correction removes the eleven manual loaders and leaves automatic edge injection as the single owner. GA4, Meta, Clarity, form behavior and security headers are unchanged. The loading regression now checks every rendered HTML page for duplicate source markup, models an existing edge-injected script, and verifies that other providers and mocked form acceptance still work.
+
+A browser-local response override of the corrected homepage loader produced exactly one injected beacon, a successful HTTP **204** response from the same-origin `/cdn-cgi/rum`, and no Cloudflare CORS error. This is pre-publication evidence; it is not yet proof of the deployed revision. All **329 counted offline checks**, plus deterministic build and failed-build preservation checks, passed with `npm test`; `git diff --check` passed. Production receipt and checks will be recorded after release. No live inquiry was submitted.
+
 ## Published October 29, 2026 Eastern — PR #19
 
 Sean explicitly approved merging and publishing the reviewed PR in this chat. [PR #19](https://github.com/seanpr1/magnolia-gardens/pull/19) merged at **22:38:43 Eastern** with an expected-head safeguard for `9d1067d65cf8d4f051b66b5f6eda20cf4ede1ab6`. Merge revision: `a47b9bf85b58953e5d976d200335c486519fe6d3`. GitHub comparison confirms the merge has the same file tree as the approved head. This publication supersedes the pending-approval entries below.

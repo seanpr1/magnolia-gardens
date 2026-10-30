@@ -52,6 +52,8 @@ Load generated configuration and shared modules before adapters. On the homepage
 
 See [verification evidence](VERIFICATION.md) for event definitions, delivery observations and replay review limits.
 
+Cloudflare Web Analytics is owned by the production edge's automatic injection. Do not add a manual beacon in HTML or `home-analytics.js`: a duplicate can initialize the cross-origin collector and produce a CORS failure instead of using the injected same-origin `/cdn-cgi/rum` route. `home-analytics.js` owns GA4, Clarity and Meta only. When changing hosting or analytics settings, verify one injected Cloudflare script and a successful same-origin beacon response; localhost/Netlify preview behavior does not certify edge injection. Do not weaken CORS/CSP or disable Web Analytics to hide the warning. See [Cloudflare's setup and duplicate-snippet guidance](https://developers.cloudflare.com/web-analytics/faq/).
+
 ## Prices, SEO and deployment
 
 - `assets/pricing.js` owns the customer planning calculator's numeric rules and published ranges. Preserve commercial terms during refactoring. `scripts/test-project-quotes.cjs` keeps project services from receiving lawn-size prices. The existing field tool under `quote/` is separate; changes to its commercial rules need explicit scope and verification.
