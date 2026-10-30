@@ -1,5 +1,37 @@
 # Website release record
 
+## October 29, 2026 Eastern — independent review and fresh hosted measurements
+
+**PR #19 is ready for a publication decision as a bounded parser improvement. It is not the cause of the high production scores below.** The independent review found no actionable regression in the six-file application/test/documentation diff at `e9864a898d68e9ce97082a4c26d9b1d0ba0e6b15`. No application change was needed in this continuation. This update changes release evidence only; production remains unmodified.
+
+The public markers were read in the browser: production is clean `454b6067e160ba0d713da9ea0dd763d5ab242298`, main, deployment `c894b264`; the reviewed [Cloudflare preview](https://2a158803.magnolia-gardens.pages.dev/) is clean `e9864a898d68e9ce97082a4c26d9b1d0ba0e6b15`, branch-deploy. The earlier session's network-policy/TinyFish limitations did not prevent this session's in-app browser and PageSpeed checks. The earlier evidence below is retained as history.
+
+### Current production evidence
+
+Three new PageSpeed Insights mobile reports used **Lighthouse 13.6.0**, HeadlessChromium 153.0.8010.36, emulated Moto G Power, initial load and slow-4G simulation, with the normal live analytics providers. These are lab samples; PageSpeed reports no available field data.
+
+| Production report (Eastern) | Performance | FCP | LCP | TBT | CLS | Speed Index |
+|---|---:|---:|---:|---:|---:|---:|
+| [22:22](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/zn26c6kpwc?form_factor=mobile) | 98 | 1.1s | 1.1s | 50ms | 0 | 3.8s |
+| [22:23](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/f67gaiml45?form_factor=mobile) | 97 | 1.1s | 1.1s | 120ms | 0 | 3.9s |
+| [22:24](https://pagespeed.web.dev/analysis/https-magnoliagardenslandscaping-com/2ifgdr78yb?form_factor=mobile) | 99 | 1.1s | 1.1s | 110ms | 0 | 2.3s |
+
+All three scored 100 for automated accessibility and SEO, and 96 for best practices. The 7–8s simulated LCP from Lighthouse 13.5 was **not reproduced by the current measurement tool on unchanged production**. These different-version results are not a before/after website speedup.
+
+[Lighthouse 13.6's official release notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v13.6.0) describe revised network/dependency modeling, including use of the FCP graph when text LCP is painted in the same frame, and simulated LCP fixes. This is a plausible explanation for the large difference, not a proven attribution from reprocessing the same trace. Do not assign the old delay to a specific analytics vendor on this evidence.
+
+A [hosted candidate report](https://pagespeed.web.dev/analysis/https-2a158803-magnolia-gardens-pages-dev/gesurod5wc?form_factor=mobile), using the same Lighthouse/browser/device settings, scored 100 with FCP/LCP 0.9s, TBT 0ms, CLS 0 and Speed Index 2.2s. Two additional report URLs ([second](https://pagespeed.web.dev/analysis/https-2a158803-magnolia-gardens-pages-dev/g0r7dz3xzz?form_factor=mobile), [third](https://pagespeed.web.dev/analysis/https-2a158803-magnolia-gardens-pages-dev/evzhbkbmtd?form_factor=mobile)) show 100, FCP/LCP 1.0s, TBT 0ms, CLS 0 and Speed Index 2.2s; those last two display the same capture minute/metrics, so their independence is not established. Preview analytics are suppressed by the production-host guard, and preview SEO is 69 because indexing is blocked. These reports are not matched real-provider production comparisons or promises of a production score.
+
+### Fresh verification and remaining scope
+
+- A clean isolated checkout of `e9864a8` passed `npm ci --ignore-scripts --offline` and `npm test`: **324 counted checks**, plus deterministic build, failed-build preservation, publish allowlist and release identity. Node 24.21.0, npm 11.19.0, Python 3.14.5; local tool versions differ from repository pins. The existing exact-head [PR Site check](https://github.com/seanpr1/magnolia-gardens/actions/runs/40984434084) was independently read back as successful.
+- Hosted preview interaction checks at measured 390px and 320px widths confirmed readable layouts without horizontal overflow, quote navigation, phone-only required fields and optional details. The phone field retains `type=tel`, `inputmode=tel` and `autocomplete=tel`. Menu Escape restores focus; a section link closes the menu and reaches a visible section heading. The photo viewer focuses Close, wraps reverse Tab to Next, responds to ArrowRight, and restores the trigger after Escape. Screenshots were visually inspected. These checks used browser mouse/keyboard input at narrow widths, not physical touch devices.
+- No hosted form was submitted. The 324 offline tests use mocked transport/analytics. The initial implementation's 72 intercepted mobile interaction checks remain separately attributed to that session.
+- The live Cloudflare RUM CORS console error remains observable. The first current production report lists both the source beacon and an additional versioned beacon. This is an analytics investigation lead, not a demonstrated cause of the historical LCP value; provider/zone configuration was not changed.
+- Physical iPhone/Android keyboard, autofill, native call/SMS destinations and VoiceOver/TalkBack remain owner/device checks. Provider-side analytics receipt and a new downstream intake delivery are not certified by this work.
+
+**Release disposition:** retain the parser improvement for its demonstrated removal of synchronous HTML dependencies, with analytics/intake contracts preserved. A matched real-provider candidate speedup is unproven; it is not needed to claim that the existing live site now receives good current lab scores. The review and available verification are complete. A merge/production release still requires Sean's separate approval under AGENTS.md and the established PR #19 scope. If approved, recheck the branch and production identity, merge the approved head, verify the deployed marker and critical behaviors, and repeat production mobile measurements. Preserve the `454b606`/`c894b264` rollback baseline. No live lead, customer message, provider/Zap change, merge or production deployment occurred.
+
 ## October 29, 2026 Pacific — homepage parser correction, PR #19 (unpublished)
 
 [PR #19](https://github.com/seanpr1/magnolia-gardens/pull/19) contains application revision `0020729f4eec30e094e8e8772e0aa9eeb56b9b5f`, based on clean main `454b6067e160ba0d713da9ea0dd763d5ab242298`. Subsequent commits in this PR document the same application. This is a review candidate, **not a demonstrated resolution of production's 7–8-second LCP**. No production merge or publication occurred. PR #18 remains released; its three font preloads and `font-display: optional` are unchanged. Historical PR #15 is untouched; its modal stacking fix is already in main.
