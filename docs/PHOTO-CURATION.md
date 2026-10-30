@@ -41,3 +41,9 @@ This record covers website selection and its public recommendation index. Existi
 The reuse index and manifest now exclude all three R676 exports, the R811/R814 porch composite with identifying detail, and the unverified A44/A52, R818/R861 and R826/R858 comparisons. Together with the prior owner-rejected A29/A50 composite, eight assets are recorded in `excluded_images`; 38 remain in the index. This is a reuse hold, not an assertion that all other images have client consent or a verified project sequence.
 
 The affected future Metricool posts were reviewed separately and now use existing single photographs with captions limited to visible work. Existing social asset URLs remain stable under the earlier compatibility decision. Published external posts and platform copies require their own removal or replacement; this source change does not erase them. Private usage and provider evidence belongs in the operations audit, not this public repository.
+
+## October 30 published-photo cleanup
+
+Sean expressly asked to proceed with the published-photo cleanup, including the website copies identified in the remaining audit. This supersedes the earlier URL-compatibility retention for privacy-held files. Seven exports are withdrawn from the current source/build: three R676 variants, R677, both R813 variants, and R811/R814. Fresh visual review confirmed identifying house-number detail in R677 and both R813 exports as well as the earlier flags. R679 and R810/R815 did not show the same visible number detail in their reviewed frames and are preserved.
+
+The social index now lists 35 images; 11 are recorded as excluded, seven of which are withdrawn from the current site. No image pixels were retouched or replaced with another property's work. Removing current files is reversible through Git; it does not erase repository history, old deployment artifacts, caches or separately hosted platform copies. Each external published post requires its own verified cleanup.
