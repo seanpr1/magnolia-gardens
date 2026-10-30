@@ -741,16 +741,7 @@
     }
   </script>
 
-  <!-- Cloudflare Web Analytics - privacy-respecting, cookieless pageview tracking. -->
-  <script>
-    if (window.MG_ANALYTICS_OK) {
-      var cfBeacon = document.createElement('script');
-      cfBeacon.defer = true;
-      cfBeacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-      cfBeacon.setAttribute('data-cf-beacon', '{"token": "5168b9dfab9f4dd390f2447100a6e3db"}');
-      document.head.appendChild(cfBeacon);
-    }
-  </script>
+  <!-- Cloudflare Web Analytics is injected by the production edge; do not add a second beacon. -->
 
   <!-- Microsoft Clarity - free heatmaps, session recordings, scroll & rage-click maps. -->
   <script>

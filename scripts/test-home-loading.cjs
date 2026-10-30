@@ -9,7 +9,7 @@ const root = process.env.SITE_ROOT || path.resolve(__dirname, '../dist');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const pause = () => new Promise(resolve => setTimeout(resolve, 30));
 let checks = 0;
-async function scenario(host) {
+async function scenario(host, withEdgeBeacon = false) {
   let payload, sends = 0;
   const providers = [], beaconTokens = [], errors = [];
   const console = new VirtualConsole();
@@ -28,6 +28,13 @@ async function scenario(host) {
   });
   try {
     const w = dom.window;
+    // Model hosting-owned markup without downloading/executing its provider.
+    const edgeBeacon = withEdgeBeacon ? w.document.createElement('script') : null;
+    if (edgeBeacon) {
+      edgeBeacon.src = 'https://static.cloudflareinsights.com/beacon.min.js/versioned-edge';
+      edgeBeacon.setAttribute('data-cf-beacon', '{"token":"edge-test-token","r":1}');
+      w.document.body.appendChild(edgeBeacon);
+    }
     // Emulate external script insertion without fetching or executing vendors.
     for (const method of ['appendChild', 'insertBefore']) {
       const original = w.Node.prototype[method];
@@ -48,6 +55,7 @@ async function scenario(host) {
       if (!script.type || script.type === 'text/javascript') w.eval(script.textContent);
     }
     for (const script of w.document.querySelectorAll('script[src]')) {
+      if (new URL(script.src).origin !== w.location.origin) continue;
       w.eval(fs.readFileSync(path.join(root, new URL(script.src).pathname), 'utf8'));
     }
     const form = w.document.getElementById('heroIntakeForm');
@@ -59,11 +67,15 @@ async function scenario(host) {
       assert.equal(w.MG_ANALYTICS_OK, true);
       assert.deepEqual(providers.sort(), [
         'https://connect.facebook.net/en_US/fbevents.js',
-        'https://static.cloudflareinsights.com/beacon.min.js',
         'https://www.clarity.ms/tag/xiib0yey5e',
         'https://www.googletagmanager.com/gtag/js?id=G-V93YBHW1PJ'
       ]);
-      assert.deepEqual(beaconTokens, ['5168b9dfab9f4dd390f2447100a6e3db']);
+      assert.deepEqual(beaconTokens, []);
+      assert.equal(w.document.querySelectorAll('script[data-cf-beacon]').length, withEdgeBeacon ? 1 : 0);
+      if (edgeBeacon) {
+        assert.equal(w.document.querySelector('script[data-cf-beacon]'), edgeBeacon);
+        assert.equal(edgeBeacon.getAttribute('data-cf-beacon'), '{"token":"edge-test-token","r":1}');
+      }
       assert.equal(Array.from(w.dataLayer).filter(args => args[0] === 'config' && args[1] === 'G-V93YBHW1PJ').length, 1);
       assert.deepEqual(Array.from(w.fbq.queue, args => Array.from(args)), [['init', '1529884685261202'], ['track', 'PageView']]);
       assert.equal(typeof w.clarity, 'function');
@@ -87,7 +99,17 @@ async function scenario(host) {
   } finally { dom.window.close(); }
 }
 (async () => {
+  // Hosting owns the beacon across every rendered page, including service,
+  // area and estimate routes that previously duplicated the homepage loader.
+  const renderedPages = fs.readdirSync(root, { recursive: true }).filter(file => file.endsWith('.html'));
+  assert.ok(renderedPages.length >= 15);
+  for (const file of [...renderedPages, 'assets/home-analytics.js']) {
+    const content = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.doesNotMatch(content, /static\.cloudflareinsights\.com\/beacon|data-cf-beacon/, file);
+  }
+  checks++;
   await scenario('magnoliagardenslandscaping.com');
   await scenario('preview.example');
-  console.log(`PASS: ${checks} homepage loading contracts: nonblocking head dependencies, ordered startup, production providers, preview guard and mocked acceptance.`);
+  await scenario('magnoliagardenslandscaping.com', true);
+  console.log(`PASS: ${checks} homepage loading contracts: ordered startup, site-managed providers, hosting-owned beacon without duplication, preview guard and mocked acceptance.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
