@@ -47,3 +47,12 @@ The affected future Metricool posts were reviewed separately and now use existin
 Sean expressly asked to proceed with the published-photo cleanup, including the website copies identified in the remaining audit. This supersedes the earlier URL-compatibility retention for privacy-held files. Seven exports are withdrawn from the current source/build: three R676 variants, R677, both R813 variants, and R811/R814. Fresh visual review confirmed identifying house-number detail in R677 and both R813 exports as well as the earlier flags. R679 and R810/R815 did not show the same visible number detail in their reviewed frames and are preserved.
 
 The social index now lists 35 images; 11 are recorded as excluded, seven of which are withdrawn from the current site. No image pixels were retouched or replaced with another property's work. Removing current files is reversible through Git; it does not erase repository history, old deployment artifacts, caches or separately hosted platform copies. Each external published post requires its own verified cleanup.
+
+
+## October 31 batch 3 additions
+
+Fifteen new exports were added to `assets/social/2026-11/` from photographs taken October 16 to 28 (refs N69 to N152 in the operations curation record). Every house-facing frame was inspected at full size before export. House numbers in the N69, N70 and N168 frames were blurred in the graded master before any crop was cut; N168 is held in the private library and not hosted. Frames with a readable house number that could not be blurred cleanly (N101, N102, N103, N107), a license plate (N159), a neighbor's sign or trash in frame (N95, N96, N157) and the unconfirmed yard-sign shots (N81, N99) were not exported or hosted.
+
+N89 shows a brush-clearing job midway, with cut logs still on the lawn; it is recorded as work in progress and must be captioned that way, not as a finished-work example. The cat photographs (N73 to N75) and the trailer photographs (N111, N112) are informal story material, not service-page evidence. No before/after comparisons were added in this batch; the Oct 19 befores for the step-one cleanup have no finished views in the library yet.
+
+The index and manifest now list 50 images; exclusions and withdrawn files are unchanged from October 30. No image pixels were retouched beyond the house-number blur, and identifying metadata is stripped from every export.
