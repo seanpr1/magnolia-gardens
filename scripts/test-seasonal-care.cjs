@@ -48,9 +48,9 @@ check('visitor timezone cannot change the selected season', () => {
 });
 check('useful evergreen source HTML and stable search identity', () => {
   const d = document();
-  assert.equal(d.title, 'Landscaping & Lawn Care in Kingsport, TN | Magnolia Gardens');
+  assert.equal(d.title, 'Landscaping & Lawn Care in the Tri-Cities, TN | Magnolia Gardens');
   const description = d.querySelector('meta[name="description"]').content;
-  assert.match(description, /Kingsport and the Tri-Cities/);
+  assert.match(description, /across the Tri-Cities: Kingsport, Johnson City and Bristol/);
   for (const selector of ['meta[property="og:description"]', 'meta[name="twitter:description"]']) assert.equal(d.querySelector(selector).content, description);
   assert.doesNotMatch(metadata(d).slice(0, 4).join(' '), /\b20\d\d\b|\bfall\b|\bwinter\b|\bspring\b|\bsummer\b/i);
   assert.equal(d.querySelector('[data-season-line]').textContent, 'Ask about lawn care, cleanup and mulch for your property.');
