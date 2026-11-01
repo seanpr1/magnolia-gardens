@@ -46,7 +46,7 @@ function render(text, config, filename = 'source') {
 }
 
 function versionAssets(html, out) {
-  return html.replace(/\b(src|href)=(['"])(\/assets\/[^?'"#\s]+\.(?:js|css))(?:\?[^'"#]*)?\2/g, (_, attribute, quote, asset) => {
+  return html.replace(/\b(src|href)=(['"])(\/assets\/(?:logo-horizontal\.svg|[^?'"#\s]+\.(?:js|css)))(?:\?[^'"#]*)?\2/g, (_, attribute, quote, asset) => {
     const target = path.join(out, asset.slice(1));
     if (!fs.existsSync(target)) throw new Error('Missing public asset: ' + asset);
     const digest = crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex').slice(0, 12);

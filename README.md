@@ -35,7 +35,7 @@ Edit FAQ copy in its HTML page, then run `npm run fix:faq` to regenerate FAQPage
 
 ## Publishing
 
-Netlify reads `netlify.toml`, runs `npm run build`, and publishes **only `dist/`** for the draft preview. The build copies an explicit public allowlist, excluding repository guidance, tests, configuration sources and dependencies. It generates `version.json` from Git/hosting metadata and versions local JS/CSS URLs by content hash.
+Netlify reads `netlify.toml`, runs `npm run build`, and publishes **only `dist/`** for the draft preview. The build copies an explicit public allowlist, excluding repository guidance, tests, configuration sources and dependencies. It generates `version.json` from Git/hosting metadata and versions local JS/CSS and the shared horizontal logo URLs by content hash.
 
 The build finishes rendering and validation in a temporary directory before replacing `dist/`. A failed build preserves the last successful output; do not mistake that older preview for a passing build.
 

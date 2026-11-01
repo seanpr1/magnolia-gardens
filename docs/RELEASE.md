@@ -1,5 +1,20 @@
 # Website release record
 
+## Website logo: Tri-Cities, TN — October 31, 2026 Eastern
+
+[PR #27 and production verification receipt](https://github.com/seanpr1/magnolia-gardens/pull/27).
+The shared horizontal logo reads “LANDSCAPING · TRI-CITIES, TN.” Its existing
+asset path, flower, wordmark, colors, baseline and dimensions are retained.
+The build adds a content hash to the logo URL; all 21 references across 12 pages
+resolve to `/assets/logo-horizontal.svg?v=c49f7dd81889`.
+
+`npm test` and `git diff --check` passed. Local Chrome rendered the revised logo
+in the homepage header at 320, 390 and 1440px without overflow; the footer used
+the same SVG. The enlarged artwork and header screenshots were visually checked.
+The preceding production revision was `6c9e7f8bfc57db505c793a207316f69ead5da055`.
+The linked PR records the deployed revision and the results of the separate
+production check. No form submission or customer outreach is part of this release.
+
 ## Published Tri-Cities homepage and flexible photo wording — October 31, 2026 Eastern — PR #25
 
 Sean explicitly approved publication in the same Mac chat. [PR #25](https://github.com/seanpr1/magnolia-gardens/pull/25)
