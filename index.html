@@ -8,14 +8,12 @@
   <link rel="stylesheet" href="/assets/brand.css">
   <script src="/assets/site-config.js" defer></script>
   <script src="/assets/campaign-context.js" defer></script>
+  <script src="/assets/seasonal-care.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Fall (Sep–Nov) title. Revert on Dec 1 to the year-round title:
-       "Landscaping &amp; Lawn Care in Kingsport, TN | Magnolia Gardens"
-       Titles stay under ~60 chars; the brand is carried by og:site_name and the WebSite schema below. -->
-  <title>Fall Cleanup, Leaf Removal &amp; Lawn Care in Kingsport, TN</title>
+  <title>Landscaping &amp; Lawn Care in Kingsport, TN | Magnolia Gardens</title>
 
   <!-- ── SEO / description ─────────────────────────────────────── -->
-  <meta name="description" content="Lawn care, fall cleanup, leaf removal and mulch in Kingsport and the Tri-Cities, TN. Request a quote. We confirm scope and price before booking." />
+  <meta name="description" content="Lawn care, cleanup, leaf removal and mulch in Kingsport and the Tri-Cities, TN. Request a quote. We confirm scope and price before scheduling." />
   <meta name="theme-color" content="{{brand.primary}}" />
   <meta name="geo.region" content="US-TN" />
   <meta name="geo.placename" content="Kingsport, Tennessee" />
@@ -27,7 +25,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Magnolia Gardens Landscaping" />
   <meta property="og:title" content="Magnolia Gardens Landscaping - Take the lawn off your to-do list." />
-  <meta property="og:description" content="Lawn care, fall cleanup, leaf removal and mulch in Kingsport and the Tri-Cities, TN. Request a quote. We confirm scope and price before booking." />
+  <meta property="og:description" content="Lawn care, cleanup, leaf removal and mulch in Kingsport and the Tri-Cities, TN. Request a quote. We confirm scope and price before scheduling." />
   <meta property="og:url" content="https://magnoliagardenslandscaping.com/" />
   <meta property="og:image" content="https://magnoliagardenslandscaping.com/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -38,7 +36,7 @@
   <!-- ── Twitter / X large card ──────────────────────────────── -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Magnolia Gardens Landscaping - Take the lawn off your to-do list." />
-  <meta name="twitter:description" content="Locally owned lawn care in Kingsport and the Tri-Cities, TN - fall cleanups, leaf removal, aeration and overseeding, mowing, mulch and beds, seasonal care." />
+  <meta name="twitter:description" content="Lawn care, cleanup, leaf removal and mulch in Kingsport and the Tri-Cities, TN. Request a quote. We confirm scope and price before scheduling." />
   <meta name="twitter:image" content="https://magnoliagardenslandscaping.com/og-image.png" />
   <meta name="twitter:image:alt" content="Magnolia Gardens Landscaping - lawn care in Kingsport and the Tri-Cities, TN." />
 
@@ -393,6 +391,8 @@
     }
     .nav-cta:hover { background: var(--gold-l); }
 
+    /* Keep the longer Seasonal care label inside the existing desktop breakpoint. */
+    @media (min-width: 1041px) and (max-width: 1200px) { .nav-links { gap: 16px; } }
     @media (max-width: 960px) {
       nav { padding: 0 24px; }
       .nav-links { gap: var(--space-4); }
@@ -652,6 +652,23 @@
     }
 
     @media (max-width: 680px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+    /* Reserve text space so a slow seasonal enhancement does not move later content. */
+    .hero-booking { line-height: 1.6; min-height: 3.2em; }
+    .seasonal-care { scroll-margin-top: 90px; }
+    .seasonal-care h2 { min-height: 2.2em; }
+    .seasonal-care .price-card-name { min-height: 2.6em; line-height: 1.3; }
+    .seasonal-care .price-desc { min-height: 8.25em; }
+    .seasonal-care a { text-underline-offset: 3px; }
+    .seasonal-care a:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+    .season-planning { font-size: var(--fs-body); line-height: 1.75; min-height: 3.5em; color: var(--dim); }
+    @media (max-width: 680px) {
+      .hero-booking { min-height: 4.8em; }
+      .seasonal-care h2 { min-height: 3.3em; }
+      .season-planning { min-height: 7em; }
+    }
+
+    @media (max-width: 360px) { .season-planning { min-height: 8.75em; } }
 
     /* ── HOW IT WORKS ───────────────────────── */
     .how-steps {
@@ -1232,7 +1249,7 @@
     <a href="#work"        class="nav-link">Work</a>
     <a href="#pricing"     class="nav-link">Pricing</a>
     <a href="#how"         class="nav-link">Our process</a>
-    <a href="#fall"        class="nav-link">Fall</a>
+    <a href="#fall"        class="nav-link">Seasonal care</a>
     <a href="#about"       class="nav-link">About</a>
     <a href="#faq"         class="nav-link">FAQ</a>
     <a href="{{contact.smsHref}}?body=Hi%2C%20I%27d%20like%20a%20quote%20for%20lawn%20care." class="nav-cta">Text for a Quote</a>
@@ -1241,6 +1258,7 @@
     <summary>Menu</summary>
     <div class="mobile-nav-panel">
       <a href="/#services">Services</a>
+      <a href="#fall">Seasonal care</a>
       <a href="/#work">Our work</a>
       <a href="/customers/">Existing customers</a>
       <a href="/#pricing">Pricing</a>
@@ -1262,8 +1280,8 @@
 
       <div class="hero-copy">
         <div class="hero-eyebrow">Landscaping &amp; lawn care · Kingsport &amp; the Tri-Cities</div>
-        <!-- Static default: update at each season change (Mar 1, May 1, Sep 1, Dec 1) to match SEASONS in the seasonal script. The JS swap only helps humans; crawlers read this line. -->
-        <p class="hero-booking" data-season-line>Now booking fall cleanups and leaf removal, plus recurring routes through the season.</p>
+        <!-- Evergreen HTML; seasonal-care.js enhances both booking and service priorities. -->
+        <p class="hero-booking" data-season-line>Ask about lawn care, cleanup and mulch for your property.</p>
 
         <h1 class="hero-h1">Lawn care &amp; cleanups in <em>Kingsport.</em></h1>
 
@@ -1714,77 +1732,38 @@
 
 <div class="rule"></div>
 
-<!-- ════════════════════════════════════════════
-     6b. SEASONAL — FALL CLEANUP + WINTER LIST
-════════════════════════════════════════════ -->
-<section class="section" id="fall">
-  <style>
-    .winter-list{list-style:none;padding:0;margin:18px auto 0;max-width:680px;display:grid;gap:9px}
-    .winter-list li{border:1px solid var(--edge,#e5e0d5);border-radius:10px;padding:12px 16px;font-size:14.5px;line-height:1.5}
-    .winter-list a{color:inherit;text-decoration:underline;text-decoration-color:var(--gold-d,#8a6d1f);text-underline-offset:3px}
-    @media(min-width:700px){.winter-list{grid-template-columns:1fr 1fr}}
-  </style>
+<!-- Seasonal priorities. Keep #fall for existing links and analytics. -->
+<section class="section seasonal-care" id="fall" data-season-care aria-labelledby="seasonHeading">
   <div class="wrap">
     <div class="section-hd">
-      <div class="eyebrow">Booking now for fall</div>
-      <h2>Fall cleanup, <em>off your list</em>.</h2>
-      <p class="section-sub">Leaves, beds, overgrowth, the last tall mow of the year. We review photos or visit the property to confirm the quote and finish to proof-photo standard: you get before-and-after pictures with every visit. Contact us to check cleanup availability.</p>
+      <div class="eyebrow">Seasonal care</div>
+      <h2 id="seasonHeading"><span data-season-headline>Seasonal property care,</span> <em>off your list</em>.</h2>
+      <p class="section-sub">Tell us about your property and the work you need. We confirm scope and price before scheduling.</p>
     </div>
 
     <div class="pricing-grid">
-
-      <div class="price-card">
-        <div class="price-card-label">Option 1</div>
-        <div class="price-card-name">Cleanup</div>
-        <div class="price-amount quote">Quote-based</div>
-        <div class="price-desc">One cleanup, done to standard. Priced by condition from your photos.</div>
+      <div class="price-card" data-season-card>
+        <h3 class="price-card-name"><a href="/services/cleanup/">Cleanup</a></h3>
+        <p class="price-desc">Leaf removal, loose yard debris and overgrown areas, with scope and timing confirmed.</p>
       </div>
-
-      <div class="price-card">
-        <div class="price-card-label">Option 2</div>
-        <div class="price-card-name">Planning for Spring</div>
-        <div class="price-amount quote">Let’s talk</div>
-        <div class="price-desc">Thinking ahead to spring 2027? Share your address and the service you need. We’ll discuss route fit, scope and availability before confirming a quote or schedule.</div>
+      <div class="price-card" data-season-card>
+        <h3 class="price-card-name"><a href="/services/mulch/">Mulch &amp; Beds</a></h3>
+        <p class="price-desc">Fresh mulch, defined bed edges and bed tidying. Tell us which areas need attention.</p>
       </div>
-
-      <div class="price-card">
-        <div class="price-card-label">Option 3</div>
-        <div class="price-card-name">Cleanup + Maintenance</div>
-        <div class="price-amount quote">Flat per-visit</div>
-        <div class="price-desc">Ask about weekly or biweekly care after your cleanup. We confirm the service plan, price and start date with you, including any plans to resume in spring.</div>
+      <div class="price-card" data-season-card>
+        <h3 class="price-card-name"><a href="/services/maintenance/">Ongoing Lawn Care</a></h3>
+        <p class="price-desc">Discuss recurring mowing and bed care, with route fit and availability confirmed.</p>
       </div>
-
     </div>
 
-    <div class="pricing-note">
-      Interested in spring service? <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20to%20ask%20about%20spring%20service.">Ask about spring service</a>. An inquiry does not reserve a route spot; pricing and scheduling are confirmed separately.
-    </div>
-
-    <div class="section-hd" style="margin-top:44px">
-      <div class="eyebrow">The winter list</div>
-      <h2>The yard work doesn't stop in November. <em>Neither do we.</em></h2>
-      <p class="section-sub">Winter is when next year's lawn gets made. Same standard as summer: quoted after reviewing photos or visiting the property and finished to before-and-after proof photos.</p>
-    </div>
-
-    <ul class="winter-list">
-      <li><strong><a href="/services/cleanup/#aeration">Aeration + overseeding</a></strong> — ask about suitability and timing for your lawn</li>
-      <li><strong><a href="/services/cleanup/">Leaf cleanup rounds</a></strong> — one pass or the full 3-visit season package</li>
-      <li><strong><a href="/services/brush-clearing/">Brush, overgrowth &amp; fence-line clearing</a></strong></li>
-      <li><strong>Pressure washing</strong> — driveways, walks, patios</li>
-      <li><strong><a href="/services/mulch/">Bed renovation, edging &amp; pre-spring mulch</a></strong></li>
-      <li><strong><a href="/services/cleanup/">Storm cleanup</a></strong></li>
-    </ul>
-
-    <div class="pricing-note">
-      Planning winter work and spring care together? Mention both when you contact us so we can discuss the work and timing. Existing written customer agreements remain in effect.
-    </div>
+    <p class="season-planning" data-season-planning>Planning a project or ongoing care? Share your address and the work you have in mind so we can discuss timing and availability.</p>
 
     <div class="cta-repeat">
       <a href="#heroIntakeForm" class="btn-sms cta-jump" data-cta-source="fall_section">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
         Request My Quote
       </a>
-      <span class="cta-repeat-note">Or text photos to {{contact.phoneDisplay}}. We’ll review the details and follow up.</span>
+      <span class="cta-repeat-note">Or <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%20would%20like%20a%20quote%20for%20my%20property.">text photos to {{contact.phoneDisplay}}</a>. We’ll review the details and follow up.</span>
     </div>
   </div>
 </section>
@@ -2166,39 +2145,7 @@
 })();
 </script>
 
-<script>
-/* Seasonal booking line - swaps every [data-season-line] "Now booking…" message
-   (hero eyebrow line + the line under the quote form) to the service
-   mix in highest demand and most profitable for the current season. Date-driven
-   today; SEASONS is the single place to tune copy or later wire in live demand /
-   margin signals. Each season leads with its highest-value action:
-     winter → discuss spring recurring routes + dormant-season brush
-     spring → spring cleanups (big-ticket) + recurring signups
-     summer → recurring routes (best lifetime value) + full service over basic
-     fall   → leaf removal / fall cleanups (high-ticket) + recurring */
-(function () {
-  var els = document.querySelectorAll('[data-season-line]');
-  if (!els.length) return;
-  var now = new Date();
-  var m = now.getMonth();            // 0 = Jan … 11 = Dec
-  var year = now.getFullYear();
 
-  var SEASONS = {
-    winter: 'Now booking spring recurring routes, plus brush and overgrowth clearing while the season’s slow.',
-    spring: 'Now booking spring cleanups and recurring mowing for the ' + year + ' season.',
-    summer: 'Now booking recurring mowing and full-service lawn care for the ' + year + ' season.',
-    fall:   'Now booking fall cleanups and leaf removal, plus recurring routes through the season.'
-  };
-
-  var season =
-    (m === 11 || m <= 1) ? 'winter' :   // Dec–Feb
-    (m <= 3)             ? 'spring' :    // Mar–Apr
-    (m <= 7)             ? 'summer' :    // May–Aug
-                           'fall';       // Sep–Nov
-
-  els.forEach(function (el) { el.textContent = SEASONS[season]; });
-})();
-</script>
 
 
 <!-- Recent-work lightbox (dead-click fix, Clarity Aug 16-22 2026) -->

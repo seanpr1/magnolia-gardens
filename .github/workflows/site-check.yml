@@ -1,5 +1,5 @@
 # The same offline build/static/form checks used on a fresh clone.
-# Seasonal runs intentionally report stale seasonal content.
+# Scheduled runs verify the evergreen fallback and deterministic seasonal behavior.
 name: Site check
 
 on:

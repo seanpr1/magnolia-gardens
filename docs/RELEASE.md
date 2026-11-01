@@ -1,5 +1,81 @@
 # Website release record
 
+## DRAFT: Automatic seasonal care — October 31, 2026 Eastern
+
+Status: tested development branch `codex/seasonal-care-2026-10-31`, based on freshly
+fetched `main` at `3d3bbc6b01756f55294429159c4870c35aa000df`. This is a draft for
+review, not authorization to merge or publish production. The existing local
+checkout and unrelated open PR were preserved; no prior pushed seasonal branch
+or open seasonal PR was found. The stopped cloud session was not resumed.
+
+The old booking line changed with the visitor's date while the Fall section and
+search description remained static, and scheduled CI intentionally failed when
+they aged. This change keeps year-round original-HTML search/social metadata and
+useful fallback service cards, then applies a single Eastern-time seasonal copy
+configuration to the booking line and compact three-card section. The existing
+`#fall` URL and `fall_section` event label stay intact. Natural service names
+replace numbered options and the repeated winter list. Pressure washing and
+winter aeration promotion are removed from this section. Service pages, FAQ,
+JSON-LD, agreements, prices, contact configuration and form/analytics modules
+are unchanged. No dependencies were added or updated.
+
+### Actual validation
+
+- `npm test` passed **403 counted offline checks**, including **76 seasonal
+  checks**, plus deterministic build, failed-build preservation, publish allowlist
+  and release identity checks. Python checks: **59 pass, 0 warn, 0 fail**.
+  The new checks cover all 12 months across four fixed years, all four transitions,
+  Eastern/UTC boundaries, New Year, leap day, DST and visitor timezone differences.
+  December 2026 and January/February 2027 both display spring 2027.
+- Local Chrome **156.0.8078.76**, automated with Playwright CLI: all four seasons
+  and JavaScript-disabled fallback passed at **320px, 390px and 1440px** (15
+  combinations). Verified wrapping/no horizontal overflow, service links,
+  keyboard card focus, menu behavior, settled legacy-anchor visibility below
+  fixed navigation, quote destination and phone-only requirements. Section
+  screenshots were captured; fixed mobile CTA is hidden only in the long section
+  captures to avoid overlaying the content. It remains present in the site.
+  All 15 section captures were visually inspected in contact sheets. The longer
+  desktop navigation label also fits at 1041px and 1100px after a narrow gap
+  adjustment. Blocking the seasonal script preserves the fallback and quote focus.
+- Deliberately held the seasonal script until the fallback and fonts rendered,
+  then released it: **12 scenarios** (four seasons × three widths) measured **0px
+  change** in the checked hero/form, section/card-grid, planning/CTA and following
+  section positions/heights. This bounded layout comparison is not a field CLS
+  or Lighthouse performance claim.
+- Six intercepted homepage form scenarios (accepted and uncertain delivery at
+  each width) passed even with analytics throwing. Each made exactly one mocked
+  request; a second submit attempt did not resend. Result focus remained visible,
+  `cta_jump` retained `cta_source=fall_section`, and synthetic phone data stayed
+  out of events. Cleanup service-to-quote context, optional details and phone-only
+  requirements also passed at 320px and 1440px. External traffic was blocked.
+- `git diff --check` passed. Source FAQ and all JSON-LD blocks match the base
+  byte-for-byte, so no FAQ regeneration was needed. Local toolchain: Node 24.21.0,
+  npm 11.19.0, Python 3.14.5; CI uses the repository-pinned versions.
+
+### Evidence limits and owner follow-up
+
+This earns its maintenance cost by removing four recurring manual copy-sync
+points. Conversion, ranking, qualified-inquiry and profit gains remain unproven.
+Google supports JavaScript changes to titles/descriptions; stable original HTML
+is a maintainability choice, not an SEO guarantee. See [Google's guidance](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics).
+The seasonal groups are marketing priorities, not suitability or availability
+promises. Winter cards do not promote aeration/overseeding; the existing qualified
+service-page guidance remains. [Tennessee Extension](https://mastergardener.tennessee.edu/chapter-10-turfgrass-management-in-tennessee/)
+places cool-season seeding in late summer/early fall.
+
+Physical iPhone/Android, Safari, screen-reader, native call/SMS handoff, provider
+receipt, Meta attribution and real lead delivery were not tested. No live lead,
+customer contact, Zap or Jobber change was made. Existing before/after-photo
+promises elsewhere still need owner operational confirmation; they were not
+expanded or silently rewritten here. Publication needs a separate decision.
+
+A fresh `npm audit` reports one existing high-severity **development dependency**
+entry for `undici` (through jsdom). The unchanged lockfile contains 8.11.2. Test
+dependencies are excluded from the public build. This draft does not include an
+unrelated dependency update; offline install output is not evidence of a clean
+online audit.
+
+
 ## Published Cloudflare analytics correction — October 29, 2026 Eastern — PR #20
 
 Sean requested resolution of the live Cloudflare analytics warning. The site loaded a manual beacon on the homepage and ten estimate, service and area pages in addition to Cloudflare's automatically injected beacon. Both used the same public token. The manual loader selected `https://cloudflareinsights.com/cdn-cgi/rum`, which failed CORS in the browser and PageSpeed Insights.

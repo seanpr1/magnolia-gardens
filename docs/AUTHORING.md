@@ -72,3 +72,45 @@ Builds render into an ignored sibling staging directory and replace `dist/` only
 ## Public email links
 
 Keep public `mailto:` anchors inside `<!--email_off-->` and `<!--/email_off-->`. Cloudflare otherwise rewrites them to `/cdn-cgi/l/email-protection#...`, which Google discovered as a 404 through `/privacy/`. Preserve the existing contact placeholders, addresses and link labels. These comments opt only those already-public links out of email obfuscation; do not disable zone-wide protection or create a website page/redirect at Cloudflare's `/cdn-cgi/` endpoint. See [the indexing review](INDEXING-REVIEW-2026-10-25.md).
+
+## Homepage seasonal care
+
+`index.html` owns the useful year-round booking line, three linked fallback cards,
+planning invitation and source-HTML search/social metadata. `assets/seasonal-care.js`
+contains the four seasonal copy records and one shared `seasonContext` function.
+It enhances the booking line and cards together with text-only DOM updates after
+parsing; no fetch, new dependency, external scheduler or quarterly deployment is
+needed. If the script or timezone API is unavailable, the evergreen HTML stays.
+
+Dates use `America/New_York`: December–February winter, March–April spring,
+May–August summer, September–November fall. `springYear` is the Eastern year plus
+one in September–December and the Eastern year otherwise. These groupings express
+marketing emphasis; they do not certify weather, suitability, demand or availability.
+
+Keep `#fall` as the section ID for existing links and `fall_section` as the fixed
+CTA analytics label. The visible navigation says “Seasonal care.” The section's
+text link uses a generic property-quote SMS prefill in place of the former
+spring-only prefill; shared navigation retains Apple/non-Apple URI handling.
+Contact placeholders, quote destinations and form modules remain shared.
+
+`npm test` runs `scripts/test-seasonal-care.cjs` against the built output. It tests
+all months, Eastern/UTC and New Year boundaries, visitor timezones, leap day, DST,
+metadata/fallback, links, form preservation and unsupported-API behavior. The
+scheduled workflow retains its existing dates but no longer fails merely because
+the calendar changed. `site_check.py` continues checking schema, FAQ parity,
+metadata lengths, public links and sitemap; seasonal behavior belongs to the JS
+DOM test rather than regex parsing a JavaScript object in Python.
+
+For browser previews, set a fixed browser clock before navigation (for example,
+`page.clock.setFixedTime(new Date('2026-12-15T17:00:00Z'))` in Playwright). Use a
+context with JavaScript disabled for the fallback. No public query override is
+added. Test 320px, 390px and desktop, especially after lengthening copy. Reserved
+text space reduces movement when the enhancement loads late. Check the legacy
+anchor below the sticky nav, keyboard focus, mobile menu, quote destination and
+phone-only form. Intercept form transport and analytics; never submit live leads.
+
+Existing `cta_jump` events with `cta_source=fall_section` measure button interaction.
+`mg_form_accepted` measures provider HTTP acceptance, not verified receipt, a
+qualified inquiry or booked work. Qualification and booking need separate Jobber
+review. No seasonal conversion uplift is established; before/after comparisons
+are confounded by seasonality and changing traffic.
