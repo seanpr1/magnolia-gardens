@@ -1,5 +1,34 @@
 # Website release record
 
+## Published Tri-Cities homepage and flexible photo wording — October 31, 2026 Eastern — PR #25
+
+Sean explicitly approved publication in the same Mac chat. [PR #25](https://github.com/seanpr1/magnolia-gardens/pull/25)
+merged at **23:08:31 Eastern**, with expected head
+`605c08a2f32cb321c45e808488aaf4f2ec31aec0`. Merge revision
+**`f4a3bed66a5be55214a71cd20034246247232ad3`** has the identical file tree to the
+approved, tested draft. This publication supersedes its draft status below.
+
+Cloudflare Pages deployment **`c130f4b3-82ff-44e2-826c-7afada79b724`** succeeded.
+At **23:09 Eastern**, the production `/version.json` returned that exact revision,
+production/main, clean working tree and deployment URL
+`https://c130f4b3.magnolia-gardens.pages.dev`. The [post-merge Site check](https://github.com/seanpr1/magnolia-gardens/actions/runs/41267957167)
+also passed.
+
+Live Chrome verification at **390px and 1440px** confirmed the Tri-Cities headline,
+all three cities in the supporting paragraph, regional metadata, updated photo
+wording in the FAQ/About section, quote CTA focus, phone-only requirements and
+optional details. Both widths had no horizontal overflow. The cleanup page and
+all three city pages returned HTTP 200 with the general photo wording at 390px,
+without the former every-visit guarantee or horizontal overflow. No page errors
+occurred. Desktop/mobile production screenshots were captured.
+
+Verification allowed same-origin GET requests only; no lead was submitted.
+Physical devices, Safari, screen readers and provider delivery remain unverified.
+The 403 offline checks and bounded draft-browser checks below remain applicable.
+This release receipt changes no public application content; a later production
+marker may identify the documentation commit. The prior production revision was
+`b0a99a30a63e91a69117edd4f840fb3bfcf57153`.
+
 ## DRAFT: Tri-Cities homepage and flexible photo wording — October 31, 2026 Eastern
 
 Status: tested development branch `codex/tri-cities-copy-2026-10-31`, based on
