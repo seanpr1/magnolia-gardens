@@ -1,5 +1,14 @@
 # Website release record
 
+## Restore the Kingsport logo — November 1, 2026 Eastern
+
+Restore the original “LANDSCAPING · KINGSPORT, TN” horizontal logo from revision
+`6c9e7f8bfc57db505c793a207316f69ead5da055`. The shared header and footer use
+the restored artwork through its content-versioned URL. The homepage headline
+continues to read “Lawn care & cleanups across the Tri-Cities.” The prior
+production revision was `04a1759bea03273f3f29d4b9f51a98fac563047a`.
+See the restoration pull request for test results and production verification.
+
 ## Website logo: Tri-Cities, TN — October 31, 2026 Eastern
 
 [PR #27 and production verification receipt](https://github.com/seanpr1/magnolia-gardens/pull/27).
