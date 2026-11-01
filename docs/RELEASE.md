@@ -1,5 +1,46 @@
 # Website release record
 
+## DRAFT: Tri-Cities homepage and flexible photo wording — October 31, 2026 Eastern
+
+Status: tested development branch `codex/tri-cities-copy-2026-10-31`, based on
+freshly fetched `main` at `b0a99a30a63e91a69117edd4f840fb3bfcf57153`.
+This follow-up is a draft for review; it has not been merged or published.
+
+The homepage now leads with **“Lawn care & cleanups across the Tri-Cities.”**
+Kingsport, Johnson City and Bristol appear together in the supporting paragraph.
+The year-round search title, search/social descriptions, business description and
+`llms.txt` introduction reflect the same regional service identity. City page
+headings, existing service-area definitions and business location data remain
+unchanged. This does not assert additional offices or a different business base.
+
+General wording, **“We use photos to document our work,”** replaces blanket
+before/after-photo and every-visit documentation promises on the homepage,
+cleanup page and three city pages. Matching FAQ/Service/Offer structured data
+and `llms.txt` are synchronized. Existing project photos and descriptions of
+actual before/after images remain unchanged. This changes marketing copy only;
+customer agreements, pricing, forms, telemetry and contact settings are unchanged.
+
+### Actual validation
+
+- `npm run fix:faq` and `npm test` passed: **403 counted offline checks**, including
+  **76 seasonal checks**, plus deterministic build, failed-build preservation,
+  publish allowlist and release identity checks. Python checks: **59 pass,
+  0 warn, 0 fail**. The existing stable-metadata expectations were updated to
+  the new approved regional copy; all seasonal/behavior checks remain intact.
+- Local Chrome **156.0.8078.76**, via Playwright CLI: homepage at **320px, 390px
+  and 1440px** showed the new heading and all three cities with no horizontal
+  overflow or page errors. Quote CTA focus, phone-only requirements, optional
+  details and the revised expandable FAQ passed at all three widths. Screenshots
+  were visually inspected.
+- Cleanup and all three city pages at **390px** rendered the general photo
+  wording without the previous guarantee or horizontal overflow. Homepage with
+  JavaScript disabled at **320px** retained the regional heading and evergreen
+  seasonal fallback. These are eight bounded browser scenarios, not a new full
+  seasonal-layout or live-delivery certification.
+- `git diff --check` passed. Browser traffic was restricted to local GET requests;
+  no live lead, customer message or analytics delivery was attempted. Native
+  devices, Safari, screen readers and provider delivery remain unverified.
+
 ## Published automatic seasonal care — October 31, 2026 Eastern — PR #23
 
 Sean approved the tested draft in the same Mac chat. [PR #23](https://github.com/seanpr1/magnolia-gardens/pull/23)
