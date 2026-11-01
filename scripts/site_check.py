@@ -7,8 +7,7 @@
 Checks:
   1. Every <script type="application/ld+json"> block on every page parses as JSON.
   2. FAQPage JSON-LD matches the visible FAQ (questions and answers, verbatim, in order).
-  3. index.html: the static "Now booking" lines match SEASONS for the current month, and the
-     <title> is the fall title only in fall (Sep-Nov).
+  3. Seasonal fallback and date behavior are checked by test-seasonal-care.cjs in npm test.
   4. Meta descriptions are 160 characters or fewer. Titles over 70 characters are warned.
   5. Every site-relative href/src resolves to a file in the repo.
   6. sitemap.xml entries resolve to files whose canonical matches the <loc>; indexable pages
@@ -17,7 +16,6 @@ Checks:
 Standard library only. Defaults to dist/; SITE_ROOT or --root overrides it.
 """
 import argparse
-import datetime
 import html
 import json
 import os
@@ -133,45 +131,6 @@ def fix_faq(page, src):
     return out
 
 
-# 3. Seasonal copy on index.html ------------------------------------------------------------
-def season_for(month):  # month: 1-12, same boundaries as the seasonal script (Dec-Feb, Mar-Apr, May-Aug, Sep-Nov)
-    m = month - 1
-    if m == 11 or m <= 1:
-        return "winter"
-    if m <= 3:
-        return "spring"
-    if m <= 7:
-        return "summer"
-    return "fall"
-
-
-def check_season(src, today):
-    block = re.search(r"var SEASONS = \{(.*?)\};", src, re.S)
-    if not block:
-        report("FAIL", "index.html: SEASONS object not found in the seasonal script")
-        return
-    seasons = {}
-    for key, val in re.findall(r"(\w+):\s*'(.*)'", block.group(1)):
-        seasons[key] = val.replace("' + year + '", str(today.year))
-    season = season_for(today.month)
-    expected = seasons.get(season)
-    lines = [text_of(t) for t in re.findall(r"<(?:p|span)\b[^>]*\sdata-season-line[^>]*>(.*?)</", src, re.S)]
-    if not lines:
-        report("FAIL", f"index.html: expected a [data-season-line] element, found {len(lines)}")
-    for t in lines:
-        if t == expected:
-            report("PASS", f"index.html: static booking line matches the {season} SEASONS text")
-        else:
-            report("FAIL", f"index.html: static booking line is stale for {season}. Expected: \"{expected}\"  Found: \"{t}\"")
-    title = text_of(re.search(r"<title>(.*?)</title>", src, re.S).group(1))
-    if season == "fall" and not title.startswith("Fall"):
-        report("WARN", f"index.html: it is {season} but the <title> is not the fall title: \"{title}\"")
-    elif season != "fall" and title.startswith("Fall"):
-        report("FAIL", f"index.html: it is {season} but the <title> is still the fall title. Revert per the comment above <title>.")
-    else:
-        report("PASS", f"index.html: <title> matches the season ({season})")
-
-
 # 4. Meta lengths ---------------------------------------------------------------------------
 def check_meta(page, src):
     m = re.search(r'<meta name="description" content="([^"]*)"', src)
@@ -255,7 +214,6 @@ def main(argv):
     if args.fix_only and not args.fix_faq:
         parser.error("--fix-only requires --fix-faq")
     fix = args.fix_faq
-    today = datetime.date.today()
     all_pages = pages()
     for page in all_pages:
         src = page.read_text(encoding="utf-8")
@@ -272,8 +230,6 @@ def main(argv):
         check_faq(page, src)
         check_meta(page, src)
         check_links(page, src)
-        if rel(page) == "index.html":
-            check_season(src, today)
     if args.fix_only:
         return 0
     check_sitemap(all_pages)

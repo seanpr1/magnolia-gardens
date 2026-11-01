@@ -13,7 +13,7 @@ npm ci --ignore-scripts
 npm test
 ```
 
-`npm test` builds `dist/`, checks deterministic rendering and the publish allowlist, runs the Python static checker, and runs pricing, quick-request and shared-form regression checks. Forms and telemetry use local mocks; tests do not submit real leads. GitHub Actions runs this same command. Seasonal checks intentionally fail when public seasonal copy becomes stale.
+`npm test` builds `dist/`, checks deterministic rendering and the publish allowlist, runs the Python static checker, and runs pricing, quick-request and shared-form regression checks. Forms and telemetry use local mocks; tests do not submit real leads. GitHub Actions runs this same command. Seasonal checks exercise the evergreen fallback and every season using fixed dates, including Eastern timezone and year boundaries.
 
 For a local preview:
 
