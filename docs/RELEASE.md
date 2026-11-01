@@ -1,5 +1,26 @@
 # Website release record
 
+## Approved full-name brand rollout — November 1, 2026
+
+Sean approved the balanced Magnolia Gardens Landscaping logo and instructed
+its use on the website and company designs in the same brand-refinement thread.
+This replaces the earlier Kingsport wordmark decision above the historical
+records below. The original flower, forest/cream palette and approved full-name
+lettering are preserved; the location and divider are removed from the logo.
+
+The shared header/footer artwork and social-sharing image use the approved
+lockup. Quote and planning pages now carry the same full company logo. Intrinsic
+image dimensions match the 4:1 artwork to avoid stretching or load-time movement.
+Contact details, service areas, page copy, prices, forms and telemetry are unchanged.
+
+`npm test` passed all existing offline checks locally on Node 24.22.1,
+npm 11.9.0 and Python 3.12.14. No live lead or analytics test was sent.
+A local Chromium download was unavailable, so no local browser matrix is claimed.
+CI, hosted visual inspection and production verification are recorded in the
+rollout pull request. This entry alone does not certify a production deployment.
+The starting production/source revision was
+`6b8db654769656fda44db33349db9da55142dff0`.
+
 ## Restore the Kingsport logo — November 1, 2026 Eastern
 
 Restore the original “LANDSCAPING · KINGSPORT, TN” horizontal logo from revision
