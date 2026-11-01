@@ -1,5 +1,36 @@
 # Website release record
 
+## Published automatic seasonal care — October 31, 2026 Eastern — PR #23
+
+Sean approved the tested draft in the same Mac chat. [PR #23](https://github.com/seanpr1/magnolia-gardens/pull/23)
+merged at **22:39:13 Eastern**, with the expected-head safeguard set to
+`5b0ccd5f5bd4c0a166311534d24a85b2b525509e`. Merge revision
+**`9847a475822f7d18d6fdfcc0986a14326da9c077`** has the identical file tree to that
+approved, tested head. This publication supersedes the draft status below.
+
+Cloudflare Pages deployment **`124d100d-1471-4b61-8fbf-cc217b72a763`** succeeded.
+The live `/version.json` returned that exact merge revision, production/main,
+clean working tree and deployment URL `https://124d100d.magnolia-gardens.pages.dev`.
+The [post-merge Site check](https://github.com/seanpr1/magnolia-gardens/actions/runs/41266083918)
+also passed. Browser access resolved the earlier HTTP-client 403 verification
+limit for the production marker; it was not an application delivery failure.
+
+Live Chrome verification confirmed the stable title, Seasonal care navigation,
+Fall booking line and section, and **13 matching homepage JavaScript/CSS assets**.
+At 1440px and 390px, the legacy `#fall` anchor showed the heading below fixed
+navigation. Desktop section and mobile sticky CTAs focused the phone field;
+optional details opened, only phone was required, the mobile menu closed, and
+there was no measured horizontal overflow. Desktop/mobile live screenshots were
+captured. Non-GET requests and third-party traffic were blocked, so this does not
+certify live form receipt or analytics-provider delivery. No lead was submitted.
+
+The pre-release evidence below remains applicable: 403 offline checks and the
+four-season/fallback browser matrix passed. Physical phones, Safari, screen
+readers and native call/SMS apps remain unverified. The existing elsewhere-on-site
+before/after-photo promise remains an operational confirmation item, not a new
+photo collection awaiting review. This documentation receipt changes no public
+application bytes; a later production marker may identify its commit.
+
 ## DRAFT: Automatic seasonal care — October 31, 2026 Eastern
 
 Status: tested development branch `codex/seasonal-care-2026-10-31`, based on freshly
