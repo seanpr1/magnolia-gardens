@@ -1,5 +1,11 @@
 # Website release record
 
+## Tri-Cities regional branding — November 1, 2026 Eastern
+
+Use the Tennessee Tri-Cities as the regional label on general service, request and hiring pages, in social metadata and in shared footers. City pages, business address, municipal services and the actual route details retain the relevant municipality. This copy release leaves existing URLs and form behavior intact.
+
+The pull request records the offline checks, CI result and production verification. No live lead submission is needed for the wording change.
+
 ## Approved full-name brand rollout — November 1, 2026
 
 Sean approved the balanced Magnolia Gardens Landscaping logo and instructed
