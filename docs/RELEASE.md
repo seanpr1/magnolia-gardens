@@ -4,7 +4,9 @@
 
 Use the Tennessee Tri-Cities as the regional label on general service, request and hiring pages, in social metadata and in shared footers. City pages, business address, municipal services and the actual route details retain the relevant municipality. This copy release leaves existing URLs and form behavior intact.
 
-The pull request records the offline checks, CI result and production verification. No live lead submission is needed for the wording change.
+Production verification of PR #30 found the city name still present inside the emphasized headline on five general service pages. The follow-up changes those headings to the Tri-Cities and updates general mowing and mulch FAQs. The dedicated Kingsport page keeps its own heading.
+
+The pull requests record the offline checks, CI results and production verification. No live lead submission is needed for the wording change.
 
 ## Approved full-name brand rollout — November 1, 2026
 
