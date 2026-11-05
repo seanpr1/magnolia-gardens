@@ -1315,16 +1315,18 @@
         <form class="request-form" id="heroIntakeForm" action="{{forms.formspree}}" method="POST">
           <div class="hero-quote-eye">Quick request</div>
           <div class="hero-quote-h" role="heading" aria-level="2">Request a Free Quote</div>
-          <p class="hero-quote-sub">Just your phone number to get started. Add details only if you want to.</p>
+          <p class="hero-quote-sub">Only your phone number is required. Service and location help us prepare your quote.</p>
 
+          <div class="intake-fields">
           <div class="intake-field request-start-field"><label for="hf2-phone">Phone number <span class="request-start-cue" aria-hidden="true">Start here ↓</span></label><input type="tel" id="hf2-phone" name="phone" required pattern="(?:\D*1)?\D*[2-9](?:\D*\d){2}\D*[2-9](?:\D*\d){6}\D*" title="Please enter a valid 10-digit phone number, with +1 if needed." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+            <div class="intake-field"><label for="hf2-service">Service (optional)</label><select id="hf2-service" name="service"><option value="">Not sure yet</option><option value="mowing">Mowing</option><option value="maintenance">Ongoing property care</option><option value="cleanup">Cleanup</option><option value="mulch">Mulch &amp; beds</option><option value="brush">Brush &amp; overgrowth</option><option value="other">Something else</option></select></div>
+            <div class="intake-field"><label for="hf2-address">Address or ZIP (optional)</label><input id="hf2-address" name="address" autocomplete="street-address" placeholder="Street address or ZIP"></div>
+          </div>
 <details class="optional-details">
-  <summary>Add details <span>(optional)</span></summary>
+  <summary>More details <span>(optional)</span></summary>
   <div class="optional-fields">
-    <div class="intake-field"><label for="hf2-service">What do you need?</label><select id="hf2-service" name="service"><option value="">Not sure yet</option><option value="mowing">Mowing</option><option value="maintenance">Ongoing property care</option><option value="cleanup">Cleanup</option><option value="mulch">Mulch &amp; beds</option><option value="brush">Brush &amp; overgrowth</option><option value="other">Something else</option></select></div>
     <div class="intake-field"><label for="hf2-message">Tell us about the work</label><textarea id="hf2-message" name="message" rows="3" maxlength="2000" placeholder="Share as much or as little as you like."></textarea></div>
     <div class="intake-field"><label for="hf2-name">Name</label><input id="hf2-name" name="name" autocomplete="name" placeholder="First name is fine"></div>
-    <div class="intake-field"><label for="hf2-address">Address or ZIP</label><input id="hf2-address" name="address" autocomplete="street-address" placeholder="An address or ZIP is helpful, if handy."></div>
     <div class="intake-field"><label for="hf2-email">Email</label><input type="email" id="hf2-email" name="email" autocomplete="email" placeholder="you@email.com"></div>
     <p class="detail-help">Everything here is optional. Have photos? You can <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
   </div>
@@ -1796,14 +1798,16 @@
 
         <form class="request-form" id="intakeForm" action="{{forms.formspree}}" method="POST">
 
+          <div class="intake-fields">
           <div class="intake-field"><label for="if-phone">Phone number</label><input type="tel" id="if-phone" name="phone" required pattern="(?:\D*1)?\D*[2-9](?:\D*\d){2}\D*[2-9](?:\D*\d){6}\D*" title="Please enter a valid 10-digit phone number, with +1 if needed." inputmode="tel" autocomplete="tel" placeholder="(423) 555-0123"></div>
+            <div class="intake-field"><label for="if-service">Service (optional)</label><select id="if-service" name="service"><option value="">Not sure yet</option><option value="mowing">Mowing</option><option value="maintenance">Ongoing property care</option><option value="cleanup">Cleanup</option><option value="mulch">Mulch &amp; beds</option><option value="brush">Brush &amp; overgrowth</option><option value="other">Something else</option></select></div>
+            <div class="intake-field"><label for="if-address">Address or ZIP (optional)</label><input id="if-address" name="address" autocomplete="street-address" placeholder="Street address or ZIP"></div>
+          </div>
 <details class="optional-details">
-  <summary>Add details <span>(optional)</span></summary>
+  <summary>More details <span>(optional)</span></summary>
   <div class="optional-fields">
-    <div class="intake-field"><label for="if-service">What do you need?</label><select id="if-service" name="service"><option value="">Not sure yet</option><option value="mowing">Mowing</option><option value="maintenance">Ongoing property care</option><option value="cleanup">Cleanup</option><option value="mulch">Mulch &amp; beds</option><option value="brush">Brush &amp; overgrowth</option><option value="other">Something else</option></select></div>
     <div class="intake-field"><label for="if-message">Tell us about the work</label><textarea id="if-message" name="message" rows="3" maxlength="2000" placeholder="Share as much or as little as you like."></textarea></div>
     <div class="intake-field"><label for="if-name">Name</label><input id="if-name" name="name" autocomplete="name" placeholder="First name is fine"></div>
-    <div class="intake-field"><label for="if-address">Address or ZIP</label><input id="if-address" name="address" autocomplete="street-address" placeholder="An address or ZIP is helpful, if handy."></div>
     <div class="intake-field"><label for="if-email">Email</label><input type="email" id="if-email" name="email" autocomplete="email" placeholder="you@email.com"></div>
     <p class="detail-help">Everything here is optional. Have photos? You can <a href="{{contact.smsHref}}?body=Hi%20Magnolia%20Gardens%2C%20I%27d%20like%20a%20quote.">text them to us</a>.</p>
   </div>
