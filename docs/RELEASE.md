@@ -1,5 +1,29 @@
 # Website release record
 
+## Published: Visible optional service and location — November 5, 2026 Eastern
+
+Sean approved publication in this implementation thread. [PR #32](https://github.com/seanpr1/magnolia-gardens/pull/32)
+merged at 10:40 Eastern with approved head
+`fe44c3b3d594bca9c076bb705a64fbcaac7e686b`. The production merge revision
+`df8b6810df651c106ba17f4fac62760fa09a7fc4` has the identical tree
+`638d5c245ff561901eeb09358255b583f80b979f` to the tested draft.
+
+Cloudflare deployment `e38b0ad0-6e32-491f-a531-0a9d5992c88c` and the
+post-merge Site check passed. The public `/version.json` returned that exact
+revision, production/main and a clean working tree. Live Chrome checks at
+390px and 1440px confirmed visible optional service/location fields, phone as
+the only required field in both homepage forms, working optional disclosure,
+50px controls and no horizontal overflow. The 421 offline checks and draft
+320/390/1440px review remain applicable. No live inquiry was submitted.
+
+This supersedes the draft authorization status below. The before/after
+measurement plan remains open: no qualification or conversion uplift is yet
+established. Physical devices, Safari, screen readers and fresh provider-to-Jobber
+delivery remain unverified. Prior production/rollback source:
+`b973d370fe25a4fe06deec9874c2d448f20d9d26`. This documentation-only receipt
+changes no public application content; a later version marker may identify
+the receipt commit.
+
 ## DRAFT: Visible optional service and location — November 5, 2026 Eastern
 
 Prepared for owner review; not authorized for merge or production publication.
