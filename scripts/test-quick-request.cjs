@@ -26,10 +26,10 @@ function setup(file,query='',mode='ok'){
  const settle=async()=>{await new Promise(r=>setTimeout(r,20));assert.deepEqual(errors,[]);};
  return{dom,w,posts,events,$,submit,settle};
 }
-function oneRequired(form){
+function oneRequired(form,visibleFields=['phone']){
  assert.deepEqual([...form.querySelectorAll('[required]')].map(el=>el.name),['phone']);
  assert.equal(form.querySelector('details').open,false);
- assert.deepEqual([...form.querySelectorAll('input:not([type=hidden]),textarea,select')].filter(el=>!el.closest('details')&&el.name!=='_gotcha').map(el=>el.name),['phone']);
+ assert.deepEqual([...form.querySelectorAll('input:not([type=hidden]),textarea,select')].filter(el=>!el.closest('details')&&el.name!=='_gotcha').map(el=>el.name),visibleFields);
  assertions++;
 }
 (async()=>{
@@ -129,7 +129,7 @@ function oneRequired(form){
  // Both homepage forms accept phone-only and keep optional input in the same request.
  for(const id of ['heroIntakeForm','intakeForm']){
   const h=setup('index.html');const script=read('assets/home-forms.js');
-  h.w.eval(script);const f=h.$('#'+id);oneRequired(f);f.elements.phone.value='4235550100';f.elements.email.value='bad';h.submit(f);await h.settle();assert.equal(h.posts.length,0);assert.equal(f.querySelector('details').open,true);
+  h.w.eval(script);const f=h.$('#'+id);oneRequired(f,['phone','service','address']);f.elements.phone.value='4235550100';f.elements.email.value='bad';h.submit(f);await h.settle();assert.equal(h.posts.length,0);assert.equal(f.querySelector('details').open,true);
   f.elements.email.value='';f.elements.message.value='Please quote a cleanup';h.submit(f);h.submit(f);await h.settle();assert.equal(h.posts.length,1);assert.equal(h.posts[0].data.message,'Please quote a cleanup');h.dom.window.close();assertions++;
  }
  // Every service and area request reaches the same automation route once.

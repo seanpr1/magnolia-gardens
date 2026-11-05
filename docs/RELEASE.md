@@ -1,5 +1,67 @@
 # Website release record
 
+## DRAFT: Visible optional service and location — November 5, 2026 Eastern
+
+Prepared for owner review; not authorized for merge or production publication.
+Remote base: `b973d370fe25a4fe06deec9874c2d448f20d9d26` (`main`).
+
+Both homepage quote forms now show the existing service selector and address-or-ZIP
+field directly after the phone field. Each label says “optional”; the service
+defaults to “Not sure yet.” Notes, name and email remain under “More details
+(optional).” The hero explains that only a phone number is required and that
+service and location help prepare the quote. Existing field spacing is reused.
+
+Only homepage markup changes customer behavior. Field names, IDs, service values,
+Formspree actions, source tags, shared validation/transport, submission IDs,
+campaign attribution, analytics and privacy wording are retained. No Zap or
+Jobber setting changes. An address or ZIP remains submitted inquiry text, not a
+verified service property. `/estimate/` and service/area forms are unchanged.
+
+### Validation and limits
+
+`npm test` passed locally on Node 24.21.0, npm 11.19.0 and Python 3.14.5, using
+the lockfile dependencies installed from the local npm cache. The new 18-case
+homepage regression suite covers both forms: visible optional fields, native
+phone-only validation, optional service/ZIP/full-address payloads, required phone,
+invalid optional email, tracking failure, accepted/uncertain delivery focus,
+one-request protection and no contact/location leakage into events or SMS URLs.
+All transport is mocked; no live form, email, SMS or customer record was created.
+
+Direct Git network access was unavailable. Current text sources were fetched
+through the GitHub connection; the local build retained an older unchanged
+social-preview PNG. The PR is based on the exact remote tree and changes only
+the listed text files; its CI checks the complete current asset tree. See the PR
+for exact-head CI and hosted visual-review results. Physical-phone, Safari,
+screen-reader and fresh end-to-end provider delivery remain unverified.
+
+### Measure after an approved release
+
+No qualification uplift or unchanged inquiry volume is established by these
+tests. The tradeoff is two more visible controls and a taller form, especially
+on mobile. Retain the phone-first copy and do not make either detail required.
+
+Compare the 28 days before and after release, reporting raw counts and waiting
+longer if volume is too small (aim for at least 20 genuine homepage inquiries per
+period; this is a directional review, not statistical proof). Deduplicate by the
+existing intake reference; exclude spam, tests and other website forms. Read the
+original submitted information, before staff follow-up fills gaps:
+
+- Primary: inquiries containing both a specific service need and usable address
+  or ZIP divided by all genuine homepage inquiries. Also report service and
+  location separately; “Something else” alone does not specify the work.
+- Guardrails: genuine homepage inquiries per homepage session, and existing
+  `mg_form_accepted / mg_form_start`, split by hero/detailed and device where
+  available. Use the same counting basis in both periods. HTTP acceptance is
+  not confirmed Jobber receipt or a booking, and tracked visitors are a subset.
+- Use the existing accepted-event service category as an early signal; assess
+  location completeness privately in the intake records. Add no address/ZIP or
+  new personal data to analytics. Record traffic-source and seasonal changes.
+
+Success means better original detail coverage without a sustained completion-rate
+decline. If completion worsens, investigate traffic/device mix and the added form
+height; revert the homepage markup if the loss persists. Keep low-volume results
+inconclusive. Publication still requires owner approval.
+
 ## Tri-Cities regional branding — November 1, 2026 Eastern
 
 Use the Tennessee Tri-Cities as the regional label on general service, request and hiring pages, in social metadata and in shared footers. City pages, business address, municipal services and the actual route details retain the relevant municipality. This copy release leaves existing URLs and form behavior intact.

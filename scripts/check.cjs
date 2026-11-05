@@ -14,6 +14,7 @@ const checks = [
   [process.execPath, ['scripts/test-application.cjs']],
   [process.execPath, ['scripts/test-form-core.cjs']],
   [process.execPath, ['scripts/test-home-loading.cjs']],
+  [process.execPath, ['scripts/test-home-details.cjs']],
   [process.execPath, ['scripts/test-seasonal-care.cjs']]
 ];
 for (const [command, args] of checks) {
