@@ -58,6 +58,11 @@
   .btn.ghost{background:transparent;color:var(--green);border:1.5px solid var(--line)}
   .btn.danger{background:transparent;color:var(--danger);border:1.5px solid #e0bcb4}
   .btn.sm{width:auto;padding:9px 13px;font-size:14px;border-radius:10px}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .backup-actions{display:flex;flex-wrap:wrap;gap:10px}
+  .backup-actions .btn{min-height:48px}
+  .backup-status{overflow-wrap:anywhere}
+  #restoreReview[hidden]{display:none}
   .row{display:flex;gap:10px}
   .row>*{flex:1}
   /* ---- cards ---- */
@@ -152,8 +157,22 @@
   <button class="btn primary" id="btnNew" style="margin-bottom:16px">＋ New quote</button>
   <div id="quoteList"></div>
   <div class="spacer"></div>
-  <button class="btn ghost sm" id="btnExport">⬇ Back up all quotes (JSON)</button>
-  <p class="hint" id="exportHint" style="margin-top:8px">Saved quotes live only on this device. Back up before changing phones.</p>
+  <div class="backup-actions">
+    <button class="btn ghost sm" id="btnExport">⬇ Back up quotes + photos</button>
+    <button class="btn ghost sm" id="btnImport">Restore from backup</button>
+  </div>
+  <input id="restoreFile" type="file" accept=".json,application/json" hidden>
+  <p class="hint" id="exportHint" style="margin-top:8px">Quotes and photos live only in this browser. Save a complete backup before changing phones or clearing browser data. Keep the file private; it includes customer details and photos. Maximum file size: 100 MB.</p>
+  <p class="hint backup-status" id="backupStatus" role="status" aria-live="polite"></p>
+  <div class="card" id="restoreReview" hidden>
+    <h2>Review backup restore</h2>
+    <p class="sans" id="restoreSummary"></p>
+    <p class="hint">Existing quotes and photos will stay as they are. Quotes whose IDs are already on this device will be skipped, even if the backup has a different version. Restored quotes keep the pricing saved in the backup; this device’s settings stay unchanged.</p>
+    <div class="backup-actions">
+      <button class="btn primary sm" id="btnConfirmRestore">Restore new quotes</button>
+      <button class="btn ghost sm" id="btnCancelRestore">Cancel</button>
+    </div>
+  </div>
 </section>
 
 <!-- ============ EDIT SCREEN ============ -->
@@ -175,6 +194,7 @@
     </div>
   </div>
 
+  <p class="hint" id="restoredPricingHint" hidden>Restored quote: its saved pricing is used here. Current device settings apply to new quotes.</p>
   <div class="card">
     <h2>Scope — check off the work</h2>
     <div id="items"></div>
@@ -247,6 +267,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="backup.js"></script>
 <script>
 /* ================= storage (IndexedDB) ================= */
 const DB_NAME='mgls', DB_VER=1;
@@ -310,21 +331,22 @@ function quoteFreq(q){ const f=(q&&q.frequency)||'weekly'; return FREQ_LABEL[f]?
 // Multiplies the finished per-visit rate, not the minutes: the customer still
 // gets one flat price per visit, just a higher one on a longer cycle. Quotes
 // saved before frequency existed read as weekly, so their totals do not move.
+function quotePricing(q){return q&&q.pricingSnapshot?q.pricingSnapshot:SET;}
 function freqMult(q){
   const f=quoteFreq(q);
-  const m=Number(SET['freq'+f.charAt(0).toUpperCase()+f.slice(1)]);
+  const m=Number(quotePricing(q)['freq'+f.charAt(0).toUpperCase()+f.slice(1)]);
   return m>0?m:1;
 }
-function itemPrice(it){
+function itemPrice(it,settings=SET){
   if(it.mode==='manual')return Number(it.amount)||0;
-  const mins=(Number(it.minutes)||0)*(1+SET.buffer/100);
-  return mins*(Number(SET.perMin)||0);
+  const mins=(Number(it.minutes)||0)*(1+settings.buffer/100);
+  return mins*(Number(settings.perMin)||0);
 }
 // materials line: amount is material cost, marked up
-function materialPrice(it){return (Number(it.amount)||0)*(Number(SET.markup)||1);}
-function linePrice(it){
-  if(it.mode==='material')return materialPrice(it);
-  return itemPrice(it);
+function materialPrice(it,settings=SET){return (Number(it.amount)||0)*(Number(settings.markup)||1);}
+function linePrice(it,settings=SET){
+  if(it.mode==='material')return materialPrice(it,settings);
+  return itemPrice(it,settings);
 }
 // Returns {single}. One quote, one number - the Good/Better/Best ladder was
 // retired 2026-08-25. Any `tiers` object still sitting on a saved line item is
@@ -332,11 +354,11 @@ function linePrice(it){
 function quoteTotals(q){
   // Service and materials are summed apart: frequency lifts the service rate,
   // never the materials. A bag of mulch costs the same whatever the mow cycle.
-  const sums={svc:0,mat:0};
+  const sums={svc:0,mat:0}, settings=quotePricing(q);
   q.items.forEach(it=>{
-    sums[it.mode==='material'?'mat':'svc']+=linePrice(it);
+    sums[it.mode==='material'?'mat':'svc']+=linePrice(it,settings);
   });
-  const stop=Number(SET.stop)||0, min=Number(SET.min)||0, fm=freqMult(q);
+  const stop=Number(settings.stop)||0, min=Number(settings.min)||0, fm=freqMult(q);
   const clamp=s=>{
     if(s.svc<=0&&s.mat<=0)return 0;
     // The stop fee rides with the service visit and scales with it; a
@@ -393,6 +415,7 @@ async function hydratePhotos(q){
       if(p) it._thumbs.push({id:pid,url:URL.createObjectURL(p.blob)});}}
 }
 function fillEdit(){
+  $('restoredPricingHint').hidden=!CUR.pricingSnapshot;
   $('cName').value=CUR.cust.name; $('cAddr').value=CUR.cust.addr; $('cPhone').value=CUR.cust.phone;
   $('qNotes').value=CUR.notes||'';
   renderFreq(); renderItems(); updateEditTotal();
@@ -408,7 +431,7 @@ function renderItems(){
   const wrap=$('items');
   if(!CUR.items.length){wrap.innerHTML=`<p class="hint">No services yet — add mowing, mulch, trimming, whatever the job needs.</p>`;return;}
   wrap.innerHTML=CUR.items.map((it,i)=>{
-    const p=linePrice(it); const open=openItem===it.id;
+    const p=linePrice(it,quotePricing(CUR)); const open=openItem===it.id;
     const done=it.service&&(p>0||it.mode==='manual'||it.mode==='material');
     return `<div class="lineitem" data-id="${it.id}">
       <div class="li-head" data-toggle="${it.id}">
@@ -419,7 +442,7 @@ function renderItems(){
       </div>
       <div class="li-body ${open?'open':''}">
         <div class="field"><label>Service</label>
-          <select data-f="service" data-id="${it.id}">${SET.services.map(s=>`<option ${s===it.service?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+          <select data-f="service" data-id="${it.id}">${[...new Set([it.service,...SET.services])].filter(Boolean).map(s=>`<option ${s===it.service?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
         <div class="field"><label>Pricing method</label>
           <select data-f="mode" data-id="${it.id}">
             <option value="time" ${it.mode==='time'?'selected':''}>By time (minutes × rate)</option>
@@ -448,7 +471,7 @@ function bindItemEvents(){
       const f=el.dataset.f; it[f==='inotes'?'inotes':f]=el.value;
       if(f==='mode'){renderItems();} updateEditTotal(); persist();
       if(f==='service'){const hd=document.querySelector(`.li-head[data-toggle="${it.id}"] .li-title`);if(hd)hd.textContent=el.value;}
-      if(f==='minutes'||f==='amount'){const pe=document.querySelector(`.lineitem[data-id="${it.id}"] .li-price`);if(pe)pe.textContent=linePrice(it)?money(linePrice(it)):'';}
+      if(f==='minutes'||f==='amount'){const pe=document.querySelector(`.lineitem[data-id="${it.id}"] .li-price`);if(pe)pe.textContent=linePrice(it,quotePricing(CUR))?money(linePrice(it,quotePricing(CUR))):'';}
     });});
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{const id=b.dataset.del;const it=CUR.items.find(x=>x.id===id);if(it)for(const pid of(it.photos||[]))await del('photos',pid);CUR.items=CUR.items.filter(x=>x.id!==id);openItem=null;renderItems();updateEditTotal();persist();});
   document.querySelectorAll('[data-photo]').forEach(inp=>inp.onchange=async e=>{
@@ -477,7 +500,7 @@ function freqNote(q){
 function buildPreview(){
   const q=CUR;const t=quoteTotals(q);
   const rows=q.items.filter(i=>i.service).map(it=>{
-    const p=linePrice(it);
+    const p=linePrice(it,quotePricing(q));
     const notes=it.inotes?`<div class="pnotes">${esc(it.inotes)}</div>`:'';
     return `<div class="prow"><div><div class="pn">☑ ${esc(it.service)}</div>${notes}</div><div class="pp">${money(p)}</div></div>`;}).join('');
   const totalBlock=`<div class="ptotal"><span style="font-family:-apple-system,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${esc(freqNote(q))}</span><b>${approx(t.single)}</b></div>`;
@@ -498,7 +521,7 @@ function buildPreview(){
 function quoteText(){
   const q=CUR;const t=quoteTotals(q);
   let s=`Magnolia Gardens Landscaping — Estimate\n${q.cust.name||''}\n${q.cust.addr||''}\n${fmtDate(q.created)}\n\n`;
-  q.items.filter(i=>i.service).forEach(it=>{s+=`☑ ${it.service} — ${money(linePrice(it))}${it.inotes?'\n   ('+it.inotes+')':''}\n`;});
+  q.items.filter(i=>i.service).forEach(it=>{s+=`☑ ${it.service} — ${money(linePrice(it,quotePricing(q)))}${it.inotes?'\n   ('+it.inotes+')':''}\n`;});
   s+=`\n`;
   s+=`TOTAL: ${approx(t.single)}\n`;
   s+=`${freqNote(q)}\n`;
@@ -535,35 +558,69 @@ async function copy(t){try{await navigator.clipboard.writeText(t);}catch(e){cons
 $('btnSettings').onclick=()=>{fillSettings();show('s-settings');};
 $('btnBackFromSettings').onclick=()=>{renderList();show('s-list');};
 function fillSettings(){$('setStop').value=SET.stop;$('setPerMin').value=SET.perMin;$('setMin').value=SET.min;$('setMarkup').value=SET.markup;$('setBuffer').value=SET.buffer;$('setFreqBiweekly').value=SET.freqBiweekly;$('setFreqOnetime').value=SET.freqOnetime;$('setHqEmail').value=SET.hqEmail;$('setServices').value=SET.services.join('\n');}
+let pendingBackup=null;
+function backupStatus(message){$('backupStatus').textContent=message;}
+function backupBusy(busy){
+  ['btnExport','btnImport','btnCancelRestore','btnNew','btnSettings'].forEach(id=>$(id).disabled=busy);
+  $('btnConfirmRestore').disabled=busy||!pendingBackup;
+}
+function clearRestore(){pendingBackup=null;$('restoreReview').hidden=true;$('restoreFile').value='';}
 $('btnExport').onclick=async()=>{
+  clearRestore();backupBusy(true);backupStatus('Preparing quotes and all attached photos…');
   try{
-    const all=await getAll('quotes');
-    // Photo blobs live in their own store and are not included; the quote
-    // records keep the photo ids so nothing is silently misrepresented.
-    const payload={exported:new Date().toISOString(),schema:'mgls-quotes-1',pricingRev:PRICING_REV,count:all.length,quotes:all};
-    const text=JSON.stringify(payload,null,2);
-    $('exportHint').textContent=all.length+' quote(s) backed up · photos not included';
-    const name='magnolia-quotes-'+new Date().toISOString().slice(0,10)+'.json';
+    const text=await MG_QUOTE_BACKUP.createBackup(await MG_QUOTE_BACKUP.readSnapshot(db),SET);
+    const payload=JSON.parse(text), name='magnolia-complete-backup-'+new Date().toISOString().slice(0,10)+'.json';
     const blob=new Blob([text],{type:'application/json'});
-    // Share sheet first (it is the sane path on a phone), but never rely on it:
-    // it needs a real tap, the user can cancel, and desktop support is patchy.
-    // Any failure falls through to a download so the backup always lands.
+    const counts=payload.quoteCount+' quote(s) and '+payload.photoCount+' photo(s)';
     let shared=false;
     try{
-      const f=new File([blob],name,{type:'application/json'});
-      if(navigator.canShare&&navigator.canShare({files:[f]})){
-        await navigator.share({files:[f],title:'Magnolia quotes backup'});
-        shared=true; toast('Backup shared');
+      const file=new File([blob],name,{type:'application/json'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:'Magnolia complete quote backup'});
+        shared=true;
+        backupStatus('Shared complete backup: '+counts+'. Confirm the file is saved somewhere you can access from another device.');
       }
-    }catch(e){}
-    if(!shared){
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url),4000);
-      await copy(text);
-      toast('Backup downloaded and copied');
+    }catch(error){
+      if(error.name==='AbortError'){backupStatus('Sharing cancelled. Save a backup before changing devices.');return;}
     }
-  }catch(e){ toast('Backup failed: '+(e&&e.message||e)); }
+    if(!shared){
+      const url=URL.createObjectURL(blob), link=document.createElement('a');
+      link.href=url;link.download=name;document.body.appendChild(link);link.click();link.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+      backupStatus('Download started: '+counts+'. Check that the JSON file is saved. It contains the photos and pricing needed to restore these quotes.');
+    }
+  }catch(error){backupStatus('Backup failed: '+(error.message||error));}
+  finally{backupBusy(false);}
+};
+$('btnImport').onclick=()=>$('restoreFile').click();
+$('restoreFile').onchange=async event=>{
+  const file=event.target.files[0];if(!file)return;
+  clearRestore();backupBusy(true);backupStatus('Checking backup and photo integrity…');
+  try{
+    if(file.size>MG_QUOTE_BACKUP.MAX_BYTES)throw new Error('Choose a backup file no larger than 100 MB.');
+    const backup=await MG_QUOTE_BACKUP.readBackup(await file.text());
+    const plan=await MG_QUOTE_BACKUP.previewRestore(db,backup);
+    pendingBackup=plan.quotes.length?backup:null;
+    $('restoreSummary').textContent='Backup from '+fmtDate(Date.parse(backup.exported))+': '+plan.quotes.length+' new quote(s) and '+plan.photos.length+' photo(s) to add. '+plan.skipped.length+' existing quote(s) will be skipped.'+(plan.renamedPhotos?' '+plan.renamedPhotos+' photo ID conflict(s) will be resolved by giving the imported photos new IDs.':'');
+    $('btnConfirmRestore').textContent='Restore '+plan.quotes.length+' new quote(s)';
+    $('restoreReview').hidden=false;
+    backupStatus(plan.quotes.length?'Backup verified. Review the restore before adding it to this device.':'No new quotes to restore. Existing quotes and photos were not changed.');
+    $('btnCancelRestore').focus();
+  }catch(error){backupStatus('Cannot restore: '+(error.message||error));}
+  finally{backupBusy(false);}
+};
+$('btnCancelRestore').onclick=()=>{clearRestore();backupStatus('Restore cancelled. Nothing was changed.');$('btnImport').focus();};
+$('btnConfirmRestore').onclick=async()=>{
+  if(!pendingBackup)return;
+  backupBusy(true);backupStatus('Restoring quotes and photos…');
+  try{
+    const result=await MG_QUOTE_BACKUP.restoreBackup(db,pendingBackup);
+    clearRestore();
+    try{await renderList();}catch(error){backupStatus('Restored '+result.addedQuotes+' quote(s) and '+result.addedPhotos+' photo(s), but the list could not refresh. Reload to see the saved records.');return;}
+    backupStatus('Restored '+result.addedQuotes+' quote(s) and '+result.addedPhotos+' photo(s). Skipped '+result.skippedQuotes+' existing quote(s). Existing quotes and device settings were not changed.');
+    $('btnImport').focus();
+  }catch(error){backupStatus('Restore failed: '+(error.message||error)+'. No quotes or photos were added.');}
+  finally{backupBusy(false);}
 };
 $('btnSaveSettings').onclick=()=>{SET={stop:+$('setStop').value||0,perMin:+$('setPerMin').value||0,min:+$('setMin').value||0,markup:+$('setMarkup').value||1,buffer:+$('setBuffer').value||0,freqWeekly:DEFAULTS.freqWeekly,freqBiweekly:+$('setFreqBiweekly').value||1,freqOnetime:+$('setFreqOnetime').value||1,hqEmail:$('setHqEmail').value.trim()||DEFAULTS.hqEmail,services:$('setServices').value.split('\n').map(s=>s.trim()).filter(Boolean)};if(!SET.services.length)SET.services=DEFAULTS.services;SET.pricingRev=PRICING_REV;saveSettings(SET);toast('Settings saved');renderList();show('s-list');};
 
