@@ -1,6 +1,6 @@
 # Field Quote: complete local backup and restore
 
-This feature is an **unpublished draft** on `implementation/field-backup-2026-11-11`. It changes the existing `/quote/` tool, not public pricing or Jobber records. Nothing is uploaded to a server by backup or restore.
+The existing `/quote/` tool provides complete local quote/photo backup and additive restore. Public pricing and Jobber records are separate. Nothing is uploaded to a server by backup or restore. See the [release record](RELEASE.md) and [release PR #33](https://github.com/seanpr1/magnolia-gardens/pull/33) for publication and verification status.
 
 ## Make and verify a backup
 

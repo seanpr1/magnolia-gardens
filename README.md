@@ -35,7 +35,7 @@ Edit FAQ copy in its HTML page, then run `npm run fix:faq` to regenerate FAQPage
 
 ## Field Quote backups
 
-The unpublished field-tool draft adds complete quote/photo backup and additive restore, with saved pricing and no overwrite of existing records. See [backup and recovery instructions](docs/FIELD-QUOTE-BACKUP.md) for the restore steps, conflict behavior and device limits. Its offline regression checks run in `npm test`; the optional actual-Chrome check is `node scripts/test-field-backup-browser.cjs` after a build.
+The field tool supports complete quote/photo backup and additive restore, with saved pricing and no overwrite of existing records. See [backup and recovery instructions](docs/FIELD-QUOTE-BACKUP.md) for the restore steps, conflict behavior and device limits. Its offline regression checks run in `npm test`; the optional actual-Chrome check is `node scripts/test-field-backup-browser.cjs` after a build.
 
 ## Publishing
 
