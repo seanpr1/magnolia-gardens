@@ -1,5 +1,5 @@
-const CACHE='mgls-quote-v7';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg'];
+const CACHE='mgls-quote-v8';
+const ASSETS=['./','./index.html','./backup.js','./manifest.webmanifest','./icon.svg'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });

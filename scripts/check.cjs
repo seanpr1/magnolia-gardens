@@ -9,6 +9,7 @@ const checks = [
   [process.execPath, ['scripts/test-build.cjs']],
   [process.env.PYTHON || 'python3', ['scripts/site_check.py']],
   [process.execPath, ['scripts/test-project-quotes.cjs']],
+  [process.execPath, ['scripts/test-field-backup.cjs']],
   [process.execPath, ['scripts/test-quick-request.cjs']],
   [process.execPath, ['scripts/test-contact-links.cjs']],
   [process.execPath, ['scripts/test-application.cjs']],
